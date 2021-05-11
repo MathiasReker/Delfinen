@@ -1,0 +1,30 @@
+name: Codacy
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+  codacy-security-scan:
+    name: Codacy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Codacy Analysis CLI
+        uses: codacy/codacy-analysis-cli-action@1.1.0
+        with:
+          project-token: 1a301a01-f921-48a2-8613-97c8548a8eb7
+          verbose: true
+          output: results.sarif
+          format: sarif
+          gh-code-scanning-compat: true
+          max-allowed-issues: 2147483647
+
+      - name: Upload SARIF results file
+        uses: github/codeql-action/upload-sarif@v1
+        with:
+          sarif_file: results.sarif
