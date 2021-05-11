@@ -1,0 +1,2 @@
+ mvn clean package assembly:single
+ mvn clean install
