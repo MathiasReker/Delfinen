@@ -12,7 +12,7 @@ public class FileService {
   private final String PATH;
 
   /**
-   * Path gets passed as argument, exception gets handled on controller
+   * A Path gets passed as argument, exception gets handled on controller
    * @param path
    * @throws IOException
    */
