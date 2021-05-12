@@ -16,7 +16,6 @@ public class FileService {
    * @param path
    * @throws IOException
    */
-
   public FileService(String path) throws IOException {
     PATH = path;
     FILE = new File(PATH);
@@ -28,7 +27,6 @@ public class FileService {
    * @return
    * @throws FileNotFoundException
    */
-
   public ArrayList<String> readFromFile() throws FileNotFoundException {
     ArrayList<String> result = new ArrayList();
 
@@ -47,7 +45,6 @@ public class FileService {
    * @param input
    * @throws FileNotFoundException
    */
-
   public void writeToFile(String[] input) throws FileNotFoundException {
     PrintStream printStream = new PrintStream(FILE);
     for (String s : input) {
@@ -60,7 +57,6 @@ public class FileService {
    * If a file does not exist, create a new file in path recieved
    * @throws IOException
    */
-
   private void createFileOnPath() throws IOException {
     if (!FILE.exists()) {
       String[] subPaths = PATH.split("/");
