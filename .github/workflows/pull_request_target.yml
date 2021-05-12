@@ -1,9 +1,7 @@
-name: PR target
+name: Auto Labeling
 
 on:
-  pull_request_target:
-    branches:
-      - develop
+  pull_request:
     types:
       - opened
       - edited
@@ -13,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - uses: harupy/auto-labeling@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          label-pattern: '- \[(.*?)\] ?`(.+?)`'
+          label-pattern: '- \[(.*?)\] ?`(.+?)`' # matches '- [x] `label`'
