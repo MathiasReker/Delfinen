@@ -2,8 +2,15 @@
 [![MIT License][license-shield]][license-url]
 [![Codacy Badge][codacy-shield]][codacy-url]
 [![FOSSA Status][fossa-shield]][fossa-url]
-[![coverage][coverage-shield]][coverage-url]
-[![branch coverage][branch-coverage-shield]][coverage-url]
+[![Coverage][coverage-shield]][coverage-url]
+[![Branch Coverage][branch-coverage-shield]][coverage-url]
+
+
+[coverage-shield]: https://github.com/MathiasReker/Delfinen/blob/develop/.github/badges/branches.svg
+
+[branch-coverage-shield]: https://github.com/MathiasReker/Delfinen/blob/develop/.github/badges/jacoco.svg
+
+[coverage-url]: https://github.com/MathiasReker/Delfinen/actions/workflows/jacoco.yml
 
 # Delfinen
 
@@ -31,8 +38,3 @@
 
 [fossa-badge]: https://app.fossa.com/projects/git%2Bgithub.com%2FMathiasReker%2FDelfinen?ref=badge_large
 
-[coverage-shield]: https://github.com/MathiasReker/Delfinen/blob/develop/.github/badges/branches.svg
-
-[branch_coverage-shield]: https://github.com/MathiasReker/Delfinen/blob/develop/.github/badges/jacoco.svg
-
-[coverage]: https://github.com/MathiasReker/Delfinen/actions/workflows/jacoco.yml
