@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@1.1.0
+        uses: codacy/codacy-analysis-cli-action@3.0.2
         with:
           project-token: 1a301a01-f921-48a2-8613-97c8548a8eb7
           verbose: true
