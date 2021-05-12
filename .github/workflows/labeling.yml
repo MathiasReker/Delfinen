@@ -5,17 +5,7 @@ on:
     types:
       - opened
       - edited
-
-on:
-  pull_request:
-    types:
-      - opened
-      - edited
-
-on:
-  schedule:
-    - cron: '*/10 * * * *'
-
+      
 jobs:
   labeling:
     runs-on: ubuntu-latest
