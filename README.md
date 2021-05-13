@@ -1,4 +1,5 @@
 [![Contributors][contributors-shield]][contributors-url]
+[![Iissues open][issues-shield]][issues-urll]
 [![MIT License][license-shield]][license-url]
 [![Codacy Badge][codacy-shield]][codacy-url]
 [![FOSSA Status][fossa-shield]][fossa-url]
@@ -36,3 +37,7 @@
 [branch-coverage-shield]: https://github.com/MathiasReker/Delfinen/blob/develop/.github/badges/jacoco.svg
 
 [coverage-url]: https://github.com/MathiasReker/Delfinen/actions/workflows/jacoco.yml
+
+[issues-shield]: https://img.shields.io/github/issues/MathiasReker/Delfinen
+
+[issues-url]: https://github.com/MathiasReker/Delfinen/issues
