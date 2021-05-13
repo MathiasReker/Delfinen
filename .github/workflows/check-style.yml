@@ -1,16 +1,31 @@
-name: Check Style
+name: Fix CS
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
-  java-checkstyle:
+  formatting:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: Run Java Checkstyle
-        uses: Justintime50/java-checkstyle-action@v1
+      - uses: actions/checkout@v2
+      - name: Format
+        uses: axel-op/googlejavaformat-action@v3
         with:
-          directory: /src
-          
-          style_suite: google
+          skipCommit: true
+      - name: Commit
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email ""
+          if [ "$GITHUB_EVENT_NAME" = "pull_request" ]; then
+            FILES_CHANGED=$(git diff-tree --no-commit-id --name-only -r $GITHUB_SHA)
+            echo "Files changed: $FILES_CHANGED"
+            git commit -m "Google Java Format" $FILES_CHANGED
+          else
+            git commit -m "Google Java Format" -a
+          fi
+          git push
