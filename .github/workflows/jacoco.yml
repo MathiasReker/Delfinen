@@ -35,7 +35,7 @@ jobs:
       uses: EndBug/add-and-commit@v7
       with:
         default_author: github_actions
-        message: 'commit badge'
+        message: 'Commit badge'
         add: '*.svg'
 
     - name: Upload JaCoCo coverage report
