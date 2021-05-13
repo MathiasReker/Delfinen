@@ -1,8 +1,9 @@
-[![Contributors][contributors-shield]][contributors-url]
+> Developed by: @MathiasReker, @Moshizzl3, @Andreassim, @Jarkyman
+
 [![Iissues open][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![Codacy Badge][codacy-shield]][codacy-url]
 [![FOSSA Status][fossa-shield]][fossa-url]
+[![Codacy Badge][codacy-shield]][codacy-url]
 [![Coverage][coverage-shield]][coverage-url]
 [![Branch Coverage][branch-coverage-shield]][coverage-url]
 
@@ -11,10 +12,6 @@
 ## License
 
 [![FOSSA Status][fossa-large]][fossa-badge]
-
-[contributors-shield]: https://img.shields.io/github/contributors/MathiasReker/Delfinen.svg
-
-[contributors-url]: https://github.com/MathiasReker/Delfinen/graphs/contributors
 
 [license-shield]: https://img.shields.io/github/license/MathiasReker/Delfinen.svg
 
