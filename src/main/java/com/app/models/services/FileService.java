@@ -12,7 +12,8 @@ public class FileService {
   private final String PATH;
 
   /**
-   * A Path gets passed as argument, exception gets handled on controller  
+   * A Path gets passed as argument, exception gets handled on controller
+   *
    * @param path Relative path to the file that you try to access
    * @throws IOException
    */
