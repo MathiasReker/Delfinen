@@ -1,4 +1,4 @@
-name: Fix CS
+name: Google Java Format
 
 on:
   push:
