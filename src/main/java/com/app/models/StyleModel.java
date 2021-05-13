@@ -1,4 +1,3 @@
 package com.app.models;
 
-public enum StyleModel {
-}
+public enum StyleModel {}

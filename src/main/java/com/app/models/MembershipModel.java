@@ -1,4 +1,3 @@
 package com.app.models;
 
-public class MembershipModel {
-}
+public class MembershipModel {}

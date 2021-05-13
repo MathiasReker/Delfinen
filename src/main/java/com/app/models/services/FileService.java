@@ -13,6 +13,7 @@ public class FileService {
 
   /**
    * A Path gets passed as argument, exception gets handled on controller
+   *
    * @param path Relative path to the file that you try to access
    * @throws IOException
    */
@@ -24,10 +25,11 @@ public class FileService {
 
   /**
    * Loops through file and returns an Array List og strings
+   *
    * @return a String array from the file you want read
    * @throws FileNotFoundException
    */
-  public String [] readFromFile() throws FileNotFoundException {
+  public String[] readFromFile() throws FileNotFoundException {
     ArrayList<String> result = new ArrayList();
 
     Scanner reader = new Scanner(FILE);
@@ -42,6 +44,7 @@ public class FileService {
 
   /**
    * Recieves an array of strings and creates a new file
+   *
    * @param input of Strings that you want to write to the file
    * @throws FileNotFoundException
    */
@@ -55,6 +58,7 @@ public class FileService {
 
   /**
    * If a file does not exist, create a new file in path recieved
+   *
    * @throws IOException
    */
   private void createFileOnPath() throws IOException {

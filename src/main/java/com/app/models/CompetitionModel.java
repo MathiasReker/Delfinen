@@ -1,4 +1,3 @@
 package com.app.models;
 
-public class CompetitionModel {
-}
+public class CompetitionModel {}

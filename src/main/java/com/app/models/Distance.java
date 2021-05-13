@@ -1,4 +1,3 @@
 package com.app.models;
 
-public enum Distance {
-}
+public enum Distance {}
