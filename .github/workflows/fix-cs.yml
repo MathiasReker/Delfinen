@@ -22,7 +22,6 @@ jobs:
         with:
           skipCommit: true
       - name: Commit
-      - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
         run: |
           if [ -n "$(git status --porcelain)" ]; then
             git config user.name "GitHub Actions"
