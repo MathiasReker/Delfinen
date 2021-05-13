@@ -1,5 +1,5 @@
 [![Contributors][contributors-shield]][contributors-url]
-[![Iissues open][issues-shield]][issues-urll]
+[![Iissues open][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![Codacy Badge][codacy-shield]][codacy-url]
 [![FOSSA Status][fossa-shield]][fossa-url]
