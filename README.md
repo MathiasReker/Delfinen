@@ -9,6 +9,21 @@
 
 # Delfinen
 
+The structure of the project is as follows:
+
+*   `orther` contains diagrams etc.
+*   `data` contains text-files used as storage.
+*   `src` contains all source code of the project.
+*   `main` contains all main code of the project.
+*   `java` contains java code of the project.
+*   `test` contains all test code of the project.
+*   `com` contains all company applications.
+*   `views` UI package.
+*   `controllers` control package.
+*   `models` model package.
+*   `App.java` is the start class of application.
+*   `Main.java` is the main class of the application.
+
 ## License
 
 [![FOSSA Status][fossa-large]][fossa-badge]
