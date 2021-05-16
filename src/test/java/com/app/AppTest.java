@@ -1,17 +1,17 @@
 package com.app;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.NoSuchElementException;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 class AppTest {
-
   @Test
-  void testRun() {
+  public void testRun() {
     // Avoid the menu to be shown on the screen
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     System.setOut(new PrintStream(outContent));
@@ -26,7 +26,7 @@ class AppTest {
   }
 
   @Test
-  void testRunException() {
+  public void testRunException() {
     // Avoid the menu to be shown on the screen
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     System.setOut(new PrintStream(outContent));
