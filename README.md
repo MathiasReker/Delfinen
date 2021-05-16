@@ -11,7 +11,7 @@
 
 The structure of the project is as follows:
 
-*   `orther` contains diagrams etc.
+*   `other` contains diagrams etc.
 *   `data` contains text-files used as storage.
 *   `src` contains all source code of the project.
 *   `main` contains all main code of the project.
