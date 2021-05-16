@@ -21,6 +21,7 @@ jobs:
       - uses: axel-op/googlejavaformat-action@v3
         with:
           skipCommit: true
+          args: "--skip-sorting-imports --replace"
           githubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Commit
         run: |
