@@ -25,6 +25,7 @@ jobs:
       - name: Commit
         run: |
           if [ -n "$(git status --porcelain)" ]; then
+            git gc
             git config user.name "GitHub Actions"
             git config user.email ""
             git commit -m "Google Java Format" --author="${GITHUB_ACTOR} <${GITHUB_ACTOR}@users.noreply.github.com>" -a
