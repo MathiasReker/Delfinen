@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.NoSuchElementException;
 
-class AppTest {
+public class AppTest {
   @Test
   public void testRun() {
     // Avoid the menu to be shown on the screen
