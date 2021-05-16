@@ -1,4 +1,4 @@
-> Developed by: @Andreassim, @Jarkyman, @MathiasReker, @Moshizzl3 
+> Developed by: @Andreassim, @Jarkyman, @MathiasReker, @Moshizzl3
 
 [![Iissues open][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
