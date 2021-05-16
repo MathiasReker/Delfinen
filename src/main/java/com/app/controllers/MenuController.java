@@ -3,6 +3,7 @@ package com.app.controllers;
 import com.app.controllers.menuactions.MenuActions;
 import com.app.models.MenuModel;
 import com.app.views.MenuView;
+
 import java.util.Scanner;
 
 public class MenuController {
@@ -11,7 +12,7 @@ public class MenuController {
   private final MenuView MENU_VIEW;
 
   /**
-   * MenuController.
+   * Menu controller.
    *
    * @param menuHeader String that describes the header of the menu.
    * @param leadText String that tells the user what to do.
@@ -28,7 +29,7 @@ public class MenuController {
     while (running) {
       MENU_VIEW.printMenuOptions(MENU.getMenuHeader(), MENU.getMenuActionMenuItems());
       MENU_VIEW.printInline(MENU.getLeadText());
-      int input = validateNumberRange(MENU.getMenuActionMenuItems().length) - 1;
+      int input = validateIntegerRange(MENU.getMenuActionMenuItems().length) - 1;
       MENU.getMenuItem(input).run();
       running = MENU.getMenuItem(input).isKeepRunning();
     }
@@ -40,7 +41,7 @@ public class MenuController {
    *
    * @return a valid integer.
    */
-  private int validateNumber() {
+  private int validateInteger() {
     while (!SCANNER.hasNextInt()) {
       MENU_VIEW.printInlineWarning("Not a valid menu choice. Please try again: ");
       SCANNER.nextLine();
@@ -51,18 +52,18 @@ public class MenuController {
 
   /**
    * Returns a valid integer from a range. The range is defined as 0 to max. If the input is not
-   * from inside the range, a warning will display until a valid integer from the range is given.
+   * from the range, a warning will display until a valid integer from the range is given.
    *
    * @param max int that defines the maximum of the range.
-   * @return int a valid integer from the range.
+   * @return a valid int from the range.
    */
-  private int validateNumberRange(int max) {
-    int result = validateNumber();
+  private int validateIntegerRange(int max) {
+    int result = validateInteger();
 
     while (result > max || result <= 0) {
       MENU_VIEW.printInlineWarning("Not a valid menu choice. Please try again: ");
       SCANNER.nextLine();
-      result = validateNumber();
+      result = validateInteger();
     }
 
     return result;

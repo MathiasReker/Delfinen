@@ -24,7 +24,7 @@ public abstract class MenuActions {
     this.ITEM_NAME = itemName;
   }
 
-  /** THe run method will run the business logic of the menu action. */
+  /** The run method will run the business logic of the menu action. */
   public abstract void run();
 
   /**

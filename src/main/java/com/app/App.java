@@ -6,7 +6,8 @@ import com.app.controllers.menuactions.MenuActions;
 
 public class App {
   /** Build the menu. */
-  void run() {
+  void menu() {
+    // TODO: Add menu actions
     MenuActions[] menu = {new ExitMenuAction("Exit")};
 
     new MenuController("Main Menu", "Please choose an option: ", menu).run();
