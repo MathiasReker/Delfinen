@@ -1,6 +1,6 @@
 package com.app.models;
 
-public enum Distance {
+public enum DistanceModel {
 
   /**
    * Possible distances for ever swim style.
@@ -14,8 +14,11 @@ public enum Distance {
    *
    * @param meters for ever distance we have.
    */
-  private Distance(int meters) {
+  private DistanceModel(int meters) {
     this.meters = meters;
   }
 
+  public int getMeters() {
+    return meters;
+  }
 }

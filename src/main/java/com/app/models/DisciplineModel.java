@@ -9,7 +9,7 @@ public class DisciplineModel {
 
   /**
    * Create the swim style, with a given style and distance.
-   * 
+   *
    * @param distance of the swim style.
    * @param style you want to use.
    */
@@ -62,29 +62,29 @@ public class DisciplineModel {
     if (style.equals(StyleModel.BUTTERFLY.toString())
         || style.equals(StyleModel.BACKSTROKE.toString())
         || style.equals(StyleModel.BACKSTROKE.toString())) {
-      Distances.add(Distance.FIFTY + " m");
-      Distances.add(Distance.HUNDRED + " m");
-      Distances.add(Distance.TWO_HUNDRED + " m");
+      Distances.add(DistanceModel.FIFTY + " m");
+      Distances.add(DistanceModel.HUNDRED + " m");
+      Distances.add(DistanceModel.TWO_HUNDRED + " m");
     } else if (style.equals(StyleModel.FREESTYLE.toString())) {
 
-      Distances.add(Distance.FIFTY + " m");
-      Distances.add(Distance.HUNDRED + " m");
-      Distances.add(Distance.TWO_HUNDRED + " m");
-      Distances.add(Distance.FOUR_HUNDRED + " m");
+      Distances.add(DistanceModel.FIFTY + " m");
+      Distances.add(DistanceModel.HUNDRED + " m");
+      Distances.add(DistanceModel.TWO_HUNDRED + " m");
+      Distances.add(DistanceModel.FOUR_HUNDRED + " m");
       if (gender == 1) {
-        Distances.add(Distance.FIFTEEN_HUNDRED + " m");
+        Distances.add(DistanceModel.FIFTEEN_HUNDRED + " m");
       } else if (gender == 2) {
-        Distances.add(Distance.EIGHT_HUNDRED + " m");
+        Distances.add(DistanceModel.EIGHT_HUNDRED + " m");
       } else {
-        Distances.add(Distance.EIGHT_HUNDRED + " m");
-        Distances.add(Distance.FIFTEEN_HUNDRED + " m");
+        Distances.add(DistanceModel.EIGHT_HUNDRED + " m");
+        Distances.add(DistanceModel.FIFTEEN_HUNDRED + " m");
       }
 
     } else if (style.equals(StyleModel.MEDLEY.toString())) {
-      Distances.add(Distance.FIFTY + " m");
-      Distances.add(Distance.HUNDRED + " m");
-      Distances.add(Distance.TWO_HUNDRED + " m");
-      Distances.add(Distance.FOUR_HUNDRED + " m");
+      Distances.add(DistanceModel.FIFTY + " m");
+      Distances.add(DistanceModel.HUNDRED + " m");
+      Distances.add(DistanceModel.TWO_HUNDRED + " m");
+      Distances.add(DistanceModel.FOUR_HUNDRED + " m");
     } else {
       throw new IllegalArgumentException("No such style");
     }
