@@ -13,7 +13,7 @@ public class DisciplineModel {
    * @param distance of the swim style.
    * @param style you want to use.
    */
-  public DisciplineModel (int distance, String style) {
+  public DisciplineModel(int distance, String style) {
     this.distance = distance;
     this.style = style;
   }
@@ -51,7 +51,7 @@ public class DisciplineModel {
    * Output a list with the distances for the specific swim style.
    *
    * @param gender gets the gender, 1 is boy, 2 is girl, 3 is other
-   * @param style  that define the distance.
+   * @param style that define the distance.
    * @return a list og distances.
    */
   public ArrayList<String> chosenDistance(int gender, String style) {
@@ -91,6 +91,4 @@ public class DisciplineModel {
 
     return Distances;
   }
-
-
 }

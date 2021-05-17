@@ -13,7 +13,6 @@ public class DisciplineModelTest {
     int result = DistanceModel.FIFTY.getMeters();
 
     Assertions.assertEquals(50, result);
-
   }
 
   @Test
@@ -22,7 +21,6 @@ public class DisciplineModelTest {
     int result = DistanceModel.HUNDRED.getMeters();
 
     Assertions.assertEquals(100, result);
-
   }
 
   @Test
@@ -31,7 +29,6 @@ public class DisciplineModelTest {
     int result = DistanceModel.TWO_HUNDRED.getMeters();
 
     Assertions.assertEquals(200, result);
-
   }
 
   @Test
@@ -40,7 +37,6 @@ public class DisciplineModelTest {
     int result = DistanceModel.FOUR_HUNDRED.getMeters();
 
     Assertions.assertEquals(400, result);
-
   }
 
   @Test
@@ -49,7 +45,6 @@ public class DisciplineModelTest {
     int result = DistanceModel.EIGHT_HUNDRED.getMeters();
 
     Assertions.assertEquals(800, result);
-
   }
 
   @Test
@@ -58,7 +53,6 @@ public class DisciplineModelTest {
     int result = DistanceModel.FIFTEEN_HUNDRED.getMeters();
 
     Assertions.assertEquals(1500, result);
-
   }
 
   @Test
@@ -67,7 +61,6 @@ public class DisciplineModelTest {
     String result = StyleModel.BUTTERFLY.toString();
 
     Assertions.assertEquals("BUTTERFLY", result);
-
   }
 
   @Test
@@ -76,7 +69,6 @@ public class DisciplineModelTest {
     String result = StyleModel.BACKSTROKE.toString();
 
     Assertions.assertEquals("BACKSTROKE", result);
-
   }
 
   @Test
@@ -85,7 +77,6 @@ public class DisciplineModelTest {
     String result = StyleModel.FREESTYLE.toString();
 
     Assertions.assertEquals("FREESTYLE", result);
-
   }
 
   @Test
@@ -94,7 +85,5 @@ public class DisciplineModelTest {
     String result = StyleModel.MEDLEY.toString();
 
     Assertions.assertEquals("MEDLEY", result);
-
   }
-
 }
