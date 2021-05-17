@@ -1,4 +1,3 @@
 package com.app.views;
 
-public class CompetitionView {
-}
+public class CompetitionView {}

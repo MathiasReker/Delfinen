@@ -8,13 +8,13 @@ public class ResultModel {
   private LocalTime resultTime;
   private DisciplineModel discipline;
 
-  public ResultModel(MemberModel member, LocalTime resultTime, DisciplineModel discipline){
+  public ResultModel(MemberModel member, LocalTime resultTime, DisciplineModel discipline) {
     this.member = member;
     this.resultTime = resultTime;
     this.discipline = discipline;
   }
 
-  //getter
+  // getter
 
   public MemberModel getMember() {
     return member;
@@ -28,7 +28,7 @@ public class ResultModel {
     return discipline;
   }
 
-  //setter
+  // setter
 
   public void setMember(MemberModel member) {
     this.member = member;
