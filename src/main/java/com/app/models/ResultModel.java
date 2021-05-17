@@ -14,7 +14,6 @@ public class ResultModel {
     this.discipline = discipline;
   }
 
-  // getter
 
   public MemberModel getMember() {
     return member;
