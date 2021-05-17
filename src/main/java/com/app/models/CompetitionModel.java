@@ -19,7 +19,6 @@ public class CompetitionModel {
     this.startTime = startTime;
   }
 
-  // getter
 
   public String getId() {
     return id;
