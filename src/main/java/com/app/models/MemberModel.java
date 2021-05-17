@@ -19,6 +19,23 @@ public class MemberModel {
     creationDate = LocalDateTime.now().toLocalDate();
   }
 
+  /**
+   * Package Private constructor for instantiating objects in the model.
+   *
+   * Can be used when reading stored data.
+   *
+   * @param ID
+   * @param name
+   * @param age
+   * @param gender
+   * @param phoneNumber
+   * @param competitive
+   * @param disciplines
+   * @param creationDate
+   * @param memberships
+   */
+
+
   MemberModel(String ID,
               String name,
               LocalDate age,
