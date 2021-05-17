@@ -1,7 +1,5 @@
 package com.app;
 
-import com.app.controllers.MenuController;
-import com.app.models.MenuModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
