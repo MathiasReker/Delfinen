@@ -20,11 +20,11 @@ public class MembershipModel {
      *
      * For example when reading from db
      *
-     * @param id
+     * @param id Unique ID value
      * @param startingDate
      * @param expiringDate
-     * @param payed
-     * @param active
+     * @param payed PaymentStatus
+     * @param active 
      */
 
     MembershipModel(String id, Date startingDate, Date expiringDate, boolean payed, boolean active){
