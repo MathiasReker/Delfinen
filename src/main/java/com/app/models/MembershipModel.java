@@ -15,7 +15,7 @@ public class MembershipModel {
   /**
    * Constructor to instantiate new objects in model.
    *
-   * For example when reading from DB
+   * <p>For example when reading from DB
    *
    * @param id Unique ID value
    * @param startingDate
