@@ -18,7 +18,7 @@ public class CompetitionController {
   }
 
   /**
-   * a method that returns a competition based on the ID provided
+   * Returns a competition based on the provided ID.
    *
    * @param id is the competition id for the competition you wish to return
    * @return a competition based on the id that is provided
