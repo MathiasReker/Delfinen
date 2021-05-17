@@ -1,11 +1,11 @@
 package com.app.models;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class MembershipModel {
     private final String ID;
-    private Date startingDate;
-    private Date expiringDate;
+    private LocalDate startingDate;
+    private LocalDate expiringDate;
     private boolean payed;
     private boolean active;
 
@@ -25,7 +25,7 @@ public class MembershipModel {
      * @param active 
      */
 
-    MembershipModel(String id, Date startingDate, Date expiringDate, boolean payed, boolean active){
+    MembershipModel(String id, LocalDate startingDate, LocalDate expiringDate, boolean payed, boolean active){
         this.ID = id;
         setStartingDate(startingDate);
         setExpiringDate(expiringDate);
@@ -42,11 +42,11 @@ public class MembershipModel {
         this.payed = payed;
     }
 
-    public void setExpiringDate(Date expiringDate) {
+    public void setExpiringDate(LocalDate expiringDate) {
         this.expiringDate = expiringDate;
     }
 
-    public void setStartingDate(Date startingDate) {
+    public void setStartingDate(LocalDate startingDate) {
         this.startingDate = startingDate;
     }
 
@@ -55,11 +55,11 @@ public class MembershipModel {
         return ID;
     }
 
-    public Date getExpiringDate() {
+    public LocalDate getExpiringDate() {
         return expiringDate;
     }
 
-    public Date getStartingDate() {
+    public LocalDate getStartingDate() {
         return startingDate;
     }
 
