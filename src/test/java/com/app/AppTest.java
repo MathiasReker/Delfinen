@@ -1,8 +1,11 @@
 package com.app;
 
+import com.app.controllers.MenuController;
+import com.app.models.MenuModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -16,8 +19,10 @@ public class AppTest {
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     System.setOut(new PrintStream(outContent));
 
-    // Input 1 in the menu
-    String input = "1";
+    // Input exit key
+    int lastMenuItem = new App().menuActions().length;
+    String input = String.valueOf(lastMenuItem);
+
     InputStream in = new ByteArrayInputStream(input.getBytes());
     System.setIn(in);
 

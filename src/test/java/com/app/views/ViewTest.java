@@ -31,6 +31,16 @@ public class ViewTest {
   }
 
   @Test
+  public void testPrintError() {
+    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(outContent));
+
+    view.print("Test", ColorKey.YELLOW_BOLD);
+
+    Assertions.assertNotEquals("Test", outContent.toString().trim());
+  }
+
+  @Test
   public void testPrintSuccess() {
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     System.setOut(new PrintStream(outContent));
@@ -38,6 +48,16 @@ public class ViewTest {
     view.printSuccess("Test");
 
     Assertions.assertEquals("[0;92mTest\u001B[0m", outContent.toString().trim());
+  }
+
+  @Test
+  public void testPrintSuccessError() {
+    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(outContent));
+
+    view.printSuccess("Test");
+
+    Assertions.assertNotEquals("Test", outContent.toString().trim());
   }
 
   @Test
@@ -51,6 +71,16 @@ public class ViewTest {
   }
 
   @Test
+  public void testPrintWarningError() {
+    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(outContent));
+
+    view.printWarning("Test");
+
+    Assertions.assertNotEquals("Test", outContent.toString().trim());
+  }
+
+  @Test
   public void testPrintInlineWarning() {
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     System.setOut(new PrintStream(outContent));
@@ -58,5 +88,15 @@ public class ViewTest {
     view.printInlineWarning("Test");
 
     Assertions.assertEquals("\u001B[0;31mTest\u001B[0m", outContent.toString());
+  }
+
+  @Test
+  public void testPrintInlineWarningNotError() {
+    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(outContent));
+
+    view.printInlineWarning("Test");
+
+    Assertions.assertNotEquals("Test", outContent.toString());
   }
 }
