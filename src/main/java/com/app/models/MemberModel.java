@@ -64,10 +64,8 @@ public class MemberModel {
     this.name = name;
   }
 
-  public void setBirthdate(String birthdate) {
-    String dateFormat = "dd-MM-yyyy"; // TODO make global?
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
-    this.birthdate = LocalDate.parse(birthdate, formatter);
+  public void setBirthdate(LocalDate birthdate) {
+    this.birthdate = birthdate;
   }
 
   public void setGender(GenderModel gender) {

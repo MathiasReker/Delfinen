@@ -32,7 +32,9 @@ public class MemberModelTest {
 
   @Test
   void testSetBirthdate() {
-    test.setBirthdate("10-11-2020");
+    String dateFormat = "dd-MM-yyyy";
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
+    test.setBirthdate(LocalDate.parse("10-11-2020",formatter));
     String actual = test.getBirthdate().toString();
 
     Assertions.assertEquals("2020-11-10", actual);
