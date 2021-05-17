@@ -9,29 +9,28 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MemberModelTest {
-
   MemberModel test;
 
   @BeforeEach
-  void testSetup() {
+  public void testSetup() {
     test = new MemberModel();
   }
 
   @Test
-  void testSetID() {
+  public void testSetID() {
     test.setID("1");
     Assertions.assertEquals("1", test.getID());
   }
 
   @Test
-  void testSetName() {
+  public void testSetName() {
     test.setName("NAME");
 
     Assertions.assertEquals("NAME", test.getName());
   }
 
   @Test
-  void testSetBirthdate() {
+  public void testSetBirthdate() {
     String dateFormat = "dd-MM-yyyy";
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
     test.setBirthdate(LocalDate.parse("10-11-2020", formatter));
@@ -41,7 +40,7 @@ public class MemberModelTest {
   }
 
   @Test
-  void testSetGender() {
+  public void testSetGender() {
     test.setGender(GenderModel.FEMALE);
     GenderModel expected = GenderModel.FEMALE;
 
@@ -49,21 +48,21 @@ public class MemberModelTest {
   }
 
   @Test
-  void testSetCompetitive() {
+  public void testSetCompetitive() {
     test.setCompetitive(true);
 
-    Assertions.assertEquals(true, test.isCompetitive());
+    Assertions.assertTrue(test.isCompetitive());
   }
 
   @Test
-  void testSetPhoneNumber() {
+  public void testSetPhoneNumber() {
     test.setPhoneNumber("1234");
 
     Assertions.assertEquals("1234", test.getPhoneNumber());
   }
 
   @Test
-  void TestAddMembership() {
+  public void TestAddMembership() {
     test.addMembership(new MembershipModel());
     int expectedMembershipLength = 1;
 
@@ -71,7 +70,7 @@ public class MemberModelTest {
   }
 
   @Test
-  void TestAddDiscipline() {
+  public void TestAddDiscipline() {
     test.addDiscipline(new DisciplineModel(100, "FreeStyle"));
     int expectedMembershipLength = 1;
 
@@ -79,14 +78,14 @@ public class MemberModelTest {
   }
 
   @Test
-  void TestGetCreationTime() {
+  public void TestGetCreationTime() {
     LocalDate expected = LocalDate.now();
 
     Assertions.assertEquals(expected, test.getCreationDate());
   }
 
   @Test
-  void TestCreateMemberFromFileConstructor() {
+  public void TestCreateMemberFromFileConstructor() {
     test =
         new MemberModel(
             "test",
@@ -95,9 +94,9 @@ public class MemberModelTest {
             GenderModel.FEMALE,
             "test",
             true,
-            new ArrayList<DisciplineModel>(),
+            new ArrayList<>(),
             LocalDate.parse("10-01-1990", DateTimeFormatter.ofPattern("dd-MM-yyyy")),
-            new ArrayList<MembershipModel>());
+            new ArrayList<>());
 
     Assertions.assertEquals("test", test.getName());
   }
