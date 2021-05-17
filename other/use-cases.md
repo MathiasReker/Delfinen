@@ -26,9 +26,9 @@
 
    a. The User searches on ID or name
 
-   - If the user searches on ID, and it exists, the user is directed to the "member view"
-   - If there is more than one match, the matches are displayed, and the user must choose by picking a corresponding
-     number
+    - If the user searches on ID, and it exists, the user is directed to the "member view"
+    - If there is more than one match, the matches are displayed, and the user must choose by picking a corresponding
+      number
 
 2. The system displays member information (Name, Age, etc.)
 
