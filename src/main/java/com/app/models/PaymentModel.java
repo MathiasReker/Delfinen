@@ -1,4 +1,3 @@
 package com.app.models;
 
-public class PaymentModel {
-}
+public class PaymentModel {}
