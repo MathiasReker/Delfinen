@@ -23,7 +23,7 @@ public class MemberModel {
   /**
    * Package Private constructor for instantiating objects in the model.
    *
-   * <p>Can be used when reading stored data.
+   * Can be used when reading stored data.
    *
    * @param ID
    * @param name
