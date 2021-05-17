@@ -13,8 +13,6 @@ public class MembershipModel {
     public MembershipModel(){ //TODO Get next UniqueValue
         this.ID = "NextUniqueValue";
     }
-
-
     /**
      * Constructor to instantiate new objects in model.
      *

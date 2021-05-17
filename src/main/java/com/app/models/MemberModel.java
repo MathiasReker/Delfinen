@@ -2,6 +2,7 @@ package com.app.models;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MemberModel {
@@ -46,7 +47,7 @@ public class MemberModel {
       ArrayList<MembershipModel> memberships) {
     setID(ID);
     setName(name);
-    setBirthdate(birthdate);
+    this.birthdate = birthdate;
     setGender(gender);
     setPhoneNumber(phoneNumber);
     setCompetitive(competitive);
@@ -63,9 +64,12 @@ public class MemberModel {
     this.name = name;
   }
 
-  public void setBirthdate(LocalDate birthdate) {
-    this.birthdate = birthdate;
+  public void setBirthdate(String birthdate) {
+    String dateFormat = "dd-MM-yyyy"; //TODO make global?
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
+    this.birthdate = LocalDate.parse(birthdate,formatter);
   }
+
 
   public void setGender(GenderModel gender) {
     this.gender = gender;
@@ -128,6 +132,9 @@ public class MemberModel {
     return creationDate;
   }
 
+  public boolean isCompetitive() {
+    return competitive;
+  }
   public ArrayList<DisciplineModel> getDisciplines() {
     return disciplines;
   }
