@@ -41,7 +41,6 @@ public class CompetitionModel {
     return result;
   }
 
-  // setter
   public void setId(
       String id) { // TODO how will we manage the ids for competitions? will need to be refactored
     this.id = id;
