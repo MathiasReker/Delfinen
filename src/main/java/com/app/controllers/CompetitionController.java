@@ -21,8 +21,8 @@ public class CompetitionController {
   /**
    * a method that returns a competition based on the ID provided
    *
-   * @param id is the compitition id for the competition you wish to return
-   * @return a competion based on the id that is provided
+   * @param id is the competition id for the competition you wish to return
+   * @return a competition based on the id that is provided
    */
   public CompetitionModel getCompetition(String id){
 
