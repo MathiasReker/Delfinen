@@ -56,9 +56,9 @@ public class MemberModelTest {
 
   @Test
   public void testSetPhoneNumber() {
-    test.setPhoneNumber("1234");
+    test.setPhoneNumber("12345678");
 
-    Assertions.assertEquals("1234", test.getPhoneNumber());
+    Assertions.assertEquals("12345678", test.getPhoneNumber());
   }
 
   @Test
@@ -99,7 +99,7 @@ public class MemberModelTest {
             "test",
             LocalDate.parse("10-11-2020", DateTimeFormatter.ofPattern("dd-MM-yyyy")),
             GenderModel.FEMALE,
-            "00000000",
+            "12345678",
             "test@test.com",
             true,
             new ArrayList<>(),
