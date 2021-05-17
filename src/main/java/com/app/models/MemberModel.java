@@ -36,7 +36,7 @@ public class MemberModel {
    * @param creationDate
    * @param memberships
    */
-   MemberModel(
+  MemberModel(
       String ID,
       String name,
       LocalDate birthdate,
