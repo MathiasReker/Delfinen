@@ -84,7 +84,7 @@ public class MemberModelTest {
   }
 
   @Test
-  void CreateMemberFromFileConstructor() {
+  void TestCreateMemberFromFileConstructor() {
     test =
         new MemberModel(
             "test",
