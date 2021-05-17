@@ -13,9 +13,8 @@ public class CompetitionController {
 
   ArrayList<CompetitionModel> competitions;
 
-
   public void createNewCompetition() {
-    //TODO we need to get some clarification regarding how we read input
+    // TODO we need to get some clarification regarding how we read input
   }
 
   /**
@@ -24,10 +23,10 @@ public class CompetitionController {
    * @param id is the competition id for the competition you wish to return
    * @return a competition based on the id that is provided
    */
-  public CompetitionModel getCompetition(String id){
+  public CompetitionModel getCompetition(String id) {
 
-    for (CompetitionModel competition: competitions) {
-      if (id.equals(competition.getId())){
+    for (CompetitionModel competition : competitions) {
+      if (id.equals(competition.getId())) {
         return competition;
       }
     }
@@ -40,7 +39,7 @@ public class CompetitionController {
    * @param competition the competition you wish to add the result to
    * @param resultModel the result you wish to add
    */
-  public void addResultToCompetition(CompetitionModel competition, ResultModel resultModel){
+  public void addResultToCompetition(CompetitionModel competition, ResultModel resultModel) {
     competition.addResult(resultModel);
   }
 
@@ -50,20 +49,19 @@ public class CompetitionController {
    * @param dateString a String with the date that needs to be parsed
    * @return a date as a LocalDate type
    */
-  public LocalDate validDate (String dateString) {
+  public LocalDate validDate(String dateString) {
 
-    String dateFormat ="dd-MM-yyyy";
+    String dateFormat = "dd-MM-yyyy";
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(dateFormat);
 
     LocalDate date = null;
 
     try {
       date = LocalDate.parse(dateString, dateFormatter);
-    } catch (DateTimeParseException e){
+    } catch (DateTimeParseException e) {
       e.printStackTrace();
     }
     return date;
-
   }
 
   /**
@@ -72,7 +70,7 @@ public class CompetitionController {
    * @param timeString a String with the time that needs to be parsed
    * @return returns a time as a LocalTime type
    */
-  public LocalTime validTime (String timeString) {
+  public LocalTime validTime(String timeString) {
 
     String timeFormat = "mm:ss";
     DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(timeFormat);
@@ -81,7 +79,7 @@ public class CompetitionController {
 
     try {
       time = LocalTime.parse(timeString, dateFormatter);
-    } catch (DateTimeParseException e){
+    } catch (DateTimeParseException e) {
       e.printStackTrace();
     }
     return time;

@@ -2,10 +2,7 @@ package com.app.models;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
-
 
 public class CompetitionModel {
 
@@ -15,7 +12,6 @@ public class CompetitionModel {
   private LocalTime startTime;
   private ArrayList<ResultModel> result = new ArrayList<>();
 
-
   public CompetitionModel(LocalDate startDate, String name, LocalTime startTime) {
     setId("test");
     this.startDate = startDate;
@@ -23,8 +19,7 @@ public class CompetitionModel {
     this.startTime = startTime;
   }
 
-  //getter
-
+  // getter
 
   public String getId() {
     return id;
@@ -46,8 +41,9 @@ public class CompetitionModel {
     return result;
   }
 
-  //setter
-  public void setId(String id) { //TODO how will we manage the ids for competitions? will need to be refactored
+  // setter
+  public void setId(
+      String id) { // TODO how will we manage the ids for competitions? will need to be refactored
     this.id = id;
   }
 
@@ -70,5 +66,4 @@ public class CompetitionModel {
   public void addResult(ResultModel result) {
     this.result.add(result);
   }
-
 }
