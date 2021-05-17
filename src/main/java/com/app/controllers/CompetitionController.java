@@ -34,7 +34,7 @@ public class CompetitionController {
   }
 
   /**
-   * A method that adds a result, to a given competition
+   * Add the result to a given competition.
    *
    * @param competition the competition you wish to add the result to
    * @param resultModel the result you wish to add
