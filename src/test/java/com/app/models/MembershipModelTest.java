@@ -13,7 +13,7 @@ public class MembershipModelTest {
   MembershipModel test;
 
   @BeforeEach
-  public void TestSetup() {
+  public void testSetup() {
     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     test =
         new MembershipModel(
@@ -25,33 +25,33 @@ public class MembershipModelTest {
   }
 
   @Test
-  public void setActive() {
+  public void testSetActive() {
     test.setActive(true);
 
-    Assertions.assertEquals(true, test.isActive());
+    assertTrue(test.isActive());
   }
 
   @Test
-  public void setPayed() {
+  public void testSetPayed() {
     test.setPayed(false);
 
-    Assertions.assertEquals(false, test.isPayed());
+    assertFalse(test.isPayed());
   }
 
   @Test
-  public void getID() {
+  public void testGetID() {
     Assertions.assertEquals("Test", test.getID());
   }
 
   @Test
-  public void TestGetStartingDate() {
+  public void testGetStartingDate() {
     String expected = "2020-01-01";
 
     Assertions.assertEquals(expected, test.getStartingDate().toString());
   }
 
   @Test
-  public void TestGetExpiringDate() {
+  public void testGetExpiringDate() {
     String expected = "2020-02-01";
 
     Assertions.assertEquals(expected, test.getExpiringDate().toString());
