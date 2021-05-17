@@ -28,7 +28,6 @@ public class ResultModel {
     return discipline;
   }
 
-  // setter
 
   public void setMember(MemberModel member) {
     this.member = member;
