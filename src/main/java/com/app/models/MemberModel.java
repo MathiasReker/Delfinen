@@ -65,11 +65,10 @@ public class MemberModel {
   }
 
   public void setBirthdate(String birthdate) {
-    String dateFormat = "dd-MM-yyyy"; //TODO make global?
+    String dateFormat = "dd-MM-yyyy"; // TODO make global?
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern(dateFormat);
-    this.birthdate = LocalDate.parse(birthdate,formatter);
+    this.birthdate = LocalDate.parse(birthdate, formatter);
   }
-
 
   public void setGender(GenderModel gender) {
     this.gender = gender;
@@ -93,6 +92,7 @@ public class MemberModel {
 
   /**
    * Package Private method for setting disciplines when reading members from file.
+   *
    * @param disciplines
    */
   void setDisciplines(ArrayList<DisciplineModel> disciplines) {
@@ -101,9 +101,9 @@ public class MemberModel {
 
   /**
    * Package private methods for setting Memberships when reading members from file.
+   *
    * @param memberships
    */
-
   void setMemberships(ArrayList<MembershipModel> memberships) {
     this.memberships = memberships;
   }
@@ -135,6 +135,7 @@ public class MemberModel {
   public boolean isCompetitive() {
     return competitive;
   }
+
   public ArrayList<DisciplineModel> getDisciplines() {
     return disciplines;
   }

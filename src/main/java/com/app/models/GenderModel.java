@@ -1,7 +1,7 @@
 package com.app.models;
 
 public enum GenderModel {
-    MALE,
-    FEMALE,
-    OTHER
+  MALE,
+  FEMALE,
+  OTHER
 }
