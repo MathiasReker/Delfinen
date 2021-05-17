@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MemberModel {
-  private final LocalDate creationDate;
+  private final LocalDate CREATE_DATE;
   private String ID;
   private String name;
   private LocalDate birthdate;
@@ -17,13 +17,13 @@ public class MemberModel {
   private ArrayList<MembershipModel> memberships = new ArrayList<>();
 
   public MemberModel() {
-    creationDate = LocalDateTime.now().toLocalDate();
+    CREATE_DATE = LocalDateTime.now().toLocalDate();
   }
 
   /**
    * Package Private constructor for instantiating objects in the model.
    *
-   * <p>Can be used when reading stored data.
+   * Can be used when reading stored data.
    *
    * @param ID
    * @param name
@@ -54,7 +54,7 @@ public class MemberModel {
     setPhoneNumber(phoneNumber);
     setMail(mail);
     setCompetitive(competitive);
-    this.creationDate = creationDate;
+    this.CREATE_DATE = creationDate;
     setDisciplines(disciplines);
     setMemberships(memberships);
   }
@@ -116,7 +116,7 @@ public class MemberModel {
   }
 
   public LocalDate getCreationDate() {
-    return creationDate;
+    return CREATE_DATE;
   }
 
   public boolean isCompetitive() {
