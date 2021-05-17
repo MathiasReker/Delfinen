@@ -62,7 +62,14 @@ public class MemberModelTest {
   }
 
   @Test
-  public void TestAddMembership() {
+  public void testSetMail() {
+    test.setMail("test@test.com");
+
+    Assertions.assertEquals("test@test.com", test.getMail());
+  }
+
+  @Test
+  public void testAddMembership() {
     test.addMembership(new MembershipModel());
     int expectedMembershipLength = 1;
 
@@ -70,7 +77,7 @@ public class MemberModelTest {
   }
 
   @Test
-  public void TestAddDiscipline() {
+  public void testAddDiscipline() {
     test.addDiscipline(new DisciplineModel(100, "FreeStyle"));
     int expectedMembershipLength = 1;
 
@@ -78,14 +85,14 @@ public class MemberModelTest {
   }
 
   @Test
-  public void TestGetCreationTime() {
+  public void testGetCreationTime() {
     LocalDate expected = LocalDate.now();
 
     Assertions.assertEquals(expected, test.getCreationDate());
   }
 
   @Test
-  public void TestCreateMemberFromFileConstructor() {
+  public void testCreateMemberFromFileConstructor() {
     test =
         new MemberModel(
             "test",
