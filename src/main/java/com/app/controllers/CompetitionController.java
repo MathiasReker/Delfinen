@@ -67,7 +67,7 @@ public class CompetitionController {
   /**
    * A method to validate that the time input we receive is a valid format
    *
-   * @param timeString a String with the time that needs to be parsed
+   * @param timeString a String with the time that needs to be parsed.
    * @return returns a time as a LocalTime type
    */
   public LocalTime validTime(String timeString) {
