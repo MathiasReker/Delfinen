@@ -51,4 +51,25 @@ public class MembershipModel {
     public void setStartingDate(Date startingDate) {
         this.startingDate = startingDate;
     }
+
+
+    public String getID() {
+        return ID;
+    }
+
+    public Date getExpiringDate() {
+        return expiringDate;
+    }
+
+    public Date getStartingDate() {
+        return startingDate;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public boolean isPayed() {
+        return payed;
+    }
 }

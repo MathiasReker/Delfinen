@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class MemberModel {
   private String ID;
   private String name;
-  private LocalDate age;
+  private LocalDate birthdate;
   private GenderModel gender;
   private String phoneNumber;
   private boolean competitive;
@@ -22,11 +22,11 @@ public class MemberModel {
   /**
    * Package Private constructor for instantiating objects in the model.
    *
-   * Can be used when reading stored data.
+   * <p>Can be used when reading stored data.
    *
    * @param ID
    * @param name
-   * @param age
+   * @param birthdate
    * @param gender
    * @param phoneNumber
    * @param competitive
@@ -34,20 +34,19 @@ public class MemberModel {
    * @param creationDate
    * @param memberships
    */
-
-
-  MemberModel(String ID,
-              String name,
-              LocalDate age,
-              GenderModel gender,
-              String phoneNumber,
-              boolean competitive,
-              ArrayList<DisciplineModel> disciplines,
-              LocalDate creationDate,
-              ArrayList<MembershipModel> memberships){
+  MemberModel(
+      String ID,
+      String name,
+      LocalDate birthdate,
+      GenderModel gender,
+      String phoneNumber,
+      boolean competitive,
+      ArrayList<DisciplineModel> disciplines,
+      LocalDate creationDate,
+      ArrayList<MembershipModel> memberships) {
     setID(ID);
     setName(name);
-    setAge(age);
+    setBirthdate(birthdate);
     setGender(gender);
     setPhoneNumber(phoneNumber);
     setCompetitive(competitive);
@@ -64,8 +63,8 @@ public class MemberModel {
     this.name = name;
   }
 
-  public void setAge(LocalDate age) {
-    this.age = age;
+  public void setBirthdate(LocalDate birthdate) {
+    this.birthdate = birthdate;
   }
 
   public void setGender(GenderModel gender) {
@@ -80,19 +79,60 @@ public class MemberModel {
     this.phoneNumber = phoneNumber;
   }
 
-  public void addMembership(MembershipModel membership){
+  public void addMembership(MembershipModel membership) {
     memberships.add(membership);
   }
 
-  public void addDiscipline(DisciplineModel discipline){
+  public void addDiscipline(DisciplineModel discipline) {
     disciplines.add(discipline);
   }
 
-  void setDisciplines(ArrayList<DisciplineModel> disciplines){
+  /**
+   * Package Private method for setting disciplines when reading members from file.
+   * @param disciplines
+   */
+  void setDisciplines(ArrayList<DisciplineModel> disciplines) {
     this.disciplines = disciplines;
   }
 
-  void setMemberships(ArrayList<MembershipModel> memberships){
+  /**
+   * Package private methods for setting Memberships when reading members from file.
+   * @param memberships
+   */
+
+  void setMemberships(ArrayList<MembershipModel> memberships) {
     this.memberships = memberships;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public GenderModel getGender() {
+    return gender;
+  }
+
+  public LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  public String getID() {
+    return ID;
+  }
+
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public LocalDate getCreationDate() {
+    return creationDate;
+  }
+
+  public ArrayList<DisciplineModel> getDisciplines() {
+    return disciplines;
+  }
+
+  public ArrayList<MembershipModel> getMemberships() {
+    return memberships;
   }
 }
