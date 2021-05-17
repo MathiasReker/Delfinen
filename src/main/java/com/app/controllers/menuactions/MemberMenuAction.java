@@ -13,7 +13,7 @@ public class MemberMenuAction extends MenuActions {
 
   MenuActions[] menu() {
     return new MenuActions[] {
-      new CreateNewMemberMenuAction("Create new member"),
+      new CreateMemberSubMenuAction("Create member"),
       new EditMemberMenuAction("Edit member"),
       new ExitMenuAction("Back")
     };

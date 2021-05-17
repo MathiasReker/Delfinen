@@ -5,14 +5,15 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class MemberModel {
+  private final LocalDate creationDate;
   private String ID;
   private String name;
   private LocalDate birthdate;
   private GenderModel gender;
   private String phoneNumber;
+  private String mail;
   private boolean competitive;
   private ArrayList<DisciplineModel> disciplines = new ArrayList<>();
-  private final LocalDate creationDate;
   private ArrayList<MembershipModel> memberships = new ArrayList<>();
 
   public MemberModel() {
@@ -29,6 +30,7 @@ public class MemberModel {
    * @param birthdate
    * @param gender
    * @param phoneNumber
+   * @param mail
    * @param competitive
    * @param disciplines
    * @param creationDate
@@ -40,6 +42,7 @@ public class MemberModel {
       LocalDate birthdate,
       GenderModel gender,
       String phoneNumber,
+      String mail,
       boolean competitive,
       ArrayList<DisciplineModel> disciplines,
       LocalDate creationDate,
@@ -49,34 +52,11 @@ public class MemberModel {
     this.birthdate = birthdate;
     setGender(gender);
     setPhoneNumber(phoneNumber);
+    setMail(mail);
     setCompetitive(competitive);
     this.creationDate = creationDate;
     setDisciplines(disciplines);
     setMemberships(memberships);
-  }
-
-  public void setID(String ID) {
-    this.ID = ID;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public void setBirthdate(LocalDate birthdate) {
-    this.birthdate = birthdate;
-  }
-
-  public void setGender(GenderModel gender) {
-    this.gender = gender;
-  }
-
-  public void setCompetitive(boolean competitive) {
-    this.competitive = competitive;
-  }
-
-  public void setPhoneNumber(String phoneNumber) {
-    this.phoneNumber = phoneNumber;
   }
 
   public void addMembership(MembershipModel membership) {
@@ -85,6 +65,68 @@ public class MemberModel {
 
   public void addDiscipline(DisciplineModel discipline) {
     disciplines.add(discipline);
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public GenderModel getGender() {
+    return gender;
+  }
+
+  public void setGender(GenderModel gender) {
+    this.gender = gender;
+  }
+
+  public LocalDate getBirthdate() {
+    return birthdate;
+  }
+
+  public void setBirthdate(LocalDate birthdate) {
+    this.birthdate = birthdate;
+  }
+
+  public String getID() {
+    return ID;
+  }
+
+  public void setID(String ID) {
+    this.ID = ID;
+  }
+
+  public String getPhoneNumber() {
+    return phoneNumber;
+  }
+
+  public void setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+  }
+
+  public String getMail() { return  mail;}
+
+  public void setMail(String mail) {
+    this.mail = mail;
+  }
+
+  public LocalDate getCreationDate() {
+    return creationDate;
+  }
+
+  public boolean isCompetitive() {
+    return competitive;
+  }
+
+  public void setCompetitive(boolean competitive) {
+    this.competitive = competitive;
+  }
+
+  public ArrayList<DisciplineModel> getDisciplines() {
+    return disciplines;
   }
 
   /**
@@ -96,6 +138,10 @@ public class MemberModel {
     this.disciplines = disciplines;
   }
 
+  public ArrayList<MembershipModel> getMemberships() {
+    return memberships;
+  }
+
   /**
    * Package private methods for setting Memberships when reading members from file.
    *
@@ -103,41 +149,5 @@ public class MemberModel {
    */
   void setMemberships(ArrayList<MembershipModel> memberships) {
     this.memberships = memberships;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public GenderModel getGender() {
-    return gender;
-  }
-
-  public LocalDate getBirthdate() {
-    return birthdate;
-  }
-
-  public String getID() {
-    return ID;
-  }
-
-  public String getPhoneNumber() {
-    return phoneNumber;
-  }
-
-  public LocalDate getCreationDate() {
-    return creationDate;
-  }
-
-  public boolean isCompetitive() {
-    return competitive;
-  }
-
-  public ArrayList<DisciplineModel> getDisciplines() {
-    return disciplines;
-  }
-
-  public ArrayList<MembershipModel> getMemberships() {
-    return memberships;
   }
 }
