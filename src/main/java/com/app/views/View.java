@@ -8,6 +8,9 @@ abstract class View {
     System.out.print(new ColorText(text, ColorKey.WHITE_BRIGHT));
   }
 
+  public void print(String text) {
+    System.out.println(new ColorText(text, ColorKey.WHITE_BRIGHT));
+  }
   /**
    * Print a colored text followed by a new line.
    *
