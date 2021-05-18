@@ -8,6 +8,7 @@ import com.app.views.MemberView;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -130,20 +131,28 @@ public class MemberController {
     return false;
   }
 
-  public void renewMembers() { // what
-    MemberModel[] members = createMembersForTest();
+  /** Returns true if membership is renewed returns false if nothing happened.
+   *
+   * @param member Member to renew
+   * @return whether or not the renewal happened.
+   */
 
-    for (MemberModel member : members) {
-      ArrayList<MembershipModel> membershipModels = member.getMemberships();
-      for (MembershipModel membership : membershipModels) {
-        if (membership.isActive() && membership.isPayed()) {
-          if (membership.getExpiringDate().compareTo(LocalDate.now()) > 0) {}
-        }
-      }
+  public boolean renewExpiredMembership(MemberModel member) { // what
+    ArrayList<MembershipModel> memberships = member.getMemberships();
+    MembershipModel lastMembership = memberships.get(memberships.size()-1);
+    if(lastMembership.getExpiringDate().compareTo(LocalDate.now()) < 0){
+      MembershipModel newMembership = new MembershipModel();
+      newMembership.setStartingDate(LocalDate.now());
+      newMembership.setExpiringDate(newMembership.getExpiringDate().plusYears(1));
+      newMembership.setActive(true);
+      newMembership.setPayed(false);
+      member.addMembership(new MembershipModel());
+      return true;
     }
+    return false;
   }
 
-  public void renewExpiringMembers() { // WIP
+  public void requestRenewalFromExpiringMembers() { // WIP
     try {
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
