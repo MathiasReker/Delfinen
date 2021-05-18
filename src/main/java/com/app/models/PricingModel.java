@@ -12,16 +12,14 @@ public class PricingModel {
    */
   public static int calculateMemberPrice(MemberModel member) {
     int age = member.getBirthdate().getYear() - LocalDate.now().getYear();
-    if(age < 18){
+    if (age < 18) {
       return 100000;
     }
-    if(age > 18 && age < 60){
+    if (age > 18 && age < 60) {
       return 160000;
-    }
-    else{
+    } else {
       double price = 160000 * 0.8;
       return (int) price;
     }
-
   }
 }
