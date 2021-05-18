@@ -45,7 +45,7 @@ public class MemberController {
     MEMBER.setID(id);
     MEMBER.setName(name);
     MEMBER.setGender(GenderModel.values()[genderIndex]);
-      MEMBER.setBirthdate(LocalDate.parse(birthday));
+    MEMBER.setBirthdate(LocalDate.parse(birthday));
     MEMBER.setPhoneNumber(phone);
     MEMBER.setMail(mail);
     MEMBER.setCompetitive(competitive);
