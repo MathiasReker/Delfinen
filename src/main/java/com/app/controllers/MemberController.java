@@ -8,7 +8,6 @@ import com.app.views.MemberView;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -131,25 +130,35 @@ public class MemberController {
     return false;
   }
 
-  /** Returns true if membership is renewed returns false if nothing happened.
+  /**
+   * Returns true if membership is renewed returns false if nothing happened.
    *
    * @param member Member to renew
    * @return whether or not the renewal happened.
    */
-
-  public boolean renewExpiredMembership(MemberModel member) { // what
+  public void renewMembership(MemberModel member) { // what
     ArrayList<MembershipModel> memberships = member.getMemberships();
-    MembershipModel lastMembership = memberships.get(memberships.size()-1);
-    if(lastMembership.getExpiringDate().compareTo(LocalDate.now()) < 0){
-      MembershipModel newMembership = new MembershipModel();
-      newMembership.setStartingDate(LocalDate.now());
-      newMembership.setExpiringDate(newMembership.getExpiringDate().plusYears(1));
-      newMembership.setActive(true);
-      newMembership.setPayed(false);
-      member.addMembership(new MembershipModel());
-      return true;
+    MembershipModel lastMembership = memberships.get(memberships.size() - 1);
+    if (lastMembership.getExpiringDate().compareTo(LocalDate.now()) < 0) {
+      MembershipModel newMembership = createNewMembership(LocalDate.now());
+      member.addMembership(newMembership);
+    } else if (lastMembership.getExpiringDate().compareTo(LocalDate.now()) > 0) {
+      MembershipModel newMembership =
+          createNewMembership(lastMembership.getExpiringDate().plusDays(1));
+      member.addMembership(newMembership);
+    } else {
+      MembershipModel newMembership = createNewMembership(LocalDate.now().plusDays(1));
+      member.addMembership(newMembership);
     }
-    return false;
+  }
+
+  private MembershipModel createNewMembership(LocalDate date) {
+    MembershipModel result = new MembershipModel();
+    result.setStartingDate(date);
+    result.setExpiringDate(result.getExpiringDate().plusYears(1));
+    result.setActive(true);
+    result.setPayed(false);
+    return result;
   }
 
   public void requestRenewalFromExpiringMembers() { // WIP
