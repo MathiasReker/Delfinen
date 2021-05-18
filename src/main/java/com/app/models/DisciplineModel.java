@@ -1,6 +1,5 @@
 package com.app.models;
 
-
 public class DisciplineModel {
 
   private int distance;
