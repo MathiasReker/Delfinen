@@ -130,7 +130,7 @@ public class MemberController {
     return false;
   }
 
-  public void renewMembers() { //what
+  public void renewMembers() { // what
     MemberModel[] members = createMembersForTest();
 
     for (MemberModel member : members) {
@@ -143,7 +143,7 @@ public class MemberController {
     }
   }
 
-  public void renewExpiringMembers() { //WIP
+  public void renewExpiringMembers() { // WIP
     try {
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
