@@ -14,11 +14,16 @@ class DisciplinesControllerTest {
   public void testChosenDistance() {
 
     ArrayList<DisciplineModel> expect = new ArrayList<>();
-    expect.add(new DisciplineModel(DistanceModel.FIFTY.getMeters(), StyleModel.BUTTERFLY.toString()));
-    expect.add(new DisciplineModel(DistanceModel.HUNDRED.getMeters(), StyleModel.BUTTERFLY.toString()));
-    expect.add(new DisciplineModel(DistanceModel.TWO_HUNDRED.getMeters(), StyleModel.BUTTERFLY.toString()));
+    expect.add(
+        new DisciplineModel(DistanceModel.FIFTY.getMeters(), StyleModel.BUTTERFLY.toString()));
+    expect.add(
+        new DisciplineModel(DistanceModel.HUNDRED.getMeters(), StyleModel.BUTTERFLY.toString()));
+    expect.add(
+        new DisciplineModel(
+            DistanceModel.TWO_HUNDRED.getMeters(), StyleModel.BUTTERFLY.toString()));
 
-    ArrayList<DisciplineModel> result = new DisciplinesController().chosenDiscipline(1,StyleModel.BUTTERFLY.toString());
+    ArrayList<DisciplineModel> result =
+        new DisciplinesController().chosenDiscipline(1, StyleModel.BUTTERFLY.toString());
 
     Assertions.assertEquals(expect.get(2).getDistance(), result.get(2).getDistance());
   }
@@ -27,11 +32,16 @@ class DisciplinesControllerTest {
   public void testChosenInvalidDistance() {
 
     ArrayList<DisciplineModel> expect = new ArrayList<>();
-    expect.add(new DisciplineModel(DistanceModel.FIFTY.getMeters(), StyleModel.BUTTERFLY.toString()));
-    expect.add(new DisciplineModel(DistanceModel.HUNDRED.getMeters(), StyleModel.BUTTERFLY.toString()));
-    expect.add(new DisciplineModel(DistanceModel.FOUR_HUNDRED.getMeters(), StyleModel.BUTTERFLY.toString()));
+    expect.add(
+        new DisciplineModel(DistanceModel.FIFTY.getMeters(), StyleModel.BUTTERFLY.toString()));
+    expect.add(
+        new DisciplineModel(DistanceModel.HUNDRED.getMeters(), StyleModel.BUTTERFLY.toString()));
+    expect.add(
+        new DisciplineModel(
+            DistanceModel.FOUR_HUNDRED.getMeters(), StyleModel.BUTTERFLY.toString()));
 
-    ArrayList<DisciplineModel> result = new DisciplinesController().chosenDiscipline(1,StyleModel.BUTTERFLY.toString());
+    ArrayList<DisciplineModel> result =
+        new DisciplinesController().chosenDiscipline(1, StyleModel.BUTTERFLY.toString());
 
     Assertions.assertNotEquals(expect.get(2).getDistance(), result.get(2).getDistance());
   }
@@ -40,13 +50,22 @@ class DisciplinesControllerTest {
   public void testChosenDistanceMaleFreestyle() {
 
     ArrayList<DisciplineModel> expect = new ArrayList<>();
-    expect.add(new DisciplineModel(DistanceModel.FIFTY.getMeters(), StyleModel.FREESTYLE.toString()));
-    expect.add(new DisciplineModel(DistanceModel.HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
-    expect.add(new DisciplineModel(DistanceModel.TWO_HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
-    expect.add(new DisciplineModel(DistanceModel.FOUR_HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
-    expect.add(new DisciplineModel(DistanceModel.FIFTEEN_HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
+    expect.add(
+        new DisciplineModel(DistanceModel.FIFTY.getMeters(), StyleModel.FREESTYLE.toString()));
+    expect.add(
+        new DisciplineModel(DistanceModel.HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
+    expect.add(
+        new DisciplineModel(
+            DistanceModel.TWO_HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
+    expect.add(
+        new DisciplineModel(
+            DistanceModel.FOUR_HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
+    expect.add(
+        new DisciplineModel(
+            DistanceModel.FIFTEEN_HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
 
-    ArrayList<DisciplineModel> result = new DisciplinesController().chosenDiscipline(1,StyleModel.FREESTYLE.toString());
+    ArrayList<DisciplineModel> result =
+        new DisciplinesController().chosenDiscipline(1, StyleModel.FREESTYLE.toString());
 
     Assertions.assertEquals(expect.get(4).getDistance(), result.get(4).getDistance());
   }
@@ -55,13 +74,22 @@ class DisciplinesControllerTest {
   public void testChosenDistanceWomanFreestyle() {
 
     ArrayList<DisciplineModel> expect = new ArrayList<>();
-    expect.add(new DisciplineModel(DistanceModel.FIFTY.getMeters(), StyleModel.FREESTYLE.toString()));
-    expect.add(new DisciplineModel(DistanceModel.HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
-    expect.add(new DisciplineModel(DistanceModel.TWO_HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
-    expect.add(new DisciplineModel(DistanceModel.FOUR_HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
-    expect.add(new DisciplineModel(DistanceModel.EIGHT_HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
+    expect.add(
+        new DisciplineModel(DistanceModel.FIFTY.getMeters(), StyleModel.FREESTYLE.toString()));
+    expect.add(
+        new DisciplineModel(DistanceModel.HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
+    expect.add(
+        new DisciplineModel(
+            DistanceModel.TWO_HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
+    expect.add(
+        new DisciplineModel(
+            DistanceModel.FOUR_HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
+    expect.add(
+        new DisciplineModel(
+            DistanceModel.EIGHT_HUNDRED.getMeters(), StyleModel.FREESTYLE.toString()));
 
-    ArrayList<DisciplineModel> result = new DisciplinesController().chosenDiscipline(2,StyleModel.FREESTYLE.toString());
+    ArrayList<DisciplineModel> result =
+        new DisciplinesController().chosenDiscipline(2, StyleModel.FREESTYLE.toString());
 
     Assertions.assertEquals(expect.get(4).getDistance(), result.get(4).getDistance());
   }

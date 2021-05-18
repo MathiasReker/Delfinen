@@ -1,6 +1,5 @@
 package com.app.models;
 
-import java.util.ArrayList;
 
 public class DisciplineModel {
 
@@ -46,6 +45,4 @@ public class DisciplineModel {
     // TODO: 17-05-2021 skulle nok flyttes til en anden klasse
     return StyleModel.values()[choice].toString();
   }
-
-
 }

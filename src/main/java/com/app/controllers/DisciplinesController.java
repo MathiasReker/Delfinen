@@ -8,12 +8,11 @@ import java.util.ArrayList;
 
 public class DisciplinesController {
 
-
   /**
    * Output a list with the disciplines for the specific swim style.
    *
    * @param gender gets the gender, 1 is boy, 2 is girl, 3 is other
-   * @param style  that define the distance.
+   * @param style that define the distance.
    * @return a list og disciplines.
    */
   public ArrayList<DisciplineModel> chosenDiscipline(int gender, String style) {
@@ -55,5 +54,4 @@ public class DisciplinesController {
     }
     return false;
   }
-
 }
