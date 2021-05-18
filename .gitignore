@@ -8,9 +8,6 @@
 # BlueJ files
 *.ctxt
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
 # Package Files #
 *.jar
 *.war
@@ -37,7 +34,6 @@ buildNumber.properties
 .flattened-pom.xml
 
 ### Intellij ###
-
 # File-based project format
 *.iws
 
@@ -121,3 +117,7 @@ $RECYCLE.BIN/
 
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
+
+### Other ###
+# Data folder for test data
+.data
