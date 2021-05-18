@@ -24,24 +24,24 @@ public class MemberController {
 
 
   public void renewExpiringMembers(){
-    ArrayList<MemberModel> experingMembers = getExpiringMembers(createMembersForTest());
+    ArrayList<MemberModel> experingMembers = getExpiringMembers(createMembersForTest(),30);
 
     System.out.println(experingMembers);
   }
 
   /**
    * Returns an Arraylist of expiring members based on the Array given as argument
-   *
+   * @param days Amount of days to look ahead of current day.
    * @param memberModels Array of members to look through
    * @return ArrayList of expiring members
    */
-  public ArrayList<MemberModel> getExpiringMembers(MemberModel[] memberModels) { //TODO Move to model?
+  public ArrayList<MemberModel> getExpiringMembers(MemberModel[] memberModels, int days) { //TODO Move to model?
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {
       ArrayList<MembershipModel> memberships = member.getMemberships();
       LocalDate expiringDate = memberships.get(memberships.size() - 1).getExpiringDate();
-      if (expiringDate.minusDays(30).compareTo(LocalDate.now()) <= 0) {
+      if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
         result.add(member);
       }
     }
