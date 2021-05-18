@@ -21,6 +21,7 @@ public class DisciplinesController {
     if (!styleExist(style)) {
       throw new IllegalArgumentException("No such style");
     }
+
     ArrayList<DisciplineModel> Distances = new ArrayList<>();
 
     Distances.add(new DisciplineModel(DistanceModel.FIFTY.getMeters(), style));
