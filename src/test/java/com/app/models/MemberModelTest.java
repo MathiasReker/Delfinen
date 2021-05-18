@@ -56,13 +56,20 @@ public class MemberModelTest {
 
   @Test
   public void testSetPhoneNumber() {
-    test.setPhoneNumber("1234");
+    test.setPhoneNumber("12345678");
 
-    Assertions.assertEquals("1234", test.getPhoneNumber());
+    Assertions.assertEquals("12345678", test.getPhoneNumber());
   }
 
   @Test
-  public void TestAddMembership() {
+  public void testSetMail() {
+    test.setMail("test@test.com");
+
+    Assertions.assertEquals("test@test.com", test.getMail());
+  }
+
+  @Test
+  public void testAddMembership() {
     test.addMembership(new MembershipModel());
     int expectedMembershipLength = 1;
 
@@ -70,7 +77,7 @@ public class MemberModelTest {
   }
 
   @Test
-  public void TestAddDiscipline() {
+  public void testAddDiscipline() {
     test.addDiscipline(new DisciplineModel(100, "FreeStyle"));
     int expectedMembershipLength = 1;
 
@@ -78,21 +85,22 @@ public class MemberModelTest {
   }
 
   @Test
-  public void TestGetCreationTime() {
+  public void testGetCreationTime() {
     LocalDate expected = LocalDate.now();
 
     Assertions.assertEquals(expected, test.getCreationDate());
   }
 
   @Test
-  public void TestCreateMemberFromFileConstructor() {
+  public void testCreateMemberFromFileConstructor() {
     test =
         new MemberModel(
             "test",
             "test",
             LocalDate.parse("10-11-2020", DateTimeFormatter.ofPattern("dd-MM-yyyy")),
             GenderModel.FEMALE,
-            "test",
+            "12345678",
+            "test@test.com",
             true,
             new ArrayList<>(),
             LocalDate.parse("10-01-1990", DateTimeFormatter.ofPattern("dd-MM-yyyy")),
