@@ -28,17 +28,15 @@ public class MemberController {
     try {
       PaymentRequestService paymentRequester =
           new PaymentRequestService("db/PaymentRequests/pr.txt");
-      MemberModel[] experingMembers = getExpiringMembers(createMembersForTest(), 30).toArray(new MemberModel[0]);
+      MemberModel[] expiringMembers = getExpiringMembers(createMembersForTest(), 30).toArray(new MemberModel[0]);
 
-      paymentRequester.createPaymentRequest(experingMembers);
+      paymentRequester.createPaymentRequest(expiringMembers);
 
     } catch (IOException e) {
       System.out.println("cant do that");
     }
 
-
     // show Members
-
     // allow removal of members
 
   }
@@ -50,7 +48,7 @@ public class MemberController {
    * @param memberModels Array of members to look through
    * @return ArrayList of expiring members
    */
-  public ArrayList<MemberModel> getExpiringMembers(
+  private ArrayList<MemberModel> getExpiringMembers(
       MemberModel[] memberModels, int days) { // TODO Move to model?
     ArrayList<MemberModel> result = new ArrayList<>();
 
