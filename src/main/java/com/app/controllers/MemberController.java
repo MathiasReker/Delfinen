@@ -2,7 +2,11 @@ package com.app.controllers;
 
 import com.app.models.MemberModel;
 import com.app.models.MembershipModel;
+import com.app.models.PricingModel;
+import com.app.models.services.PaymentRequestService;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -22,20 +26,34 @@ public class MemberController {
     }
   }
 
+  public void renewExpiringMembers() {
+    try {
+      PaymentRequestService paymentRequester =
+          new PaymentRequestService("db/PaymentRequests/pr.txt");
+      MemberModel[] experingMembers = getExpiringMembers(createMembersForTest(), 30).toArray(new MemberModel[0]);
 
-  public void renewExpiringMembers(){
-    ArrayList<MemberModel> experingMembers = getExpiringMembers(createMembersForTest(),30);
+      paymentRequester.createPaymentRequest(experingMembers);
 
-    System.out.println(experingMembers);
+    } catch (IOException e) {
+      System.out.println("cant do that");
+    }
+
+
+    // show Members
+
+    // allow removal of members
+
   }
 
   /**
    * Returns an Arraylist of expiring members based on the Array given as argument
+   *
    * @param days Amount of days to look ahead of current day.
    * @param memberModels Array of members to look through
    * @return ArrayList of expiring members
    */
-  public ArrayList<MemberModel> getExpiringMembers(MemberModel[] memberModels, int days) { //TODO Move to model?
+  public ArrayList<MemberModel> getExpiringMembers(
+      MemberModel[] memberModels, int days) { // TODO Move to model?
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {
