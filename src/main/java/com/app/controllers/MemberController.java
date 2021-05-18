@@ -146,7 +146,7 @@ public class MemberController {
   public void renewExpiringMembers() { // WIP
     try {
       PaymentRequestService paymentRequester =
-          new PaymentRequestService("db/PaymentRequests/pr.txt");
+          new PaymentRequestService("data/payment-requests/out.txt");
       MemberModel[] expiringMembers =
           getExpiringMembers(createMembersForTest(), 30).toArray(new MemberModel[0]);
 
