@@ -136,26 +136,26 @@ public class MemberController {
    * @param member Member to renew
    * @return whether or not the renewal happened.
    */
-  public void renewMembership(MemberModel member) { // what
+  public void renewMembership(MemberModel member, int durationYears) { // what
     ArrayList<MembershipModel> memberships = member.getMemberships();
     MembershipModel lastMembership = memberships.get(memberships.size() - 1);
     if (lastMembership.getExpiringDate().compareTo(LocalDate.now()) < 0) {
-      MembershipModel newMembership = createNewMembership(LocalDate.now());
+      MembershipModel newMembership = createNewMembership(LocalDate.now(),durationYears);
       member.addMembership(newMembership);
     } else if (lastMembership.getExpiringDate().compareTo(LocalDate.now()) > 0) {
       MembershipModel newMembership =
-          createNewMembership(lastMembership.getExpiringDate().plusDays(1));
+          createNewMembership(lastMembership.getExpiringDate().plusDays(1),durationYears);
       member.addMembership(newMembership);
     } else {
-      MembershipModel newMembership = createNewMembership(LocalDate.now().plusDays(1));
+      MembershipModel newMembership = createNewMembership(LocalDate.now().plusDays(1),durationYears);
       member.addMembership(newMembership);
     }
   }
 
-  private MembershipModel createNewMembership(LocalDate date) {
+  private MembershipModel createNewMembership(LocalDate date, int durationYears) {
     MembershipModel result = new MembershipModel();
     result.setStartingDate(date);
-    result.setExpiringDate(result.getExpiringDate().plusYears(1));
+    result.setExpiringDate(result.getExpiringDate().plusYears(durationYears));
     result.setActive(true);
     result.setPayed(false);
     return result;
