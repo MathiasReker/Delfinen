@@ -116,19 +116,18 @@ public class MemberController {
 
   private boolean promptYesNo(Scanner in) {
     String input = in.nextLine();
-    while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
-      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
+
+    while (true) {
 
       if (input.equalsIgnoreCase("y")) {
         return true;
-      } else if (input.equalsIgnoreCase("N")) {
-        return false;
-      } else {
-        input = in.nextLine();
       }
+      if (input.equalsIgnoreCase("N")) {
+        return false;
+      }
+      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
+      input = in.nextLine();
     }
-
-    return false;
   }
 
   /**
@@ -171,7 +170,13 @@ public class MemberController {
 
       MEMBER_VIEW.print("Expiring members:"); // show Members
       for (MemberModel member : expiringMembers) {
-        MEMBER_VIEW.print(member.getID() + "\t" + member.getName() + "\t" +  "\n");
+        MEMBER_VIEW.print(
+            member.getID()
+                + "\t"
+                + member.getName()
+                + "\t"
+                + member.getLatestMembership().getExpiringDate()
+                + "\n");
       }
       if (expiringMembers.size() > 0) {
         boolean stop = false;
@@ -186,7 +191,7 @@ public class MemberController {
             } catch (MemberNotFoundException e) {
               MEMBER_VIEW.printWarning("Member was not found");
             }
-          }else{
+          } else {
             stop = true;
           }
         }
@@ -237,8 +242,8 @@ public class MemberController {
       new MemberModel(), new MemberModel(), new MemberModel(), new MemberModel()
     };
 
+    int test = 10;
     for (MemberModel member : members) {
-      int test = 10;
       member.setID("M" + test);
       member.setName("Name" + test);
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
