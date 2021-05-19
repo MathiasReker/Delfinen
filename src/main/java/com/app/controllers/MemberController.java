@@ -1,17 +1,12 @@
 package com.app.controllers;
 
-import com.app.models.MemberModel;
-import com.app.models.MemberNotFoundException;
-import com.app.models.MembershipModel;
+import com.app.models.*;
 import com.app.models.services.PaymentRequestService;
-import com.app.models.GenderModel;
 import com.app.views.MemberView;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -25,7 +20,6 @@ public class MemberController {
   }
 
   public void createMember(Scanner in) {
-
     MEMBER_VIEW.printInline("ID: ");
     String id = in.nextLine();
 
@@ -51,7 +45,7 @@ public class MemberController {
     MEMBER.setID(id);
     MEMBER.setName(name);
     MEMBER.setGender(GenderModel.values()[genderIndex]);
-    MEMBER.setBirthdate(LocalDate.parse(birthday));
+    // MEMBER.setBirthdate(LocalDate.parse(birthday));
     MEMBER.setPhoneNumber(phone);
     MEMBER.setMail(mail);
     MEMBER.setCompetitive(competitive);
@@ -68,63 +62,52 @@ public class MemberController {
   }
 
   private String validateName(Scanner in) {
-    while (!in.hasNext("[a-zA-Z]+")) {
+    while (!ValidateModel.isValidName(in.next())) {
       MEMBER_VIEW.printInlineWarning("Not a valid name. Please try again: ");
       in.nextLine();
     }
+
     return in.nextLine();
   }
 
   private String validateMail(Scanner in) {
-    while (!in.hasNext("[A-Za-z0-9+_.-]+@(.+)")) {
+    while (!ValidateModel.isValidMail(in.next())) {
       MEMBER_VIEW.printInlineWarning("Not a valid mail. Please try again: ");
       in.nextLine();
     }
+
     return in.nextLine();
   }
 
   private String validatePhoneNumber(Scanner in) {
-    while (!in.hasNext("([+](\\d{1,3})\\s?)?((\\(\\d{3,5}\\)|\\d{3,5})(\\s)?)\\d{3,8}")) {
+    while (!ValidateModel.isValidPhoneNumber(in.next().trim())) {
       MEMBER_VIEW.printInlineWarning("Not a valid phone number. Please try again: ");
       in.nextLine();
     }
-    return in.nextLine();
+
+    return in.nextLine().trim();
   }
 
   private String validateDate(Scanner in) {
-    while (!isValidDate(in.next())) {
+    while (!ValidateModel.isValidDate(in.next())) {
       MEMBER_VIEW.printInlineWarning("Not a valid date. Please try again: ");
       in.nextLine();
     }
+
     return in.nextLine();
-  }
-
-  private boolean isValidDate(String date) {
-    if (!date.trim().equals("")) {
-      SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-      simpleDateFormat.setLenient(false);
-      try {
-        simpleDateFormat.parse(date);
-        return true;
-      } catch (ParseException e) {
-        return false;
-      }
-    }
-
-    return false;
   }
 
   private boolean promptYesNo(Scanner in) {
     String input = in.nextLine();
-
     while (true) {
-
       if (input.equalsIgnoreCase("y")) {
         return true;
       }
-      if (input.equalsIgnoreCase("N")) {
+
+      if (input.equalsIgnoreCase("n")) {
         return false;
       }
+
       MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
       input = in.nextLine();
     }
