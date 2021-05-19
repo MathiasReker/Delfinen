@@ -13,6 +13,7 @@ import java.util.Scanner;
 public class MemberController {
   private final MemberModel MEMBER;
   private final MemberView MEMBER_VIEW;
+  private final MemberModel[] Nenbers = createMembersForTest();
 
   public MemberController() {
     MEMBER = new MemberModel();
@@ -205,7 +206,7 @@ public class MemberController {
    * @param memberModels Array of members to look through
    * @return ArrayList of expiring members
    */
-  private ArrayList<MemberModel> getExpiringMembers(
+  ArrayList<MemberModel> getExpiringMembers(
       MemberModel[] memberModels, int days) { // TODO Move to model?
     ArrayList<MemberModel> result = new ArrayList<>();
 
@@ -238,5 +239,9 @@ public class MemberController {
     }
 
     return members;
+  }
+
+  public MemberModel[] getNenbers() {
+    return Nenbers;
   }
 }
