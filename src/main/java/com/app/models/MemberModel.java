@@ -153,10 +153,8 @@ public class MemberModel {
     this.memberships = memberships;
   }
 
-
-  public MembershipModel getLatestMembership(){
+  public MembershipModel getLatestMembership() {
     ArrayList<MembershipModel> memberships = getMemberships();
-    return memberships.get(memberships.size()-1);
+    return memberships.get(memberships.size() - 1);
   }
-
 }
