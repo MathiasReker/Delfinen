@@ -13,7 +13,7 @@ import java.util.Scanner;
 public class MemberController {
   private final MemberModel MEMBER;
   private final MemberView MEMBER_VIEW;
-  private final MemberModel[] Nenbers = createMembersForTest();
+  private final MemberModel[] MEMBERS = createMembersForTest();
 
   public MemberController() {
     MEMBER = new MemberModel();
@@ -243,7 +243,7 @@ public class MemberController {
     return members;
   }
 
-  public MemberModel[] getNenbers() {
-    return Nenbers;
+  public MemberModel[] getMEMBERS() {
+    return MEMBERS;
   }
 }

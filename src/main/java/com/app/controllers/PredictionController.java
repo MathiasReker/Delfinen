@@ -2,7 +2,6 @@ package com.app.controllers;
 
 import com.app.models.MemberModel;
 import com.app.models.PricingModel;
-import com.app.models.ValidateModel;
 import com.app.views.GenericView;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class PredictionController {
   public int predictIncomeInXDays(int days) {
     int result = 0;
     ArrayList<MemberModel> expiringMembers =
-        MEMBER_CONTROLLER.getExpiringMembers(MEMBER_CONTROLLER.getNenbers(), days);
+        MEMBER_CONTROLLER.getExpiringMembers(MEMBER_CONTROLLER.getMEMBERS(), days);
 
     for (MemberModel member : expiringMembers) {
       result += PricingModel.calculateMemberPrice(member);
