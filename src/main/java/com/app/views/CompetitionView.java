@@ -11,5 +11,4 @@ public class CompetitionView extends View {
 
     printInline(String.join(", ", result) + ": ");
   }
-
 }
