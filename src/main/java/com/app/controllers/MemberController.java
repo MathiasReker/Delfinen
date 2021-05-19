@@ -191,7 +191,7 @@ public class MemberController {
   MemberModel getMemberByID(String id, ArrayList<MemberModel> members)
       throws MemberNotFoundException {
     for (MemberModel member : members) {
-      if (member.getID() == id) {
+      if (member.getID().equals(id)) {
         return member;
       }
     }
