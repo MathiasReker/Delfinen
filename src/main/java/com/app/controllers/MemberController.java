@@ -231,6 +231,7 @@ public class MemberController {
       member.setID("M" + test);
       member.setName("Name" + test);
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+      member.setBirthdate(LocalDate.parse("10-10-1999",DateTimeFormatter.ofPattern("dd-MM-yyyy")));
       member.addMembership(new MembershipModel());
       member.getMemberships().get(0).setExpiringDate(LocalDate.parse(test + "-10-2020", formatter));
       member.getMemberships().get(0).setActive(true);
