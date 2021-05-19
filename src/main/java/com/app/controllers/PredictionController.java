@@ -15,10 +15,10 @@ public class PredictionController {
     ArrayList<MemberModel> expiringMembers =
         MEMBER_CONTROLLER.getExpiringMembers(MEMBER_CONTROLLER.getNenbers(), days);
 
-    for(MemberModel member : expiringMembers){
+    for (MemberModel member : expiringMembers) {
       result += PricingModel.calculateMemberPrice(member);
     }
-    
+
     return result;
   }
 }
