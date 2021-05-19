@@ -171,7 +171,7 @@ public class MemberController {
 
       MEMBER_VIEW.print("Expiring members:"); // show Members
       for (MemberModel member : expiringMembers) {
-        MEMBER_VIEW.print(member.getID() + "\t" + member.getName() + "\n");
+        MEMBER_VIEW.print(member.getID() + "\t" + member.getName() + "\t" +  "\n");
       }
       if (expiringMembers.size() > 0) {
         boolean stop = false;
@@ -186,9 +186,11 @@ public class MemberController {
             } catch (MemberNotFoundException e) {
               MEMBER_VIEW.printWarning("Member was not found");
             }
+          }else{
+            stop = true;
           }
         }
-        MEMBER_VIEW.print("Are you sure? [Y/n[");
+        MEMBER_VIEW.print("Are you sure you want to send payment requests? [Y/n[");
         if (promptYesNo(in)) {
           paymentRequester.createPaymentRequest(expiringMembers.toArray(new MemberModel[0]));
         }
