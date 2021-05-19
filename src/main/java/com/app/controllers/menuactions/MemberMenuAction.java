@@ -15,6 +15,7 @@ public class MemberMenuAction extends MenuActions {
     return new MenuActions[] {
       new CreateMemberSubMenuAction("Create member"),
       new EditMemberMenuAction("Edit member"),
+      new RenewalRequestMenuAction("Send payment requests for expiring Members"),
       new ExitMenuAction("Back")
     };
   }

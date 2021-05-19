@@ -2,6 +2,7 @@ package com.app.controllers;
 
 import com.app.models.GenderModel;
 import com.app.models.MemberModel;
+import com.app.models.MemberNotFoundException;
 import com.app.models.MembershipModel;
 import com.app.models.ValidateModel;
 import com.app.models.services.PaymentRequestService;
@@ -52,8 +53,6 @@ public class MemberController {
     MEMBER.setPhoneNumber(phone);
     MEMBER.setMail(mail);
     MEMBER.setCompetitive(competitive);
-
-    createNewMember();
   }
 
   private String[] gendersToArray() {
@@ -104,11 +103,11 @@ public class MemberController {
 
   private boolean promptYesNo(Scanner in) {
     String input = in.nextLine();
-
     while (true) {
       if (input.equalsIgnoreCase("y")) {
         return true;
       }
+
       if (input.equalsIgnoreCase("n")) {
         return false;
       }
@@ -118,35 +117,89 @@ public class MemberController {
     }
   }
 
-  public void renewMembers() { // what
-    MemberModel[] members = createMembersForTest();
-
-    for (MemberModel member : members) {
-      ArrayList<MembershipModel> membershipModels = member.getMemberships();
-      for (MembershipModel membership : membershipModels) {
-        if (membership.isActive() && membership.isPayed()) {
-          if (membership.getExpiringDate().compareTo(LocalDate.now()) > 0) {}
-        }
-      }
+  /**
+   * Method for renewing memberships.
+   *
+   * @param member Member to renew
+   * @param durationYears years to add to membership
+   */
+  public void renewMembership(MemberModel member, int durationYears) { // what
+    ArrayList<MembershipModel> memberships = member.getMemberships();
+    MembershipModel lastMembership = memberships.get(memberships.size() - 1);
+    if (lastMembership.getExpiringDate().compareTo(LocalDate.now()) < 0) {
+      MembershipModel newMembership = createNewMembership(LocalDate.now(), durationYears);
+      member.addMembership(newMembership);
+    } else if (lastMembership.getExpiringDate().compareTo(LocalDate.now()) > 0) {
+      MembershipModel newMembership =
+          createNewMembership(lastMembership.getExpiringDate().plusDays(1), durationYears);
+      member.addMembership(newMembership);
+    } else {
+      MembershipModel newMembership =
+          createNewMembership(LocalDate.now().plusDays(1), durationYears);
+      member.addMembership(newMembership);
     }
   }
 
-  public void renewExpiringMembers() { // WIP
+  private MembershipModel createNewMembership(LocalDate date, int durationYears) {
+    MembershipModel result = new MembershipModel();
+    result.setStartingDate(date);
+    result.setExpiringDate(result.getExpiringDate().plusYears(durationYears));
+    result.setActive(true);
+    result.setPayed(false);
+    return result;
+  }
+
+  public void requestRenewalFromExpiringMembers(Scanner in) { // WIP
     try {
+      ArrayList<MemberModel> expiringMembers = getExpiringMembers(createMembersForTest(), 30);
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
-      MemberModel[] expiringMembers =
-          getExpiringMembers(createMembersForTest(), 30).toArray(new MemberModel[0]);
 
-      paymentRequester.createPaymentRequest(expiringMembers);
-
+      MEMBER_VIEW.print("Expiring members:"); // show Members
+      for (MemberModel member : expiringMembers) {
+        MEMBER_VIEW.print(
+            member.getID()
+                + "\t"
+                + member.getName()
+                + "\t"
+                + member.getLatestMembership().getExpiringDate()
+                + "\n");
+      }
+      if (expiringMembers.size() > 0) {
+        boolean stop = false;
+        while (!stop) { // allow removal of members
+          MEMBER_VIEW.print("do you want to remove a member from the list? [Y/n]:");
+          if (promptYesNo(in)) {
+            MEMBER_VIEW.print("Type member ID to delete:");
+            String input = in.nextLine();
+            try {
+              MemberModel member = getMemberByID(input, expiringMembers);
+              expiringMembers.remove(member);
+            } catch (MemberNotFoundException e) {
+              MEMBER_VIEW.printWarning("Member was not found");
+            }
+          } else {
+            stop = true;
+          }
+        }
+        MEMBER_VIEW.print("Are you sure you want to send payment requests? [Y/n[");
+        if (promptYesNo(in)) {
+          paymentRequester.createPaymentRequest(expiringMembers.toArray(new MemberModel[0]));
+        }
+      }
     } catch (IOException e) {
       System.out.println("cant do that");
     }
+  }
 
-    // show Members
-    // allow removal of members
-
+  MemberModel getMemberByID(String id, ArrayList<MemberModel> members)
+      throws MemberNotFoundException {
+    for (MemberModel member : members) {
+      if (member.getID() == id) {
+        return member;
+      }
+    }
+    throw new MemberNotFoundException();
   }
 
   /**
@@ -176,8 +229,8 @@ public class MemberController {
       new MemberModel(), new MemberModel(), new MemberModel(), new MemberModel()
     };
 
+    int test = 10;
     for (MemberModel member : members) {
-      int test = 10;
       member.setID("M" + test);
       member.setName("Name" + test);
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
