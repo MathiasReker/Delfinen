@@ -123,10 +123,11 @@ public class MemberController {
   public void renewMembership(MemberModel member, int durationYears) { // what
     ArrayList<MembershipModel> memberships = member.getMemberships();
     MembershipModel lastMembership = memberships.get(memberships.size() - 1);
-    if (lastMembership.getExpiringDate().compareTo(LocalDate.now()) < 0) {
+    int comparedDate = lastMembership.getExpiringDate().compareTo(LocalDate.now());
+    if (comparedDate < 0) {
       MembershipModel newMembership = createNewMembership(LocalDate.now(), durationYears);
       member.addMembership(newMembership);
-    } else if (lastMembership.getExpiringDate().compareTo(LocalDate.now()) > 0) {
+    } else if (comparedDate > 0) {
       MembershipModel newMembership =
           createNewMembership(lastMembership.getExpiringDate().plusDays(1), durationYears);
       member.addMembership(newMembership);
@@ -192,7 +193,7 @@ public class MemberController {
   MemberModel getMemberByID(String id, ArrayList<MemberModel> members)
       throws MemberNotFoundException {
     for (MemberModel member : members) {
-      if (member.getID() == id) {
+      if (member.getID().equals(id)) {
         return member;
       }
     }
@@ -231,7 +232,7 @@ public class MemberController {
       member.setID("M" + test);
       member.setName("Name" + test);
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-      member.setBirthdate(LocalDate.parse("10-10-1999",DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+      member.setBirthdate(LocalDate.parse("01-01-2020", formatter));
       member.addMembership(new MembershipModel());
       member.getMemberships().get(0).setExpiringDate(LocalDate.parse(test + "-10-2020", formatter));
       member.getMemberships().get(0).setActive(true);
