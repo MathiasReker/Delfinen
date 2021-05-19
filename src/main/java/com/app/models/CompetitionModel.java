@@ -19,6 +19,13 @@ public class CompetitionModel {
     this.startTime = startTime;
   }
 
+  public CompetitionModel(String id, String name, LocalDate startDate, LocalTime startTime) {
+    setId("test"); // TODO
+    this.startDate = startDate;
+    this.name = name;
+    this.startTime = startTime;
+  }
+
   public String getId() {
     return id;
   }

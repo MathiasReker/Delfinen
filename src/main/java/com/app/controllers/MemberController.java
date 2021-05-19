@@ -89,12 +89,14 @@ public class MemberController {
   }
 
   private String validateDate(Scanner in) {
-    while (!ValidateModel.isValidDate(in.next())) {
+
+    String result = in.nextLine();
+    while (!ValidateModel.isValidDate(result)) {
       MEMBER_VIEW.printInlineWarning("Not a valid date. Please try again: ");
-      in.nextLine();
+      result = in.nextLine();
     }
 
-    return in.nextLine();
+    return result;
   }
 
   private boolean promptYesNo(Scanner in) {
