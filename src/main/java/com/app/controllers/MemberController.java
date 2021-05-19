@@ -1,9 +1,11 @@
 package com.app.controllers;
 
 import com.app.models.*;
+import com.app.models.services.MemberService;
 import com.app.models.services.PaymentRequestService;
 import com.app.views.MemberView;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,11 +13,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MemberController {
-  private final MemberModel MEMBER;
   private final MemberView MEMBER_VIEW;
+  private final ArrayList<MemberModel> MEMBERS = new ArrayList<>();
 
   public MemberController() {
-    MEMBER = new MemberModel();
     MEMBER_VIEW = new MemberView();
   }
 
@@ -26,8 +27,8 @@ public class MemberController {
     MEMBER_VIEW.printInline("Name: ");
     String name = validateName(in);
 
-    MEMBER_VIEW.displayGenderMenu(gendersToArray());
-    int genderIndex = in.nextInt();
+    MEMBER_VIEW.displayOptions(gendersToArray());
+    GenderModel gender = GenderModel.values()[in.nextInt()];
     in.nextLine();
 
     MEMBER_VIEW.printInline("Birthday [dd/MM/yyyy]: ");
@@ -39,21 +40,61 @@ public class MemberController {
     MEMBER_VIEW.printInline("Mail: ");
     String mail = validateMail(in);
 
-    MEMBER_VIEW.printInline("Competitive [Y/n]: ");
-    boolean competitive = promptYesNo(in);
+    // MEMBER_VIEW.printInline("Competitive [Y/n]: ");
+    // boolean competitive = promptYesNo(in);
 
-    MEMBER.setID(id);
-    MEMBER.setName(name);
-    MEMBER.setGender(GenderModel.values()[genderIndex]);
-    // MEMBER.setBirthdate(LocalDate.parse(birthday));
-    MEMBER.setPhoneNumber(phone);
-    MEMBER.setMail(mail);
-    MEMBER.setCompetitive(competitive);
+    addMember(id, name, mail, gender, birthday, phone);
+    saveMembers();
+  }
+
+  private void addMember(
+      String id, String name, String mail, GenderModel gender, String birthday, String phone) {
+    MemberModel member = new MemberModel();
+    member.setID(id);
+    member.setName(name);
+    member.setMail(mail);
+    member.setGender(gender);
+    member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+    member.setPhoneNumber(phone);
+    // member.setCompetitive(competitive); // TODO
+
+    MEMBERS.add(member);
+  }
+
+  private void saveMembers() {
+    try {
+      MemberService memberService = new MemberService("data/members.txt");
+      memberService.storeMembers(MEMBERS);
+      MEMBER_VIEW.printSuccess("The member has been saved.");
+    } catch (IOException e) {
+      MEMBER_VIEW.printWarning(e.getMessage());
+    }
+  }
+
+  public void loadMember() {
+    try {
+      MemberService memberService = new MemberService("data/members.txt");
+
+      String[] s = memberService.loadMembers();
+
+      for (int i = 0; i < s.length; i++) {
+        String[] m = s[0].split(";");
+        System.out.println(m[1]);
+
+        GenderModel gender = GenderModel.valueOf(m[3]);
+
+        addMember(m[0], m[1], m[2], gender, m[4], m[5]);
+      }
+
+    } catch (FileNotFoundException e) {
+      MEMBER_VIEW.printWarning("TODO"); // TODO
+    } catch (IOException e) {
+      //
+    }
   }
 
   private String[] gendersToArray() {
     String[] result = new String[GenderModel.values().length];
-
     for (int i = 0; i < result.length; i++) {
       result[i] = GenderModel.values()[i].name();
     }
@@ -62,39 +103,43 @@ public class MemberController {
   }
 
   private String validateName(Scanner in) {
-    while (!ValidateModel.isValidName(in.next())) {
+    while (true) {
+      String result = in.nextLine();
+      if (ValidateModel.isValidName(result)) {
+        return result;
+      }
       MEMBER_VIEW.printInlineWarning("Not a valid name. Please try again: ");
-      in.nextLine();
     }
-
-    return in.nextLine();
   }
 
   private String validateMail(Scanner in) {
-    while (!ValidateModel.isValidMail(in.next())) {
+    while (true) {
+      String result = in.nextLine();
+      if (ValidateModel.isValidMail(result)) {
+        return result;
+      }
       MEMBER_VIEW.printInlineWarning("Not a valid mail. Please try again: ");
-      in.nextLine();
     }
-
-    return in.nextLine();
   }
 
   private String validatePhoneNumber(Scanner in) {
-    while (!ValidateModel.isValidPhoneNumber(in.next().trim())) {
+    while (true) {
+      String result = in.nextLine().trim();
+      if (ValidateModel.isValidPhoneNumber(result)) {
+        return result;
+      }
       MEMBER_VIEW.printInlineWarning("Not a valid phone number. Please try again: ");
-      in.nextLine();
     }
-
-    return in.nextLine().trim();
   }
 
   private String validateDate(Scanner in) {
-    while (!ValidateModel.isValidDate(in.next())) {
+    while (true) {
+      String result = in.nextLine();
+      if (ValidateModel.isValidDate(result)) {
+        return result;
+      }
       MEMBER_VIEW.printInlineWarning("Not a valid date. Please try again: ");
-      in.nextLine();
     }
-
-    return in.nextLine();
   }
 
   private boolean promptYesNo(Scanner in) {
@@ -103,11 +148,9 @@ public class MemberController {
       if (input.equalsIgnoreCase("y")) {
         return true;
       }
-
       if (input.equalsIgnoreCase("n")) {
         return false;
       }
-
       MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
       input = in.nextLine();
     }
