@@ -4,7 +4,6 @@ import com.app.models.MemberModel;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -19,38 +18,25 @@ public class MemberService {
     String[] result = new String[members.size()];
 
     for (int i = 0; i < members.size(); i++) {
-
-
-
-      MemberModel m = members.get(i);
-
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-      String formattedString = m.getBirthdate().format(formatter);
+      MemberModel member = members.get(i);
 
       result[i] =
           String.join(
               ";",
-              m.getID(),
-              m.getName(),
-              m.getMail(),
-              m.getGender().name(),
-              formattedString,
-              m.getPhoneNumber());
+              member.getID(),
+              member.getName(),
+              member.getMail(),
+              member.getGender().name(),
+              member.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+              member.getPhoneNumber(),
+              String.valueOf(member.isCompetitive()),
+              member.getCreationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     }
 
     FILE_SERVICE.writeToFile(result);
   }
 
   public String[] loadMembers() throws FileNotFoundException {
-    String[] strings = FILE_SERVICE.readFromFile();
-
-    return strings;
-    // String[] result = new String[strings.length];
-
-    /* for (int i = 0; i < strings.length; i++) {
-      result[i] = String.valueOf(strings[i].split(";"));
-    }
-
-    return result;*/
+    return FILE_SERVICE.readFromFile();
   }
 }

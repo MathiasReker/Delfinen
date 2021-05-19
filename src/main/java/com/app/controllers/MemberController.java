@@ -5,31 +5,32 @@ import com.app.models.services.MemberService;
 import com.app.models.services.PaymentRequestService;
 import com.app.views.MemberView;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class MemberController {
   private final MemberView MEMBER_VIEW;
   private final ArrayList<MemberModel> MEMBERS = new ArrayList<>();
+  private final String FILE = "data/members.txt";
 
   public MemberController() {
     MEMBER_VIEW = new MemberView();
   }
 
   public void createMember(Scanner in) {
-    MEMBER_VIEW.printInline("ID: ");
-    String id = in.nextLine();
-
     MEMBER_VIEW.printInline("Name: ");
     String name = validateName(in);
 
+    MEMBER_VIEW.printInline("Mail: ");
+    String mail = validateMail(in);
+
     MEMBER_VIEW.displayOptions(gendersToArray());
-    GenderModel gender = GenderModel.values()[in.nextInt()];
-    in.nextLine();
+    int genderIndex = validateOptionRange(in, GenderModel.values().length);
+    GenderModel gender = GenderModel.values()[genderIndex - 1];
 
     MEMBER_VIEW.printInline("Birthday [dd/MM/yyyy]: ");
     String birthday = validateDate(in);
@@ -37,18 +38,23 @@ public class MemberController {
     MEMBER_VIEW.printInline("Phone: ");
     String phone = validatePhoneNumber(in);
 
-    MEMBER_VIEW.printInline("Mail: ");
-    String mail = validateMail(in);
+    MEMBER_VIEW.printInline("Competitive [Y/n]: ");
+    boolean competitive = promptYesNo(in);
 
-    // MEMBER_VIEW.printInline("Competitive [Y/n]: ");
-    // boolean competitive = promptYesNo(in);
+    String id = UUID.randomUUID().toString();
 
-    addMember(id, name, mail, gender, birthday, phone);
-    saveMembers();
+    addMember(id, name, mail, gender, birthday, phone, competitive);
+    saveMember();
   }
 
   private void addMember(
-      String id, String name, String mail, GenderModel gender, String birthday, String phone) {
+      String id,
+      String name,
+      String mail,
+      GenderModel gender,
+      String birthday,
+      String phone,
+      boolean competitive) {
     MemberModel member = new MemberModel();
     member.setID(id);
     member.setName(name);
@@ -56,40 +62,37 @@ public class MemberController {
     member.setGender(gender);
     member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     member.setPhoneNumber(phone);
-    // member.setCompetitive(competitive); // TODO
+    member.setCompetitive(competitive);
 
     MEMBERS.add(member);
   }
 
-  private void saveMembers() {
+  private void saveMember() {
     try {
-      MemberService memberService = new MemberService("data/members.txt");
-      memberService.storeMembers(MEMBERS);
+      new MemberService(FILE).storeMembers(MEMBERS);
       MEMBER_VIEW.printSuccess("The member has been saved.");
     } catch (IOException e) {
       MEMBER_VIEW.printWarning(e.getMessage());
     }
   }
 
-  public void loadMember() {
+  public void loadMembers() {
     try {
-      MemberService memberService = new MemberService("data/members.txt");
-
-      String[] s = memberService.loadMembers();
-
-      for (int i = 0; i < s.length; i++) {
-        String[] m = s[0].split(";");
-        System.out.println(m[1]);
-
-        GenderModel gender = GenderModel.valueOf(m[3]);
-
-        addMember(m[0], m[1], m[2], gender, m[4], m[5]);
+      String[] members = new MemberService(FILE).loadMembers();
+      for (String m : members) {
+        String[] information = m.split(";");
+        addMember(
+            information[0],
+            information[1],
+            information[2],
+            GenderModel.valueOf(information[3]),
+            information[4],
+            information[5],
+            Boolean.parseBoolean(information[6]));
       }
 
-    } catch (FileNotFoundException e) {
-      MEMBER_VIEW.printWarning("TODO"); // TODO
     } catch (IOException e) {
-      //
+      MEMBER_VIEW.printWarning(e.getMessage());
     }
   }
 
@@ -140,6 +143,27 @@ public class MemberController {
       }
       MEMBER_VIEW.printInlineWarning("Not a valid date. Please try again: ");
     }
+  }
+
+  private int validateOptionRange(Scanner in, int max) {
+    while (true) {
+      int result = validateInteger(in);
+
+      if (ValidateModel.isValidRange(result, 1, max)) {
+        in.nextLine();
+        return result;
+      }
+      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
+    }
+  }
+
+  private int validateInteger(Scanner in) {
+    while (!in.hasNextInt()) {
+      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
+      in.next();
+    }
+
+    return in.nextInt();
   }
 
   private boolean promptYesNo(Scanner in) {
