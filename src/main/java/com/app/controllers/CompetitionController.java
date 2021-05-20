@@ -1,12 +1,6 @@
 package com.app.controllers;
 
-import com.app.models.CompetitionModel;
-import com.app.models.DisciplineModel;
-import com.app.models.DistanceModel;
-import com.app.models.MemberModel;
-import com.app.models.ResultModel;
-import com.app.models.StyleModel;
-import com.app.models.ValidateModel;
+import com.app.models.*;
 import com.app.models.services.CompetitionService;
 import com.app.views.CompetitionView;
 
@@ -33,7 +27,7 @@ public class CompetitionController {
   }
 
   public void createNewCompetition(Scanner in) {
-
+  
     VIEW.printInline("Please enter competition name: ");
     String competitionName = in.nextLine();
     VIEW.printInline("Please enter date: ");
