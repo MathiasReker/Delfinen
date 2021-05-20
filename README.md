@@ -3,9 +3,9 @@
 [![Iissues open][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![FOSSA Status][fossa-shield]][fossa-url]
-[![Codacy Badge][codacy-shield]][codacy-url]
 [![Coverage][coverage-shield]][coverage-url]
 [![Branch Coverage][branch-coverage-shield]][coverage-url]
+[![Codacy Badge][codacy-shield]][codacy-url]
 
 # Delfinen
 
