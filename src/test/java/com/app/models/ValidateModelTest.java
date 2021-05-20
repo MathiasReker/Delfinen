@@ -14,7 +14,7 @@ public class ValidateModelTest {
   @Test
   public void testIsValidDate2() {
     boolean result = ValidateModel.isValidDate("1/1/2020");
-    Assertions.assertTrue(result);
+    Assertions.assertFalse(result);
   }
 
   @Test

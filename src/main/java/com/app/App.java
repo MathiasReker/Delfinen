@@ -1,6 +1,7 @@
 package com.app;
 
 import com.app.controllers.MenuController;
+import com.app.controllers.menuactions.CompetitionMenuAction;
 import com.app.controllers.menuactions.ExitMenuAction;
 import com.app.controllers.menuactions.MemberMenuAction;
 import com.app.controllers.menuactions.MenuActions;
@@ -14,7 +15,9 @@ public class App {
 
   MenuActions[] menuActions() {
     return new MenuActions[] {
-      new MemberMenuAction("Member management"), new ExitMenuAction("Exit")
+      new MemberMenuAction("Member management"),
+      new CompetitionMenuAction("Competition management"),
+      new ExitMenuAction("Exit"),
     };
   }
 }

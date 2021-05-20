@@ -1,12 +1,6 @@
 package com.app.controllers;
 
-import com.app.models.CompetitionModel;
-import com.app.models.DisciplineModel;
-import com.app.models.DistanceModel;
-import com.app.models.MemberModel;
-import com.app.models.ResultModel;
-import com.app.models.StyleModel;
-import com.app.models.ValidateModel;
+import com.app.models.*;
 import com.app.models.services.CompetitionService;
 import com.app.views.CompetitionView;
 
@@ -21,19 +15,20 @@ import java.util.Scanner;
 
 public class CompetitionController {
 
-  private final ArrayList<CompetitionModel> COMPETITIONS = new ArrayList<>();
+  private ArrayList<CompetitionModel> competitions = new ArrayList<>();
   private final CompetitionView VIEW = new CompetitionView();
   private CompetitionService competitionService;
 
   public CompetitionController() {
     try {
       competitionService = new CompetitionService("data/competitions.txt");
+      competitions = competitionService.getCompetitionsFromFile();
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  public void createNewCompetition(Scanner in) throws FileNotFoundException {
+  public void createNewCompetition(Scanner in) {
 
     VIEW.printInline("Please enter competition name: ");
     String competitionName = in.nextLine();
@@ -41,10 +36,14 @@ public class CompetitionController {
     LocalDate date = LocalDate.parse(validateDate(in), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     VIEW.printInline("Please enter start time of the competition: ");
     LocalTime startTime = validCompetitionTime(in.nextLine());
+    competitions.add(new CompetitionModel(date, competitionName, startTime));
 
-    COMPETITIONS.add(new CompetitionModel(date, competitionName, startTime));
-
-    competitionService.saveCompetitionsToFile(COMPETITIONS);
+    try {
+      competitionService.saveCompetitionsToFile(competitions);
+      VIEW.print("Competition was added!");
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
   }
 
   public void createResultToCompetition(Scanner in) {
@@ -66,7 +65,9 @@ public class CompetitionController {
     LocalTime time = LocalTime.parse("10:00");
 
     DisciplineModel disciplineModel =
-        new DisciplineModel(styleChoice - 1, distanceToArray()[distanceChoice - 1]);
+        new DisciplineModel(
+            DistanceModel.valueOf(distanceToArray()[distanceChoice - 1]).getMeters(),
+            styleToArray()[styleChoice - 1]);
 
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
   }
@@ -79,12 +80,30 @@ public class CompetitionController {
    */
   public CompetitionModel getCompetition(String id) {
 
-    for (CompetitionModel competition : COMPETITIONS) {
+    for (CompetitionModel competition : competitions) {
       if (id.equals(competition.getId())) {
         return competition;
       }
     }
     return null;
+  }
+
+  public String[] viewCompetitionResults(Scanner in) {
+
+    VIEW.printInline(
+        "Which competition results do you wish to view, please  enter competition ID: ");
+    CompetitionModel competition = getCompetition(in.nextLine());
+    ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
+    String[] resultsToString = new String[resultsOfCompetition.size()];
+
+    for (int i = 0; i < resultsOfCompetition.size(); i++) {
+      String name = resultsOfCompetition.get(i).getMember().getName();
+      String style = resultsOfCompetition.get(i).getDiscipline().getStyle();
+      String distance = Integer.toString(resultsOfCompetition.get(i).getDiscipline().getDistance());
+      String completionTime = resultsOfCompetition.get(i).getResultTime().toString();
+      resultsToString[i] = String.join(";", name, style, distance, completionTime);
+    }
+    return resultsToString;
   }
 
   public MemberModel getMember(String id) {
@@ -119,12 +138,6 @@ public class CompetitionController {
       result[i] = DistanceModel.values()[i].name();
     }
     return result;
-  }
-
-  public static void main(String[] args) throws FileNotFoundException {
-    CompetitionController controller = new CompetitionController();
-    controller.createNewCompetition(new Scanner(System.in));
-    controller.createResultToCompetition(new Scanner(System.in));
   }
 
   private String validateDate(Scanner in) {

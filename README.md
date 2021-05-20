@@ -3,26 +3,26 @@
 [![Iissues open][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![FOSSA Status][fossa-shield]][fossa-url]
-[![Codacy Badge][codacy-shield]][codacy-url]
 [![Coverage][coverage-shield]][coverage-url]
 [![Branch Coverage][branch-coverage-shield]][coverage-url]
+[![Codacy Badge][codacy-shield]][codacy-url]
 
 # Delfinen
 
 The structure of the project is as follows:
 
-*   `other` contains diagrams etc.
-*   `data` contains text-files used as storage.
-*   `src` contains all source code of the project.
-*   `main` contains all main code of the project.
-*   `java` contains java code of the project.
-*   `test` contains all test code of the project.
-*   `com` contains all company applications.
-*   `views` UI package.
-*   `controllers` control package.
-*   `models` model package.
-*   `App.java` is the start class of application.
-*   `Main.java` is the main class of the application.
+* `other` contains diagrams etc.
+* `data` contains text-files used as storage.
+* `src` contains all source code of the project.
+* `main` contains all main code of the project.
+* `java` contains java code of the project.
+* `test` contains all test code of the project.
+* `com` contains all company applications.
+* `views` UI package.
+* `controllers` control package.
+* `models` model package.
+* `App.java` is the start class of application.
+* `Main.java` is the main class of the application.
 
 ## License
 
