@@ -14,11 +14,17 @@ import java.util.UUID;
 
 public class MemberController {
   private final MemberView MEMBER_VIEW;
-  private final ArrayList<MemberModel> MEMBERS = testMembers();
   private final String FILE = "data/members.bin";
+  private ArrayList<MemberModel> members;
 
   public MemberController() {
     MEMBER_VIEW = new MemberView();
+    try {
+      members = memberArrayToArrayList(loadMembers());
+    } catch (CouldNotLoadMemberExpeption e) {
+      MEMBER_VIEW.printWarning("Could not load Members");
+      members = new ArrayList<>();
+    }
   }
 
   public void createMember(Scanner in) {
@@ -64,7 +70,7 @@ public class MemberController {
     member.setPhoneNumber(phone);
     member.setCompetitive(competitive);
 
-    MEMBERS.add(member);
+    members.add(member);
   }
 
   /*
@@ -311,36 +317,38 @@ public class MemberController {
     return members;
   }
 
-  public void saveMembers(){
+  public void saveMembers() {
     try {
-      new MemberService(FILE).saveMembers(MEMBERS.toArray(new MemberModel[0]));
+      new MemberService(FILE).saveMembers(members.toArray(new MemberModel[0]));
       MEMBER_VIEW.printSuccess("The member has been saved.");
     } catch (IOException e) {
-      //ignore
+      // ignore
     }
   }
 
-  public void loadMembers(){
+  public MemberModel[] loadMembers() throws CouldNotLoadMemberExpeption {
+    MemberModel[] test;
     try {
       MemberService memberService = new MemberService(FILE);
-      MemberModel[] test = memberService.loadMembers();
-      for(MemberModel m : test){
-        System.out.println(m.getID());
-      }
-
-    } catch (IOException e) {
-      System.out.println(e);
-    }
-    catch (ClassNotFoundException e){
-      System.out.println("ClassNotFound");
+      test = memberService.loadMembers();
+      return test;
+    } catch (IOException | ClassNotFoundException e) {
+      throw new CouldNotLoadMemberExpeption(e.getMessage());
     }
   }
 
+  private ArrayList<MemberModel> memberArrayToArrayList(MemberModel[] members) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+    for (MemberModel m : members) {
+      result.add(m);
+    }
+    return result;
+  }
 
-  private ArrayList<MemberModel> testMembers(){
+  private ArrayList<MemberModel> testMembers() {
     ArrayList<MemberModel> result = new ArrayList<>();
     MemberModel[] test = createMembersForTest();
-    for(MemberModel m:  test){
+    for (MemberModel m : test) {
       result.add(m);
     }
     return result;
