@@ -32,8 +32,7 @@ public class CompetitionController {
     }
   }
 
-
-  public void createNewCompetition(Scanner in)  {
+  public void createNewCompetition(Scanner in) {
 
     VIEW.printInline("Please enter competition name: ");
     String competitionName = in.nextLine();
@@ -44,7 +43,7 @@ public class CompetitionController {
 
     COMPETITIONS.add(new CompetitionModel(date, competitionName, startTime));
 
-    //competitionService.saveCompetitionsToFile(COMPETITIONS);
+    // competitionService.saveCompetitionsToFile(COMPETITIONS);
   }
 
   public void createResultToCompetition(Scanner in) {
@@ -66,7 +65,9 @@ public class CompetitionController {
     LocalTime time = LocalTime.parse("10:00");
 
     DisciplineModel disciplineModel =
-        new DisciplineModel(DistanceModel.valueOf(distanceToArray()[distanceChoice-1]).getMeters(), styleToArray()[styleChoice-1]) ;
+        new DisciplineModel(
+            DistanceModel.valueOf(distanceToArray()[distanceChoice - 1]).getMeters(),
+            styleToArray()[styleChoice - 1]);
 
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
   }
@@ -87,12 +88,13 @@ public class CompetitionController {
     return null;
   }
 
-  public String [] viewCompetitionResults(Scanner in){
+  public String[] viewCompetitionResults(Scanner in) {
 
-    VIEW.printInline("Which competition results do you wish to view, please  enter competition ID: ");
+    VIEW.printInline(
+        "Which competition results do you wish to view, please  enter competition ID: ");
     CompetitionModel competition = getCompetition(in.nextLine());
     ArrayList<ResultModel> resultsOfCompetion = competition.getResult();
-    String [] resultsToString = new String[resultsOfCompetion.size()];
+    String[] resultsToString = new String[resultsOfCompetion.size()];
 
     for (int i = 0; i < resultsOfCompetion.size(); i++) {
       String name = resultsOfCompetion.get(i).getMember().getName();
@@ -104,11 +106,11 @@ public class CompetitionController {
     return resultsToString;
   }
 
-  public void test(Scanner in){
+  public void test(Scanner in) {
     VIEW.displayCompetitionResults(viewCompetitionResults(in));
   }
 
-  public MemberModel getMember(String id){
+  public MemberModel getMember(String id) {
 
     // TODO create a method to get a member based on an ID
     return null;

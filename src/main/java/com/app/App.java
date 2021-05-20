@@ -17,8 +17,7 @@ public class App {
     return new MenuActions[] {
       new MemberMenuAction("Member management"),
       new CompetitionMenuAction("Competition management"),
-        new ExitMenuAction("Exit"),
-
+      new ExitMenuAction("Exit"),
     };
   }
 }
