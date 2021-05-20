@@ -22,7 +22,7 @@ public class MemberService {
       baos.close();
       FILE_SERVICE.writeToBin(membersInBytes);
     } catch (IOException e) {
-      System.out.println("SaveMEmbers fucked");
+      System.out.println("SaveMEmbers fucked");//TODO move catch out to controller
     }
   }
 

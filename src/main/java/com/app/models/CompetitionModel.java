@@ -1,10 +1,11 @@
 package com.app.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class CompetitionModel {
+public class CompetitionModel implements Serializable {
 
   private String id;
   private LocalDate startDate;

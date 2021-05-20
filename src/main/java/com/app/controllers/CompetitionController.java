@@ -20,10 +20,10 @@ public class CompetitionController {
 
   public CompetitionController() {
     try {
-      competitionService = new CompetitionService("data/competitions.txt");
-      competitions = competitionService.getCompetitionsFromFile();
-    } catch (IOException e) {
-      e.printStackTrace();
+      competitionService = new CompetitionService("data/competitions.bin");
+      competitions = toArraylist(competitionService.getCompetitionsFromFile());
+    } catch (IOException | ClassNotFoundException e) {
+      VIEW.printWarning("Could not load Competitions");
     }
   }
 
@@ -86,7 +86,7 @@ public class CompetitionController {
     return null;
   }
 
-  public String[] viewCompetitionResults(Scanner in) {
+  public void viewCompetitionResults(Scanner in) {
 
     VIEW.printInline(
         "Which competition results do you wish to view, please  enter competition ID: ");
@@ -101,8 +101,9 @@ public class CompetitionController {
       String completionTime = resultsOfCompetition.get(i).getResultTime().toString();
       resultsToString[i] = String.join(";", name, style, distance, completionTime);
     }
-    return resultsToString;
+    VIEW.displayCompetitionResults(resultsToString);
   }
+
 
   public MemberModel getMember(String id) {
     MemberController memberController = new MemberController();
@@ -123,6 +124,7 @@ public class CompetitionController {
    */
   public void addResultToCompetition(CompetitionModel competition, ResultModel resultModel) {
     competition.addResult(resultModel);
+    saveCompetitionsToFile();
   }
 
   public String[] styleToArray() {
@@ -182,10 +184,16 @@ public class CompetitionController {
 
   public void saveCompetitionsToFile() {
 
-    try {
-      competitionService.saveCompetitionsToFile(competitions);
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      competitionService.saveCompetitionsToFile(competitions.toArray(new CompetitionModel[0]));
+
+  }
+
+  private ArrayList<CompetitionModel> toArraylist(CompetitionModel [] competitions){
+    ArrayList<CompetitionModel> result = new ArrayList<>();
+    for (CompetitionModel c:competitions
+         ) {
+      result.add(c);
     }
+   return result;
   }
 }
