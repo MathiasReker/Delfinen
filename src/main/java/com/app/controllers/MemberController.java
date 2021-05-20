@@ -136,13 +136,13 @@ public class MemberController {
   }
 
   private String validateDate(Scanner in) {
-    while (true) {
-      String result = in.nextLine();
-      if (ValidateModel.isValidDate(result)) {
-        return result;
-      }
+    String result = in.nextLine();
+    while (!ValidateModel.isValidDate(result)) {
       MEMBER_VIEW.printInlineWarning("Not a valid date. Please try again: ");
+      result = in.nextLine();
     }
+
+    return result;
   }
 
   private int validateOptionRange(Scanner in, int max) {
