@@ -34,23 +34,22 @@ public class CompetitionController {
     VIEW.printInline("Please enter date: ");
     LocalDate date = LocalDate.parse(validateDate(in), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     VIEW.printInline("Please enter start time of the competition: ");
-    LocalTime startTime = LocalTime.parse(validCompetitionTime(in), DateTimeFormatter.ofPattern("HH:mm"));
+    LocalTime startTime =
+        LocalTime.parse(validCompetitionTime(in), DateTimeFormatter.ofPattern("HH:mm"));
     competitions.add(new CompetitionModel(date, competitionName, startTime));
 
     VIEW.printSuccess("New Competition created!");
 
     saveCompetitionsToFile();
-
   }
 
   public void addResultToCompetition(Scanner in) {
-
 
     VIEW.printInline("Please enter Competition ID: ");
     CompetitionModel competition = getCompetition(in.nextLine());
     VIEW.printInline("Please enter member ID: ");
     // MemberModel member = getMember(in.nextLine());
-    MemberModel member  = new MemberModel();
+    MemberModel member = new MemberModel();
     VIEW.displayMenu(styleToArray());
     int styleChoice = in.nextInt();
     in.nextLine();
@@ -60,7 +59,8 @@ public class CompetitionController {
     in.nextLine();
 
     VIEW.printInline("Enter result: ");
-    LocalTime time = LocalTime.parse(validResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SSS"));
+    LocalTime time =
+        LocalTime.parse(validResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SSS"));
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
@@ -180,7 +180,7 @@ public class CompetitionController {
     return result;
   }
 
-  public void saveCompetitionsToFile(){
+  public void saveCompetitionsToFile() {
 
     try {
       competitionService.saveCompetitionsToFile(competitions);
