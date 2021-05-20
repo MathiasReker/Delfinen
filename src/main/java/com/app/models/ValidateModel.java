@@ -15,20 +15,20 @@ public class ValidateModel {
     }
   }
 
-  public static boolean isValidCompetitionTime(String time){
+  public static boolean isValidCompetitionTime(String time) {
     try {
       LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
       return true;
-    }catch (DateTimeParseException e){
+    } catch (DateTimeParseException e) {
       return false;
     }
   }
 
-  public static boolean isValidResultTime(String time){
+  public static boolean isValidResultTime(String time) {
     try {
       LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss:SSS"));
       return true;
-    }catch (DateTimeParseException e){
+    } catch (DateTimeParseException e) {
       e.printStackTrace();
       return false;
     }
