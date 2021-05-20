@@ -27,7 +27,7 @@ public class CompetitionController {
 
   public CompetitionController() {
     try {
-      competitionService = new CompetitionService("competitions");
+      competitionService = new CompetitionService("data/competitions.txt");
     } catch (IOException e) {
       e.printStackTrace();
     }
