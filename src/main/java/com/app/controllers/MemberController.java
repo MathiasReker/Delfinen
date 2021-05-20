@@ -14,7 +14,7 @@ import java.util.UUID;
 
 public class MemberController {
   private final MemberView MEMBER_VIEW;
-  private final ArrayList<MemberModel> MEMBERS = new ArrayList<>();
+  private final ArrayList<MemberModel> MEMBERS = testMembers();
   private final String FILE = "data/members.txt";
 
   public MemberController() {
@@ -307,5 +307,43 @@ public class MemberController {
     }
 
     return members;
+  }
+
+  public void storeMembers(){
+    String path = "data/members/members.bin";
+    try {
+      MemberService memberService = new MemberService(path);
+      memberService.saveMembers(MEMBERS.toArray(new MemberModel[0]));
+    } catch (IOException e) {
+      //ignore
+    }
+  }
+
+  public void loadMembers2(){
+    String path = "data/members/members.bin";
+    try {
+      MemberService memberService = new MemberService(path);
+      MemberModel[] test = memberService.loadMembers2();
+      System.out.println("Loaded");
+      for(MemberModel m : test){
+        System.out.println(m.getID());
+      }
+
+    } catch (IOException e) {
+      System.out.println(e);
+    }
+    catch (ClassNotFoundException e){
+      System.out.println("ClassNotFound");
+    }
+  }
+
+
+  private ArrayList<MemberModel> testMembers(){
+    ArrayList<MemberModel> result = new ArrayList<>();
+    MemberModel[] test = createMembersForTest();
+    for(MemberModel m:  test){
+      result.add(m);
+    }
+    return result;
   }
 }

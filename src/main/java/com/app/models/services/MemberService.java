@@ -2,8 +2,8 @@ package com.app.models.services;
 
 import com.app.models.MemberModel;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.sql.SQLOutput;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
@@ -38,5 +38,30 @@ public class MemberService {
 
   public String[] loadMembers() throws FileNotFoundException {
     return FILE_SERVICE.readFromFile();
+  }
+
+  public void saveMembers(MemberModel[] members) {
+    try {
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      ObjectOutputStream oos = new ObjectOutputStream(baos);
+      oos.writeObject(members);
+      byte[] membersInBytes = baos.toByteArray();
+      oos.flush();
+      oos.close();
+      baos.close();
+      FILE_SERVICE.writeToBin(membersInBytes);
+    } catch (IOException e) {
+      System.out.println("SaveMEmbers fucked");
+    }
+  }
+
+  public MemberModel[] loadMembers2() throws IOException, ClassNotFoundException {
+    byte[] membersInByte = FILE_SERVICE.loadFromBin();
+    ByteArrayInputStream bais = new ByteArrayInputStream(membersInByte);
+    ObjectInputStream ois = new ObjectInputStream(bais);
+    MemberModel[] members = (MemberModel[]) ois.readObject();
+    ois.close();
+    bais.close();
+    return members;
   }
 }

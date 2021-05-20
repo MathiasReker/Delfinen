@@ -1,6 +1,8 @@
 package com.app.models;
 
-public class DisciplineModel {
+import java.io.Serializable;
+
+public class DisciplineModel implements Serializable {
 
   private int distance;
   private String style;
