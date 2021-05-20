@@ -30,37 +30,37 @@ public class CompetitionModel {
     return id;
   }
 
-  public LocalDate getStartDate() {
-    return startDate;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public LocalTime getStartTime() {
-    return startTime;
-  }
-
-  public ArrayList<ResultModel> getResult() {
-    return result;
-  }
-
   public void setId(
       String id) { // TODO how will we manage the ids for competitions? will need to be refactored
     this.id = id;
+  }
+
+  public LocalDate getStartDate() {
+    return startDate;
   }
 
   public void setStartDate(LocalDate startDate) {
     this.startDate = startDate;
   }
 
+  public String getName() {
+    return name;
+  }
+
   public void setName(String name) {
     this.name = name;
   }
 
+  public LocalTime getStartTime() {
+    return startTime;
+  }
+
   public void setStartTime(LocalTime startTime) {
     this.startTime = startTime;
+  }
+
+  public ArrayList<ResultModel> getResult() {
+    return result;
   }
 
   public void setResult(ArrayList<ResultModel> result) {

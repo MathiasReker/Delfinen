@@ -1,7 +1,6 @@
 package com.app.models;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -9,12 +8,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MemberModelTest {
-  MemberModel test;
-
-  @BeforeEach
-  public void testSetup() {
-    test = new MemberModel();
-  }
+  MemberModel test = new MemberModel();
+  ;
 
   @Test
   public void testSetID() {
