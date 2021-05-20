@@ -14,6 +14,8 @@ public class MemberService {
     FILE_SERVICE = new FileService(path);
   }
 
+  /*
+  //Depricated
   public void storeMembers(ArrayList<MemberModel> members) throws FileNotFoundException {
     String[] result = new String[members.size()];
 
@@ -35,10 +37,7 @@ public class MemberService {
 
     FILE_SERVICE.writeToFile(result);
   }
-
-  public String[] loadMembers() throws FileNotFoundException {
-    return FILE_SERVICE.readFromFile();
-  }
+  */
 
   public void saveMembers(MemberModel[] members) {
     try {
@@ -55,7 +54,7 @@ public class MemberService {
     }
   }
 
-  public MemberModel[] loadMembers2() throws IOException, ClassNotFoundException {
+  public MemberModel[] loadMembers() throws IOException, ClassNotFoundException {
     byte[] membersInByte = FILE_SERVICE.loadFromBin();
     ByteArrayInputStream bais = new ByteArrayInputStream(membersInByte);
     ObjectInputStream ois = new ObjectInputStream(bais);

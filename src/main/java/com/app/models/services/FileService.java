@@ -71,13 +71,9 @@ public class FileService {
   public void writeToBin(byte[] bytes){
     try{
     FileOutputStream fos = new FileOutputStream(PATH);
-    ObjectOutputStream oos = new ObjectOutputStream(fos);
-    oos.write(bytes);
-    oos.flush();
-    oos.close();
+    fos.write(bytes);
     fos.close();
     }catch (IOException e){
-      System.out.println("writeToBinExpection");
       //ignore
     }
   }

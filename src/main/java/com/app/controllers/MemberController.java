@@ -15,7 +15,7 @@ import java.util.UUID;
 public class MemberController {
   private final MemberView MEMBER_VIEW;
   private final ArrayList<MemberModel> MEMBERS = testMembers();
-  private final String FILE = "data/members.txt";
+  private final String FILE = "data/members.bin";
 
   public MemberController() {
     MEMBER_VIEW = new MemberView();
@@ -44,7 +44,7 @@ public class MemberController {
     String id = UUID.randomUUID().toString();
 
     addMember(id, name, mail, gender, birthday, phone, competitive);
-    saveMember();
+    saveMembers();
   }
 
   private void addMember(
@@ -67,6 +67,7 @@ public class MemberController {
     MEMBERS.add(member);
   }
 
+  /*
   private void saveMember() {
     try {
       new MemberService(FILE).storeMembers(MEMBERS);
@@ -95,6 +96,7 @@ public class MemberController {
       MEMBER_VIEW.printWarning(e.getMessage());
     }
   }
+   */
 
   private String[] gendersToArray() {
     String[] result = new String[GenderModel.values().length];
@@ -309,22 +311,19 @@ public class MemberController {
     return members;
   }
 
-  public void storeMembers(){
-    String path = "data/members/members.bin";
+  public void saveMembers(){
     try {
-      MemberService memberService = new MemberService(path);
-      memberService.saveMembers(MEMBERS.toArray(new MemberModel[0]));
+      new MemberService(FILE).saveMembers(MEMBERS.toArray(new MemberModel[0]));
+      MEMBER_VIEW.printSuccess("The member has been saved.");
     } catch (IOException e) {
       //ignore
     }
   }
 
-  public void loadMembers2(){
-    String path = "data/members/members.bin";
+  public void loadMembers(){
     try {
-      MemberService memberService = new MemberService(path);
-      MemberModel[] test = memberService.loadMembers2();
-      System.out.println("Loaded");
+      MemberService memberService = new MemberService(FILE);
+      MemberModel[] test = memberService.loadMembers();
       for(MemberModel m : test){
         System.out.println(m.getID());
       }
