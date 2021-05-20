@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -35,24 +34,23 @@ public class CompetitionController {
     VIEW.printInline("Please enter date: ");
     LocalDate date = LocalDate.parse(validateDate(in), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     VIEW.printInline("Please enter start time of the competition: ");
-    LocalTime startTime = validCompetitionTime(in.nextLine());
+    LocalTime startTime = LocalTime.parse(validCompetitionTime(in), DateTimeFormatter.ofPattern("HH:mm"));
     competitions.add(new CompetitionModel(date, competitionName, startTime));
 
-    try {
-      competitionService.saveCompetitionsToFile(competitions);
-      VIEW.print("Competition was added!");
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
+    VIEW.printSuccess("New Competition created!");
+
+    saveCompetitionsToFile();
+
   }
 
-  public void createResultToCompetition(Scanner in) {
+  public void addResultToCompetition(Scanner in) {
 
-    VIEW.printInline(
-        "Which competition do you wish to add a result for, please enter Competition ID: ");
+
+    VIEW.printInline("Please enter Competition ID: ");
     CompetitionModel competition = getCompetition(in.nextLine());
-    VIEW.printInline("Which member do you which to add a result for, please enter member ID: ");
-    MemberModel member = new MemberModel();
+    VIEW.printInline("Please enter member ID: ");
+    // MemberModel member = getMember(in.nextLine());
+    MemberModel member  = new MemberModel();
     VIEW.displayMenu(styleToArray());
     int styleChoice = in.nextInt();
     in.nextLine();
@@ -61,8 +59,8 @@ public class CompetitionController {
     int distanceChoice = in.nextInt();
     in.nextLine();
 
-    VIEW.printInline("How fast was is completed: ");
-    LocalTime time = LocalTime.parse("10:00");
+    VIEW.printInline("Enter result: ");
+    LocalTime time = LocalTime.parse(validResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SSS"));
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
@@ -107,9 +105,14 @@ public class CompetitionController {
   }
 
   public MemberModel getMember(String id) {
-
-    // TODO create a method to get a member based on an ID
-    return null;
+    MemberController memberController = new MemberController();
+    MemberModel memberModel = null;
+    try {
+      memberModel = memberController.getMemberByID(id);
+    } catch (MemberNotFoundException e) {
+      e.printStackTrace();
+    }
+    return memberModel;
   }
 
   /**
@@ -154,36 +157,35 @@ public class CompetitionController {
   /**
    * A method to validate that the time input we receive is a valid format
    *
-   * @param timeString a String with the time that needs to be parsed.
+   * @param in a String with the time that needs to be parsed.
    * @return returns a time as a LocalTime type
    */
-  public LocalTime validResultTime(String timeString) {
-
-    String timeFormat = "mm:ss";
-    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(timeFormat);
-
-    LocalTime time = null;
-
-    try {
-      time = LocalTime.parse(timeString, dateFormatter);
-    } catch (DateTimeParseException e) {
-      e.printStackTrace();
+  private String validResultTime(Scanner in) {
+    String result = in.nextLine();
+    while (!ValidateModel.isValidResultTime(result)) {
+      VIEW.printInlineWarning("Not a valid time. Please try again: ");
+      result = in.nextLine();
     }
-    return time;
+
+    return result;
   }
 
-  public LocalTime validCompetitionTime(String timeString) {
+  public String validCompetitionTime(Scanner in) {
+    String result = in.nextLine();
+    while (!ValidateModel.isValidCompetitionTime(result)) {
+      VIEW.printInlineWarning("Not a valid time. Please try again: ");
+      result = in.nextLine();
+    }
 
-    String timeFormat = "HH:mm";
-    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(timeFormat);
+    return result;
+  }
 
-    LocalTime time = null;
+  public void saveCompetitionsToFile(){
 
     try {
-      time = LocalTime.parse(timeString, dateFormatter);
-    } catch (DateTimeParseException e) {
+      competitionService.saveCompetitionsToFile(competitions);
+    } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
-    return time;
   }
 }
