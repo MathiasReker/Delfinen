@@ -58,9 +58,9 @@ public class CompetitionController {
     int distanceChoice = in.nextInt();
     in.nextLine();
 
-    VIEW.printInline("Enter result: ");
+    VIEW.printInline("Enter result [mm:ss:SSS]: ");
     LocalTime time =
-        LocalTime.parse(validResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SSS"));
+        LocalTime.parse("00:" + validResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SSS"));
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
@@ -162,7 +162,7 @@ public class CompetitionController {
    */
   private String validResultTime(Scanner in) {
     String result = in.nextLine();
-    while (!ValidateModel.isValidResultTime(result)) {
+    while (!ValidateModel.isValidResultTime("00:" + result)) {
       VIEW.printInlineWarning("Not a valid time. Please try again: ");
       result = in.nextLine();
     }
