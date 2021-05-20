@@ -141,7 +141,7 @@ public class MemberController {
       MEMBER_VIEW.printInlineWarning("Not a valid date. Please try again: ");
       result = in.nextLine();
     }
-    
+
     return result;
   }
 
