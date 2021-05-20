@@ -2,7 +2,6 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.CompetitionController;
 
-import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class AddResultSubMenuAction extends MenuActions {
@@ -14,7 +13,8 @@ public class AddResultSubMenuAction extends MenuActions {
 
   @Override
   public void run() {
+    CompetitionController competitionController = new CompetitionController();
     Scanner in = new Scanner(System.in);
-    new CompetitionController().createResultToCompetition(in);
+    competitionController.createResultToCompetition(in);
   }
 }

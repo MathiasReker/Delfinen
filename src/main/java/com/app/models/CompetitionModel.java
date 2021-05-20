@@ -13,14 +13,14 @@ public class CompetitionModel {
   private ArrayList<ResultModel> result = new ArrayList<>();
 
   public CompetitionModel(LocalDate startDate, String name, LocalTime startTime) {
-    setId("test"); // TODO
+    setId("1"); // TODO
     this.startDate = startDate;
     this.name = name;
     this.startTime = startTime;
   }
 
   public CompetitionModel(String id, String name, LocalDate startDate, LocalTime startTime) {
-    setId("test"); // TODO
+    setId("1"); // TODO
     this.startDate = startDate;
     this.name = name;
     this.startTime = startTime;

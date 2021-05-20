@@ -34,7 +34,6 @@ public class FileService {
    */
   public String[] readFromFile() throws FileNotFoundException {
     ArrayList<String> result = new ArrayList<>();
-
     Scanner reader = new Scanner(FILE);
 
     while (reader.hasNextLine()) {

@@ -10,6 +10,7 @@ import com.app.models.ValidateModel;
 import com.app.models.services.CompetitionService;
 import com.app.views.CompetitionView;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -20,13 +21,14 @@ import java.util.Scanner;
 
 public class CompetitionController {
 
-  private final ArrayList<CompetitionModel> COMPETITIONS = new ArrayList<>();
+  private ArrayList<CompetitionModel> competitions = new ArrayList<>();
   private final CompetitionView VIEW = new CompetitionView();
   private CompetitionService competitionService;
 
   public CompetitionController() {
     try {
       competitionService = new CompetitionService("data/competitions.txt");
+      competitions = competitionService.getCompetitionsFromFile();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -41,10 +43,14 @@ public class CompetitionController {
     LocalDate date = LocalDate.parse(validateDate(in), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     VIEW.printInline("Please enter start time of the competition: ");
     LocalTime startTime = validCompetitionTime(in.nextLine());
+    competitions.add(new CompetitionModel(date, competitionName, startTime));
 
-    COMPETITIONS.add(new CompetitionModel(date, competitionName, startTime));
-
-    //competitionService.saveCompetitionsToFile(COMPETITIONS);
+    try {
+      competitionService.saveCompetitionsToFile(competitions);
+      VIEW.print("Competition was added!");
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
   }
 
   public void createResultToCompetition(Scanner in) {
@@ -79,7 +85,7 @@ public class CompetitionController {
    */
   public CompetitionModel getCompetition(String id) {
 
-    for (CompetitionModel competition : COMPETITIONS) {
+    for (CompetitionModel competition : competitions) {
       if (id.equals(competition.getId())) {
         return competition;
       }
@@ -91,15 +97,15 @@ public class CompetitionController {
 
     VIEW.printInline("Which competition results do you wish to view, please  enter competition ID: ");
     CompetitionModel competition = getCompetition(in.nextLine());
-    ArrayList<ResultModel> resultsOfCompetion = competition.getResult();
-    String [] resultsToString = new String[resultsOfCompetion.size()];
+    ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
+    String [] resultsToString = new String[resultsOfCompetition.size()];
 
-    for (int i = 0; i < resultsOfCompetion.size(); i++) {
-      String name = resultsOfCompetion.get(i).getMember().getName();
-      String style = resultsOfCompetion.get(i).getDiscipline().getStyle();
-      String distance = Integer.toString(resultsOfCompetion.get(i).getDiscipline().getDistance());
-      String completionTime = resultsOfCompetion.get(i).getResultTime().toString();
-      resultsToString[i] = name + ";" + style + ";" + distance + ";" + completionTime;
+    for (int i = 0; i < resultsOfCompetition.size(); i++) {
+      String name = resultsOfCompetition.get(i).getMember().getName();
+      String style = resultsOfCompetition.get(i).getDiscipline().getStyle();
+      String distance = Integer.toString(resultsOfCompetition.get(i).getDiscipline().getDistance());
+      String completionTime = resultsOfCompetition.get(i).getResultTime().toString();
+      resultsToString[i] = String.join(";", name,style,distance,completionTime);
     }
     return resultsToString;
   }
