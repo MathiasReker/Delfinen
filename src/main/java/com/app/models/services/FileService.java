@@ -81,9 +81,7 @@ public class FileService {
   public byte[] loadFromBin() throws IOException{
     byte[] result;
     FileInputStream fis = new FileInputStream(PATH);
-    ObjectInputStream ois = new ObjectInputStream(fis);
-    result = ois.readAllBytes();
-    ois.close();
+    result = fis.readAllBytes();
     fis.close();
     return result;
   }

@@ -21,6 +21,7 @@ public class MemberController {
     MEMBER_VIEW = new MemberView();
     try {
       members = memberArrayToArrayList(loadMembers());
+      printMembers();
     } catch (CouldNotLoadMemberExpeption e) {
       MEMBER_VIEW.printWarning("Could not load Members");
       members = new ArrayList<>();
@@ -345,12 +346,10 @@ public class MemberController {
     return result;
   }
 
-  private ArrayList<MemberModel> testMembers() {
-    ArrayList<MemberModel> result = new ArrayList<>();
-    MemberModel[] test = createMembersForTest();
-    for (MemberModel m : test) {
-      result.add(m);
+  private void printMembers(){
+    for(MemberModel m: members){
+      System.out.println(m.getName());
     }
-    return result;
   }
+
 }
