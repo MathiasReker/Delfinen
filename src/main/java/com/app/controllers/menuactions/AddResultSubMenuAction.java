@@ -14,6 +14,6 @@ public class AddResultSubMenuAction extends MenuActions {
   public void run() {
     CompetitionController competitionController = new CompetitionController();
     Scanner in = new Scanner(System.in);
-    competitionController.createResultToCompetition(in);
+    competitionController.addResultToCompetition(in);
   }
 }

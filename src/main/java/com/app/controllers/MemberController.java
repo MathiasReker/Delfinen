@@ -245,6 +245,16 @@ public class MemberController {
     throw new MemberNotFoundException();
   }
 
+  // Har overloaded den her metode da jeg skal bruge array i denne klasse
+  MemberModel getMemberByID(String id) throws MemberNotFoundException {
+    for (MemberModel member : members) {
+      if (member.getID().equals(id)) {
+        return member;
+      }
+    }
+    throw new MemberNotFoundException();
+  }
+
   /**
    * Returns an Arraylist of expiring members based on the Array given as argument
    *

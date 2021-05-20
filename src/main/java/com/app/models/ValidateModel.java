@@ -1,6 +1,7 @@
 package com.app.models;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -10,6 +11,25 @@ public class ValidateModel {
       LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
       return true;
     } catch (DateTimeParseException e) {
+      return false;
+    }
+  }
+
+  public static boolean isValidCompetitionTime(String time) {
+    try {
+      LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
+      return true;
+    } catch (DateTimeParseException e) {
+      return false;
+    }
+  }
+
+  public static boolean isValidResultTime(String time) {
+    try {
+      LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss:SSS"));
+      return true;
+    } catch (DateTimeParseException e) {
+      e.printStackTrace();
       return false;
     }
   }
