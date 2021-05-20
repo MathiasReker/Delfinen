@@ -27,7 +27,7 @@ public class CompetitionController {
   }
 
   public void createNewCompetition(Scanner in) {
-  
+
     VIEW.printInline("Please enter competition name: ");
     String competitionName = in.nextLine();
     VIEW.printInline("Please enter date: ");
