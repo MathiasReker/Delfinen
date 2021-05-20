@@ -20,30 +20,35 @@ public class DisciplinesController {
     if (!styleExist(style)) {
       throw new IllegalArgumentException("No such style");
     }
+    ArrayList<DistanceModel> distances = new ArrayList<>();
 
-    ArrayList<DisciplineModel> Distances = new ArrayList<>();
+    distances.add(DistanceModel.FIFTY);
+    distances.add(DistanceModel.HUNDRED);
+    distances.add(DistanceModel.TWO_HUNDRED);
 
-    Distances.add(new DisciplineModel(DistanceModel.FIFTY.getMeters(), style));
-    Distances.add(new DisciplineModel(DistanceModel.HUNDRED.getMeters(), style));
-    Distances.add(new DisciplineModel(DistanceModel.TWO_HUNDRED.getMeters(), style));
-
-    if (style.equals(StyleModel.MEDLEY.toString())) {
-      Distances.add(new DisciplineModel(DistanceModel.FOUR_HUNDRED.getMeters(), style));
+    if (style.equals(StyleModel.MEDLEY.name())) {
+      distances.add(DistanceModel.FOUR_HUNDRED);
     }
 
-    if (style.equals(StyleModel.FREESTYLE.toString())) {
-      Distances.add(new DisciplineModel(DistanceModel.FOUR_HUNDRED.getMeters(), style));
-      if (gender == 1) {
-        Distances.add(new DisciplineModel(DistanceModel.FIFTEEN_HUNDRED.getMeters(), style));
-      } else if (gender == 2) {
-        Distances.add(new DisciplineModel(DistanceModel.EIGHT_HUNDRED.getMeters(), style));
+    if (style.equals(StyleModel.FREESTYLE.name())) {
+      distances.add(DistanceModel.FOUR_HUNDRED);
+      if (1 == gender) {
+        distances.add(DistanceModel.FIFTEEN_HUNDRED);
+      } else if (2 == gender) {
+        distances.add(DistanceModel.EIGHT_HUNDRED);
       } else {
-        Distances.add(new DisciplineModel(DistanceModel.EIGHT_HUNDRED.getMeters(), style));
-        Distances.add(new DisciplineModel(DistanceModel.FIFTEEN_HUNDRED.getMeters(), style));
+        distances.add(DistanceModel.EIGHT_HUNDRED);
+        distances.add(DistanceModel.FIFTEEN_HUNDRED);
       }
     }
 
-    return Distances;
+    ArrayList<DisciplineModel> result = new ArrayList<>();
+
+    for (DistanceModel d : distances) {
+      result.add(new DisciplineModel(d.getMeters(), style));
+    }
+
+    return result;
   }
 
   private boolean styleExist(String style) {

@@ -24,9 +24,9 @@ public class CompetitionController {
   private final CompetitionView VIEW = new CompetitionView();
   private CompetitionService competitionService;
 
-  public CompetitionController(){
+  public CompetitionController() {
     try {
-      competitionService = new CompetitionService("competitions");
+      competitionService = new CompetitionService("data/competitions.txt");
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -47,9 +47,10 @@ public class CompetitionController {
     //competitionService.saveCompetitionsToFile(COMPETITIONS);
   }
 
-  public void createResultToCompetition(Scanner in){
+  public void createResultToCompetition(Scanner in) {
 
-    VIEW.printInline("Which competition do you wish to add a result for, please enter Competition ID: ");
+    VIEW.printInline(
+        "Which competition do you wish to add a result for, please enter Competition ID: ");
     CompetitionModel competition = getCompetition(in.nextLine());
     VIEW.printInline("Which member do you which to add a result for, please enter member ID: ");
     MemberModel member = new MemberModel();
@@ -64,12 +65,10 @@ public class CompetitionController {
     VIEW.printInline("How fast was is completed: ");
     LocalTime time = LocalTime.parse("10:00");
 
-
-    DisciplineModel disciplineModel = new DisciplineModel(DistanceModel.valueOf(distanceToArray()[distanceChoice-1]).getMeters(), styleToArray()[styleChoice-1]) ;
+    DisciplineModel disciplineModel =
+        new DisciplineModel(DistanceModel.valueOf(distanceToArray()[distanceChoice-1]).getMeters(), styleToArray()[styleChoice-1]) ;
 
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
-
-
   }
 
   /**
@@ -109,16 +108,9 @@ public class CompetitionController {
     VIEW.displayCompetitionResults(viewCompetitionResults(in));
   }
 
-  public static void main(String[] args)  {
-    CompetitionController controller = new CompetitionController();
-    controller.createNewCompetition(new Scanner(System.in));
-    controller.createResultToCompetition(new Scanner(System.in));
-    controller.test(new Scanner(System.in));
-  }
-
   public MemberModel getMember(String id){
 
-    //TODO create a method to get a member based on an ID
+    // TODO create a method to get a member based on an ID
     return null;
   }
 
@@ -132,20 +124,20 @@ public class CompetitionController {
     competition.addResult(resultModel);
   }
 
-  public String [] styleToArray(){
-    String [] result = new String[StyleModel.values().length];
+  public String[] styleToArray() {
+    String[] result = new String[StyleModel.values().length];
 
     for (int i = 0; i < result.length; i++) {
-      result [i] = StyleModel.values()[i].name();
+      result[i] = StyleModel.values()[i].name();
     }
     return result;
   }
 
-  public String [] distanceToArray(){
-    String [] result = new String[DistanceModel.values().length];
+  public String[] distanceToArray() {
+    String[] result = new String[DistanceModel.values().length];
 
     for (int i = 0; i < result.length; i++) {
-      result [i] = DistanceModel.values()[i].name();
+      result[i] = DistanceModel.values()[i].name();
     }
     return result;
   }
@@ -160,7 +152,6 @@ public class CompetitionController {
 
     return result;
   }
-
 
   /**
    * A method to validate that the time input we receive is a valid format
@@ -197,7 +188,4 @@ public class CompetitionController {
     }
     return time;
   }
-
-
-
 }

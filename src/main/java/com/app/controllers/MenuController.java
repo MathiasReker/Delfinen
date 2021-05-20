@@ -41,7 +41,7 @@ public class MenuController {
    *
    * @return a valid integer.
    */
-  private int validateInteger() {
+  private int validateInteger() { // TODO: do the same as in MemberController
     while (!SCANNER.hasNextInt()) {
       MENU_VIEW.printInlineWarning("Not a valid menu choice. Please try again: ");
       SCANNER.nextLine();
@@ -57,7 +57,7 @@ public class MenuController {
    * @param max int that defines the maximum of the range.
    * @return a valid int from the range.
    */
-  private int validateIntegerRange(int max) {
+  private int validateIntegerRange(int max) { // TODO: do the same as in MemberController
     int result = validateInteger();
 
     while (result > max || result <= 0) {

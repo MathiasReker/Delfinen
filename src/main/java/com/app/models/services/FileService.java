@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -30,7 +33,7 @@ public class FileService {
    * @throws FileNotFoundException
    */
   public String[] readFromFile() throws FileNotFoundException {
-    ArrayList<String> result = new ArrayList();
+    ArrayList<String> result = new ArrayList<>();
 
     Scanner reader = new Scanner(FILE);
 
@@ -57,20 +60,15 @@ public class FileService {
   }
 
   /**
-   * If a file does not exist, create a new file in path recieved
+   * Create file if it does not exist.
    *
-   * @throws IOException
+   * @throws IOException if the directory or file cannot be created.
    */
   private void createFileOnPath() throws IOException {
     if (!FILE.exists()) {
-      String[] subPaths = PATH.split("/");
-      StringBuilder dirPath = new StringBuilder();
-      for (int i = 0; i < subPaths.length - 1; i++) {
-        dirPath.append(subPaths[i]).append("/");
-      }
-      File dirs = new File(dirPath.toString());
-      dirs.mkdirs();
-      FILE.createNewFile();
+      Path path = Paths.get(PATH);
+      Files.createDirectories(path.getParent());
+      Files.createFile(path);
     }
   }
 }
