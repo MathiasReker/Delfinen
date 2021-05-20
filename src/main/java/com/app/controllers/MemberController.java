@@ -223,13 +223,13 @@ public class MemberController {
 
   public void requestRenewalFromExpiringMembers(Scanner in) { // WIP
     try {
-      ArrayList<MemberModel> expiringMembers = getExpiringMembers(createMembersForTest(), 30);
+      ArrayList<MemberModel> expiringMembers = getExpiringMembers(members.toArray(new MemberModel[0]), 30);
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
 
       MEMBER_VIEW.print("Expiring members:"); // show Members
       for (MemberModel member : expiringMembers) {
-        MEMBER_VIEW.print(
+        MEMBER_VIEW.print(//TODO
             member.getID()
                 + "\t"
                 + member.getName()
