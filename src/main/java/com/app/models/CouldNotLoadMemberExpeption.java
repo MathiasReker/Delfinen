@@ -1,9 +1,8 @@
 package com.app.models;
 
-public class CouldNotLoadMemberExpeption extends Exception{
+public class CouldNotLoadMemberExpeption extends Exception {
 
-    public CouldNotLoadMemberExpeption(String message){
-        super(message);
-    }
-
+  public CouldNotLoadMemberExpeption(String message) {
+    super(message);
+  }
 }

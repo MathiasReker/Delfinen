@@ -193,13 +193,14 @@ public class MemberController {
 
   public void requestRenewalFromExpiringMembers(Scanner in) { // WIP
     try {
-      ArrayList<MemberModel> expiringMembers = getExpiringMembers(members.toArray(new MemberModel[0]), 30);
+      ArrayList<MemberModel> expiringMembers =
+          getExpiringMembers(members.toArray(new MemberModel[0]), 30);
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
 
       MEMBER_VIEW.print("Expiring members:"); // show Members
       for (MemberModel member : expiringMembers) {
-        MEMBER_VIEW.print(//TODO
+        MEMBER_VIEW.print( // TODO
             member.getID()
                 + "\t"
                 + member.getName()
@@ -315,10 +316,9 @@ public class MemberController {
     return result;
   }
 
-  private void printMembers(){
-    for(MemberModel m: members){
+  private void printMembers() {
+    for (MemberModel m : members) {
       System.out.println(m.getName());
     }
   }
-
 }

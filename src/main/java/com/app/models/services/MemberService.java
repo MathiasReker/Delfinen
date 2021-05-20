@@ -3,9 +3,6 @@ package com.app.models.services;
 import com.app.models.MemberModel;
 
 import java.io.*;
-import java.sql.SQLOutput;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class MemberService {
   private final FileService FILE_SERVICE;
