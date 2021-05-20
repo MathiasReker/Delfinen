@@ -4,7 +4,6 @@ import com.app.models.*;
 import com.app.models.services.CompetitionService;
 import com.app.views.CompetitionView;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -104,7 +103,6 @@ public class CompetitionController {
     VIEW.displayCompetitionResults(resultsToString);
   }
 
-
   public MemberModel getMember(String id) {
     MemberController memberController = new MemberController();
     MemberModel memberModel = null;
@@ -184,16 +182,14 @@ public class CompetitionController {
 
   public void saveCompetitionsToFile() {
 
-      competitionService.saveCompetitionsToFile(competitions.toArray(new CompetitionModel[0]));
-
+    competitionService.saveCompetitionsToFile(competitions.toArray(new CompetitionModel[0]));
   }
 
-  private ArrayList<CompetitionModel> toArraylist(CompetitionModel [] competitions){
+  private ArrayList<CompetitionModel> toArraylist(CompetitionModel[] competitions) {
     ArrayList<CompetitionModel> result = new ArrayList<>();
-    for (CompetitionModel c:competitions
-         ) {
+    for (CompetitionModel c : competitions) {
       result.add(c);
     }
-   return result;
+    return result;
   }
 }
