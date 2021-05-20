@@ -74,37 +74,6 @@ public class MemberController {
     members.add(member);
   }
 
-  /*
-  private void saveMember() {
-    try {
-      new MemberService(FILE).storeMembers(MEMBERS);
-      MEMBER_VIEW.printSuccess("The member has been saved.");
-    } catch (IOException e) {
-      MEMBER_VIEW.printWarning(e.getMessage());
-    }
-  }
-
-  public void loadMembers() {
-    try {
-      String[] members = new MemberService(FILE).loadMembers();
-      for (String m : members) {
-        String[] information = m.split(";");
-        addMember(
-            information[0],
-            information[1],
-            information[2],
-            GenderModel.valueOf(information[3]),
-            information[4],
-            information[5],
-            Boolean.parseBoolean(information[6]));
-      }
-
-    } catch (IOException e) {
-      MEMBER_VIEW.printWarning(e.getMessage());
-    }
-  }
-   */
-
   private String[] gendersToArray() {
     String[] result = new String[GenderModel.values().length];
     for (int i = 0; i < result.length; i++) {

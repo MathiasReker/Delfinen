@@ -14,31 +14,6 @@ public class MemberService {
     FILE_SERVICE = new FileService(path);
   }
 
-  /*
-  //Depricated
-  public void storeMembers(ArrayList<MemberModel> members) throws FileNotFoundException {
-    String[] result = new String[members.size()];
-
-    for (int i = 0; i < members.size(); i++) {
-      MemberModel member = members.get(i);
-
-      result[i] =
-          String.join(
-              ";",
-              member.getID(),
-              member.getName(),
-              member.getMail(),
-              member.getGender().name(),
-              member.getBirthdate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-              member.getPhoneNumber(),
-              String.valueOf(member.isCompetitive()),
-              member.getCreationDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-    }
-
-    FILE_SERVICE.writeToFile(result);
-  }
-  */
-
   public void saveMembers(MemberModel[] members) {
     try {
       ByteArrayOutputStream baos = new ByteArrayOutputStream();
