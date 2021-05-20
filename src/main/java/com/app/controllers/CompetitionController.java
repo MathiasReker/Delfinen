@@ -1,12 +1,6 @@
 package com.app.controllers;
 
-import com.app.models.CompetitionModel;
-import com.app.models.DisciplineModel;
-import com.app.models.DistanceModel;
-import com.app.models.MemberModel;
-import com.app.models.ResultModel;
-import com.app.models.StyleModel;
-import com.app.models.ValidateModel;
+import com.app.models.*;
 import com.app.models.services.CompetitionService;
 import com.app.views.CompetitionView;
 
@@ -31,6 +25,12 @@ public class CompetitionController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public static void main(String[] args) throws FileNotFoundException {
+    CompetitionController controller = new CompetitionController();
+    controller.createNewCompetition(new Scanner(System.in));
+    controller.createResultToCompetition(new Scanner(System.in));
   }
 
   public void createNewCompetition(Scanner in) throws FileNotFoundException {
@@ -119,12 +119,6 @@ public class CompetitionController {
       result[i] = DistanceModel.values()[i].name();
     }
     return result;
-  }
-
-  public static void main(String[] args) throws FileNotFoundException {
-    CompetitionController controller = new CompetitionController();
-    controller.createNewCompetition(new Scanner(System.in));
-    controller.createResultToCompetition(new Scanner(System.in));
   }
 
   private String validateDate(Scanner in) {
