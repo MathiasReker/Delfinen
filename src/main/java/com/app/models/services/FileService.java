@@ -1,9 +1,6 @@
 package com.app.models.services;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -69,5 +66,23 @@ public class FileService {
       Files.createDirectories(path.getParent());
       Files.createFile(path);
     }
+  }
+
+  public void writeToBin(byte[] bytes) {
+    try {
+      FileOutputStream fos = new FileOutputStream(PATH);
+      fos.write(bytes);
+      fos.close();
+    } catch (IOException e) {
+      // ignore
+    }
+  }
+
+  public byte[] loadFromBin() throws IOException {
+    byte[] result;
+    FileInputStream fis = new FileInputStream(PATH);
+    result = fis.readAllBytes();
+    fis.close();
+    return result;
   }
 }

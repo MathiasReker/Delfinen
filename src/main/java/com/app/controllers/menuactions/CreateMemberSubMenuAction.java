@@ -19,8 +19,6 @@ public class CreateMemberSubMenuAction extends MenuActions {
   public void run() {
     Scanner in = new Scanner(System.in);
     MemberController memberController = new MemberController();
-
-    memberController.loadMembers();
     memberController.createMember(in);
   }
 }

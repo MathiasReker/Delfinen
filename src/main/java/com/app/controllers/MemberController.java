@@ -14,11 +14,18 @@ import java.util.UUID;
 
 public class MemberController {
   private final MemberView MEMBER_VIEW;
-  private final ArrayList<MemberModel> MEMBERS = new ArrayList<>();
-  private final String FILE = "data/members.txt";
+  private final String FILE = "data/members.bin";
+  private ArrayList<MemberModel> members;
 
   public MemberController() {
     MEMBER_VIEW = new MemberView();
+    try {
+      members = memberArrayToArrayList(loadMembers());
+      printMembers();
+    } catch (CouldNotLoadMemberExpeption e) {
+      MEMBER_VIEW.printWarning("Could not load Members");
+      members = new ArrayList<>();
+    }
   }
 
   public void createMember(Scanner in) {
@@ -44,7 +51,7 @@ public class MemberController {
     String id = UUID.randomUUID().toString();
 
     addMember(id, name, mail, gender, birthday, phone, competitive);
-    saveMember();
+    saveMembers();
   }
 
   private void addMember(
@@ -64,36 +71,7 @@ public class MemberController {
     member.setPhoneNumber(phone);
     member.setCompetitive(competitive);
 
-    MEMBERS.add(member);
-  }
-
-  private void saveMember() {
-    try {
-      new MemberService(FILE).storeMembers(MEMBERS);
-      MEMBER_VIEW.printSuccess("The member has been saved.");
-    } catch (IOException e) {
-      MEMBER_VIEW.printWarning(e.getMessage());
-    }
-  }
-
-  public void loadMembers() {
-    try {
-      String[] members = new MemberService(FILE).loadMembers();
-      for (String m : members) {
-        String[] information = m.split(";");
-        addMember(
-            information[0],
-            information[1],
-            information[2],
-            GenderModel.valueOf(information[3]),
-            information[4],
-            information[5],
-            Boolean.parseBoolean(information[6]));
-      }
-
-    } catch (IOException e) {
-      MEMBER_VIEW.printWarning(e.getMessage());
-    }
+    members.add(member);
   }
 
   private String[] gendersToArray() {
@@ -215,13 +193,14 @@ public class MemberController {
 
   public void requestRenewalFromExpiringMembers(Scanner in) { // WIP
     try {
-      ArrayList<MemberModel> expiringMembers = getExpiringMembers(createMembersForTest(), 30);
+      ArrayList<MemberModel> expiringMembers =
+          getExpiringMembers(members.toArray(new MemberModel[0]), 30);
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
 
       MEMBER_VIEW.print("Expiring members:"); // show Members
       for (MemberModel member : expiringMembers) {
-        MEMBER_VIEW.print(
+        MEMBER_VIEW.print( // TODO
             member.getID()
                 + "\t"
                 + member.getName()
@@ -307,5 +286,39 @@ public class MemberController {
     }
 
     return members;
+  }
+
+  public void saveMembers() {
+    try {
+      new MemberService(FILE).saveMembers(members.toArray(new MemberModel[0]));
+      MEMBER_VIEW.printSuccess("The member has been saved.");
+    } catch (IOException e) {
+      // ignore
+    }
+  }
+
+  public MemberModel[] loadMembers() throws CouldNotLoadMemberExpeption {
+    MemberModel[] test;
+    try {
+      MemberService memberService = new MemberService(FILE);
+      test = memberService.loadMembers();
+      return test;
+    } catch (IOException | ClassNotFoundException e) {
+      throw new CouldNotLoadMemberExpeption(e.getMessage());
+    }
+  }
+
+  private ArrayList<MemberModel> memberArrayToArrayList(MemberModel[] members) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+    for (MemberModel m : members) {
+      result.add(m);
+    }
+    return result;
+  }
+
+  private void printMembers() {
+    for (MemberModel m : members) {
+      System.out.println(m.getName());
+    }
   }
 }
