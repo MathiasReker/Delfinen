@@ -10,7 +10,6 @@ import com.app.models.ValidateModel;
 import com.app.models.services.CompetitionService;
 import com.app.views.CompetitionView;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -34,7 +33,7 @@ public class CompetitionController {
   }
 
 
-  public void createNewCompetition(Scanner in) throws FileNotFoundException {
+  public void createNewCompetition(Scanner in)  {
 
     VIEW.printInline("Please enter competition name: ");
     String competitionName = in.nextLine();
@@ -45,7 +44,7 @@ public class CompetitionController {
 
     COMPETITIONS.add(new CompetitionModel(date, competitionName, startTime));
 
-    competitionService.saveCompetitionsToFile(COMPETITIONS);
+    //competitionService.saveCompetitionsToFile(COMPETITIONS);
   }
 
   public void createResultToCompetition(Scanner in){
@@ -66,7 +65,7 @@ public class CompetitionController {
     LocalTime time = LocalTime.parse("10:00");
 
 
-    DisciplineModel disciplineModel = new DisciplineModel(styleChoice-1, distanceToArray()[distanceChoice-1]);
+    DisciplineModel disciplineModel = new DisciplineModel(DistanceModel.valueOf(distanceToArray()[distanceChoice-1]).getMeters(), styleToArray()[styleChoice-1]) ;
 
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
 
@@ -87,6 +86,34 @@ public class CompetitionController {
       }
     }
     return null;
+  }
+
+  public String [] viewCompetitionResults(Scanner in){
+
+    VIEW.printInline("Which competition results do you wish to view, please  enter competition ID: ");
+    CompetitionModel competition = getCompetition(in.nextLine());
+    ArrayList<ResultModel> resultsOfCompetion = competition.getResult();
+    String [] resultsToString = new String[resultsOfCompetion.size()];
+
+    for (int i = 0; i < resultsOfCompetion.size(); i++) {
+      String name = resultsOfCompetion.get(i).getMember().getName();
+      String style = resultsOfCompetion.get(i).getDiscipline().getStyle();
+      String distance = Integer.toString(resultsOfCompetion.get(i).getDiscipline().getDistance());
+      String completionTime = resultsOfCompetion.get(i).getResultTime().toString();
+      resultsToString[i] = name + ";" + style + ";" + distance + ";" + completionTime;
+    }
+    return resultsToString;
+  }
+
+  public void test(Scanner in){
+    VIEW.displayCompetitionResults(viewCompetitionResults(in));
+  }
+
+  public static void main(String[] args)  {
+    CompetitionController controller = new CompetitionController();
+    controller.createNewCompetition(new Scanner(System.in));
+    controller.createResultToCompetition(new Scanner(System.in));
+    controller.test(new Scanner(System.in));
   }
 
   public MemberModel getMember(String id){
@@ -121,13 +148,6 @@ public class CompetitionController {
       result [i] = DistanceModel.values()[i].name();
     }
     return result;
-  }
-
-  public static void main(String[] args) throws FileNotFoundException {
-    CompetitionController controller = new CompetitionController();
-    controller.createNewCompetition(new Scanner(System.in));
-    controller.createResultToCompetition(new Scanner(System.in));
-
   }
 
   private String validateDate(Scanner in) {
