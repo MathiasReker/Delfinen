@@ -28,7 +28,7 @@ public class CompetitionController {
     }
   }
 
-  public void createNewCompetition(Scanner in)  {
+  public void createNewCompetition(Scanner in) {
 
     VIEW.printInline("Please enter competition name: ");
     String competitionName = in.nextLine();
@@ -65,7 +65,9 @@ public class CompetitionController {
     LocalTime time = LocalTime.parse("10:00");
 
     DisciplineModel disciplineModel =
-        new DisciplineModel(DistanceModel.valueOf(distanceToArray()[distanceChoice-1]).getMeters(), styleToArray()[styleChoice-1]) ;
+        new DisciplineModel(
+            DistanceModel.valueOf(distanceToArray()[distanceChoice - 1]).getMeters(),
+            styleToArray()[styleChoice - 1]);
 
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
   }
@@ -86,24 +88,25 @@ public class CompetitionController {
     return null;
   }
 
-  public String [] viewCompetitionResults(Scanner in){
+  public String[] viewCompetitionResults(Scanner in) {
 
-    VIEW.printInline("Which competition results do you wish to view, please  enter competition ID: ");
+    VIEW.printInline(
+        "Which competition results do you wish to view, please  enter competition ID: ");
     CompetitionModel competition = getCompetition(in.nextLine());
     ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
-    String [] resultsToString = new String[resultsOfCompetition.size()];
+    String[] resultsToString = new String[resultsOfCompetition.size()];
 
     for (int i = 0; i < resultsOfCompetition.size(); i++) {
       String name = resultsOfCompetition.get(i).getMember().getName();
       String style = resultsOfCompetition.get(i).getDiscipline().getStyle();
       String distance = Integer.toString(resultsOfCompetition.get(i).getDiscipline().getDistance());
       String completionTime = resultsOfCompetition.get(i).getResultTime().toString();
-      resultsToString[i] = String.join(";", name,style,distance,completionTime);
+      resultsToString[i] = String.join(";", name, style, distance, completionTime);
     }
     return resultsToString;
   }
-  
-  public MemberModel getMember(String id){
+
+  public MemberModel getMember(String id) {
 
     // TODO create a method to get a member based on an ID
     return null;

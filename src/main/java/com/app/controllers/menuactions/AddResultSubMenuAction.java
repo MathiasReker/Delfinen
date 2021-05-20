@@ -6,7 +6,6 @@ import java.util.Scanner;
 
 public class AddResultSubMenuAction extends MenuActions {
 
-
   public AddResultSubMenuAction(String itemName) {
     super(itemName);
   }
