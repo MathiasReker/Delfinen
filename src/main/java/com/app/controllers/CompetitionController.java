@@ -102,11 +102,7 @@ public class CompetitionController {
     }
     return resultsToString;
   }
-
-  public void test(Scanner in){
-    VIEW.displayCompetitionResults(viewCompetitionResults(in));
-  }
-
+  
   public MemberModel getMember(String id){
 
     // TODO create a method to get a member based on an ID
