@@ -32,22 +32,6 @@ public class MembershipModel {
     setActive(active);
   }
 
-  public void setActive(boolean active) {
-    this.active = active;
-  }
-
-  public void setPayed(boolean payed) {
-    this.payed = payed;
-  }
-
-  public void setExpiringDate(LocalDate expiringDate) {
-    this.expiringDate = expiringDate;
-  }
-
-  public void setStartingDate(LocalDate startingDate) {
-    this.startingDate = startingDate;
-  }
-
   public String getID() {
     return ID;
   }
@@ -56,15 +40,31 @@ public class MembershipModel {
     return expiringDate;
   }
 
+  public void setExpiringDate(LocalDate expiringDate) {
+    this.expiringDate = expiringDate;
+  }
+
   public LocalDate getStartingDate() {
     return startingDate;
+  }
+
+  public void setStartingDate(LocalDate startingDate) {
+    this.startingDate = startingDate;
   }
 
   public boolean isActive() {
     return active;
   }
 
+  public void setActive(boolean active) {
+    this.active = active;
+  }
+
   public boolean isPayed() {
     return payed;
+  }
+
+  public void setPayed(boolean payed) {
+    this.payed = payed;
   }
 }
