@@ -247,7 +247,7 @@ public class MemberController {
 
   // Har overloaded den her metode da jeg skal bruge array i denne klasse
   MemberModel getMemberByID(String id) throws MemberNotFoundException {
-    for (MemberModel member : MEMBERS) {
+    for (MemberModel member : members) {
       if (member.getID().equals(id)) {
         return member;
       }
