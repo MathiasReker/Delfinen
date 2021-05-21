@@ -10,7 +10,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class MemberController {
   private final MemberView MEMBER_VIEW;
@@ -161,7 +160,7 @@ public class MemberController {
   /**
    * Method for renewing memberships.
    *
-   * @param member        Member to renew
+   * @param member Member to renew
    * @param durationYears years to add to membership
    */
   public void renewMembership(MemberModel member, int durationYears) { // what
@@ -258,7 +257,7 @@ public class MemberController {
   /**
    * Returns an Arraylist of expiring members based on the Array given as argument
    *
-   * @param days         Amount of days to look ahead of current day.
+   * @param days Amount of days to look ahead of current day.
    * @param memberModels Array of members to look through
    * @return ArrayList of expiring members
    */
@@ -279,7 +278,7 @@ public class MemberController {
   // Delete when depricated
   private MemberModel[] createMembersForTest() {
     MemberModel[] members = {
-        new MemberModel(), new MemberModel(), new MemberModel(), new MemberModel()
+      new MemberModel(), new MemberModel(), new MemberModel(), new MemberModel()
     };
 
     int test = 10;
@@ -345,4 +344,3 @@ public class MemberController {
     return Integer.toString(id);
   }
 }
-
