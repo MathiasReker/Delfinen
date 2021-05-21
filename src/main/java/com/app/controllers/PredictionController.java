@@ -2,14 +2,14 @@ package com.app.controllers;
 
 import com.app.models.MemberModel;
 import com.app.models.PricingModel;
-import com.app.views.GenericView;
+import com.app.views.PredictionView;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PredictionController {
   private final MemberController MEMBER_CONTROLLER = new MemberController();
-  private final GenericView VIEW = new GenericView();
+  private final PredictionView VIEW = new PredictionView();
 
   public PredictionController() {}
 
@@ -20,13 +20,13 @@ public class PredictionController {
 
     int prediction = predictIncomeInXDays(days);
 
-    VIEW.print(prediction + " øre");
+    VIEW.printExpectedIncome(prediction,days);
   }
 
   public void predictIncome(int days){
     int prediction = predictIncomeInXDays(days);
 
-    VIEW.print(prediction + "øre");
+    VIEW.printExpectedIncome(prediction,days);
 
   }
 
