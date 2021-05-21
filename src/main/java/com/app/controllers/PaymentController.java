@@ -29,10 +29,11 @@ public class PaymentController {
   public void updateMemberShip(ArrayList<MemberModel> members) {
 
     for (int i = 0; i < members.size(); i++) {
-        if (members.get(i).getMemberships().size() != 0){
-        members.get(i).getLatestMembership().setPayed(true);}
+      if (members.get(i).getMemberships().size() != 0) {
+        members.get(i).getLatestMembership().setPayed(true);
       }
     }
+  }
 
   public void reviewPaymentFile() {
     String[] resultsToString = new String[approvedPaymentsIds.size()];
@@ -50,11 +51,11 @@ public class PaymentController {
     VIEW.displayPayments(resultsToString);
   }
 
-  public void handlePayments(Scanner in){
+  public void handlePayments(Scanner in) {
     reviewPaymentFile();
     VIEW.printInline("Do you wish to update the memberships of valid members [Y/N]: ");
 
-    if (Input.promptYesNo(in)){
+    if (Input.promptYesNo(in)) {
       updateMemberShip(getValidPayments());
       VIEW.printSuccess("Memberships successfully updated!");
     } else {
@@ -76,7 +77,7 @@ public class PaymentController {
         failedPayments.add(approvedPaymentsIds.get(i));
       }
     }
-    //send til backup
+    // send til backup
     return result;
   }
 }
