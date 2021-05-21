@@ -81,7 +81,7 @@ public class PaymentController {
     return result;
   }
 
-  private void crateBackupFile(ArrayList<String> failedPayments){
+  private void crateBackupFile(ArrayList<String> failedPayments) {
     try {
       paymentService.backupToFile(failedPayments);
     } catch (IOException e) {
