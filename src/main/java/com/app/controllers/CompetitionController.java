@@ -52,17 +52,17 @@ public class CompetitionController {
     int styleChoice = in.nextInt();
     in.nextLine();
 
-    VIEW.displayMenu(distanceToArray());
+    VIEW.displayMenu(distanceToArray(StyleModel.values()[styleChoice-1].name(), member));
     int distanceChoice = in.nextInt();
     in.nextLine();
 
-    VIEW.printInline("Enter result [mm:ss:SSS]: ");
+    VIEW.printInline("Enter result [mm:ss:SS]: ");
     LocalTime time =
-        LocalTime.parse("00:" + validResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SSS"));
+        LocalTime.parse("00:" + validResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
-            DistanceModel.valueOf(distanceToArray()[distanceChoice - 1]).getMeters(),
+            DistanceModel.values()[distanceChoice-1].getMeters(),
             styleToArray()[styleChoice - 1]);
 
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
@@ -151,11 +151,13 @@ public class CompetitionController {
     return result;
   }
 
-  public String[] distanceToArray() {
-    String[] result = new String[DistanceModel.values().length];
+  public String[] distanceToArray(String style, MemberModel member) {
+    DisciplinesController disciplinesController = new DisciplinesController();
+    ArrayList<DisciplineModel> disciplineModels =  disciplinesController.chosenDiscipline(1, style);
+    String[] result = new String[disciplineModels.size()];
 
     for (int i = 0; i < result.length; i++) {
-      result[i] = DistanceModel.values()[i].name();
+      result[i] = String.valueOf(disciplineModels.get(i).getDistance());
     }
     return result;
   }
@@ -218,7 +220,6 @@ public class CompetitionController {
     } catch (IndexOutOfBoundsException e) {
       id = 1;
     }
-
     return Integer.toString(id);
   }
 }
