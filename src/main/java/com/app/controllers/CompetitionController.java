@@ -85,9 +85,7 @@ public class CompetitionController {
     for (CompetitionModel competition : competitions) {
       if (input.equals(competition.getId())) {
         return competition;
-
       }
-
     }
     return null;
   }
@@ -101,11 +99,9 @@ public class CompetitionController {
     return false;
   }
 
-
   public void viewCompetitionResults(Scanner in) {
 
-    VIEW.printInline(
-        "Please  enter competition ID: ");
+    VIEW.printInline("Please  enter competition ID: ");
     CompetitionModel competition = getCompetition(in);
     ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
     String[] resultsToString = new String[resultsOfCompetition.size()];
