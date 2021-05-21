@@ -33,7 +33,6 @@ public class LeaderboardController {
    * @param showOnList how many you want too see int the list.
    * @return an array of the 5 fastest swimmers in a given discipline.
    */
-
   public LeaderboardModel[] findTopFive(String style, int distance, int showOnList) {
 
     loadCompsFromFile();
@@ -65,7 +64,11 @@ public class LeaderboardController {
         return result;
       } else {
         competitions.get(flag1).getResult().remove(flag2);
-        result[i] = new LeaderboardModel(flag.getName(), flag.getResult().get(flag2).getMember().getName(), flag.getResult().get(flag2).getResultTime());
+        result[i] =
+            new LeaderboardModel(
+                flag.getName(),
+                flag.getResult().get(flag2).getMember().getName(),
+                flag.getResult().get(flag2).getResultTime());
       }
     }
 
@@ -79,7 +82,8 @@ public class LeaderboardController {
     for (CompetitionModel cm : allResults) {
       ArrayList<ResultModel> temp = cm.getResult();
       for (ResultModel resultModel : temp) {
-        if (resultModel.getDiscipline().getStyle().equals(style) && resultModel.getDiscipline().getDistance() == distance) {
+        if (resultModel.getDiscipline().getStyle().equals(style)
+            && resultModel.getDiscipline().getDistance() == distance) {
           result.add(cm);
         }
       }
@@ -94,5 +98,4 @@ public class LeaderboardController {
     }
     return result;
   }
-
 }

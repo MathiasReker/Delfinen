@@ -1,6 +1,5 @@
 package com.app.models;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class LeaderboardModel {
@@ -27,15 +26,15 @@ public class LeaderboardModel {
   }
 
   public void setCompetitionNames(String competitionNames) {
-      this.competitionNames = competitionNames;
+    this.competitionNames = competitionNames;
   }
 
   public void setMemberNames(String memberNames) {
-      this.memberNames = memberNames;
+    this.memberNames = memberNames;
   }
 
   public void setMemberTimes(LocalTime memberTimes) {
-      this.memberTimes = memberTimes;
+    this.memberTimes = memberTimes;
   }
   /*
   private final int TOP_FIVE = 5;
