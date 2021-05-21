@@ -26,6 +26,10 @@ public class CompetitionController {
     }
   }
 
+  public ArrayList<CompetitionModel> getCompetitions() {
+    return competitions;
+  }
+
   public void createNewCompetition(Scanner in) {
 
     VIEW.printInline("Please enter competition name: ");
