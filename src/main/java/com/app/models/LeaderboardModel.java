@@ -36,5 +36,4 @@ public class LeaderboardModel {
   public void setMemberTimes(LocalTime memberTimes) {
     this.memberTimes = memberTimes;
   }
-
 }
