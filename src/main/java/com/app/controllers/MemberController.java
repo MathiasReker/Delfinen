@@ -22,7 +22,7 @@ public class MemberController {
     try {
       members = memberArrayToArrayList(loadMembers());
       printMembers();
-    } catch (CouldNotLoadMemberExpeption e) {
+    } catch (CouldNotLoadMemberException e) {
       MEMBER_VIEW.printWarning("Could not load Members");
       members = new ArrayList<>();
     }
@@ -312,14 +312,14 @@ public class MemberController {
     }
   }
 
-  public MemberModel[] loadMembers() throws CouldNotLoadMemberExpeption {
+  public MemberModel[] loadMembers() throws CouldNotLoadMemberException {
     MemberModel[] test;
     try {
       MemberService memberService = new MemberService(FILE);
       test = memberService.loadMembers();
       return test;
     } catch (IOException | ClassNotFoundException e) {
-      throw new CouldNotLoadMemberExpeption(e.getMessage());
+      throw new CouldNotLoadMemberException(e.getMessage());
     }
   }
 

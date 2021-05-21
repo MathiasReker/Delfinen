@@ -2,9 +2,9 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.MenuController;
 
-public class PaymentSubMenu extends MenuActions{
+public class PaymentSubMenuMenuAction extends MenuActions{
 
-    public PaymentSubMenu(String description){
+    public PaymentSubMenuMenuAction(String description){
         super(description);
     }
 
