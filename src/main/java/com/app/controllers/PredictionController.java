@@ -23,6 +23,14 @@ public class PredictionController {
     VIEW.print(prediction + " øre");
   }
 
+  public void predictIncome(int days){
+    int prediction = predictIncomeInXDays(days);
+
+    VIEW.print(prediction + "øre");
+
+  }
+
+
   public int predictIncomeInXDays(int days) {
     int result = 0;
     ArrayList<MemberModel> expiringMembers =
