@@ -56,7 +56,7 @@ public class DisciplineModelTest {
   @Test
   public void testGetStyleButterfly() {
 
-    String result = StyleModel.BUTTERFLY.toString();
+    String result = StyleModel.BUTTERFLY.name();
 
     Assertions.assertEquals("BUTTERFLY", result);
   }
@@ -64,7 +64,7 @@ public class DisciplineModelTest {
   @Test
   public void testGetStyleBackstroke() {
 
-    String result = StyleModel.BACKSTROKE.toString();
+    String result = StyleModel.BACKSTROKE.name();
 
     Assertions.assertEquals("BACKSTROKE", result);
   }
@@ -72,7 +72,7 @@ public class DisciplineModelTest {
   @Test
   public void testGetStyleFreestyle() {
 
-    String result = StyleModel.FREESTYLE.toString();
+    String result = StyleModel.FREESTYLE.name();
 
     Assertions.assertEquals("FREESTYLE", result);
   }
@@ -80,7 +80,7 @@ public class DisciplineModelTest {
   @Test
   public void testGetStyleMedley() {
 
-    String result = StyleModel.MEDLEY.toString();
+    String result = StyleModel.MEDLEY.name();
 
     Assertions.assertEquals("MEDLEY", result);
   }
