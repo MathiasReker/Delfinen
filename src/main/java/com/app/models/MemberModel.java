@@ -1,10 +1,11 @@
 package com.app.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class MemberModel {
+public class MemberModel implements Serializable {
   private final LocalDate CREATE_DATE;
   private String ID;
   private String name;

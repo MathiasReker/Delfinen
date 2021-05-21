@@ -26,7 +26,7 @@ public class PredictionController {
   public int predictIncomeInXDays(int days) {
     int result = 0;
     ArrayList<MemberModel> expiringMembers =
-        MEMBER_CONTROLLER.getExpiringMembers(MEMBER_CONTROLLER.getMEMBERS(), days);
+        MEMBER_CONTROLLER.getExpiringMembers(MEMBER_CONTROLLER.getMEMBERS().toArray(new MemberModel[0]), days);
 
     for (MemberModel member : expiringMembers) {
       result += PricingModel.calculateMemberPrice(member);

@@ -1,8 +1,9 @@
 package com.app.models;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 
-public class ResultModel {
+public class ResultModel implements Serializable {
 
   private MemberModel member;
   private LocalTime resultTime;
@@ -18,20 +19,20 @@ public class ResultModel {
     return member;
   }
 
-  public LocalTime getResultTime() {
-    return resultTime;
-  }
-
-  public DisciplineModel getDiscipline() {
-    return discipline;
-  }
-
   public void setMember(MemberModel member) {
     this.member = member;
   }
 
+  public LocalTime getResultTime() {
+    return resultTime;
+  }
+
   public void setResultTime(LocalTime resultTime) {
     this.resultTime = resultTime;
+  }
+
+  public DisciplineModel getDiscipline() {
+    return discipline;
   }
 
   public void setDiscipline(DisciplineModel discipline) {

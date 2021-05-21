@@ -1,7 +1,7 @@
 package com.app.views;
 
 public class MemberView extends View {
-  public void displayGenderMenu(String[] gender) {
+  public void displayOptions(String[] gender) {
     String[] result = new String[gender.length];
 
     for (int i = 0; i < gender.length; i++) {

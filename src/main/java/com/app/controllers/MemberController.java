@@ -1,6 +1,7 @@
 package com.app.controllers;
 
 import com.app.models.*;
+import com.app.models.services.MemberService;
 import com.app.models.services.PaymentRequestService;
 import com.app.views.MemberView;
 
@@ -9,27 +10,34 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class MemberController {
-  private final MemberModel MEMBER;
   private final MemberView MEMBER_VIEW;
-  private final MemberModel[] MEMBERS = createMembersForTest();
+  private final String FILE = "data/members.bin";
+  private ArrayList<MemberModel> members;
 
   public MemberController() {
-    MEMBER = new MemberModel();
     MEMBER_VIEW = new MemberView();
+    try {
+      members = memberArrayToArrayList(loadMembers());
+      printMembers();
+    } catch (CouldNotLoadMemberExpeption e) {
+      MEMBER_VIEW.printWarning("Could not load Members");
+      members = new ArrayList<>();
+    }
   }
 
   public void createMember(Scanner in) {
-    MEMBER_VIEW.printInline("ID: ");
-    String id = in.nextLine();
-
     MEMBER_VIEW.printInline("Name: ");
     String name = validateName(in);
 
-    MEMBER_VIEW.displayGenderMenu(gendersToArray());
-    int genderIndex = in.nextInt();
-    in.nextLine();
+    MEMBER_VIEW.printInline("Mail: ");
+    String mail = validateMail(in);
+
+    MEMBER_VIEW.displayOptions(gendersToArray());
+    int genderIndex = validateOptionRange(in, GenderModel.values().length);
+    GenderModel gender = GenderModel.values()[genderIndex - 1];
 
     MEMBER_VIEW.printInline("Birthday [dd/MM/yyyy]: ");
     String birthday = validateDate(in);
@@ -37,24 +45,37 @@ public class MemberController {
     MEMBER_VIEW.printInline("Phone: ");
     String phone = validatePhoneNumber(in);
 
-    MEMBER_VIEW.printInline("Mail: ");
-    String mail = validateMail(in);
-
     MEMBER_VIEW.printInline("Competitive [Y/n]: ");
     boolean competitive = promptYesNo(in);
 
-    MEMBER.setID(id);
-    MEMBER.setName(name);
-    MEMBER.setGender(GenderModel.values()[genderIndex]);
-    // MEMBER.setBirthdate(LocalDate.parse(birthday));
-    MEMBER.setPhoneNumber(phone);
-    MEMBER.setMail(mail);
-    MEMBER.setCompetitive(competitive);
+    String id = UUID.randomUUID().toString();
+
+    addMember(id, name, mail, gender, birthday, phone, competitive);
+    saveMembers();
+  }
+
+  private void addMember(
+      String id,
+      String name,
+      String mail,
+      GenderModel gender,
+      String birthday,
+      String phone,
+      boolean competitive) {
+    MemberModel member = new MemberModel();
+    member.setID(id);
+    member.setName(name);
+    member.setMail(mail);
+    member.setGender(gender);
+    member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+    member.setPhoneNumber(phone);
+    member.setCompetitive(competitive);
+
+    members.add(member);
   }
 
   private String[] gendersToArray() {
     String[] result = new String[GenderModel.values().length];
-
     for (int i = 0; i < result.length; i++) {
       result[i] = GenderModel.values()[i].name();
     }
@@ -63,39 +84,64 @@ public class MemberController {
   }
 
   private String validateName(Scanner in) {
-    while (!ValidateModel.isValidName(in.next())) {
+    while (true) {
+      String result = in.nextLine();
+      if (ValidateModel.isValidName(result)) {
+        return result;
+      }
       MEMBER_VIEW.printInlineWarning("Not a valid name. Please try again: ");
-      in.nextLine();
     }
-
-    return in.nextLine();
   }
 
   private String validateMail(Scanner in) {
-    while (!ValidateModel.isValidMail(in.next())) {
+    while (true) {
+      String result = in.nextLine();
+      if (ValidateModel.isValidMail(result)) {
+        return result;
+      }
       MEMBER_VIEW.printInlineWarning("Not a valid mail. Please try again: ");
-      in.nextLine();
     }
-
-    return in.nextLine();
   }
 
   private String validatePhoneNumber(Scanner in) {
-    while (!ValidateModel.isValidPhoneNumber(in.next().trim())) {
+    while (true) {
+      String result = in.nextLine().trim();
+      if (ValidateModel.isValidPhoneNumber(result)) {
+        return result;
+      }
       MEMBER_VIEW.printInlineWarning("Not a valid phone number. Please try again: ");
-      in.nextLine();
     }
-
-    return in.nextLine().trim();
   }
 
   private String validateDate(Scanner in) {
-    while (!ValidateModel.isValidDate(in.next())) {
+    String result = in.nextLine();
+    while (!ValidateModel.isValidDate(result)) {
       MEMBER_VIEW.printInlineWarning("Not a valid date. Please try again: ");
-      in.nextLine();
+      result = in.nextLine();
     }
 
-    return in.nextLine();
+    return result;
+  }
+
+  private int validateOptionRange(Scanner in, int max) {
+    while (true) {
+      int result = validateInteger(in);
+
+      if (ValidateModel.isValidRange(result, 1, max)) {
+        in.nextLine();
+        return result;
+      }
+      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
+    }
+  }
+
+  private int validateInteger(Scanner in) {
+    while (!in.hasNextInt()) {
+      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
+      in.next();
+    }
+
+    return in.nextInt();
   }
 
   private boolean promptYesNo(Scanner in) {
@@ -104,11 +150,9 @@ public class MemberController {
       if (input.equalsIgnoreCase("y")) {
         return true;
       }
-
       if (input.equalsIgnoreCase("n")) {
         return false;
       }
-
       MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
       input = in.nextLine();
     }
@@ -149,13 +193,14 @@ public class MemberController {
 
   public void requestRenewalFromExpiringMembers(Scanner in) { // WIP
     try {
-      ArrayList<MemberModel> expiringMembers = getExpiringMembers(createMembersForTest(), 30);
+      ArrayList<MemberModel> expiringMembers =
+          getExpiringMembers(members.toArray(new MemberModel[0]), 30);
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
 
       MEMBER_VIEW.print("Expiring members:"); // show Members
       for (MemberModel member : expiringMembers) {
-        MEMBER_VIEW.print(
+        MEMBER_VIEW.print( // TODO
             member.getID()
                 + "\t"
                 + member.getName()
@@ -192,6 +237,16 @@ public class MemberController {
 
   MemberModel getMemberByID(String id, ArrayList<MemberModel> members)
       throws MemberNotFoundException {
+    for (MemberModel member : members) {
+      if (member.getID().equals(id)) {
+        return member;
+      }
+    }
+    throw new MemberNotFoundException();
+  }
+
+  // Har overloaded den her metode da jeg skal bruge array i denne klasse
+  MemberModel getMemberByID(String id) throws MemberNotFoundException {
     for (MemberModel member : members) {
       if (member.getID().equals(id)) {
         return member;
@@ -243,7 +298,43 @@ public class MemberController {
     return members;
   }
 
-  public MemberModel[] getMEMBERS() {
-    return MEMBERS;
+
+  public ArrayList<MemberModel> getMEMBERS() {
+    return members;
+  }
+
+  public void saveMembers() {
+    try {
+      new MemberService(FILE).saveMembers(members.toArray(new MemberModel[0]));
+      MEMBER_VIEW.printSuccess("The member has been saved.");
+    } catch (IOException e) {
+      // ignore
+    }
+  }
+
+  public MemberModel[] loadMembers() throws CouldNotLoadMemberExpeption {
+    MemberModel[] test;
+    try {
+      MemberService memberService = new MemberService(FILE);
+      test = memberService.loadMembers();
+      return test;
+    } catch (IOException | ClassNotFoundException e) {
+      throw new CouldNotLoadMemberExpeption(e.getMessage());
+    }
+  }
+
+  private ArrayList<MemberModel> memberArrayToArrayList(MemberModel[] members) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+    for (MemberModel m : members) {
+      result.add(m);
+    }
+    return result;
+  }
+
+  private void printMembers() {
+    for (MemberModel m : members) {
+      System.out.println(m.getName());
+    }
+
   }
 }
