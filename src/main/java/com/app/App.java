@@ -15,6 +15,7 @@ public class App {
       new MemberMenuAction("Member management"),
       new CompetitionMenuAction("Competition management"),
       new PaymentSubMenuMenuAction("Payment Management"),
+      new TopResultsMenuAction("Display top 5"),
       new ExitMenuAction("Exit"),
     };
   }
