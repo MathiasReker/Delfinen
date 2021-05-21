@@ -56,7 +56,8 @@ public class CompetitionController {
     int styleChoice = in.nextInt();
     in.nextLine();
 
-    VIEW.displayMenu(distanceToArray(StyleModel.values()[styleChoice - 1].name(), member.getGender()));
+    VIEW.displayMenu(
+        distanceToArray(StyleModel.values()[styleChoice - 1].name(), member.getGender()));
     int distanceChoice = in.nextInt();
     in.nextLine();
 
@@ -153,7 +154,8 @@ public class CompetitionController {
 
   public String[] distanceToArray(String style, GenderModel gender) {
     DisciplinesController disciplinesController = new DisciplinesController();
-    ArrayList<DisciplineModel> disciplineModels = disciplinesController.chosenDiscipline(gender.name(), style);
+    ArrayList<DisciplineModel> disciplineModels =
+        disciplinesController.chosenDiscipline(gender.name(), style);
     String[] result = new String[disciplineModels.size()];
 
     for (int i = 0; i < result.length; i++) {
