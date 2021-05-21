@@ -26,7 +26,7 @@ public class PaymentController {
     }
   }
 
-  public void updateMemberShip(ArrayList<MemberModel> members) {
+  private void updateMemberShip(ArrayList<MemberModel> members) {
 
     for (int i = 0; i < members.size(); i++) {
         if (members.get(i).getMemberships().size() != 0){
@@ -34,7 +34,7 @@ public class PaymentController {
       }
     }
 
-  public void reviewPaymentFile() {
+  private void reviewPaymentFile() {
     String[] resultsToString = new String[approvedPaymentsIds.size()];
     for (int i = 0; i < approvedPaymentsIds.size(); i++) {
       try {
@@ -62,7 +62,7 @@ public class PaymentController {
     }
   }
 
-  public ArrayList<MemberModel> getValidPayments() {
+  private ArrayList<MemberModel> getValidPayments() {
 
     ArrayList<MemberModel> result = new ArrayList<>();
     ArrayList<String> failedPayments = new ArrayList<>();
@@ -75,8 +75,17 @@ public class PaymentController {
       } catch (MemberNotFoundException e) {
         failedPayments.add(approvedPaymentsIds.get(i));
       }
+      crateBackupFile(failedPayments);
     }
-    //send til backup
+
     return result;
+  }
+
+  private void crateBackupFile(ArrayList<String> failedPayments){
+    try {
+      paymentService.backupToFile(failedPayments);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
 }
