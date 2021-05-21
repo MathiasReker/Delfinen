@@ -22,7 +22,7 @@ public class MemberController {
     try {
       members = memberArrayToArrayList(loadMembers());
       printMembers();
-    } catch (CouldNotLoadMemberExpeption e) {
+    } catch (CouldNotLoadMemberException e) {
       MEMBER_VIEW.printWarning("Could not load Members");
       members = new ArrayList<>();
     }
@@ -248,15 +248,17 @@ public class MemberController {
    * @param memberModels Array of members to look through
    * @return ArrayList of expiring members
    */
-  private ArrayList<MemberModel> getExpiringMembers(
+  ArrayList<MemberModel> getExpiringMembers(
       MemberModel[] memberModels, int days) { // TODO Move to model?
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {
       ArrayList<MembershipModel> memberships = member.getMemberships();
-      LocalDate expiringDate = memberships.get(memberships.size() - 1).getExpiringDate();
-      if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
-        result.add(member);
+      if (memberships.size() != 0) {
+        LocalDate expiringDate = memberships.get(memberships.size() - 1).getExpiringDate();
+        if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
+          result.add(member);
+        }
       }
     }
     return result;
@@ -284,6 +286,10 @@ public class MemberController {
     return members;
   }
 
+  public ArrayList<MemberModel> getMEMBERS() {
+    return members;
+  }
+
   public void saveMembers() {
     try {
       new MemberService(FILE).saveMembers(members.toArray(new MemberModel[0]));
@@ -293,14 +299,14 @@ public class MemberController {
     }
   }
 
-  public MemberModel[] loadMembers() throws CouldNotLoadMemberExpeption {
+  public MemberModel[] loadMembers() throws CouldNotLoadMemberException {
     MemberModel[] test;
     try {
       MemberService memberService = new MemberService(FILE);
       test = memberService.loadMembers();
       return test;
     } catch (IOException | ClassNotFoundException e) {
-      throw new CouldNotLoadMemberExpeption(e.getMessage());
+      throw new CouldNotLoadMemberException(e.getMessage());
     }
   }
 
