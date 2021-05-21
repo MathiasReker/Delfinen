@@ -1,6 +1,6 @@
 package com.app.views;
 
-public class GenericView extends View{
+public class GenericView extends View {
 
-    public GenericView(){}
+  public GenericView() {}
 }

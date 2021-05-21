@@ -298,7 +298,6 @@ public class MemberController {
     return members;
   }
 
-
   public ArrayList<MemberModel> getMEMBERS() {
     return members;
   }
@@ -335,6 +334,5 @@ public class MemberController {
     for (MemberModel m : members) {
       System.out.println(m.getName());
     }
-
   }
 }

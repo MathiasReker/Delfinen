@@ -13,7 +13,7 @@ public class PredictionController {
 
   public PredictionController() {}
 
-  public void predictIncome(Scanner in){
+  public void predictIncome(Scanner in) {
     VIEW.print("Data is based om how many Members that expire");
     VIEW.printInline("Input amount of days to predict ahead:");
     int days = in.nextInt();
@@ -26,7 +26,8 @@ public class PredictionController {
   public int predictIncomeInXDays(int days) {
     int result = 0;
     ArrayList<MemberModel> expiringMembers =
-        MEMBER_CONTROLLER.getExpiringMembers(MEMBER_CONTROLLER.getMEMBERS().toArray(new MemberModel[0]), days);
+        MEMBER_CONTROLLER.getExpiringMembers(
+            MEMBER_CONTROLLER.getMEMBERS().toArray(new MemberModel[0]), days);
 
     for (MemberModel member : expiringMembers) {
       result += PricingModel.calculateMemberPrice(member);
