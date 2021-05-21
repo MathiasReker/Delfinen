@@ -1,5 +1,6 @@
 package com.app.controllers;
 
+import com.app.controllers.utils.Input;
 import com.app.models.*;
 import com.app.models.services.MemberService;
 import com.app.models.services.PaymentRequestService;
@@ -10,7 +11,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class MemberController {
   private final MemberView MEMBER_VIEW;
@@ -46,9 +46,9 @@ public class MemberController {
     String phone = validatePhoneNumber(in);
 
     MEMBER_VIEW.printInline("Competitive [Y/n]: ");
-    boolean competitive = promptYesNo(in);
+    boolean competitive = Input.promptYesNo(in);
 
-    String id = UUID.randomUUID().toString();
+    String id = generateID();
 
     addMember(id, name, mail, gender, birthday, phone, competitive);
     saveMembers();
@@ -144,20 +144,6 @@ public class MemberController {
     return in.nextInt();
   }
 
-  private boolean promptYesNo(Scanner in) {
-    String input = in.nextLine();
-    while (true) {
-      if (input.equalsIgnoreCase("y")) {
-        return true;
-      }
-      if (input.equalsIgnoreCase("n")) {
-        return false;
-      }
-      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-      input = in.nextLine();
-    }
-  }
-
   /**
    * Method for renewing memberships.
    *
@@ -212,7 +198,7 @@ public class MemberController {
         boolean stop = false;
         while (!stop) { // allow removal of members
           MEMBER_VIEW.print("do you want to remove a member from the list? [Y/n]:");
-          if (promptYesNo(in)) {
+          if (Input.promptYesNo(in)) {
             MEMBER_VIEW.print("Type member ID to delete:");
             String input = in.nextLine();
             try {
@@ -226,7 +212,7 @@ public class MemberController {
           }
         }
         MEMBER_VIEW.print("Are you sure you want to send payment requests? [Y/n[");
-        if (promptYesNo(in)) {
+        if (Input.promptYesNo(in)) {
           paymentRequester.createPaymentRequest(expiringMembers.toArray(new MemberModel[0]));
         }
       }
@@ -328,7 +314,20 @@ public class MemberController {
 
   private void printMembers() {
     for (MemberModel m : members) {
+      System.out.print(m.getID());
       System.out.println(m.getName());
     }
+  }
+
+  private String generateID() { // TODO refactor to valuof
+    int id;
+    try {
+      int temp = Integer.parseInt(members.get(members.size() - 1).getID());
+      id = temp + 1;
+    } catch (IndexOutOfBoundsException e) {
+      id = 1;
+    }
+
+    return Integer.toString(id);
   }
 }

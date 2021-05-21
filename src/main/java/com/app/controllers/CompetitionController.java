@@ -34,12 +34,12 @@ public class CompetitionController {
 
     VIEW.printInline("Please enter competition name: ");
     String competitionName = in.nextLine();
-    VIEW.printInline("Please enter date: ");
+    VIEW.printInline("Please enter date [dd/MM/yyyy]: ");
     LocalDate date = LocalDate.parse(validateDate(in), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-    VIEW.printInline("Please enter start time of the competition: ");
+    VIEW.printInline("Please enter start time of the competition [HH:mm]: ");
     LocalTime startTime =
         LocalTime.parse(validCompetitionTime(in), DateTimeFormatter.ofPattern("HH:mm"));
-    competitions.add(new CompetitionModel(date, competitionName, startTime));
+    competitions.add(new CompetitionModel(generateID(), competitionName, date, startTime));
 
     VIEW.printSuccess("New Competition created!");
 
@@ -49,51 +49,64 @@ public class CompetitionController {
   public void addResultToCompetition(Scanner in) {
 
     VIEW.printInline("Please enter Competition ID: ");
-    CompetitionModel competition = getCompetition(in.nextLine());
+    CompetitionModel competition = getCompetition(in);
     VIEW.printInline("Please enter member ID: ");
-    // MemberModel member = getMember(in.nextLine());
-    MemberModel member = new MemberModel();
+    MemberModel member = getMember(in.nextLine());
     VIEW.displayMenu(styleToArray());
     int styleChoice = in.nextInt();
     in.nextLine();
 
-    VIEW.displayMenu(distanceToArray());
+    VIEW.displayMenu(distanceToArray(StyleModel.values()[styleChoice - 1].name(), member));
     int distanceChoice = in.nextInt();
     in.nextLine();
 
-    VIEW.printInline("Enter result [mm:ss:SSS]: ");
+    VIEW.printInline("Enter result [mm:ss:SS]: ");
     LocalTime time =
-        LocalTime.parse("00:" + validResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SSS"));
+        LocalTime.parse("00:" + validResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
-            DistanceModel.valueOf(distanceToArray()[distanceChoice - 1]).getMeters(),
+            DistanceModel.values()[distanceChoice - 1].getMeters(),
             styleToArray()[styleChoice - 1]);
 
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
+    VIEW.printSuccess("New result was added!");
   }
 
   /**
    * Returns a competition based on the provided ID.
    *
-   * @param id is the competition id for the competition you wish to return
+   * @param in is the competition id for the competition you wish to return
    * @return a competition based on the id that is provided
    */
-  public CompetitionModel getCompetition(String id) {
+  public CompetitionModel getCompetition(Scanner in) {
 
+    String input = in.nextLine();
+    while (!isValidCompetitionId(input)) {
+      VIEW.printInlineWarning("Not a valid ID. Please try again: ");
+      input = in.nextLine();
+    }
     for (CompetitionModel competition : competitions) {
-      if (id.equals(competition.getId())) {
+      if (input.equals(competition.getId())) {
         return competition;
       }
     }
     return null;
   }
 
+  public boolean isValidCompetitionId(String id) {
+    for (CompetitionModel competition : competitions) {
+      if (id.equals(competition.getId())) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public void viewCompetitionResults(Scanner in) {
 
-    VIEW.printInline(
-        "Which competition results do you wish to view, please  enter competition ID: ");
-    CompetitionModel competition = getCompetition(in.nextLine());
+    VIEW.printInline("Please  enter competition ID: ");
+    CompetitionModel competition = getCompetition(in);
     ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
     String[] resultsToString = new String[resultsOfCompetition.size()];
 
@@ -138,11 +151,13 @@ public class CompetitionController {
     return result;
   }
 
-  public String[] distanceToArray() {
-    String[] result = new String[DistanceModel.values().length];
+  public String[] distanceToArray(String style, MemberModel member) {
+    DisciplinesController disciplinesController = new DisciplinesController();
+    ArrayList<DisciplineModel> disciplineModels = disciplinesController.chosenDiscipline(1, style);
+    String[] result = new String[disciplineModels.size()];
 
     for (int i = 0; i < result.length; i++) {
-      result[i] = DistanceModel.values()[i].name();
+      result[i] = String.valueOf(disciplineModels.get(i).getDistance());
     }
     return result;
   }
@@ -195,5 +210,16 @@ public class CompetitionController {
       result.add(c);
     }
     return result;
+  }
+
+  private String generateID() { // TODO refactor to valuof
+    int id;
+    try {
+      int temp = Integer.parseInt(competitions.get(competitions.size() - 1).getId());
+      id = temp + 1;
+    } catch (IndexOutOfBoundsException e) {
+      id = 1;
+    }
+    return Integer.toString(id);
   }
 }
