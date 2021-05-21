@@ -6,38 +6,27 @@ import com.app.models.ResultModel;
 import com.app.models.services.CompetitionService;
 import com.app.views.CompetitionView;
 
-import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class LeaderboardController {
 
-  private ArrayList<CompetitionModel> allResults;
+  private ArrayList<CompetitionModel> allResults = new CompetitionController().getCompetitions();
   private final CompetitionView VIEW = new CompetitionView();
   private CompetitionService competitionService;
-
-  public void loadCompsFromFile() {
-    try {
-      competitionService = new CompetitionService("data/competitions.bin");
-      allResults = toArraylist(competitionService.getCompetitionsFromFile());
-    } catch (IOException | ClassNotFoundException e) {
-      VIEW.printWarning("Could not load Competitions");
-    }
-  }
 
   /**
    * find top swimmers in all competitions.
    *
    * @param style to check.
    * @param distance of the style.
-   * @param showOnList how many you want too see int the list.
-   * @return an array of the 5 fastest swimmers in a given discipline.
+   * @param amount how many you want too see int the list.
+   * @return an array of the amount the fastest swimmers in a given discipline.
    */
 
-  public LeaderboardModel[] findTopFive(String style, int distance, int showOnList) {
+  public LeaderboardModel[] findTopFive(String style, int distance, int amount) {
 
-    loadCompsFromFile();
-    LeaderboardModel[] result = new LeaderboardModel[showOnList];
+    LeaderboardModel[] result = new LeaderboardModel[amount];
 
     ArrayList<CompetitionModel> competitions = findDiscipline(style, distance);
 
@@ -83,14 +72,6 @@ public class LeaderboardController {
           result.add(cm);
         }
       }
-    }
-    return result;
-  }
-
-  private ArrayList<CompetitionModel> toArraylist(CompetitionModel[] competitions) {
-    ArrayList<CompetitionModel> result = new ArrayList<>();
-    for (CompetitionModel c : competitions) {
-      result.add(c);
     }
     return result;
   }
