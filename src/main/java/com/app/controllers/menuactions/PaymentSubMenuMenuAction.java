@@ -9,7 +9,7 @@ public class PaymentSubMenuMenuAction extends MenuActions{
     }
 
     public void run(){
-    new MenuController("Payment Menu","Please choose an option: ",setupMenu());
+    new MenuController("Payment Menu","Please choose an option: ",setupMenu()).run();
     }
 
     private MenuActions[] setupMenu(){
