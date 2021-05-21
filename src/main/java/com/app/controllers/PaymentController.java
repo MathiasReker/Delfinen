@@ -41,13 +41,12 @@ public class PaymentController {
     for (int i = 0; i < approvedPaymentsIds.size(); i++) {
       try {
         MemberModel member = memberController.getMemberByID(approvedPaymentsIds.get(i));
-      String id = member.getID();
-      String name = member.getName();
-      resultsToString[i] = String.join(";", id, name);
-      }
-      catch (MemberNotFoundException e) {
+        String id = member.getID();
+        String name = member.getName();
+        resultsToString[i] = String.join(";", id, name);
+      } catch (MemberNotFoundException e) {
         String id = approvedPaymentsIds.get(i);
-        resultsToString[i] = String.join(";", id,"Does not exist");
+        resultsToString[i] = String.join(";", id, "Does not exist");
       }
     }
     VIEW.displayPayments(resultsToString);
@@ -56,6 +55,5 @@ public class PaymentController {
   public static void main(String[] args) {
     PaymentController paymentController = new PaymentController();
     paymentController.reviewPaymentFile();
-
   }
 }

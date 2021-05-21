@@ -52,7 +52,7 @@ public class CompetitionController {
     int styleChoice = in.nextInt();
     in.nextLine();
 
-    VIEW.displayMenu(distanceToArray(StyleModel.values()[styleChoice-1].name(), member));
+    VIEW.displayMenu(distanceToArray(StyleModel.values()[styleChoice - 1].name(), member));
     int distanceChoice = in.nextInt();
     in.nextLine();
 
@@ -62,7 +62,7 @@ public class CompetitionController {
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
-            DistanceModel.values()[distanceChoice-1].getMeters(),
+            DistanceModel.values()[distanceChoice - 1].getMeters(),
             styleToArray()[styleChoice - 1]);
 
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
@@ -149,7 +149,7 @@ public class CompetitionController {
 
   public String[] distanceToArray(String style, MemberModel member) {
     DisciplinesController disciplinesController = new DisciplinesController();
-    ArrayList<DisciplineModel> disciplineModels =  disciplinesController.chosenDiscipline(1, style);
+    ArrayList<DisciplineModel> disciplineModels = disciplinesController.chosenDiscipline(1, style);
     String[] result = new String[disciplineModels.size()];
 
     for (int i = 0; i < result.length; i++) {
