@@ -1,5 +1,6 @@
 package com.app.controllers;
 
+import com.app.controllers.utils.Input;
 import com.app.models.MemberModel;
 import com.app.models.MemberNotFoundException;
 import com.app.models.services.PaymentService;
@@ -7,6 +8,7 @@ import com.app.views.PaymentsView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class PaymentController {
 
@@ -24,17 +26,13 @@ public class PaymentController {
     }
   }
 
-  public void updateMemberShip() {
+  public void updateMemberShip(ArrayList<MemberModel> members) {
 
-    for (int i = 0; i < approvedPaymentsIds.size(); i++) {
-      try {
-        MemberModel member = memberController.getMemberByID(approvedPaymentsIds.get(i));
-        member.getLatestMembership().setPayed(true);
-      } catch (MemberNotFoundException e) {
-        VIEW.printWarning("Could not update Payment Status for: " + approvedPaymentsIds.get(i));
+    for (int i = 0; i < members.size(); i++) {
+        if (members.get(i).getMemberships().size() != 0){
+        members.get(i).getLatestMembership().setPayed(true);}
       }
     }
-  }
 
   public void reviewPaymentFile() {
     String[] resultsToString = new String[approvedPaymentsIds.size()];
@@ -46,14 +44,39 @@ public class PaymentController {
         resultsToString[i] = String.join(";", id, name);
       } catch (MemberNotFoundException e) {
         String id = approvedPaymentsIds.get(i);
-        resultsToString[i] = String.join(";", id, "Does not exist");
+        resultsToString[i] = String.join(";", id, "Member does not exist");
       }
     }
     VIEW.displayPayments(resultsToString);
   }
 
-  public static void main(String[] args) {
-    PaymentController paymentController = new PaymentController();
-    paymentController.reviewPaymentFile();
+  public void handlePayments(Scanner in){
+    reviewPaymentFile();
+    VIEW.printInline("Do you wish to update the memberships of valid members [Y/N]: ");
+
+    if (Input.promptYesNo(in)){
+      updateMemberShip(getValidPayments());
+      VIEW.printSuccess("Memberships successfully updated!");
+    } else {
+      VIEW.printWarning("Canceled!");
+    }
+  }
+
+  public ArrayList<MemberModel> getValidPayments() {
+
+    ArrayList<MemberModel> result = new ArrayList<>();
+    ArrayList<String> failedPayments = new ArrayList<>();
+
+    for (int i = 0; i < approvedPaymentsIds.size(); i++) {
+      try {
+        MemberModel member = memberController.getMemberByID(approvedPaymentsIds.get(i));
+        result.add(member);
+
+      } catch (MemberNotFoundException e) {
+        failedPayments.add(approvedPaymentsIds.get(i));
+      }
+    }
+    //send til backup
+    return result;
   }
 }

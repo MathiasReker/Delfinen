@@ -1,5 +1,6 @@
 package com.app.controllers;
 
+import com.app.controllers.utils.Input;
 import com.app.models.*;
 import com.app.models.services.MemberService;
 import com.app.models.services.PaymentRequestService;
@@ -45,7 +46,7 @@ public class MemberController {
     String phone = validatePhoneNumber(in);
 
     MEMBER_VIEW.printInline("Competitive [Y/n]: ");
-    boolean competitive = promptYesNo(in);
+    boolean competitive = Input.promptYesNo(in);
 
     String id = generateID();
 
@@ -143,20 +144,6 @@ public class MemberController {
     return in.nextInt();
   }
 
-  private boolean promptYesNo(Scanner in) {
-    String input = in.nextLine();
-    while (true) {
-      if (input.equalsIgnoreCase("y")) {
-        return true;
-      }
-      if (input.equalsIgnoreCase("n")) {
-        return false;
-      }
-      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-      input = in.nextLine();
-    }
-  }
-
   /**
    * Method for renewing memberships.
    *
@@ -211,7 +198,7 @@ public class MemberController {
         boolean stop = false;
         while (!stop) { // allow removal of members
           MEMBER_VIEW.print("do you want to remove a member from the list? [Y/n]:");
-          if (promptYesNo(in)) {
+          if (Input.promptYesNo(in)) {
             MEMBER_VIEW.print("Type member ID to delete:");
             String input = in.nextLine();
             try {
@@ -225,7 +212,7 @@ public class MemberController {
           }
         }
         MEMBER_VIEW.print("Are you sure you want to send payment requests? [Y/n[");
-        if (promptYesNo(in)) {
+        if (Input.promptYesNo(in)) {
           paymentRequester.createPaymentRequest(expiringMembers.toArray(new MemberModel[0]));
         }
       }
