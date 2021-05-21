@@ -26,10 +26,11 @@ public class LeaderboardController {
   }
 
   /**
-   * find top five swimmers in all competitions.
+   * find top swimmers in all competitions.
    *
    * @param style to check.
    * @param distance of the style.
+   * @param showOnList how many you want too see int the list.
    * @return an array of the 5 fastest swimmers in a given discipline.
    */
 
