@@ -1,8 +1,9 @@
 package com.app.models;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 
-public class ResultModel {
+public class ResultModel implements Serializable {
 
   private MemberModel member;
   private LocalTime resultTime;
