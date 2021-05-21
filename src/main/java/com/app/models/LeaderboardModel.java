@@ -3,18 +3,12 @@ package com.app.models;
 import java.time.LocalTime;
 
 public class LeaderboardModel {
-  private String competitionNames;
   private String memberNames;
   private LocalTime memberTimes;
 
-  public LeaderboardModel(String competitionNames, String memberNames, LocalTime memberTimes) {
-    setCompetitionNames(competitionNames);
+  public LeaderboardModel(String memberNames, LocalTime memberTimes) {
     setMemberNames(memberNames);
     setMemberTimes(memberTimes);
-  }
-
-  public String getCompetitionNames() {
-    return competitionNames;
   }
 
   public String getMemberNames() {
@@ -23,10 +17,6 @@ public class LeaderboardModel {
 
   public LocalTime getMemberTimes() {
     return memberTimes;
-  }
-
-  public void setCompetitionNames(String competitionNames) {
-    this.competitionNames = competitionNames;
   }
 
   public void setMemberNames(String memberNames) {

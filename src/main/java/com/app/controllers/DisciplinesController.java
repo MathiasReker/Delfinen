@@ -9,6 +9,20 @@ import java.util.ArrayList;
 
 public class DisciplinesController {
 
+  private ArrayList<DisciplineModel> disciplines= new ArrayList<>();
+
+  public DisciplinesController() {
+    setDisciplines(disciplines);
+  }
+
+  public ArrayList<DisciplineModel> getDisciplines() {
+    return disciplines;
+  }
+
+  public void setDisciplines(ArrayList<DisciplineModel> disciplines) {
+    this.disciplines = disciplines;
+  }
+
   /**
    * Output a list with the disciplines for the specific swim style.
    *
