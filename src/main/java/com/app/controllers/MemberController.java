@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -20,10 +21,9 @@ public class MemberController {
   public MemberController() {
     MEMBER_VIEW = new MemberView();
     try {
-      members = memberArrayToArrayList(loadMembers());
-      printMembers();
+      members = memberToStringArray(loadMembers());
     } catch (CouldNotLoadMemberExpeption e) {
-      MEMBER_VIEW.printWarning("Could not load Members");
+      MEMBER_VIEW.printWarning("Could not load any members");
       members = new ArrayList<>();
     }
   }
@@ -318,17 +318,65 @@ public class MemberController {
     }
   }
 
-  private ArrayList<MemberModel> memberArrayToArrayList(MemberModel[] members) {
-    ArrayList<MemberModel> result = new ArrayList<>();
+  private ArrayList<MemberModel> memberToStringArray(MemberModel[] members) {
+    return new ArrayList<>(Arrays.asList(members));
+  }
+
+  // View members
+  public ArrayList<String> memberToArray(ArrayList<MemberModel> members) {
+    ArrayList<String> result = new ArrayList<>();
+
     for (MemberModel m : members) {
-      result.add(m);
+      result.add(m.getID());
+      result.add(m.getName());
+      result.add(String.valueOf(m.getAge()));
+      result.add(m.getGender().name());
+      result.add(m.getPhoneNumber());
+      result.add(m.getMail());
+      result.add(String.valueOf(m.isCompetitive()));
+      result.add(String.valueOf(m.getCreationDate()));
+      result.add(String.valueOf(m.getDisciplines()));
+      result.add(String.valueOf(m.getMemberships()));
+      // result.add(String.valueOf(m.isDeleted()));
     }
+
     return result;
   }
 
-  private void printMembers() {
+  public void viewMembers() {
+    MEMBER_VIEW.displayMembers(memberToArray(members));
+  }
+
+  public void viewMemberByName(Scanner in) {
+    MEMBER_VIEW.printInline("Name: ");
+    String name = validateName(in);
+
+    ArrayList<MemberModel> sortedList = getMemberByName(name);
+    MEMBER_VIEW.displaySortedMembers(memberToArray(sortedList));
+    // todo: handle if 0 members
+
+    // todo: If there is more than one match, the matches are displayed, and the user must choose by
+    // picking a corresponding number
+  }
+
+  public ArrayList<MemberModel> getMemberByName(String name) {
+
+    ArrayList<MemberModel> result = new ArrayList<>();
+
     for (MemberModel m : members) {
-      System.out.println(m.getName());
+      if (m.getName().equals(name)) {
+        result.add(m);
+      }
     }
+
+    return result;
+  }
+
+  public void anonymizeMember() {
+    // todo: display members
+    // todo: select member
+
+    members.get(0).anonymizeMemberByIndex(0);
+    saveMembers();
   }
 }

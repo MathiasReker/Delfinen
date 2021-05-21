@@ -3,6 +3,7 @@ package com.app.models;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 
 public class MemberModel implements Serializable {
@@ -16,6 +17,7 @@ public class MemberModel implements Serializable {
   private boolean competitive;
   private ArrayList<DisciplineModel> disciplines = new ArrayList<>();
   private ArrayList<MembershipModel> memberships = new ArrayList<>();
+  private boolean deleted;
 
   public MemberModel() {
     CREATE_DATE = LocalDateTime.now().toLocalDate();
@@ -74,6 +76,14 @@ public class MemberModel implements Serializable {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public boolean isDeleted() {
+    return deleted;
+  }
+
+  public void setDeleted(boolean deleted) {
+    this.deleted = deleted;
   }
 
   public GenderModel getGender() {
@@ -157,5 +167,21 @@ public class MemberModel implements Serializable {
   public MembershipModel getLatestMembership() {
     ArrayList<MembershipModel> memberships = getMemberships();
     return memberships.get(memberships.size() - 1);
+  }
+
+  public int getAge() {
+    LocalDate currentDate = LocalDate.now();
+    if (birthdate == null) {
+      return 0;
+    }
+
+    return Period.between(birthdate, currentDate).getYears();
+  }
+
+  public void anonymizeMemberByIndex(int index) {
+    setName(null);
+    setPhoneNumber(null);
+    setMail(null);
+    setDeleted(true);
   }
 }

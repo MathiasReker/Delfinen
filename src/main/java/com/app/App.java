@@ -1,10 +1,8 @@
 package com.app;
 
 import com.app.controllers.MenuController;
-import com.app.controllers.menuactions.CompetitionMenuAction;
-import com.app.controllers.menuactions.ExitMenuAction;
-import com.app.controllers.menuactions.MemberMenuAction;
-import com.app.controllers.menuactions.MenuActions;
+import com.app.controllers.menuactions.*;
+
 
 public class App {
   /** Build the menu. */
