@@ -26,10 +26,9 @@ public class ValidateModel {
 
   public static boolean isValidResultTime(String time) {
     try {
-      LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss:SSS"));
+      LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
       return true;
     } catch (DateTimeParseException e) {
-      e.printStackTrace();
       return false;
     }
   }

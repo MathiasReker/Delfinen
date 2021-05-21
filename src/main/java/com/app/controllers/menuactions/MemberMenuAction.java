@@ -20,6 +20,7 @@ public class MemberMenuAction extends MenuActions {
       new AnonymizeMenuAction("Anonymize member"),
       new SearchMemberMenuAction("Search member"),
       new RenewalRequestMenuAction("Send payment requests for expiring Members"),
+      new RenewMembershipsMenuAction(("Renew paid memberships ")),
       new ExitMenuAction("Back")
     };
   }

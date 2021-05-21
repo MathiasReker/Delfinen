@@ -1,5 +1,6 @@
 package com.app.controllers;
 
+import com.app.controllers.utils.Input;
 import com.app.models.*;
 import com.app.models.services.MemberService;
 import com.app.models.services.PaymentRequestService;
@@ -11,7 +12,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class MemberController {
   private final MemberView MEMBER_VIEW;
@@ -22,11 +22,12 @@ public class MemberController {
     MEMBER_VIEW = new MemberView();
     try {
       members = memberToStringArray(loadMembers());
-    } catch (CouldNotLoadMemberExpeption e) {
+    } catch (CouldNotLoadMemberException e) {
       MEMBER_VIEW.printWarning("Could not load any members");
       members = new ArrayList<>();
     }
   }
+
 
   public void createMember(Scanner in) {
     MEMBER_VIEW.printInline("Name: ");
@@ -46,9 +47,9 @@ public class MemberController {
     String phone = validatePhoneNumber(in);
 
     MEMBER_VIEW.printInline("Competitive [Y/n]: ");
-    boolean competitive = promptYesNo(in);
+    boolean competitive = Input.promptYesNo(in);
 
-    String id = UUID.randomUUID().toString();
+    String id = generateID();
 
     addMember(id, name, mail, gender, birthday, phone, competitive);
     saveMembers();
@@ -144,20 +145,6 @@ public class MemberController {
     return in.nextInt();
   }
 
-  private boolean promptYesNo(Scanner in) {
-    String input = in.nextLine();
-    while (true) {
-      if (input.equalsIgnoreCase("y")) {
-        return true;
-      }
-      if (input.equalsIgnoreCase("n")) {
-        return false;
-      }
-      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-      input = in.nextLine();
-    }
-  }
-
   /**
    * Method for renewing memberships.
    *
@@ -212,7 +199,7 @@ public class MemberController {
         boolean stop = false;
         while (!stop) { // allow removal of members
           MEMBER_VIEW.print("do you want to remove a member from the list? [Y/n]:");
-          if (promptYesNo(in)) {
+          if (Input.promptYesNo(in)) {
             MEMBER_VIEW.print("Type member ID to delete:");
             String input = in.nextLine();
             try {
@@ -226,7 +213,7 @@ public class MemberController {
           }
         }
         MEMBER_VIEW.print("Are you sure you want to send payment requests? [Y/n[");
-        if (promptYesNo(in)) {
+        if (Input.promptYesNo(in)) {
           paymentRequester.createPaymentRequest(expiringMembers.toArray(new MemberModel[0]));
         }
       }
@@ -262,15 +249,17 @@ public class MemberController {
    * @param memberModels Array of members to look through
    * @return ArrayList of expiring members
    */
-  private ArrayList<MemberModel> getExpiringMembers(
+  ArrayList<MemberModel> getExpiringMembers(
       MemberModel[] memberModels, int days) { // TODO Move to model?
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {
       ArrayList<MembershipModel> memberships = member.getMemberships();
-      LocalDate expiringDate = memberships.get(memberships.size() - 1).getExpiringDate();
-      if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
-        result.add(member);
+      if (memberships.size() != 0) {
+        LocalDate expiringDate = memberships.get(memberships.size() - 1).getExpiringDate();
+        if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
+          result.add(member);
+        }
       }
     }
     return result;
@@ -298,6 +287,10 @@ public class MemberController {
     return members;
   }
 
+  public ArrayList<MemberModel> getMEMBERS() {
+    return members;
+  }
+
   public void saveMembers() {
     try {
       new MemberService(FILE).saveMembers(members.toArray(new MemberModel[0]));
@@ -307,14 +300,14 @@ public class MemberController {
     }
   }
 
-  public MemberModel[] loadMembers() throws CouldNotLoadMemberExpeption {
+  public MemberModel[] loadMembers() throws CouldNotLoadMemberException {
     MemberModel[] test;
     try {
       MemberService memberService = new MemberService(FILE);
       test = memberService.loadMembers();
       return test;
     } catch (IOException | ClassNotFoundException e) {
-      throw new CouldNotLoadMemberExpeption(e.getMessage());
+      throw new CouldNotLoadMemberException(e.getMessage());
     }
   }
 
@@ -378,5 +371,17 @@ public class MemberController {
 
     members.get(0).anonymizeMemberByIndex(0);
     saveMembers();
+  }
+
+  private String generateID() { // TODO refactor to valuof
+    int id;
+    try {
+      int temp = Integer.parseInt(members.get(members.size() - 1).getID());
+      id = temp + 1;
+    } catch (IndexOutOfBoundsException e) {
+      id = 1;
+    }
+
+    return Integer.toString(id);
   }
 }

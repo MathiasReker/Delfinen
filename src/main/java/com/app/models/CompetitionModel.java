@@ -1,10 +1,11 @@
 package com.app.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class CompetitionModel {
+public class CompetitionModel implements Serializable {
 
   private String id;
   private LocalDate startDate;
@@ -12,15 +13,8 @@ public class CompetitionModel {
   private LocalTime startTime;
   private ArrayList<ResultModel> result = new ArrayList<>();
 
-  public CompetitionModel(LocalDate startDate, String name, LocalTime startTime) {
-    setId("1"); // TODO
-    this.startDate = startDate;
-    this.name = name;
-    this.startTime = startTime;
-  }
-
   public CompetitionModel(String id, String name, LocalDate startDate, LocalTime startTime) {
-    setId("1"); // TODO
+    this.id = id;
     this.startDate = startDate;
     this.name = name;
     this.startTime = startTime;

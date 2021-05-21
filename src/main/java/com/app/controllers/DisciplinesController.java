@@ -2,11 +2,26 @@ package com.app.controllers;
 
 import com.app.models.DisciplineModel;
 import com.app.models.DistanceModel;
+import com.app.models.GenderModel;
 import com.app.models.StyleModel;
 
 import java.util.ArrayList;
 
 public class DisciplinesController {
+
+  private ArrayList<DisciplineModel> disciplines = new ArrayList<>();
+
+  public DisciplinesController() {
+    setDisciplines(disciplines);
+  }
+
+  public ArrayList<DisciplineModel> getDisciplines() {
+    return disciplines;
+  }
+
+  public void setDisciplines(ArrayList<DisciplineModel> disciplines) {
+    this.disciplines = disciplines;
+  }
 
   /**
    * Output a list with the disciplines for the specific swim style.
@@ -15,7 +30,7 @@ public class DisciplinesController {
    * @param style that define the distance.
    * @return a list og disciplines.
    */
-  public ArrayList<DisciplineModel> chosenDiscipline(int gender, String style) {
+  public ArrayList<DisciplineModel> chosenDiscipline(String gender, String style) {
 
     if (!styleExist(style)) {
       throw new IllegalArgumentException("No such style");
@@ -32,9 +47,9 @@ public class DisciplinesController {
 
     if (style.equals(StyleModel.FREESTYLE.name())) {
       distances.add(DistanceModel.FOUR_HUNDRED);
-      if (1 == gender) {
+      if (gender.equals(GenderModel.MALE.name())) {
         distances.add(DistanceModel.FIFTEEN_HUNDRED);
-      } else if (2 == gender) {
+      } else if (gender.equals(GenderModel.FEMALE.name())) {
         distances.add(DistanceModel.EIGHT_HUNDRED);
       } else {
         distances.add(DistanceModel.EIGHT_HUNDRED);
