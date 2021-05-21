@@ -29,7 +29,6 @@ public class ValidateModel {
       LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss:SSS"));
       return true;
     } catch (DateTimeParseException e) {
-      e.printStackTrace();
       return false;
     }
   }
