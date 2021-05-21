@@ -35,7 +35,7 @@ public class CompetitionController {
     VIEW.printInline("Please enter start time of the competition: ");
     LocalTime startTime =
         LocalTime.parse(validCompetitionTime(in), DateTimeFormatter.ofPattern("HH:mm"));
-    competitions.add(new CompetitionModel(date, competitionName, startTime));
+    competitions.add(new CompetitionModel(generateID(), competitionName, date, startTime));
 
     VIEW.printSuccess("New Competition created!");
 
@@ -47,8 +47,7 @@ public class CompetitionController {
     VIEW.printInline("Please enter Competition ID: ");
     CompetitionModel competition = getCompetition(in.nextLine());
     VIEW.printInline("Please enter member ID: ");
-    // MemberModel member = getMember(in.nextLine());
-    MemberModel member = new MemberModel();
+    MemberModel member = getMember(in.nextLine());
     VIEW.displayMenu(styleToArray());
     int styleChoice = in.nextInt();
     in.nextLine();
@@ -191,5 +190,17 @@ public class CompetitionController {
       result.add(c);
     }
     return result;
+  }
+
+  private String generateID() {
+    int id;
+    try {
+      int temp = Integer.parseInt(competitions.get(competitions.size()-1).getId());
+      id = temp + 1;
+    }catch (IndexOutOfBoundsException e){
+      id = 1;
+    }
+
+    return Integer.toString(id);
   }
 }

@@ -48,7 +48,7 @@ public class MemberController {
     MEMBER_VIEW.printInline("Competitive [Y/n]: ");
     boolean competitive = promptYesNo(in);
 
-    String id = UUID.randomUUID().toString();
+    String id = generateID();
 
     addMember(id, name, mail, gender, birthday, phone, competitive);
     saveMembers();
@@ -161,7 +161,7 @@ public class MemberController {
   /**
    * Method for renewing memberships.
    *
-   * @param member Member to renew
+   * @param member        Member to renew
    * @param durationYears years to add to membership
    */
   public void renewMembership(MemberModel member, int durationYears) { // what
@@ -258,7 +258,7 @@ public class MemberController {
   /**
    * Returns an Arraylist of expiring members based on the Array given as argument
    *
-   * @param days Amount of days to look ahead of current day.
+   * @param days         Amount of days to look ahead of current day.
    * @param memberModels Array of members to look through
    * @return ArrayList of expiring members
    */
@@ -279,7 +279,7 @@ public class MemberController {
   // Delete when depricated
   private MemberModel[] createMembersForTest() {
     MemberModel[] members = {
-      new MemberModel(), new MemberModel(), new MemberModel(), new MemberModel()
+        new MemberModel(), new MemberModel(), new MemberModel(), new MemberModel()
     };
 
     int test = 10;
@@ -328,7 +328,21 @@ public class MemberController {
 
   private void printMembers() {
     for (MemberModel m : members) {
+      System.out.print(m.getID());
       System.out.println(m.getName());
     }
   }
+
+  private String generateID() {
+    int id;
+    try {
+      int temp = Integer.parseInt(members.get(members.size() - 1).getID());
+      id = temp + 1;
+    } catch (IndexOutOfBoundsException e) {
+      id = 1;
+    }
+
+    return Integer.toString(id);
+  }
 }
+

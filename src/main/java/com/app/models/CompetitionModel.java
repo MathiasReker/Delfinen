@@ -13,15 +13,8 @@ public class CompetitionModel implements Serializable {
   private LocalTime startTime;
   private ArrayList<ResultModel> result = new ArrayList<>();
 
-  public CompetitionModel(LocalDate startDate, String name, LocalTime startTime) {
-    setId("1"); // TODO
-    this.startDate = startDate;
-    this.name = name;
-    this.startTime = startTime;
-  }
-
   public CompetitionModel(String id, String name, LocalDate startDate, LocalTime startTime) {
-    setId("1"); // TODO
+    this.id = id;
     this.startDate = startDate;
     this.name = name;
     this.startTime = startTime;
@@ -71,4 +64,5 @@ public class CompetitionModel implements Serializable {
   public void addResult(ResultModel result) {
     this.result.add(result);
   }
+
 }
