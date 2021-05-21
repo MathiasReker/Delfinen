@@ -268,9 +268,11 @@ public class MemberController {
 
     for (MemberModel member : memberModels) {
       ArrayList<MembershipModel> memberships = member.getMemberships();
-      LocalDate expiringDate = memberships.get(memberships.size() - 1).getExpiringDate();
-      if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
-        result.add(member);
+      if (memberships.size() != 0) {
+        LocalDate expiringDate = memberships.get(memberships.size() - 1).getExpiringDate();
+        if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
+          result.add(member);
+        }
       }
     }
     return result;
@@ -297,7 +299,6 @@ public class MemberController {
 
     return members;
   }
-
 
   public ArrayList<MemberModel> getMEMBERS() {
     return members;
@@ -335,6 +336,5 @@ public class MemberController {
     for (MemberModel m : members) {
       System.out.println(m.getName());
     }
-
   }
 }
