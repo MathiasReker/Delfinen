@@ -64,5 +64,4 @@ public class CompetitionModel implements Serializable {
   public void addResult(ResultModel result) {
     this.result.add(result);
   }
-
 }

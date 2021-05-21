@@ -195,9 +195,9 @@ public class CompetitionController {
   private String generateID() {
     int id;
     try {
-      int temp = Integer.parseInt(competitions.get(competitions.size()-1).getId());
+      int temp = Integer.parseInt(competitions.get(competitions.size() - 1).getId());
       id = temp + 1;
-    }catch (IndexOutOfBoundsException e){
+    } catch (IndexOutOfBoundsException e) {
       id = 1;
     }
 
