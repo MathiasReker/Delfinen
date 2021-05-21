@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class DisciplinesController {
 
-  private ArrayList<DisciplineModel> disciplines= new ArrayList<>();
+  private ArrayList<DisciplineModel> disciplines = new ArrayList<>();
 
   public DisciplinesController() {
     setDisciplines(disciplines);

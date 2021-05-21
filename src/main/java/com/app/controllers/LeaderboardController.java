@@ -11,14 +11,16 @@ public class LeaderboardController {
 
   private final CompetitionView VIEW = new CompetitionView();
   private final CompetitionController COMPETITION_CONTROLLER = new CompetitionController();
-  private final ArrayList<CompetitionModel> ALL_COMPETITIONS = COMPETITION_CONTROLLER.getCompetitions();;
-  
+  private final ArrayList<CompetitionModel> ALL_COMPETITIONS =
+      COMPETITION_CONTROLLER.getCompetitions();
+  ;
+
   /**
    * find top swimmers in all competitions.
    *
-   * @param style    to check.
+   * @param style to check.
    * @param distance of the style.
-   * @param amount   how many you want too see int the list.
+   * @param amount how many you want too see int the list.
    * @return an array of the amount the fastest swimmers in a given discipline.
    */
   private ResultModel[] findTop(String style, int distance, int amount) {
@@ -43,7 +45,8 @@ public class LeaderboardController {
 
       CompetitionModel cm = ALL_COMPETITIONS.get(i);
       for (int j = 0; j < cm.getResult().size(); j++) {
-        if (cm.getResult().get(j).getDiscipline().getStyle().equals(style) && cm.getResult().get(j).getDiscipline().getDistance() == distance) {
+        if (cm.getResult().get(j).getDiscipline().getStyle().equals(style)
+            && cm.getResult().get(j).getDiscipline().getDistance() == distance) {
           result.add(cm.getResult().get(j));
         }
       }
@@ -60,7 +63,7 @@ public class LeaderboardController {
 
       VIEW.displayMenu(COMPETITION_CONTROLLER.styleToArray());
       int input = in.nextInt();
-      while (!ValidateModel.isValidRange(input,1, COMPETITION_CONTROLLER.styleToArray().length)) {
+      while (!ValidateModel.isValidRange(input, 1, COMPETITION_CONTROLLER.styleToArray().length)) {
         in.next();
         input = in.nextInt();
       }
@@ -68,7 +71,8 @@ public class LeaderboardController {
 
       VIEW.displayMenu(COMPETITION_CONTROLLER.distanceToArray());
       input = in.nextInt();
-      while (!ValidateModel.isValidRange(input,1, COMPETITION_CONTROLLER.distanceToArray().length)) {
+      while (!ValidateModel.isValidRange(
+          input, 1, COMPETITION_CONTROLLER.distanceToArray().length)) {
         in.next();
         input = in.nextInt();
       }
@@ -76,7 +80,5 @@ public class LeaderboardController {
 
       findTop(style, distance, FIVE);
     }
-
   }
-
 }
