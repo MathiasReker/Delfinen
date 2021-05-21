@@ -69,10 +69,10 @@ public class LeaderboardController {
       }
       style = StyleModel.values()[input - 1].name();
 
-      VIEW.displayMenu(COMPETITION_CONTROLLER.distanceToArray());
+      VIEW.displayMenu(COMPETITION_CONTROLLER.distanceToArray(style, GenderModel.OTHER));
       input = in.nextInt();
       while (!ValidateModel.isValidRange(
-          input, 1, COMPETITION_CONTROLLER.distanceToArray().length)) {
+          input, 1, COMPETITION_CONTROLLER.distanceToArray(style, GenderModel.OTHER).length)) {
         in.next();
         input = in.nextInt();
       }
