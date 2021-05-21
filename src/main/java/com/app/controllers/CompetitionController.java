@@ -4,7 +4,6 @@ import com.app.models.*;
 import com.app.models.services.CompetitionService;
 import com.app.views.CompetitionView;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
