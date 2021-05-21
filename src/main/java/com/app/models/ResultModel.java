@@ -3,7 +3,7 @@ package com.app.models;
 import java.io.Serializable;
 import java.time.LocalTime;
 
-public class ResultModel implements Serializable {
+public class ResultModel implements Serializable, Comparable<ResultModel>{
 
   private MemberModel member;
   private LocalTime resultTime;
@@ -37,5 +37,11 @@ public class ResultModel implements Serializable {
 
   public void setDiscipline(DisciplineModel discipline) {
     this.discipline = discipline;
+  }
+
+
+  @Override
+  public int compareTo(ResultModel other) {
+    return Integer.valueOf(this.getResultTime().compareTo(other.getResultTime()));
   }
 }
