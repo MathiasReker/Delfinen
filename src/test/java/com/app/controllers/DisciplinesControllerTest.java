@@ -22,7 +22,7 @@ class DisciplinesControllerTest {
 
     ArrayList<DisciplineModel> result =
         new DisciplinesController()
-            .chosenDiscipline(GenderModel.MALE.name(), StyleModel.BUTTERFLY.toString());
+            .chosenDiscipline(GenderModel.MALE.name(), StyleModel.BUTTERFLY.name());
 
     Assertions.assertEquals(expect.get(2).getDistance(), result.get(2).getDistance());
   }
@@ -43,7 +43,7 @@ class DisciplinesControllerTest {
 
     ArrayList<DisciplineModel> result =
         new DisciplinesController()
-            .chosenDiscipline(GenderModel.MALE.name(), StyleModel.FREESTYLE.toString());
+            .chosenDiscipline(GenderModel.MALE.name(), StyleModel.FREESTYLE.name());
 
     Assertions.assertEquals(expect.get(4).getDistance(), result.get(4).getDistance());
   }
@@ -63,7 +63,7 @@ class DisciplinesControllerTest {
 
     ArrayList<DisciplineModel> result =
         new DisciplinesController()
-            .chosenDiscipline(GenderModel.FEMALE.name(), StyleModel.FREESTYLE.toString());
+            .chosenDiscipline(GenderModel.FEMALE.name(), StyleModel.FREESTYLE.name());
 
     Assertions.assertEquals(expect.get(4).getDistance(), result.get(4).getDistance());
   }
@@ -73,11 +73,11 @@ class DisciplinesControllerTest {
 
     ArrayList<DisciplineModel> expect =
         new DisciplinesController()
-            .chosenDiscipline(GenderModel.MALE.name(), StyleModel.FREESTYLE.toString());
+            .chosenDiscipline(GenderModel.MALE.name(), StyleModel.FREESTYLE.name());
 
     ArrayList<DisciplineModel> result =
         new DisciplinesController()
-            .chosenDiscipline(GenderModel.FEMALE.name(), StyleModel.FREESTYLE.toString());
+            .chosenDiscipline(GenderModel.FEMALE.name(), StyleModel.FREESTYLE.name());
 
     Assertions.assertNotEquals(expect.get(4).getDistance(), result.get(4).getDistance());
   }
