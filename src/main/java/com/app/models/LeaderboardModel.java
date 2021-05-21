@@ -26,15 +26,15 @@ public class LeaderboardModel {
   }
 
   public void setCompetitionNames(String competitionNames) {
-      this.competitionNames = competitionNames;
+    this.competitionNames = competitionNames;
   }
 
   public void setMemberNames(String memberNames) {
-      this.memberNames = memberNames;
+    this.memberNames = memberNames;
   }
 
   public void setMemberTimes(LocalTime memberTimes) {
-      this.memberTimes = memberTimes;
+    this.memberTimes = memberTimes;
   }
 
 }
