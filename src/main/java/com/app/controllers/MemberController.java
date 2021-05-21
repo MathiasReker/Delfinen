@@ -319,7 +319,7 @@ public class MemberController {
     }
   }
 
-  private String generateID() {
+  private String generateID() { //TODO refactor to valuof
     int id;
     try {
       int temp = Integer.parseInt(members.get(members.size() - 1).getID());

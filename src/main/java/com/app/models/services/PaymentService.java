@@ -36,7 +36,7 @@ public class PaymentService {
     fileService.writeToFile(result);
   }
 
-  private String createNewPath(){
+  private String createNewPath(){ //TODO kig igen lav mere generisk
     String s = path;
     String [] data = s.split("/");
     data[2] = "backup.txt";

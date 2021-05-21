@@ -208,7 +208,7 @@ public class CompetitionController {
     return result;
   }
 
-  private String generateID() {
+  private String generateID() { //TODO refactor to valuof
     int id;
     try {
       int temp = Integer.parseInt(competitions.get(competitions.size() - 1).getId());
