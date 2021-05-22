@@ -31,24 +31,24 @@ public class CompetitionController {
   }
 
   public void createNewCompetition(Scanner in) {
-    VIEW.printInline("Please enter competition name: ");
+    VIEW.printInline("Name of competition: ");
     String competitionName = in.nextLine();
-    VIEW.printInline("Please enter date [dd/MM/yyyy]: ");
+    VIEW.printInline("Date [dd/MM/yyyy]: ");
     LocalDate date = LocalDate.parse(validateDate(in), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     VIEW.printInline("Please enter start time of the competition [HH:mm]: ");
     LocalTime startTime =
         LocalTime.parse(validCompetitionTime(in), DateTimeFormatter.ofPattern("HH:mm"));
     competitions.add(new CompetitionModel(generateId(), competitionName, date, startTime));
 
-    VIEW.printSuccess("New Competition created!");
+    VIEW.printSuccess("Competition successfully created.");
 
     saveCompetitionsToFile();
   }
 
   public void addResultToCompetition(Scanner in) {
-    VIEW.printInline("Please enter Competition ID: ");
+    VIEW.printInline("Competition ID: ");
     CompetitionModel competition = getCompetition(in);
-    VIEW.printInline("Please enter member ID: ");
+    VIEW.printInline("Member ID: ");
     MemberModel member = getMember(in.nextLine());
     VIEW.displayOptions(styleToArray());
     int styleChoice = in.nextInt();
@@ -59,7 +59,7 @@ public class CompetitionController {
     int distanceChoice = in.nextInt();
     in.nextLine();
 
-    VIEW.printInline("Enter result [mm:ss:SS]: ");
+    VIEW.printInline("Result time [mm:ss:SS]: ");
     LocalTime time =
         LocalTime.parse("00:" + validResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
@@ -69,7 +69,7 @@ public class CompetitionController {
             styleToArray()[styleChoice - 1]);
 
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
-    VIEW.printSuccess("New result was added!");
+    VIEW.printSuccess("Result successfully added.");
   }
 
   /**
@@ -102,7 +102,7 @@ public class CompetitionController {
   }
 
   public void viewCompetitionResults(Scanner in) {
-    VIEW.printInline("Please  enter competition ID: ");
+    VIEW.printInline("Competition ID: ");
     CompetitionModel competition = getCompetition(in);
     ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
     String[] resultsToString = new String[resultsOfCompetition.size()];

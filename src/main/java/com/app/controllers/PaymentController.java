@@ -22,7 +22,7 @@ public class PaymentController {
       paymentService = new PaymentService("data/payment-requests/out.txt");
       approvedPaymentsIds = paymentService.getApprovedPayments();
     } catch (IOException e) {
-      VIEW.printWarning("Could not load Competitions");
+      VIEW.printWarning("The competitions could not be loaded.");
     }
   }
 
@@ -45,7 +45,7 @@ public class PaymentController {
         resultsToString[i] = String.join(";", id, name);
       } catch (MemberNotFoundException e) {
         String id = approvedPaymentsIds.get(i);
-        resultsToString[i] = String.join(";", id, "Member does not exist");
+        resultsToString[i] = String.join(";", id, "The member does not exist.");
       }
     }
     VIEW.displayPayments(resultsToString);
@@ -53,13 +53,13 @@ public class PaymentController {
 
   public void handlePayments(Scanner in) {
     reviewPaymentFile();
-    VIEW.printInline("Do you wish to update the memberships of valid members [Y/N]: ");
+    VIEW.printInline("Would you like to update the memberships of valid members? [Y/n]: ");
 
     if (Input.promptYesNo(in)) {
       updateMemberShip(getValidPayments());
-      VIEW.printSuccess("Memberships successfully updated!");
+      VIEW.printSuccess("Memberships successfully updated.");
     } else {
-      VIEW.printWarning("Canceled!");
+      VIEW.printWarning("Canceled.");
     }
   }
 

@@ -199,9 +199,9 @@ public class MemberController {
       if (expiringMembers.size() > 0) {
         boolean stop = false;
         while (!stop) { // allow removal of members
-          VIEW.print("do you want to remove a member from the list? [Y/n]:");
+          VIEW.print("Do you want to remove a member from the list? [Y/n]:");
           if (Input.promptYesNo(in)) {
-            VIEW.print("Type member ID to delete:");
+            VIEW.print("Type member ID to delete: ");
             String input = in.nextLine();
             try {
               MemberModel member = getMemberByID(input, expiringMembers);
@@ -213,7 +213,7 @@ public class MemberController {
             stop = true;
           }
         }
-        VIEW.print("Are you sure you want to send payment requests? [Y/n[");
+        VIEW.print("Are you sure you want to send the payment requests? [Y/n]");
         if (Input.promptYesNo(in)) {
           paymentRequester.createPaymentRequest(expiringMembers.toArray(new MemberModel[0]));
         }
@@ -249,7 +249,7 @@ public class MemberController {
   public void saveMembers() {
     try {
       new MemberService(FILE).saveMembers(members.toArray(new MemberModel[0]));
-      VIEW.printSuccess("The member has been saved.");
+      VIEW.printSuccess("The member is successfully saved.");
     } catch (IOException e) {
       VIEW.printWarning(e.getMessage());
     }
