@@ -28,7 +28,6 @@ public class MemberController {
     }
   }
 
-
   public void createMember(Scanner in) {
     MEMBER_VIEW.printInline("Name: ");
     String name = validateName(in);
@@ -175,9 +174,11 @@ public class MemberController {
     result.setExpiringDate(result.getExpiringDate().plusYears(durationYears));
     result.setActive(true);
     result.setPayed(false);
+
     return result;
   }
 
+  // TODO: Refactor into shorter methods
   public void requestRenewalFromExpiringMembers(Scanner in) { // WIP
     try {
       ArrayList<MemberModel> expiringMembers =
@@ -232,6 +233,7 @@ public class MemberController {
     throw new MemberNotFoundException();
   }
 
+  // TODO: Refactor. Avoid using overload in this case.
   // Har overloaded den her metode da jeg skal bruge array i denne klasse
   MemberModel getMemberByID(String id) throws MemberNotFoundException {
     for (MemberModel member : members) {
@@ -250,7 +252,7 @@ public class MemberController {
    * @return ArrayList of expiring members
    */
   ArrayList<MemberModel> getExpiringMembers(
-      MemberModel[] memberModels, int days) { // TODO Move to model?
+      MemberModel[] memberModels, int days) { // TODO: Move to model
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {
@@ -262,6 +264,7 @@ public class MemberController {
         }
       }
     }
+
     return result;
   }
 
@@ -296,48 +299,68 @@ public class MemberController {
       new MemberService(FILE).saveMembers(members.toArray(new MemberModel[0]));
       MEMBER_VIEW.printSuccess("The member has been saved.");
     } catch (IOException e) {
-      // ignore
+      MEMBER_VIEW.printWarning(e.getMessage());
     }
   }
 
   public MemberModel[] loadMembers() throws CouldNotLoadMemberException {
-    MemberModel[] test;
     try {
-      MemberService memberService = new MemberService(FILE);
-      test = memberService.loadMembers();
-      return test;
+      return new MemberService(FILE).loadMembers();
     } catch (IOException | ClassNotFoundException e) {
-      throw new CouldNotLoadMemberException(e.getMessage());
+      MEMBER_VIEW.printWarning(e.getMessage());
+      return new MemberModel[0];
     }
   }
 
-  private ArrayList<MemberModel> memberToStringArray(MemberModel[] members) {
+  private ArrayList<MemberModel> memberToStringArray(MemberModel[] members) { // TODO: REname
     return new ArrayList<>(Arrays.asList(members));
   }
 
-  // View members
-  public ArrayList<String> memberToArray(ArrayList<MemberModel> members) {
-    ArrayList<String> result = new ArrayList<>();
+  public void viewMembers() {
+    String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+    MEMBER_VIEW.displayMember(header, getColumnWidth());
 
-    for (MemberModel m : members) {
-      result.add(m.getID());
-      result.add(m.getName());
-      result.add(String.valueOf(m.getAge()));
-      result.add(m.getGender().name());
-      result.add(m.getPhoneNumber());
-      result.add(m.getMail());
-      result.add(String.valueOf(m.isCompetitive()));
-      result.add(String.valueOf(m.getCreationDate()));
-      result.add(String.valueOf(m.getDisciplines()));
-      result.add(String.valueOf(m.getMemberships()));
-      // result.add(String.valueOf(m.isDeleted()));
+    for (MemberModel member : members) {
+      String[] body =
+          new String[] {
+            member.getID(),
+            member.getName(),
+            member.getMail(),
+            member.getPhoneNumber(),
+            String.valueOf(member.getAge()),
+            String.valueOf(member.getGender()),
+          };
+
+      MEMBER_VIEW.displayMember(body, getColumnWidth());
+    }
+  }
+
+  public int[] getColumnWidth() {
+    int[] result = new int[7];
+
+    for (MemberModel member : members) {
+      String[] arr =
+          new String[] {
+            member.getID(),
+            member.getName(),
+            member.getMail(),
+            member.getPhoneNumber(),
+            String.valueOf(member.getAge()),
+            String.valueOf(member.getGender()),
+          };
+
+      for (int i = 0; i < arr.length; i++) {
+        if (arr[i] == null) {
+          arr[i] = "--";
+        }
+
+        if (arr[i].length() > result[i]) {
+          result[i] = arr[i].length();
+        }
+      }
     }
 
     return result;
-  }
-
-  public void viewMembers() {
-    MEMBER_VIEW.displayMembers(memberToArray(members));
   }
 
   public void viewMemberByName(Scanner in) {
@@ -345,7 +368,7 @@ public class MemberController {
     String name = validateName(in);
 
     ArrayList<MemberModel> sortedList = getMemberByName(name);
-    MEMBER_VIEW.displaySortedMembers(memberToArray(sortedList));
+    // MEMBER_VIEW.displaySortedMembers(memberToArray(sortedList));
     // todo: handle if 0 members
 
     // todo: If there is more than one match, the matches are displayed, and the user must choose by

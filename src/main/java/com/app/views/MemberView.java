@@ -13,17 +13,24 @@ public class MemberView extends View {
     printInline(String.join(", ", result) + ": ");
   }
 
-  public void displayMembers(ArrayList<String> arr) {
-    for (String s : arr) {
-      print(s);
+  public void displayMember(String[] member, int[] columnWidth) {
+    for (int i = 0; i < member.length; i++) {
+      String s = member[i];
+
+      if (s == null) {
+        s = "--";
+      }
+
+      System.out.printf("%-" + (columnWidth[i] + 4) + "s", s);
     }
+
     System.out.println();
   }
 
-  public void displaySortedMembers(ArrayList<String> members) { // TODO: move to View
+  public void displaySortedMembers(ArrayList<String> members) {
     for (String s : members) {
       print(s);
     }
-    System.out.println(); // TODO
+    System.out.println();
   }
 }
