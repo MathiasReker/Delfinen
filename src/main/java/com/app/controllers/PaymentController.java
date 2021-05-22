@@ -12,9 +12,9 @@ import java.util.Scanner;
 
 public class PaymentController {
 
-  private MemberController memberController = new MemberController();
+  private final MemberController MEMBER_CONTROLLER = new MemberController();
   private ArrayList<String> approvedPaymentsIds = new ArrayList<>();
-  private PaymentsView VIEW = new PaymentsView();
+  private final PaymentsView VIEW = new PaymentsView();
   private PaymentService paymentService;
 
   public PaymentController() {
@@ -28,9 +28,9 @@ public class PaymentController {
 
   private void updateMemberShip(ArrayList<MemberModel> members) {
 
-    for (int i = 0; i < members.size(); i++) {
-      if (members.get(i).getMemberships().size() != 0) {
-        members.get(i).getLatestMembership().setPayed(true);
+    for (MemberModel member : members) {
+      if (member.getMemberships().size() != 0) {
+        member.getLatestMembership().setPayed(true);
       }
     }
   }
@@ -39,7 +39,7 @@ public class PaymentController {
     String[] resultsToString = new String[approvedPaymentsIds.size()];
     for (int i = 0; i < approvedPaymentsIds.size(); i++) {
       try {
-        MemberModel member = memberController.getMemberByID(approvedPaymentsIds.get(i));
+        MemberModel member = MEMBER_CONTROLLER.getMemberByID(approvedPaymentsIds.get(i));
         String id = member.getID();
         String name = member.getName();
         resultsToString[i] = String.join(";", id, name);
@@ -68,13 +68,13 @@ public class PaymentController {
     ArrayList<MemberModel> result = new ArrayList<>();
     ArrayList<String> failedPayments = new ArrayList<>();
 
-    for (int i = 0; i < approvedPaymentsIds.size(); i++) {
+    for (String approvedPaymentsId : approvedPaymentsIds) {
       try {
-        MemberModel member = memberController.getMemberByID(approvedPaymentsIds.get(i));
+        MemberModel member = MEMBER_CONTROLLER.getMemberByID(approvedPaymentsId);
         result.add(member);
 
       } catch (MemberNotFoundException e) {
-        failedPayments.add(approvedPaymentsIds.get(i));
+        failedPayments.add(approvedPaymentsId);
       }
       crateBackupFile(failedPayments);
     }

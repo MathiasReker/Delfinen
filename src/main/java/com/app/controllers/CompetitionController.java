@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class CompetitionController {
-
   private final CompetitionView VIEW = new CompetitionView();
   private ArrayList<CompetitionModel> competitions = new ArrayList<>();
   private CompetitionService competitionService;
@@ -32,7 +31,6 @@ public class CompetitionController {
   }
 
   public void createNewCompetition(Scanner in) {
-
     VIEW.printInline("Please enter competition name: ");
     String competitionName = in.nextLine();
     VIEW.printInline("Please enter date [dd/MM/yyyy]: ");
@@ -48,7 +46,6 @@ public class CompetitionController {
   }
 
   public void addResultToCompetition(Scanner in) {
-
     VIEW.printInline("Please enter Competition ID: ");
     CompetitionModel competition = getCompetition(in);
     VIEW.printInline("Please enter member ID: ");
@@ -82,7 +79,6 @@ public class CompetitionController {
    * @return a competition based on the id that is provided
    */
   public CompetitionModel getCompetition(Scanner in) {
-
     String input = in.nextLine();
     while (!isValidCompetitionId(input)) {
       VIEW.printInlineWarning("Not a valid ID. Please try again: ");
@@ -106,7 +102,6 @@ public class CompetitionController {
   }
 
   public void viewCompetitionResults(Scanner in) {
-
     VIEW.printInline("Please  enter competition ID: ");
     CompetitionModel competition = getCompetition(in);
     ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
@@ -166,7 +161,6 @@ public class CompetitionController {
   }
 
   private String validateDate(Scanner in) {
-
     String result = in.nextLine();
     while (!ValidateModel.isValidDate(result)) {
       VIEW.printInlineWarning("Not a valid date. Please try again: ");
@@ -203,7 +197,6 @@ public class CompetitionController {
   }
 
   public void saveCompetitionsToFile() {
-
     try {
       competitionService.saveCompetitionsToFile(competitions.toArray(new CompetitionModel[0]));
     } catch (IOException e) {

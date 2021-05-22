@@ -14,38 +14,38 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class MemberController {
-  private final MemberView MEMBER_VIEW;
+  private final MemberView VIEW;
   private final String FILE = "data/bin/members.bin";
   private ArrayList<MemberModel> members;
 
   public MemberController() {
-    MEMBER_VIEW = new MemberView();
+    VIEW = new MemberView();
     try {
       members = membersToStringArray(loadMembers());
     } catch (CouldNotLoadMemberException e) {
-      MEMBER_VIEW.printWarning("Could not load any members");
+      VIEW.printWarning("Could not load any members");
       members = new ArrayList<>();
     }
   }
 
   public void createMember(Scanner in) {
-    MEMBER_VIEW.printInline("Name: ");
+    VIEW.printInline("Name: ");
     String name = validateName(in);
 
-    MEMBER_VIEW.printInline("Mail: ");
+    VIEW.printInline("Mail: ");
     String mail = validateMail(in);
 
-    MEMBER_VIEW.displayOptions(gendersToArray());
+    VIEW.displayOptions(gendersToArray());
     int genderIndex = validateOptionRange(in, GenderModel.values().length);
     GenderModel gender = GenderModel.values()[genderIndex - 1];
 
-    MEMBER_VIEW.printInline("Birthday [dd/MM/yyyy]: ");
+    VIEW.printInline("Birthday [dd/MM/yyyy]: ");
     String birthday = validateDate(in);
 
-    MEMBER_VIEW.printInline("Phone: ");
+    VIEW.printInline("Phone: ");
     String phone = validatePhoneNumber(in);
 
-    MEMBER_VIEW.printInline("Competitive [Y/n]: ");
+    VIEW.printInline("Competitive [Y/n]: ");
     boolean competitive = Input.promptYesNo(in);
 
     String id = generateID();
@@ -89,7 +89,7 @@ public class MemberController {
       if (ValidateModel.isValidName(result)) {
         return result;
       }
-      MEMBER_VIEW.printInlineWarning("Not a valid name. Please try again: ");
+      VIEW.printInlineWarning("Not a valid name. Please try again: ");
     }
   }
 
@@ -99,7 +99,7 @@ public class MemberController {
       if (ValidateModel.isValidMail(result)) {
         return result;
       }
-      MEMBER_VIEW.printInlineWarning("Not a valid mail. Please try again: ");
+      VIEW.printInlineWarning("Not a valid mail. Please try again: ");
     }
   }
 
@@ -109,14 +109,14 @@ public class MemberController {
       if (ValidateModel.isValidPhoneNumber(result)) {
         return result;
       }
-      MEMBER_VIEW.printInlineWarning("Not a valid phone number. Please try again: ");
+      VIEW.printInlineWarning("Not a valid phone number. Please try again: ");
     }
   }
 
   private String validateDate(Scanner in) {
     String result = in.nextLine();
     while (!ValidateModel.isValidDate(result)) {
-      MEMBER_VIEW.printInlineWarning("Not a valid date. Please try again: ");
+      VIEW.printInlineWarning("Not a valid date. Please try again: ");
       result = in.nextLine();
     }
 
@@ -131,13 +131,13 @@ public class MemberController {
         in.nextLine();
         return result;
       }
-      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
+      VIEW.printInlineWarning("Not a valid choice. Please try again: ");
     }
   }
 
   private int validateInteger(Scanner in) {
     while (!in.hasNextInt()) {
-      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
+      VIEW.printInlineWarning("Not a valid choice. Please try again: ");
       in.next();
     }
 
@@ -186,9 +186,9 @@ public class MemberController {
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
 
-      MEMBER_VIEW.print("Expiring members:"); // show Members
+      VIEW.print("Expiring members:"); // show Members
       for (MemberModel member : expiringMembers) {
-        MEMBER_VIEW.print( // TODO
+        VIEW.print( // TODO
             member.getID()
                 + "\t"
                 + member.getName()
@@ -199,27 +199,27 @@ public class MemberController {
       if (expiringMembers.size() > 0) {
         boolean stop = false;
         while (!stop) { // allow removal of members
-          MEMBER_VIEW.print("do you want to remove a member from the list? [Y/n]:");
+          VIEW.print("do you want to remove a member from the list? [Y/n]:");
           if (Input.promptYesNo(in)) {
-            MEMBER_VIEW.print("Type member ID to delete:");
+            VIEW.print("Type member ID to delete:");
             String input = in.nextLine();
             try {
               MemberModel member = getMemberByID(input, expiringMembers);
               expiringMembers.remove(member);
             } catch (MemberNotFoundException e) {
-              MEMBER_VIEW.printWarning("Member was not found");
+              VIEW.printWarning("Member was not found");
             }
           } else {
             stop = true;
           }
         }
-        MEMBER_VIEW.print("Are you sure you want to send payment requests? [Y/n[");
+        VIEW.print("Are you sure you want to send payment requests? [Y/n[");
         if (Input.promptYesNo(in)) {
           paymentRequester.createPaymentRequest(expiringMembers.toArray(new MemberModel[0]));
         }
       }
     } catch (IOException e) {
-      MEMBER_VIEW.printWarning(e.getMessage());
+      VIEW.printWarning(e.getMessage());
     }
   }
 
@@ -249,9 +249,9 @@ public class MemberController {
   public void saveMembers() {
     try {
       new MemberService(FILE).saveMembers(members.toArray(new MemberModel[0]));
-      MEMBER_VIEW.printSuccess("The member has been saved.");
+      VIEW.printSuccess("The member has been saved.");
     } catch (IOException e) {
-      MEMBER_VIEW.printWarning(e.getMessage());
+      VIEW.printWarning(e.getMessage());
     }
   }
 
@@ -259,7 +259,6 @@ public class MemberController {
     try {
       return new MemberService(FILE).loadMembers();
     } catch (IOException | ClassNotFoundException e) {
-      MEMBER_VIEW.printWarning(e.getMessage());
       return new MemberModel[0];
     }
   }
@@ -270,7 +269,7 @@ public class MemberController {
 
   public void viewMembers() {
     String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
-    MEMBER_VIEW.displayMember(header, getColumnWidth());
+    VIEW.displayMember(header, getColumnWidth());
 
     for (MemberModel member : members) {
       String[] body =
@@ -283,13 +282,13 @@ public class MemberController {
             String.valueOf(member.getGender()),
           };
 
-      MEMBER_VIEW.displayMember(body, getColumnWidth());
+      VIEW.displayMember(body, getColumnWidth());
     }
   }
 
   public void viewMembers(ArrayList<MemberModel> members) {
     String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
-    MEMBER_VIEW.displayMember(header, getColumnWidth());
+    VIEW.displayMember(header, getColumnWidth());
 
     for (MemberModel member : members) {
       String[] body =
@@ -302,7 +301,7 @@ public class MemberController {
             String.valueOf(member.getGender()),
           };
 
-      MEMBER_VIEW.displayMember(body, getColumnWidth());
+      VIEW.displayMember(body, getColumnWidth());
     }
   }
 
@@ -335,13 +334,13 @@ public class MemberController {
   }
 
   public void viewMemberByName(Scanner in) {
-    MEMBER_VIEW.printInline("Name: ");
+    VIEW.printInline("Name: ");
     String name = validateName(in);
 
     ArrayList<MemberModel> sortedList = getMemberByName(name);
 
     if (0 == sortedList.size()) {
-      MEMBER_VIEW.printWarning("No members with the name: " + name);
+      VIEW.printWarning("No members with the name: " + name);
     } else {
       viewMembers(sortedList);
     }
@@ -375,12 +374,12 @@ public class MemberController {
         }
       }
 
-      MEMBER_VIEW.printInlineWarning("Not a valid ID. Please try again: ");
+      VIEW.printInlineWarning("Not a valid ID. Please try again: ");
     }
   }
 
   public void anonymizeMember(Scanner in) {
-    MEMBER_VIEW.printInline("Input ID [press \"q\" to quit]: ");
+    VIEW.printInline("Input ID [press \"q\" to quit]: ");
     String id = getValidId(in);
 
     if (null != id) {
@@ -391,17 +390,17 @@ public class MemberController {
         member.setMail(null);
         member.setDeleted(true);
       } catch (MemberNotFoundException e) {
-        MEMBER_VIEW.printWarning(e.getMessage());
+        VIEW.printWarning(e.getMessage());
       }
 
       saveMembers();
     } else {
-      MEMBER_VIEW.printSuccess("Action cancelled.");
+      VIEW.printSuccess("Action cancelled.");
     }
   }
 
   public void editMember(Scanner in) {
-    MEMBER_VIEW.printInline("Input ID [press \"q\" to quit]: ");
+    VIEW.printInline("Input ID [press \"q\" to quit]: ");
 
     String id = getValidId(in);
 
@@ -410,11 +409,11 @@ public class MemberController {
         MemberModel member = getMemberByID(id);
 
         String[] options = new String[] {"Name", "Mail", "Phone number", "Birthday"};
-        MEMBER_VIEW.displayOptions(options);
+        VIEW.displayOptions(options);
 
         int index = validateOptionRange(in, options.length) - 1;
 
-        MEMBER_VIEW.printInline(options[index] + ": ");
+        VIEW.printInline(options[index] + ": ");
 
         if (0 == index) {
           String name = validateName(in);
@@ -436,7 +435,7 @@ public class MemberController {
       }
 
     } else {
-      MEMBER_VIEW.printSuccess("Action cancelled.");
+      VIEW.printSuccess("Action cancelled.");
     }
   }
 

@@ -8,24 +8,20 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class LeaderboardController {
-
   private final CompetitionView VIEW = new CompetitionView();
   private final CompetitionController COMPETITION_CONTROLLER = new CompetitionController();
   private final ArrayList<CompetitionModel> ALL_COMPETITIONS =
       COMPETITION_CONTROLLER.getCompetitions();
-  ;
 
   /**
    * find top swimmers in all competitions.
    *
    * @param style to check.
    * @param distance of the style.
-   * @param amount how many you want too see int the list.
    * @return an array of the amount the fastest swimmers in a given discipline.
    */
-  private ResultModel[] findTop(String style, int distance, int amount) {
-
-    ResultModel[] result = new ResultModel[amount];
+  private ResultModel[] findTop5(String style, int distance) {
+    ResultModel[] result = new ResultModel[5];
     ArrayList<ResultModel> allResults = findDiscipline(style, distance);
 
     Collections.sort(allResults);
@@ -38,12 +34,10 @@ public class LeaderboardController {
   }
 
   private ArrayList<ResultModel> findDiscipline(String style, int distance) {
-
     ArrayList<ResultModel> result = new ArrayList<>();
 
-    for (int i = 0; i < ALL_COMPETITIONS.size(); i++) {
+    for (CompetitionModel cm : ALL_COMPETITIONS) {
 
-      CompetitionModel cm = ALL_COMPETITIONS.get(i);
       for (int j = 0; j < cm.getResult().size(); j++) {
         if (cm.getResult().get(j).getDiscipline().getStyle().equals(style)
             && cm.getResult().get(j).getDiscipline().getDistance() == distance) {
@@ -55,11 +49,9 @@ public class LeaderboardController {
   }
 
   public void displayTopResults(Scanner in) {
-
     if (!ALL_COMPETITIONS.isEmpty()) {
       String style;
       int distance;
-      final int FIVE = 5;
 
       VIEW.displayMenu(COMPETITION_CONTROLLER.styleToArray());
       int input = in.nextInt();
@@ -78,7 +70,7 @@ public class LeaderboardController {
       }
       distance = DistanceModel.values()[input - 1].getMeters();
 
-      findTop(style, distance, FIVE);
+      findTop5(style, distance); // TODO: Output the values. Right not nothing is displayed.
     }
   }
 }
