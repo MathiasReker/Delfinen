@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class MemberController {
   private final MemberView MEMBER_VIEW;
-  private final String FILE = "data/members.bin";
+  private final String FILE = "data/bin/members.bin";
   private ArrayList<MemberModel> members;
 
   public MemberController() {
@@ -150,7 +150,7 @@ public class MemberController {
    * @param member Member to renew
    * @param durationYears years to add to membership
    */
-  public void renewMembership(MemberModel member, int durationYears) { // what
+  public void renewMembership(MemberModel member, int durationYears) { // TODO: what
     ArrayList<MembershipModel> memberships = member.getMemberships();
     MembershipModel lastMembership = memberships.get(memberships.size() - 1);
     int comparedDate = lastMembership.getExpiringDate().compareTo(LocalDate.now());
@@ -233,8 +233,6 @@ public class MemberController {
     throw new MemberNotFoundException();
   }
 
-  // TODO: Refactor. Avoid using overload in this case.
-  // Har overloaded den her metode da jeg skal bruge array i denne klasse
   MemberModel getMemberByID(String id) throws MemberNotFoundException {
     for (MemberModel member : members) {
       if (member.getID().equals(id)) {
@@ -427,7 +425,7 @@ public class MemberController {
         } else if (2 == index) {
           String mail = validatePhoneNumber(in);
           member.setPhoneNumber(mail);
-        } else if (3 == index) {
+        } else if (3 == index) { // TODO: Condition '3 == index' is always 'true'
           String birthday = validateDate(in);
           member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         }
@@ -443,7 +441,10 @@ public class MemberController {
   }
 
   private String generateID() {
-    int oldId = Integer.parseInt(members.get(members.size() - 1).getID());
+    int oldId = 0;
+    if (members.size() > 0) {
+      oldId = Integer.parseInt(members.get(members.size() - 1).getID());
+    }
     int newId = oldId + 1;
 
     return String.valueOf(newId);

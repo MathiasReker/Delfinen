@@ -14,5 +14,4 @@ public class PredictIncomeMenuAction extends MenuActions {
     Scanner in = new Scanner(System.in);
     new PredictionController().predictIncome(in);
   }
-  ;
 }

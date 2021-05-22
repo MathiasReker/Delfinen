@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class PaymentService {
 
   private final FileService FILE_SERVICE;
-  private String path;
+  private final String path;
 
   public PaymentService(String path) throws IOException {
     FILE_SERVICE = new FileService(path);
@@ -35,8 +35,7 @@ public class PaymentService {
     fileService.writeToFile(result);
   }
 
-  private String createNewPath() { // TODO kig igen lav mere generisk
-
+  private String createNewPath() { // TODO: Refactor
     String s = path;
     String[] data = s.split("/");
     data[2] = "backup.txt";

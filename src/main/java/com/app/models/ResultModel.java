@@ -27,7 +27,8 @@ public class ResultModel implements Serializable, Comparable<ResultModel> {
     return resultTime;
   }
 
-  public void setResultTime(LocalTime resultTime) {
+  public void setResultTime(
+      LocalTime resultTime) { // TODO: Method 'setResultTime(java.time.LocalTime)' is never used
     this.resultTime = resultTime;
   }
 
@@ -35,12 +36,15 @@ public class ResultModel implements Serializable, Comparable<ResultModel> {
     return discipline;
   }
 
-  public void setDiscipline(DisciplineModel discipline) {
+  public void setDiscipline(
+      DisciplineModel
+          discipline) { // TODO: Method 'setDiscipline(com.app.models.DisciplineModel)' is never
+                        // used
     this.discipline = discipline;
   }
 
   @Override
   public int compareTo(ResultModel other) {
-    return Integer.valueOf(this.getResultTime().compareTo(other.getResultTime()));
+    return this.getResultTime().compareTo(other.getResultTime());
   }
 }

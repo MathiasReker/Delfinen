@@ -11,19 +11,15 @@ public class MemberService {
     FILE_SERVICE = new FileService(path);
   }
 
-  public void saveMembers(MemberModel[] members) {
-    try {
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      ObjectOutputStream oos = new ObjectOutputStream(baos);
-      oos.writeObject(members);
-      byte[] membersInBytes = baos.toByteArray();
-      oos.flush();
-      oos.close();
-      baos.close();
-      FILE_SERVICE.writeToBin(membersInBytes);
-    } catch (IOException e) {
-      System.out.println("SaveMEmbers fucked"); // TODO move catch out to controller
-    }
+  public void saveMembers(MemberModel[] members) throws IOException {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(baos);
+    oos.writeObject(members);
+    byte[] membersInBytes = baos.toByteArray();
+    oos.flush();
+    oos.close();
+    baos.close();
+    FILE_SERVICE.writeToBin(membersInBytes);
   }
 
   public MemberModel[] loadMembers() throws IOException, ClassNotFoundException {

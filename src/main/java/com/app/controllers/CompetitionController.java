@@ -9,20 +9,21 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class CompetitionController {
 
-  private ArrayList<CompetitionModel> competitions = new ArrayList<>();
   private final CompetitionView VIEW = new CompetitionView();
+  private ArrayList<CompetitionModel> competitions = new ArrayList<>();
   private CompetitionService competitionService;
 
   public CompetitionController() {
     try {
-      competitionService = new CompetitionService("data/competitions.bin");
+      competitionService = new CompetitionService("data/bin/competitions.bin");
       competitions = toArraylist(competitionService.getCompetitionsFromFile());
     } catch (IOException | ClassNotFoundException e) {
-      VIEW.printWarning("Could not load Competitions");
+      VIEW.printWarning(e.getMessage());
     }
   }
 
@@ -39,7 +40,7 @@ public class CompetitionController {
     VIEW.printInline("Please enter start time of the competition [HH:mm]: ");
     LocalTime startTime =
         LocalTime.parse(validCompetitionTime(in), DateTimeFormatter.ofPattern("HH:mm"));
-    competitions.add(new CompetitionModel(generateID(), competitionName, date, startTime));
+    competitions.add(new CompetitionModel(generateId(), competitionName, date, startTime));
 
     VIEW.printSuccess("New Competition created!");
 
@@ -203,25 +204,23 @@ public class CompetitionController {
 
   public void saveCompetitionsToFile() {
 
-    competitionService.saveCompetitionsToFile(competitions.toArray(new CompetitionModel[0]));
+    try {
+      competitionService.saveCompetitionsToFile(competitions.toArray(new CompetitionModel[0]));
+    } catch (IOException e) {
+      VIEW.printWarning(e.getMessage());
+    }
   }
 
   private ArrayList<CompetitionModel> toArraylist(CompetitionModel[] competitions) {
     ArrayList<CompetitionModel> result = new ArrayList<>();
-    for (CompetitionModel c : competitions) {
-      result.add(c);
-    }
+    Collections.addAll(result, competitions);
     return result;
   }
 
-  private String generateID() { // TODO refactor to valuof
-    int id;
-    try {
-      int temp = Integer.parseInt(competitions.get(competitions.size() - 1).getId());
-      id = temp + 1;
-    } catch (IndexOutOfBoundsException e) {
-      id = 1;
-    }
-    return Integer.toString(id);
+  private String generateId() {
+    int oldId = Integer.parseInt(competitions.get(competitions.size() - 1).getId());
+    int newId = oldId + 1;
+
+    return String.valueOf(newId);
   }
 }

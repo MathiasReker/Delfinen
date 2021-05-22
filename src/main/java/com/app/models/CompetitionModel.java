@@ -24,16 +24,16 @@ public class CompetitionModel implements Serializable {
     return id;
   }
 
-  public void setId(
-      String id) { // TODO how will we manage the ids for competitions? will need to be refactored
-    this.id = id;
+  public void setId(String id) {
+    this.id = id; // TODO: How will we manage the ids for competitions? will need to be refactored
   }
 
-  public LocalDate getStartDate() {
+  public LocalDate getStartDate() { // TODO: Method 'getStartDate()' is never used
     return startDate;
   }
 
-  public void setStartDate(LocalDate startDate) {
+  public void setStartDate(
+      LocalDate startDate) { // TODO: Method 'setStartDate(java.time.LocalDate)' is never used
     this.startDate = startDate;
   }
 
@@ -45,11 +45,12 @@ public class CompetitionModel implements Serializable {
     this.name = name;
   }
 
-  public LocalTime getStartTime() {
+  public LocalTime getStartTime() { // TODO: Method 'getStartTime()' is never used
     return startTime;
   }
 
-  public void setStartTime(LocalTime startTime) {
+  public void setStartTime(
+      LocalTime startTime) { // TODO: Method 'setStartTime(java.time.LocalTime)' is never used
     this.startTime = startTime;
   }
 

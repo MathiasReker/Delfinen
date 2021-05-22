@@ -78,7 +78,7 @@ public class MemberModel implements Serializable {
     this.name = name;
   }
 
-  public boolean isDeleted() {
+  public boolean isDeleted() { // TODO: Method 'isDeleted()' is never used
     return deleted;
   }
 
@@ -185,8 +185,7 @@ public class MemberModel implements Serializable {
    * @param memberModels Array of members to look through
    * @return ArrayList of expiring members
    */
-  public ArrayList<MemberModel> getExpiringMembers(
-      MemberModel[] memberModels, int days) { // TODO: Move to model
+  public ArrayList<MemberModel> getExpiringMembers(MemberModel[] memberModels, int days) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {

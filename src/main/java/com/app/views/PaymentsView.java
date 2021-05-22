@@ -8,8 +8,8 @@ public class PaymentsView extends View {
     System.out.printf("%-10s %-20s", "ID", "Name");
     System.out.println();
     System.out.println("-----------------------");
-    for (int i = 0; i < payments.length; i++) {
-      String[] temp = payments[i].split(";");
+    for (String payment : payments) {
+      String[] temp = payment.split(";");
       System.out.format("%-10s %-20s", temp[0], temp[1]);
       System.out.println();
     }

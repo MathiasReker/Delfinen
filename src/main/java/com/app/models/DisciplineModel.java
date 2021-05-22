@@ -4,8 +4,8 @@ import java.io.Serializable;
 
 public class DisciplineModel implements Serializable {
 
-  private int distance;
-  private String style;
+  private final int DISTANCE;
+  private final String STYLE;
 
   /**
    * Create the swim style, with a given style and distance.
@@ -14,8 +14,8 @@ public class DisciplineModel implements Serializable {
    * @param style you want to use.
    */
   public DisciplineModel(int distance, String style) {
-    this.distance = distance;
-    this.style = style;
+    this.DISTANCE = distance;
+    this.STYLE = style;
   }
 
   /**
@@ -24,7 +24,7 @@ public class DisciplineModel implements Serializable {
    * @return the distance.
    */
   public int getDistance() {
-    return distance;
+    return DISTANCE;
   }
 
   /**
@@ -33,7 +33,7 @@ public class DisciplineModel implements Serializable {
    * @return the swim style.
    */
   public String getStyle() {
-    return style;
+    return STYLE;
   }
 
   /**
@@ -42,7 +42,7 @@ public class DisciplineModel implements Serializable {
    * @param choice the input that define whit style been chosen.
    * @return the chosen style.
    */
-  public String chosenStyle(int choice) {
+  public String chosenStyle(int choice) { // TODO: Method 'chosenStyle(int)' is never used
     // TODO: 17-05-2021 skulle nok flyttes til en anden klasse
     return StyleModel.values()[choice].toString();
   }

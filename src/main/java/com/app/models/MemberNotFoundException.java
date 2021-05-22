@@ -7,7 +7,9 @@ public class MemberNotFoundException extends Exception {
     super();
   }
 
-  public MemberNotFoundException(String message) {
+  public MemberNotFoundException(
+      String
+          message) { // TODO: Constructor 'MemberNotFoundException(java.lang.String)' is never used
     super(message);
   }
 }

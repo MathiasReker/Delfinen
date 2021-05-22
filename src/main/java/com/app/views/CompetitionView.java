@@ -20,8 +20,8 @@ public class CompetitionView extends View {
     System.out.println();
     System.out.println(
         "-----------------------------------------------------------------------------");
-    for (int i = 0; i < competitionResults.length; i++) {
-      String[] temp = competitionResults[i].split(";");
+    for (String c : competitionResults) {
+      String[] temp = c.split(";");
       System.out.format("%-10s %-20s %-20s m %-10s", temp[0], temp[1], temp[2], temp[3]);
       System.out.println();
     }

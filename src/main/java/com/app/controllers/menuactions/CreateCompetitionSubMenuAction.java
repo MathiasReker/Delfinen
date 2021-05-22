@@ -5,7 +5,6 @@ import com.app.controllers.CompetitionController;
 import java.util.Scanner;
 
 public class CreateCompetitionSubMenuAction extends MenuActions {
-
   public CreateCompetitionSubMenuAction(String itemName) {
     super(itemName);
   }

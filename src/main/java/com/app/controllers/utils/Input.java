@@ -4,7 +4,7 @@ import com.app.views.MenuView;
 
 import java.util.Scanner;
 
-public class Input { // TODO rename to something that makes sense
+public class Input { // TODO rename
 
   private static final MenuView VIEW = new MenuView();
 

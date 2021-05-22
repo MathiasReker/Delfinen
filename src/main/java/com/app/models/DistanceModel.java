@@ -10,14 +10,14 @@ public enum DistanceModel {
   EIGHT_HUNDRED(800),
   FIFTEEN_HUNDRED(1500);
 
-  private int meters;
+  private final int METERS;
 
   /** @param meters for ever distance we have. */
-  private DistanceModel(int meters) {
-    this.meters = meters;
+  DistanceModel(int meters) {
+    this.METERS = meters;
   }
 
   public int getMeters() {
-    return meters;
+    return METERS;
   }
 }
