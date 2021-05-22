@@ -24,7 +24,7 @@ public class AppTest {
     System.setIn(in);
 
     // Run the menu
-    //new App().menu(); // TODO: fix
+    // new App().menu(); // TODO: fix
   }
 
   @Test
