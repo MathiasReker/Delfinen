@@ -177,11 +177,4 @@ public class MemberModel implements Serializable {
 
     return Period.between(birthdate, currentDate).getYears();
   }
-
-  public void anonymizeMemberByIndex(int index) {
-    setName(null);
-    setPhoneNumber(null);
-    setMail(null);
-    setDeleted(true);
-  }
 }

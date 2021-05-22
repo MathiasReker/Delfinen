@@ -219,7 +219,7 @@ public class MemberController {
         }
       }
     } catch (IOException e) {
-      System.out.println("cant do that");
+      MEMBER_VIEW.printWarning(e.getMessage());
     }
   }
 
@@ -266,28 +266,6 @@ public class MemberController {
     }
 
     return result;
-  }
-
-  // Delete when depricated
-  private MemberModel[] createMembersForTest() {
-    MemberModel[] members = {
-      new MemberModel(), new MemberModel(), new MemberModel(), new MemberModel()
-    };
-
-    int test = 10;
-    for (MemberModel member : members) {
-      member.setID("M" + test);
-      member.setName("Name" + test);
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-      member.setBirthdate(LocalDate.parse("01-01-2020", formatter));
-      member.addMembership(new MembershipModel());
-      member.getMemberships().get(0).setExpiringDate(LocalDate.parse(test + "-10-2020", formatter));
-      member.getMemberships().get(0).setActive(true);
-      member.getMemberships().get(0).setPayed(true);
-      test++;
-    }
-
-    return members;
   }
 
   public ArrayList<MemberModel> getMEMBERS() {
@@ -388,12 +366,48 @@ public class MemberController {
     return result;
   }
 
-  public void anonymizeMember() {
-    // todo: display members
-    // todo: select member
+  private String getValidId(Scanner in) { // TODO split and move (idValidId)
+    while (true) {
+      String result = in.nextLine();
 
-    members.get(0).anonymizeMemberByIndex(0);
-    saveMembers();
+      if (result.equals("q")) {
+        return null;
+      }
+
+      for (MemberModel m : members) {
+        if (m.getID().equals(result)) {
+          return result;
+        }
+      }
+
+      MEMBER_VIEW.printInlineWarning("Not a valid ID. Please try again: ");
+    }
+  }
+
+  public void anonymizeMember() {
+    viewMembers();
+
+    Scanner in = new Scanner(System.in);
+
+    MEMBER_VIEW.printInline("Input ID [press \"q\" to quit]: ");
+
+    String id = getValidId(in);
+
+    if (id != null) {
+      try {
+        MemberModel member = getMemberByID(id);
+        member.setName(null);
+        member.setPhoneNumber(null);
+        member.setMail(null);
+        member.setDeleted(true);
+      } catch (MemberNotFoundException e) {
+        MEMBER_VIEW.printWarning(e.getMessage());
+      }
+
+      saveMembers();
+    } else {
+      MEMBER_VIEW.printSuccess("Cancelled.");
+    }
   }
 
   private String generateID() { // TODO refactor to valuof
