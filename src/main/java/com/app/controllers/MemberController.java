@@ -313,6 +313,25 @@ public class MemberController {
     }
   }
 
+  public void viewMembers(ArrayList<MemberModel> members) {
+    String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+    MEMBER_VIEW.displayMember(header, getColumnWidth());
+
+    for (MemberModel member : members) {
+      String[] body =
+          new String[] {
+            member.getID(),
+            member.getName(),
+            member.getMail(),
+            member.getPhoneNumber(),
+            String.valueOf(member.getAge()),
+            String.valueOf(member.getGender()),
+          };
+
+      MEMBER_VIEW.displayMember(body, getColumnWidth());
+    }
+  }
+
   public int[] getColumnWidth() {
     int[] result = new int[7];
 
@@ -346,20 +365,22 @@ public class MemberController {
     String name = validateName(in);
 
     ArrayList<MemberModel> sortedList = getMemberByName(name);
-    // MEMBER_VIEW.displaySortedMembers(memberToArray(sortedList));
-    // todo: handle if 0 members
 
-    // todo: If there is more than one match, the matches are displayed, and the user must choose by
-    // picking a corresponding number
+    if (sortedList.size() == 0) {
+      MEMBER_VIEW.printWarning("No members with the name: " + name);
+    } else {
+      viewMembers(sortedList);
+    }
   }
 
   public ArrayList<MemberModel> getMemberByName(String name) {
-
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
-      if (m.getName().equals(name)) {
-        result.add(m);
+      if (m.getName() != null) {
+        if (m.getName().equals(name)) {
+          result.add(m);
+        }
       }
     }
 
