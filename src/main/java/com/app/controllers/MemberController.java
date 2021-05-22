@@ -419,19 +419,27 @@ public class MemberController {
       try {
         MemberModel member = getMemberByID(id);
 
-        System.out.println("1: name, 2: mail");
+        String[] options = new String[] {"Name", "Mail", "Phone number", "Birthday"};
+        MEMBER_VIEW.displayOptions(options);
 
-        int choice = validateOptionRange(in, 2);
+        int index = validateOptionRange(in, options.length) - 1;
 
-        if (choice == 1) {
-          MEMBER_VIEW.printInline("Name: ");
+        MEMBER_VIEW.printInline(options[index] + ": ");
+
+        if (index == 0) {
           String name = validateName(in);
           member.setName(name);
-
-        } else if (choice == 2) {
-          MEMBER_VIEW.printInline("Mail: ");
+        } else if (index == 1) {
           String mail = validateMail(in);
           member.setMail(mail);
+        } else if (index == 2) {
+          String mail = validatePhoneNumber(in);
+          member.setPhoneNumber(mail);
+        } else if (index == 3) {
+          String birthday = validateDate(in);
+          member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        } else {
+          System.out.println();
         }
 
         saveMembers();

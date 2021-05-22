@@ -47,4 +47,14 @@ abstract class View {
   public void printInlineWarning(String text) {
     System.out.print(new ColorText(text, ColorKey.RED));
   }
+
+  public void displayOptions(String[] text) {
+    String[] result = new String[text.length];
+
+    for (int i = 0; i < text.length; i++) {
+      result[i] = text[i] + " [" + (i + 1) + "]";
+    }
+
+    printInline(String.join(", ", result) + ": ");
+  }
 }
