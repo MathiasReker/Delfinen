@@ -31,7 +31,6 @@ public class DisciplinesController {
    * @return a list og disciplines.
    */
   public ArrayList<DisciplineModel> chosenDiscipline(String gender, String style) {
-
     if (!styleExist(style)) {
       throw new IllegalArgumentException("No such style");
     }

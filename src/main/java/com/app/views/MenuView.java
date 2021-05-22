@@ -22,7 +22,6 @@ public class MenuView extends View {
     String symbol9 = "┘";
     String symbol10 = "├";
 
-
     // Create the header
     System.out.println(symbol1 + symbol2.repeat(45) + symbol3);
     ColorText headerFormatted = new ColorText(header.toUpperCase(), ColorKey.BLUE_BOLD_BRIGHT);

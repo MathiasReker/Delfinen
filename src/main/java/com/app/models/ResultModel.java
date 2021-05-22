@@ -39,7 +39,7 @@ public class ResultModel implements Serializable, Comparable<ResultModel> {
   public void setDiscipline(
       DisciplineModel
           discipline) { // TODO: Method 'setDiscipline(com.app.models.DisciplineModel)' is never
-                        // used
+    // used
     this.discipline = discipline;
   }
 

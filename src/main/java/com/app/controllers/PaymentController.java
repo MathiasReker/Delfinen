@@ -13,8 +13,8 @@ import java.util.Scanner;
 public class PaymentController {
 
   private final MemberController MEMBER_CONTROLLER = new MemberController();
-  private ArrayList<String> approvedPaymentsIds = new ArrayList<>();
   private final PaymentsView VIEW = new PaymentsView();
+  private ArrayList<String> approvedPaymentsIds = new ArrayList<>();
   private PaymentService paymentService;
 
   public PaymentController() {

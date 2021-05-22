@@ -36,7 +36,7 @@ public class MemberController {
     String mail = validateMail(in);
 
     VIEW.displayOptions(gendersToArray());
-    int genderIndex = validateOptionRange(in, GenderModel.values().length);
+    int genderIndex = Input.validateOptionRange(in, GenderModel.values().length);
     GenderModel gender = GenderModel.values()[genderIndex - 1];
 
     VIEW.printInline("Birthday [dd/MM/yyyy]: ");
@@ -121,27 +121,6 @@ public class MemberController {
     }
 
     return result;
-  }
-
-  private int validateOptionRange(Scanner in, int max) {
-    while (true) {
-      int result = validateInteger(in);
-
-      if (ValidateModel.isValidRange(result, 1, max)) {
-        in.nextLine();
-        return result;
-      }
-      VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-    }
-  }
-
-  private int validateInteger(Scanner in) {
-    while (!in.hasNextInt()) {
-      VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-      in.next();
-    }
-
-    return in.nextInt();
   }
 
   /**
@@ -411,7 +390,7 @@ public class MemberController {
         String[] options = new String[] {"Name", "Mail", "Phone number", "Birthday"};
         VIEW.displayOptions(options);
 
-        int index = validateOptionRange(in, options.length) - 1;
+        int index = Input.validateOptionRange(in, options.length) - 1;
 
         VIEW.printInline(options[index] + ": ");
 
