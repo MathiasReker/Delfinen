@@ -385,9 +385,9 @@ public class MemberController {
   }
 
   public void anonymizeMember() {
-    viewMembers();
+    viewMembers(); // TODO: Move to action
 
-    Scanner in = new Scanner(System.in);
+    Scanner in = new Scanner(System.in); // todo MOVE to action?
 
     MEMBER_VIEW.printInline("Input ID [press \"q\" to quit]: ");
 
@@ -396,7 +396,7 @@ public class MemberController {
     if (id != null) {
       try {
         MemberModel member = getMemberByID(id);
-        member.setName(null);
+        member.setName(null); // TODO: move to function
         member.setPhoneNumber(null);
         member.setMail(null);
         member.setDeleted(true);
@@ -405,6 +405,40 @@ public class MemberController {
       }
 
       saveMembers();
+    } else {
+      MEMBER_VIEW.printSuccess("Cancelled.");
+    }
+  }
+
+  public void editMember(Scanner in) {
+    MEMBER_VIEW.printInline("Input ID [press \"q\" to quit]: ");
+
+    String id = getValidId(in);
+
+    if (id != null) {
+      try {
+        MemberModel member = getMemberByID(id);
+
+        System.out.println("1: name, 2: mail");
+
+        int choice = validateOptionRange(in, 2);
+
+        if (choice == 1) {
+          MEMBER_VIEW.printInline("Name: ");
+          String name = validateName(in);
+          member.setName(name);
+
+        } else if (choice == 2) {
+          MEMBER_VIEW.printInline("Mail: ");
+          String mail = validateMail(in);
+          member.setMail(mail);
+        }
+
+        saveMembers();
+      } catch (MemberNotFoundException e) {
+        e.printStackTrace();
+      }
+
     } else {
       MEMBER_VIEW.printSuccess("Cancelled.");
     }

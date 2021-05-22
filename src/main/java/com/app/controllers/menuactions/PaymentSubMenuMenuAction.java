@@ -17,7 +17,7 @@ public class PaymentSubMenuMenuAction extends MenuActions {
       new RenewalRequestMenuAction("Send payment requests for expiring Members"),
       new PredictIncomeMenuAction("Predict Income - input days"),
       new PredictIncomeDefinedMenuAction("Predict Income - 30 days"),
-      new EditMemberMenuAction("Back")
+        new ExitMenuAction("Back"),
     };
   }
 }
