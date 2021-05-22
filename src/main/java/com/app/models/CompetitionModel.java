@@ -6,7 +6,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class CompetitionModel implements Serializable {
-
   private String id;
   private LocalDate startDate;
   private String name;

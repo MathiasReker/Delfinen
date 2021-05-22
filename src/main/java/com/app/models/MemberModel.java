@@ -175,7 +175,8 @@ public class MemberModel implements Serializable {
       return 0;
     }
 
-    return Period.between(birthdate, currentDate).getYears();
+    int result = Period.between(birthdate, currentDate).getYears();
+    return Math.max(result, 0);
   }
 
   /**

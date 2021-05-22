@@ -3,7 +3,6 @@ package com.app.models;
 import java.io.Serializable;
 
 public class DisciplineModel implements Serializable {
-
   private final int DISTANCE;
   private final String STYLE;
 
