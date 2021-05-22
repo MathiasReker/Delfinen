@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PredictionController {
-  private final MemberController MEMBER_CONTROLLER = new MemberController();
   private final PredictionView VIEW = new PredictionView();
 
   public PredictionController() {}
@@ -31,9 +30,11 @@ public class PredictionController {
 
   public int predictIncomeInXDays(int days) {
     int result = 0;
+
     ArrayList<MemberModel> expiringMembers =
-        MEMBER_CONTROLLER.getExpiringMembers(
-            MEMBER_CONTROLLER.getMEMBERS().toArray(new MemberModel[0]), days);
+        new MemberModel()
+            .getExpiringMembers(
+                new MemberController().getMembers().toArray(new MemberModel[0]), days);
 
     for (MemberModel member : expiringMembers) {
       result += PricingModel.calculateMemberPrice(member);

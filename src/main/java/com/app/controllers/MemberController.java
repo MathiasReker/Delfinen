@@ -21,7 +21,7 @@ public class MemberController {
   public MemberController() {
     MEMBER_VIEW = new MemberView();
     try {
-      members = memberToStringArray(loadMembers());
+      members = membersToStringArray(loadMembers());
     } catch (CouldNotLoadMemberException e) {
       MEMBER_VIEW.printWarning("Could not load any members");
       members = new ArrayList<>();
@@ -182,7 +182,7 @@ public class MemberController {
   public void requestRenewalFromExpiringMembers(Scanner in) { // WIP
     try {
       ArrayList<MemberModel> expiringMembers =
-          getExpiringMembers(members.toArray(new MemberModel[0]), 30);
+          new MemberModel().getExpiringMembers(members.toArray(new MemberModel[0]), 30);
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
 
@@ -244,31 +244,7 @@ public class MemberController {
     throw new MemberNotFoundException();
   }
 
-  /**
-   * Returns an Arraylist of expiring members based on the Array given as argument
-   *
-   * @param days Amount of days to look ahead of current day.
-   * @param memberModels Array of members to look through
-   * @return ArrayList of expiring members
-   */
-  ArrayList<MemberModel> getExpiringMembers(
-      MemberModel[] memberModels, int days) { // TODO: Move to model
-    ArrayList<MemberModel> result = new ArrayList<>();
-
-    for (MemberModel member : memberModels) {
-      ArrayList<MembershipModel> memberships = member.getMemberships();
-      if (memberships.size() != 0) {
-        LocalDate expiringDate = memberships.get(memberships.size() - 1).getExpiringDate();
-        if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
-          result.add(member);
-        }
-      }
-    }
-
-    return result;
-  }
-
-  public ArrayList<MemberModel> getMEMBERS() {
+  public ArrayList<MemberModel> getMembers() {
     return members;
   }
 
@@ -290,7 +266,7 @@ public class MemberController {
     }
   }
 
-  private ArrayList<MemberModel> memberToStringArray(MemberModel[] members) { // TODO: REname
+  private ArrayList<MemberModel> membersToStringArray(MemberModel[] members) {
     return new ArrayList<>(Arrays.asList(members));
   }
 
@@ -366,7 +342,7 @@ public class MemberController {
 
     ArrayList<MemberModel> sortedList = getMemberByName(name);
 
-    if (sortedList.size() == 0) {
+    if (0 == sortedList.size()) {
       MEMBER_VIEW.printWarning("No members with the name: " + name);
     } else {
       viewMembers(sortedList);
@@ -377,7 +353,7 @@ public class MemberController {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
-      if (m.getName() != null) {
+      if (null != m.getName()) {
         if (m.getName().equals(name)) {
           result.add(m);
         }
@@ -387,7 +363,7 @@ public class MemberController {
     return result;
   }
 
-  private String getValidId(Scanner in) { // TODO split and move (idValidId)
+  private String getValidId(Scanner in) {
     while (true) {
       String result = in.nextLine();
 
@@ -405,19 +381,14 @@ public class MemberController {
     }
   }
 
-  public void anonymizeMember() {
-    viewMembers(); // TODO: Move to action
-
-    Scanner in = new Scanner(System.in); // todo MOVE to action?
-
+  public void anonymizeMember(Scanner in) {
     MEMBER_VIEW.printInline("Input ID [press \"q\" to quit]: ");
-
     String id = getValidId(in);
 
-    if (id != null) {
+    if (null != id) {
       try {
         MemberModel member = getMemberByID(id);
-        member.setName(null); // TODO: move to function
+        member.setName(null);
         member.setPhoneNumber(null);
         member.setMail(null);
         member.setDeleted(true);
@@ -427,7 +398,7 @@ public class MemberController {
 
       saveMembers();
     } else {
-      MEMBER_VIEW.printSuccess("Cancelled.");
+      MEMBER_VIEW.printSuccess("Action cancelled.");
     }
   }
 
@@ -436,7 +407,7 @@ public class MemberController {
 
     String id = getValidId(in);
 
-    if (id != null) {
+    if (null != id) {
       try {
         MemberModel member = getMemberByID(id);
 
@@ -447,20 +418,18 @@ public class MemberController {
 
         MEMBER_VIEW.printInline(options[index] + ": ");
 
-        if (index == 0) {
+        if (0 == index) {
           String name = validateName(in);
           member.setName(name);
-        } else if (index == 1) {
+        } else if (1 == index) {
           String mail = validateMail(in);
           member.setMail(mail);
-        } else if (index == 2) {
+        } else if (2 == index) {
           String mail = validatePhoneNumber(in);
           member.setPhoneNumber(mail);
-        } else if (index == 3) {
+        } else if (3 == index) {
           String birthday = validateDate(in);
           member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
-        } else {
-          System.out.println();
         }
 
         saveMembers();
@@ -469,19 +438,14 @@ public class MemberController {
       }
 
     } else {
-      MEMBER_VIEW.printSuccess("Cancelled.");
+      MEMBER_VIEW.printSuccess("Action cancelled.");
     }
   }
 
-  private String generateID() { // TODO refactor to valuof
-    int id;
-    try {
-      int temp = Integer.parseInt(members.get(members.size() - 1).getID());
-      id = temp + 1;
-    } catch (IndexOutOfBoundsException e) {
-      id = 1;
-    }
+  private String generateID() {
+    int oldId = Integer.parseInt(members.get(members.size() - 1).getID());
+    int newId = oldId + 1;
 
-    return Integer.toString(id);
+    return String.valueOf(newId);
   }
 }

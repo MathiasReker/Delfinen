@@ -2,6 +2,8 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.MemberController;
 
+import java.util.Scanner;
+
 public class AnonymizeMenuAction extends MenuActions {
   /**
    * Stop the program from running.
@@ -15,6 +17,9 @@ public class AnonymizeMenuAction extends MenuActions {
   /** No business logic should be done as this menu action shut down the program. */
   @Override
   public void run() {
-    new MemberController().anonymizeMember();
+    Scanner in = new Scanner(System.in);
+    MemberController member = new MemberController();
+    member.viewMembers();
+    member.anonymizeMember(in);
   }
 }
