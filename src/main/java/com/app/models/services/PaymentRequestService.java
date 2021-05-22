@@ -7,10 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class PaymentRequestService {
-  private FileService fileService;
+  private final FileService FILE_SERVICE;
 
   public PaymentRequestService(String path) throws IOException {
-    fileService = new FileService(path);
+    FILE_SERVICE = new FileService(path);
   }
 
   public void createPaymentRequest(MemberModel[] memberModels) throws FileNotFoundException {
@@ -20,6 +20,6 @@ public class PaymentRequestService {
       String memberId = memberModels[i].getID();
       paymentRequests[i] = String.join(";", memberId, String.valueOf(price));
     }
-    fileService.writeToFile(paymentRequests);
+    FILE_SERVICE.writeToFile(paymentRequests);
   }
 }
