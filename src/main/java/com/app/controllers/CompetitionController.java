@@ -218,7 +218,10 @@ public class CompetitionController {
   }
 
   private String generateId() {
-    int oldId = Integer.parseInt(competitions.get(competitions.size() - 1).getId());
+    int oldId = 0;
+    if (competitions.size() > 0) {
+      oldId = Integer.parseInt(competitions.get(competitions.size() - 1).getId());
+    }
     int newId = oldId + 1;
 
     return String.valueOf(newId);
