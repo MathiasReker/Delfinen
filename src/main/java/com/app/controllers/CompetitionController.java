@@ -50,11 +50,11 @@ public class CompetitionController {
     CompetitionModel competition = getCompetition(in);
     VIEW.printInline("Please enter member ID: ");
     MemberModel member = getMember(in.nextLine());
-    VIEW.displayMenu(styleToArray());
+    VIEW.displayOptions(styleToArray());
     int styleChoice = in.nextInt();
     in.nextLine();
 
-    VIEW.displayMenu(
+    VIEW.displayOptions(
         distanceToArray(StyleModel.values()[styleChoice - 1].name(), member.getGender()));
     int distanceChoice = in.nextInt();
     in.nextLine();
