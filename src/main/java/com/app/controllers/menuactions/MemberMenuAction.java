@@ -19,8 +19,8 @@ public class MemberMenuAction extends MenuActions {
       new EditMemberMenuAction("Edit member"),
       new AnonymizeMenuAction("Anonymize member"),
       new SearchMemberMenuAction("Search member"),
-      new RenewalRequestMenuAction("Send payment requests for expiring Members"),
-      new RenewMembershipsMenuAction(("Renew paid memberships ")),
+      new RenewalRequestMenuAction("Requests payment for expiring members"),
+      new RenewMembershipsMenuAction(("Renew paid memberships")),
       new ExitMenuAction("Back")
     };
   }

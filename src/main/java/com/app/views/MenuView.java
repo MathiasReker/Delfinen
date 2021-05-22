@@ -22,19 +22,20 @@ public class MenuView extends View {
     String symbol9 = "┘";
     String symbol10 = "├";
 
+
     // Create the header
-    System.out.println(symbol1 + symbol2.repeat(28) + symbol3);
+    System.out.println(symbol1 + symbol2.repeat(45) + symbol3);
     ColorText headerFormatted = new ColorText(header.toUpperCase(), ColorKey.BLUE_BOLD_BRIGHT);
-    System.out.printf("%2$s %1$-37s %2$s%n", headerFormatted, symbol4);
-    System.out.println(symbol10 + symbol2.repeat(4) + symbol5 + symbol2.repeat(23) + symbol6);
+    System.out.printf("%2$s %1$-54s %2$s%n", headerFormatted, symbol4);
+    System.out.println(symbol10 + symbol2.repeat(4) + symbol5 + symbol2.repeat(40) + symbol6);
 
     // Create the body
     for (int i = 0; i < menuAction.length; i++) {
       ColorText menuActionFormatted = new ColorText(menuAction[i], ColorKey.BLUE_BRIGHT);
       ColorText numberFormatted = new ColorText(i + 1, ColorKey.WHITE_BRIGHT);
       System.out.printf(
-          "%3$s %1$-13s %3$s %2$-32s %3$s%n", numberFormatted, menuActionFormatted, symbol4);
+          "%3$s %1$-13s %3$s %2$-49s %3$s%n", numberFormatted, menuActionFormatted, symbol4);
     }
-    System.out.println(symbol7 + symbol2.repeat(4) + symbol8 + symbol2.repeat(23) + symbol9);
+    System.out.println(symbol7 + symbol2.repeat(4) + symbol8 + symbol2.repeat(40) + symbol9);
   }
 }
