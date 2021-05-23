@@ -10,6 +10,6 @@ public class TopResultsMenuAction extends MenuActions {
 
   @Override
   public void run() {
-    new LeaderboardController().displayTop5Results(); // TODO: remove scanner
+    new LeaderboardController().displayTop5Results();
   }
 }

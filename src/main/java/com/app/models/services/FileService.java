@@ -42,7 +42,7 @@ public class FileService {
   }
 
   /**
-   * Recieves an array of strings and creates a new file
+   * Receives an array of strings and creates a new file
    *
    * @param input of Strings that you want to write to the file
    * @throws FileNotFoundException

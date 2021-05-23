@@ -16,7 +16,7 @@ public class DisciplinesController {
   }
 
   public ArrayList<DisciplineModel> getDisciplines() {
-    return disciplines;
+    return disciplines; // TODO: never used
   }
 
   public void setDisciplines(ArrayList<DisciplineModel> disciplines) {

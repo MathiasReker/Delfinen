@@ -108,10 +108,8 @@ public class InputController {
         return null;
       }
 
-      for (MemberModel m : members) { // TODO: move to model
-        if (m.getID().equals(result)) {
-          return result;
-        }
+      if (InputModel.isValidMemberId(result, members)) {
+        return result;
       }
 
       VIEW.printInlineWarning("Not a valid ID. Please try again: ");
@@ -125,6 +123,10 @@ public class InputController {
       if (result.equals("q")) {
         return null;
       }
+
+      /*if (InputModel.isValidCompetitionId(result, competitions)) {
+        return result;
+      }*/
 
       for (CompetitionModel c : competitions) {
         if (c.getId().equals(result)) {

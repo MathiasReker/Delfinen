@@ -65,8 +65,7 @@ public class LeaderboardController {
 
       ResultModel[] top5 = findTop5(style, distance);
       for (ResultModel s : top5) {
-        VIEW.print(String.valueOf(s));
-        // TODO: Top5 was not printed. This is is quick fix. However, this is not tested.
+        VIEW.print(String.valueOf(s)); // TODO: Improve formatting
       }
     }
   }

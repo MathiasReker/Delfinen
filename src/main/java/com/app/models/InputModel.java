@@ -62,4 +62,24 @@ public class InputModel {
 
     return false;
   }
+
+  public static boolean isValidMemberId(String in, ArrayList<MemberModel> members) {
+    for (MemberModel m : members) {
+      if (m.getID().equals(in)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public static boolean isValidCompetitionId(String in, ArrayList<CompetitionModel> competitions) {
+    for (CompetitionModel c : competitions) {
+      if (c.getId().equals(in)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }
