@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 public class PaymentService {
   private final FileService FILE_SERVICE;
-  private final String path;
+  private final String PATH;
 
   public PaymentService(String path) throws IOException {
     FILE_SERVICE = new FileService(path);
-    this.path = path;
+    this.PATH = path;
   }
 
   public ArrayList<String> getApprovedPayments() throws FileNotFoundException {
@@ -36,6 +36,6 @@ public class PaymentService {
   }
 
   private String getFullBackupFilePath() {
-    return path + LocalDate.now() + "-backup.txt";
+    return PATH + LocalDate.now() + "-backup.txt";
   }
 }
