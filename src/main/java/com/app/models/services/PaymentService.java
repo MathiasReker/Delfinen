@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class PaymentService {
-
   private final FileService FILE_SERVICE;
   private final String path;
 
@@ -37,6 +36,6 @@ public class PaymentService {
   }
 
   private String getBackupFullBackupFilePath() {
-    return "data/payment-requests/" + LocalDate.now() + "-backup.txt";
+    return path + LocalDate.now() + "-backup.txt";
   }
 }
