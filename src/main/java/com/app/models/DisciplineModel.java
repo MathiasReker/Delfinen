@@ -36,15 +36,4 @@ public class DisciplineModel implements Serializable {
   public String getStyle() {
     return STYLE;
   }
-
-  /**
-   * Take an input to give the following style.
-   *
-   * @param choice the input that define whit style been chosen.
-   * @return the chosen style.
-   */
-  public String chosenStyle(int choice) { // TODO: Method 'chosenStyle(int)' is never used
-    // TODO: 17-05-2021 skulle nok flyttes til en anden klasse
-    return StyleType.values()[choice].toString();
-  }
 }
