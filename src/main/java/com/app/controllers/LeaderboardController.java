@@ -1,6 +1,7 @@
 package com.app.controllers;
 
-import com.app.models.*;
+import com.app.models.CompetitionModel;
+import com.app.models.ResultModel;
 import com.app.models.types.DistanceType;
 import com.app.models.types.GenderType;
 import com.app.models.types.StyleType;

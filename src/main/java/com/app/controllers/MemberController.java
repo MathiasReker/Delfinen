@@ -1,6 +1,7 @@
 package com.app.controllers;
 
-import com.app.models.*;
+import com.app.models.MemberModel;
+import com.app.models.MembershipModel;
 import com.app.models.exceptions.CouldNotLoadMemberException;
 import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.ConfigService;

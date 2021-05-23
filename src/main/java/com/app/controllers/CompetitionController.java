@@ -1,6 +1,9 @@
 package com.app.controllers;
 
-import com.app.models.*;
+import com.app.models.CompetitionModel;
+import com.app.models.DisciplineModel;
+import com.app.models.MemberModel;
+import com.app.models.ResultModel;
 import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.CompetitionService;
 import com.app.models.services.ConfigService;
@@ -77,8 +80,7 @@ public class CompetitionController {
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
-            DistanceType.values()[distanceChoice - 1].getMeters(),
-            styleToArray()[styleChoice - 1]);
+            DistanceType.values()[distanceChoice - 1].getMeters(), styleToArray()[styleChoice - 1]);
 
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
     VIEW.printSuccess("Result successfully added.");

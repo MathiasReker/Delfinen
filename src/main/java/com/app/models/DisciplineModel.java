@@ -1,7 +1,5 @@
 package com.app.models;
 
-import com.app.models.types.StyleType;
-
 import java.io.Serializable;
 
 public class DisciplineModel implements Serializable {

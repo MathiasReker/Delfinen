@@ -38,8 +38,7 @@ class DisciplinesControllerTest {
     expect.add(
         new DisciplineModel(DistanceType.FOUR_HUNDRED.getMeters(), StyleType.BUTTERFLY.name()));
     expect.add(
-        new DisciplineModel(
-            DistanceType.FIFTEEN_HUNDRED.getMeters(), StyleType.BUTTERFLY.name()));
+        new DisciplineModel(DistanceType.FIFTEEN_HUNDRED.getMeters(), StyleType.BUTTERFLY.name()));
 
     ArrayList<DisciplineModel> result =
         new DisciplinesController()
