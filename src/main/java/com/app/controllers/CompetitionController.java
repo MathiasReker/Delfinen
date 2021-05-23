@@ -3,6 +3,7 @@ package com.app.controllers;
 import com.app.controllers.utils.Input;
 import com.app.models.*;
 import com.app.models.services.CompetitionService;
+import com.app.models.services.ConfigService;
 import com.app.views.CompetitionView;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class CompetitionController {
 
   public CompetitionController() {
     try {
-      competitionService = new CompetitionService("data/bin/competitions.bin");
+      competitionService = new CompetitionService(new ConfigService("competitionsBin").getPath());
       competitions = toArraylist(competitionService.getCompetitionsFromFile());
     } catch (IOException | ClassNotFoundException e) {
       VIEW.printWarning(e.getMessage());
@@ -57,14 +58,12 @@ public class CompetitionController {
     MemberModel member = getMember(in.nextLine()); // TODO: Validate
 
     VIEW.displayOptions(styleToArray());
-    int styleChoice = in.nextInt(); // TODO: Validate
+    int styleChoice = Input.validateOptionRange(styleToArray().length);
 
-    in.nextLine();
-
-    VIEW.displayOptions(
-        distanceToArray(StyleModel.values()[styleChoice - 1].name(), member.getGender()));
-    int distanceChoice = in.nextInt();
-    in.nextLine(); // TODO: Validate
+    String[] strings =
+        distanceToArray(StyleModel.values()[styleChoice - 1].name(), member.getGender());
+    VIEW.displayOptions(strings);
+    int distanceChoice = in.nextInt(strings.length);
 
     VIEW.printInline("Result time [mm:ss:SS]: ");
     LocalTime time =
@@ -87,12 +86,13 @@ public class CompetitionController {
    * @param in is the competition id for the competition you wish to return
    * @return a competition based on the id that is provided
    */
-  public CompetitionModel getCompetition(Scanner in) {
-    String input = in.nextLine(); // TODO: Validate
+  public CompetitionModel getCompetition(Scanner in) { // TODO: Move to ValidateModel
+    String input = in.nextLine();
     while (!ValidateModel.isValidCompetitionId(competitions, input)) {
       VIEW.printInlineWarning("Not a valid ID. Please try again: ");
       input = in.nextLine();
     }
+
     for (CompetitionModel competition : competitions) {
       if (input.equals(competition.getId())) {
         return competition;

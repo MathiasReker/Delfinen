@@ -49,7 +49,7 @@ public class LeaderboardController {
     return result;
   }
 
-  public void displayTopResults(Scanner in) {
+  public void displayTop5Results(Scanner in) {
     if (!ALL_COMPETITIONS.isEmpty()) { // TODO: refactor input
       String style;
       int distance;
@@ -71,7 +71,7 @@ public class LeaderboardController {
       }
       distance = DistanceModel.values()[input - 1].getMeters();
 
-      findTop5(style, distance); // TODO: Output the values. Right not nothing is displayed.
+      findTop5(style, distance); // TODO: Output the values. Right now nothing is displayed.
     }
   }
 }

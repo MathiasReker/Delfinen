@@ -2,6 +2,7 @@ package com.app.controllers;
 
 import com.app.controllers.utils.Input;
 import com.app.models.*;
+import com.app.models.services.ConfigService;
 import com.app.models.services.MemberService;
 import com.app.models.services.PaymentRequestService;
 import com.app.views.MemberView;
@@ -14,7 +15,7 @@ import java.util.Arrays;
 
 public class MemberController {
   private final MemberView VIEW;
-  private final String FILE = "data/bin/members.bin";
+
   private ArrayList<MemberModel> members;
 
   public MemberController() {
@@ -186,7 +187,8 @@ public class MemberController {
 
   public void saveMembers() {
     try {
-      new MemberService(FILE).saveMembers(members.toArray(new MemberModel[0]));
+      new MemberService(new ConfigService("membersBin").getPath())
+          .saveMembers(members.toArray(new MemberModel[0]));
       VIEW.printSuccess("The member is successfully saved.");
     } catch (IOException e) {
       VIEW.printWarning(e.getMessage());
@@ -195,7 +197,7 @@ public class MemberController {
 
   public MemberModel[] loadMembers() throws CouldNotLoadMemberException {
     try {
-      return new MemberService(FILE).loadMembers();
+      return new MemberService(new ConfigService("membersBin").getPath()).loadMembers();
     } catch (IOException | ClassNotFoundException e) {
       return new MemberModel[0];
     }

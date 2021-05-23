@@ -3,6 +3,7 @@ package com.app.controllers;
 import com.app.controllers.utils.Input;
 import com.app.models.MemberModel;
 import com.app.models.MemberNotFoundException;
+import com.app.models.services.ConfigService;
 import com.app.models.services.PaymentService;
 import com.app.views.PaymentsView;
 
@@ -17,8 +18,7 @@ public class PaymentController {
 
   public PaymentController() {
     try {
-      String path = "data/payment-requests/";
-      paymentService = new PaymentService(path);
+      paymentService = new PaymentService(new ConfigService("paymentRequests").getPath());
       approvedPaymentsIds = paymentService.getApprovedPayments();
     } catch (IOException e) {
       VIEW.printWarning("The competitions could not be loaded.");
@@ -62,7 +62,6 @@ public class PaymentController {
   }
 
   private ArrayList<MemberModel> getValidPayments() {
-
     ArrayList<MemberModel> result = new ArrayList<>();
     ArrayList<String> failedPayments = new ArrayList<>();
 

@@ -119,5 +119,5 @@ $RECYCLE.BIN/
 .nfs*
 
 ### Other ###
-# Data folder for test data
-data/
+data/bin
+data/payment-requests
