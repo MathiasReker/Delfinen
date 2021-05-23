@@ -54,7 +54,8 @@ public class CompetitionController {
     CompetitionModel competition = InputController.validateCompetitionsId(competitions);
 
     VIEW.printInline("Member ID: ");
-    MemberModel member = getMember(InputController.anyString()); // TODO: Validate
+    MemberModel member =
+        getMember(InputController.validateMemberId(new MemberController().getMembers()));
 
     VIEW.displayOptions(styleToArray());
     int styleChoice = InputController.validateOptionRange(styleToArray().length);

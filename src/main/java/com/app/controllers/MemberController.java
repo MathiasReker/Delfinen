@@ -140,7 +140,7 @@ public class MemberController {
           VIEW.print("Do you want to remove a member from the list? [Y/n]:");
           if (InputController.promptYesNo()) {
             VIEW.print("Type member ID to delete: ");
-            String input = InputController.anyString();
+            String input = InputController.validateMemberId(members);
             try {
               MemberModel member = getMemberByID(input, expiringMembers);
               expiringMembers.remove(member);
