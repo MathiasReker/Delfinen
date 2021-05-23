@@ -88,25 +88,28 @@ public class CompetitionController {
   }
 
   public void viewCompetitionResults() {
-    VIEW.printInline("Competition ID: ");
-    // TODO: dont show if 0
-    CompetitionModel competition = InputController.validateCompetitionsId(competitions);
+    if (competitions.isEmpty()) {
+      VIEW.print("No competitions available.");
+    } else {
+      VIEW.printInline("Competition ID: ");
+      CompetitionModel competition = InputController.validateCompetitionsId(competitions);
 
-    ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
-    String[][] results = new String[resultsOfCompetition.size()][4];
+      ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
+      String[][] results = new String[resultsOfCompetition.size()][4];
 
-    for (int i = 0; i < resultsOfCompetition.size(); i++) {
-      ResultModel resultModel = resultsOfCompetition.get(i);
+      for (int i = 0; i < resultsOfCompetition.size(); i++) {
+        ResultModel resultModel = resultsOfCompetition.get(i);
 
-      String name = resultModel.getMember().getName();
-      String style = resultModel.getDiscipline().getStyle();
-      String distance = Integer.toString(resultModel.getDiscipline().getDistance());
-      String completionTime = resultModel.getResultTime().toString();
+        String name = resultModel.getMember().getName();
+        String style = resultModel.getDiscipline().getStyle();
+        String distance = Integer.toString(resultModel.getDiscipline().getDistance());
+        String completionTime = resultModel.getResultTime().toString();
 
-      results[i] = new String[] {name, style, distance, completionTime};
+        results[i] = new String[] {name, style, distance, completionTime};
+      }
+
+      VIEW.displayCompetitionResults(results);
     }
-
-    VIEW.displayCompetitionResults(results);
   }
 
   public MemberModel getMember(String id) {

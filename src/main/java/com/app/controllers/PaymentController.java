@@ -33,16 +33,16 @@ public class PaymentController {
   }
 
   private void reviewPaymentFile() {
-    String[] resultsToString = new String[approvedPaymentsIds.size()];
+    String[][] resultsToString = new String[approvedPaymentsIds.size()][3];
     for (int i = 0; i < approvedPaymentsIds.size(); i++) {
       try {
         MemberModel member = MEMBER_CONTROLLER.getMemberByID(approvedPaymentsIds.get(i));
         String id = member.getId();
         String name = member.getName();
-        resultsToString[i] = String.join(";", id, name);
+        resultsToString[i] = new String[]{id, name};
       } catch (MemberNotFoundException e) {
         String id = approvedPaymentsIds.get(i);
-        resultsToString[i] = String.join(";", id, "The member does not exist.");
+        resultsToString[i] = new String[]{id, null};
       }
     }
     VIEW.displayPayments(resultsToString);
