@@ -1,7 +1,6 @@
-package com.app.models;
+package com.app.controllers.menuactions;
 
 import com.app.controllers.MemberController;
-import com.app.controllers.menuactions.MenuActions;
 
 public class SearchMemberMenuAction extends MenuActions {
   /**
