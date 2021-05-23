@@ -6,7 +6,6 @@ import com.app.models.PricingModel;
 import com.app.views.PredictionView;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class PredictionController {
   private final PredictionView VIEW = new PredictionView();

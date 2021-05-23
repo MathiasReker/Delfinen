@@ -147,7 +147,6 @@ public class Input {
     return IN.nextLine();
   }
 
-
   /**
    * Returns a competition based on the provided ID.
    *

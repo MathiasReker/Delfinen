@@ -8,7 +8,6 @@ import com.app.views.PaymentsView;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class PaymentController {
   private final MemberController MEMBER_CONTROLLER = new MemberController();
