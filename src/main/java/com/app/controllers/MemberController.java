@@ -47,7 +47,7 @@ public class MemberController {
     VIEW.printInline("Competitive [Y/n]: ");
     boolean competitive = Input.promptYesNo();
 
-    String id = generateID();
+    String id = generateMemberId();
 
     addMember(id, name, mail, gender, birthday, phone, competitive);
     saveMembers();
@@ -328,7 +328,7 @@ public class MemberController {
       try {
         MemberModel member = getMemberByID(id);
 
-        String[] options = new String[] {"Name", "Mail", "Phone number", "Birthday"};
+        String[] options = new String[] {"Name", "Mail", "Phone number", "Birthday [dd/MM/yyyy]"};
         VIEW.displayOptions(options);
 
         int index = Input.validateOptionRange(options.length) - 1;
@@ -358,7 +358,7 @@ public class MemberController {
     }
   }
 
-  private String generateID() {
+  private String generateMemberId() {
     int oldId = 0;
     if (members.size() > 0) {
       oldId = Integer.parseInt(members.get(members.size() - 1).getID());

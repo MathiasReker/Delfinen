@@ -1,6 +1,5 @@
 package com.app.controllers.utils;
 
-import com.app.models.CompetitionModel;
 import com.app.models.MemberModel;
 import com.app.models.ValidateModel;
 import com.app.views.MenuView;
@@ -148,24 +147,4 @@ public class Input {
   }
 
 
-  /**
-   * Returns a competition based on the provided ID.
-   *
-   * @param in is the competition id for the competition you wish to return
-   * @return a competition based on the id that is provided
-   */
-  public CompetitionModel validateCompetitionId(ArrayList<CompetitionModel> competitions) {
-    String input = IN.nextLine(); // TODO: Validate
-    while (!ValidateModel.isValidCompetitionId(competitions, input)) {
-      VIEW.printInlineWarning("Not a valid ID. Please try again: ");
-      input = IN.nextLine();
-    }
-    for (CompetitionModel competition : competitions) {
-      if (input.equals(competition.getId())) {
-        return competition;
-      }
-    }
-
-    return null;
-  }
 }

@@ -30,7 +30,6 @@ public class MenuController {
       VIEW.printMenuOptions(MENU.getMenuHeader(), MENU.getMenuActionMenuItems());
       VIEW.printInline(MENU.getLeadText());
 
-      Scanner in = new Scanner(System.in);
       int input = Input.validateOptionRange(MENU.getMenuActionMenuItems().length) - 1;
       MENU.getMenuItem(input).run();
       running = MENU.getMenuItem(input).isKeepRunning();

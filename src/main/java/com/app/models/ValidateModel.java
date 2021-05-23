@@ -54,7 +54,7 @@ public class ValidateModel {
   }
 
   public static boolean isValidCompetitionId(
-      ArrayList<CompetitionModel> competitions, String id) { // TODO: Move to ValidateModel?
+      ArrayList<CompetitionModel> competitions, String id) {
     for (CompetitionModel competition : competitions) {
       if (id.equals(competition.getId())) {
         return true;
