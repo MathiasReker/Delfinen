@@ -53,16 +53,6 @@ public class InputModel {
     return in <= max && in >= min;
   }
 
-  public static boolean isValidCompetitionId(ArrayList<CompetitionModel> competitions, String id) {
-    for (CompetitionModel competition : competitions) {
-      if (id.equals(competition.getId())) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   public static boolean isValidMemberId(String in, ArrayList<MemberModel> members) {
     for (MemberModel m : members) {
       if (m.getID().equals(in)) {

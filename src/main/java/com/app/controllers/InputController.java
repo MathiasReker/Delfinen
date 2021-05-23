@@ -49,39 +49,39 @@ public class InputController {
    * @return a valid int from the range.
    */
   public static int validateOptionRange(int max) {
-    while (true) {
-      int result = validateInteger();
-
-      if (InputModel.isValidRange(result, 1, max)) {
-        IN.nextLine();
-        return result;
-      }
+    int result = validateInteger();
+    while (!InputModel.isValidRange(result, 1, max)) {
       VIEW.printInlineWarning("Not a valid choice. Please try again: ");
+      result = IN.nextInt();
     }
+
+    IN.nextLine();
+    return result;
   }
 
   public static String validateName() {
-    while (true) {
-      String result = IN.nextLine();
-      if (InputModel.isValidName(result)) {
-        return result;
-      }
+    String result = IN.nextLine();
+    while (!InputModel.isValidName(result)) {
       VIEW.printInlineWarning("Not a valid name. Please try again: ");
+      result = IN.nextLine();
     }
+
+    return result;
   }
 
   public static String validateMail() {
-    while (true) {
-      String result = IN.nextLine();
-      if (InputModel.isValidMail(result)) {
-        return result;
-      }
+    String result = IN.nextLine();
+    while (!InputModel.isValidMail(result)) {
       VIEW.printInlineWarning("Not a valid mail. Please try again: ");
+      result = IN.nextLine();
     }
+
+    return result;
   }
 
   public static String validateDate() {
-    String result = IN.nextLine();
+    String result = IN.nextLine().replace("-", "/"); // "-" and "/"
+
     while (!InputModel.isValidDate(result)) {
       VIEW.printInlineWarning("Not a valid date. Please try again: ");
       result = IN.nextLine();
