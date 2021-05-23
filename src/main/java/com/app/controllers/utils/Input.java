@@ -1,5 +1,6 @@
 package com.app.controllers.utils;
 
+import com.app.models.CompetitionModel;
 import com.app.models.MemberModel;
 import com.app.models.ValidateModel;
 import com.app.views.MenuView;
@@ -7,12 +8,12 @@ import com.app.views.MenuView;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Input { // TODO rename
-
+public class Input {
+  private static final Scanner IN = new Scanner(System.in);
   private static final MenuView VIEW = new MenuView();
 
-  public static boolean promptYesNo(Scanner in) {
-    String input = in.nextLine();
+  public static boolean promptYesNo() {
+    String input = IN.nextLine();
     while (true) {
       if (input.equalsIgnoreCase("y")) {
         return true;
@@ -21,7 +22,7 @@ public class Input { // TODO rename
         return false;
       }
       VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-      input = in.nextLine();
+      input = IN.nextLine();
     }
   }
 
@@ -31,13 +32,13 @@ public class Input { // TODO rename
    *
    * @return a valid integer.
    */
-  public static int validateInteger(Scanner in) {
-    while (!in.hasNextInt()) {
+  public static int validateInteger() {
+    while (!IN.hasNextInt()) {
       VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-      in.next();
+      IN.next();
     }
 
-    return in.nextInt();
+    return IN.nextInt();
   }
 
   /**
@@ -47,21 +48,21 @@ public class Input { // TODO rename
    * @param max int that defines the maximum of the range.
    * @return a valid int from the range.
    */
-  public static int validateOptionRange(Scanner in, int max) {
+  public static int validateOptionRange(int max) {
     while (true) {
-      int result = validateInteger(in);
+      int result = validateInteger();
 
       if (ValidateModel.isValidRange(result, 1, max)) {
-        in.nextLine();
+        IN.nextLine();
         return result;
       }
       VIEW.printInlineWarning("Not a valid choice. Please try again: ");
     }
   }
 
-  public static String validateName(Scanner in) {
+  public static String validateName() {
     while (true) {
-      String result = in.nextLine();
+      String result = IN.nextLine();
       if (ValidateModel.isValidName(result)) {
         return result;
       }
@@ -69,9 +70,9 @@ public class Input { // TODO rename
     }
   }
 
-  public static String validateMail(Scanner in) {
+  public static String validateMail() {
     while (true) {
-      String result = in.nextLine();
+      String result = IN.nextLine();
       if (ValidateModel.isValidMail(result)) {
         return result;
       }
@@ -79,19 +80,19 @@ public class Input { // TODO rename
     }
   }
 
-  public static String validateDate(Scanner in) {
-    String result = in.nextLine();
+  public static String validateDate() {
+    String result = IN.nextLine();
     while (!ValidateModel.isValidDate(result)) {
       VIEW.printInlineWarning("Not a valid date. Please try again: ");
-      result = in.nextLine();
+      result = IN.nextLine();
     }
 
     return result;
   }
 
-  public static String validatePhoneNumber(Scanner in) {
+  public static String validatePhoneNumber() {
     while (true) {
-      String result = in.nextLine().trim();
+      String result = IN.nextLine().trim();
       if (ValidateModel.isValidPhoneNumber(result)) {
         return result;
       }
@@ -99,9 +100,9 @@ public class Input { // TODO rename
     }
   }
 
-  public static String validateMemberId(ArrayList<MemberModel> members, Scanner in) {
+  public static String validateMemberId(ArrayList<MemberModel> members) {
     while (true) {
-      String result = in.nextLine();
+      String result = IN.nextLine();
 
       if (result.equals("q")) {
         return null;
@@ -120,26 +121,51 @@ public class Input { // TODO rename
   /**
    * A method to validate that the time input we receive is a valid format
    *
-   * @param in a String with the time that needs to be parsed.
    * @return returns a time as a LocalTime type
    */
-  public static String validateCompetitionResultTime(Scanner in) {
-    String result = in.nextLine();
+  public static String validateCompetitionResultTime() {
+    String result = IN.nextLine();
     while (!ValidateModel.isValidCompetitionResultTime("00:" + result)) {
       VIEW.printInlineWarning("Not a valid time. Please try again: ");
-      result = in.nextLine();
+      result = IN.nextLine();
     }
 
     return result;
   }
 
-  public static String validateCompetitionTime(Scanner in) {
-    String result = in.nextLine();
+  public static String validateCompetitionTime() {
+    String result = IN.nextLine();
     while (!ValidateModel.isValidCompetitionTime(result)) {
       VIEW.printInlineWarning("Not a valid time. Please try again: ");
-      result = in.nextLine();
+      result = IN.nextLine();
     }
 
     return result;
+  }
+
+  public static String anyString() {
+    return IN.nextLine();
+  }
+
+
+  /**
+   * Returns a competition based on the provided ID.
+   *
+   * @param in is the competition id for the competition you wish to return
+   * @return a competition based on the id that is provided
+   */
+  public CompetitionModel validateCompetitionId(ArrayList<CompetitionModel> competitions) {
+    String input = IN.nextLine(); // TODO: Validate
+    while (!ValidateModel.isValidCompetitionId(competitions, input)) {
+      VIEW.printInlineWarning("Not a valid ID. Please try again: ");
+      input = IN.nextLine();
+    }
+    for (CompetitionModel competition : competitions) {
+      if (input.equals(competition.getId())) {
+        return competition;
+      }
+    }
+
+    return null;
   }
 }

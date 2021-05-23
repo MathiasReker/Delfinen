@@ -11,7 +11,6 @@ public class PredictIncomeMenuAction extends MenuActions {
   }
 
   public void run() {
-    Scanner in = new Scanner(System.in);
-    new PredictionController().predictIncome(in);
+    new PredictionController().predictIncome();
   }
 }

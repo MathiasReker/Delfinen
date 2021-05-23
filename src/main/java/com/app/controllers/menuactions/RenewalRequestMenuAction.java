@@ -11,7 +11,6 @@ public class RenewalRequestMenuAction extends MenuActions {
   }
 
   public void run() {
-    Scanner in = new Scanner(System.in);
-    new MemberController().requestRenewalFromExpiringMembers(in);
+    new MemberController().requestRenewalFromExpiringMembers();
   }
 }

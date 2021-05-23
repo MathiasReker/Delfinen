@@ -31,7 +31,7 @@ public class MenuController {
       VIEW.printInline(MENU.getLeadText());
 
       Scanner in = new Scanner(System.in);
-      int input = Input.validateOptionRange(in, MENU.getMenuActionMenuItems().length) - 1;
+      int input = Input.validateOptionRange(MENU.getMenuActionMenuItems().length) - 1;
       MENU.getMenuItem(input).run();
       running = MENU.getMenuItem(input).isKeepRunning();
     }

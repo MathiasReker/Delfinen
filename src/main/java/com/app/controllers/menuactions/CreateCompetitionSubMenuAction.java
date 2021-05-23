@@ -12,7 +12,6 @@ public class CreateCompetitionSubMenuAction extends MenuActions {
   @Override
   public void run() {
     CompetitionController competitionController = new CompetitionController();
-    Scanner in = new Scanner(System.in);
-    competitionController.createNewCompetition(in);
+    competitionController.createNewCompetition(new Scanner(System.in)); // TODO: remove scanner
   }
 }

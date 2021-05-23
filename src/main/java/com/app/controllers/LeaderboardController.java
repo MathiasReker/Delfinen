@@ -50,7 +50,7 @@ public class LeaderboardController {
   }
 
   public void displayTopResults(Scanner in) {
-    if (!ALL_COMPETITIONS.isEmpty()) {
+    if (!ALL_COMPETITIONS.isEmpty()) { // TODO: refactor input
       String style;
       int distance;
 

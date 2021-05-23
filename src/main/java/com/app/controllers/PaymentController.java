@@ -50,11 +50,11 @@ public class PaymentController {
     VIEW.displayPayments(resultsToString);
   }
 
-  public void handlePayments(Scanner in) {
+  public void handlePayments() {
     reviewPaymentFile();
     VIEW.printInline("Would you like to update the memberships of valid members? [Y/n]: ");
 
-    if (Input.promptYesNo(in)) {
+    if (Input.promptYesNo()) {
       updateMemberShip(getValidPayments());
       VIEW.printSuccess("Memberships successfully updated.");
     } else {

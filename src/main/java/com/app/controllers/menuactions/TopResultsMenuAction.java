@@ -12,7 +12,6 @@ public class TopResultsMenuAction extends MenuActions {
 
   @Override
   public void run() {
-    Scanner in = new Scanner(System.in);
-    new LeaderboardController().displayTopResults(in);
+    new LeaderboardController().displayTopResults(new Scanner(System.in)); // TODO: remove scanner
   }
 }

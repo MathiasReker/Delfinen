@@ -37,11 +37,11 @@ public class CompetitionController {
 
     VIEW.printInline("Date [dd/MM/yyyy]: ");
     LocalDate date =
-        LocalDate.parse(Input.validateDate(in), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate.parse(Input.validateDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
     VIEW.printInline("Please enter start time of the competition [HH:mm]: ");
     LocalTime startTime =
-        LocalTime.parse(Input.validateCompetitionTime(in), DateTimeFormatter.ofPattern("HH:mm"));
+        LocalTime.parse(Input.validateCompetitionTime(), DateTimeFormatter.ofPattern("HH:mm"));
     competitions.add(new CompetitionModel(generateId(), competitionName, date, startTime));
 
     VIEW.printSuccess("Competition successfully created.");
@@ -69,7 +69,7 @@ public class CompetitionController {
     VIEW.printInline("Result time [mm:ss:SS]: ");
     LocalTime time =
         LocalTime.parse(
-            "00:" + Input.validateCompetitionResultTime(in),
+            "00:" + Input.validateCompetitionResultTime(),
             DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
     DisciplineModel disciplineModel =

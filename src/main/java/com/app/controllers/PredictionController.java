@@ -1,5 +1,6 @@
 package com.app.controllers;
 
+import com.app.controllers.utils.Input;
 import com.app.models.MemberModel;
 import com.app.models.PricingModel;
 import com.app.views.PredictionView;
@@ -12,10 +13,10 @@ public class PredictionController {
 
   public PredictionController() {}
 
-  public void predictIncome(Scanner in) {
+  public void predictIncome() {
     VIEW.print("The prediction is calculated based on how many members will expire.");
     VIEW.printInline("Input the amount of days to predict ahead: ");
-    int days = in.nextInt();
+    int days = Input.validateInteger();
 
     int prediction = predictIncomeInXDays(days);
 

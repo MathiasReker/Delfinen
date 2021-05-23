@@ -11,9 +11,8 @@ public class AnonymizeMenuAction extends MenuActions {
 
   @Override
   public void run() {
-    Scanner in = new Scanner(System.in);
     MemberController member = new MemberController();
     member.viewMembers();
-    member.anonymizeMember(in);
+    member.anonymizeMember();
   }
 }
