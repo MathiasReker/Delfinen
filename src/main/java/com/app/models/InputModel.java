@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
-public class ValidateModel {
+public class InputModel {
   public static boolean isValidDate(String date) {
     try {
       LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));

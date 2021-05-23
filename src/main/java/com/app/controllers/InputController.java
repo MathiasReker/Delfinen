@@ -1,8 +1,8 @@
 package com.app.controllers;
 
 import com.app.models.CompetitionModel;
+import com.app.models.InputModel;
 import com.app.models.MemberModel;
-import com.app.models.ValidateModel;
 import com.app.views.InputView;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class InputController {
     while (true) {
       int result = validateInteger();
 
-      if (ValidateModel.isValidRange(result, 1, max)) {
+      if (InputModel.isValidRange(result, 1, max)) {
         IN.nextLine();
         return result;
       }
@@ -63,7 +63,7 @@ public class InputController {
   public static String validateName() {
     while (true) {
       String result = IN.nextLine();
-      if (ValidateModel.isValidName(result)) {
+      if (InputModel.isValidName(result)) {
         return result;
       }
       VIEW.printInlineWarning("Not a valid name. Please try again: ");
@@ -73,7 +73,7 @@ public class InputController {
   public static String validateMail() {
     while (true) {
       String result = IN.nextLine();
-      if (ValidateModel.isValidMail(result)) {
+      if (InputModel.isValidMail(result)) {
         return result;
       }
       VIEW.printInlineWarning("Not a valid mail. Please try again: ");
@@ -82,7 +82,7 @@ public class InputController {
 
   public static String validateDate() {
     String result = IN.nextLine();
-    while (!ValidateModel.isValidDate(result)) {
+    while (!InputModel.isValidDate(result)) {
       VIEW.printInlineWarning("Not a valid date. Please try again: ");
       result = IN.nextLine();
     }
@@ -93,7 +93,7 @@ public class InputController {
   public static String validatePhoneNumber() {
     while (true) {
       String result = IN.nextLine().trim();
-      if (ValidateModel.isValidPhoneNumber(result)) {
+      if (InputModel.isValidPhoneNumber(result)) {
         return result;
       }
       VIEW.printInlineWarning("Not a valid phone number. Please try again: ");
@@ -108,9 +108,27 @@ public class InputController {
         return null;
       }
 
-      for (MemberModel m : members) {
+      for (MemberModel m : members) { // TODO: move to model
         if (m.getID().equals(result)) {
           return result;
+        }
+      }
+
+      VIEW.printInlineWarning("Not a valid ID. Please try again: ");
+    }
+  }
+
+  public static CompetitionModel validateCompetitionsId(ArrayList<CompetitionModel> competitions) {
+    while (true) {
+      String result = IN.nextLine(); // TODO: refactor return String?
+
+      if (result.equals("q")) {
+        return null;
+      }
+
+      for (CompetitionModel c : competitions) {
+        if (c.getId().equals(result)) {
+          return c;
         }
       }
 
@@ -125,7 +143,7 @@ public class InputController {
    */
   public static String validateCompetitionResultTime() {
     String result = IN.nextLine();
-    while (!ValidateModel.isValidCompetitionResultTime("00:" + result)) {
+    while (!InputModel.isValidCompetitionResultTime("00:" + result)) {
       VIEW.printInlineWarning("Not a valid time. Please try again: ");
       result = IN.nextLine();
     }
@@ -135,7 +153,7 @@ public class InputController {
 
   public static String validateCompetitionTime() {
     String result = IN.nextLine();
-    while (!ValidateModel.isValidCompetitionTime(result)) {
+    while (!InputModel.isValidCompetitionTime(result)) {
       VIEW.printInlineWarning("Not a valid time. Please try again: ");
       result = IN.nextLine();
     }
@@ -145,26 +163,5 @@ public class InputController {
 
   public static String anyString() {
     return IN.nextLine();
-  }
-
-  /**
-   * Returns a competition based on the provided ID.
-   *
-   * @return a competition based on the id that is provided
-   */
-  public static CompetitionModel validateCompetitionsId(ArrayList<CompetitionModel> competitions) {
-    String input = IN.nextLine();
-    while (!ValidateModel.isValidCompetitionId(competitions, input)) {
-      VIEW.printInlineWarning("Not a valid ID. Please try again: ");
-      input = IN.nextLine();
-    }
-
-    for (CompetitionModel competition : competitions) {
-      if (input.equals(competition.getId())) {
-        return competition;
-      }
-    }
-
-    return null; // TODO: refactor
   }
 }
