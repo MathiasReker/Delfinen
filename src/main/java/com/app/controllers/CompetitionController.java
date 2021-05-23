@@ -1,6 +1,5 @@
 package com.app.controllers;
 
-import com.app.controllers.utils.Input;
 import com.app.models.*;
 import com.app.models.services.CompetitionService;
 import com.app.models.services.ConfigService;
@@ -12,7 +11,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
 
 public class CompetitionController {
   private final CompetitionView VIEW = new CompetitionView();
@@ -32,17 +30,18 @@ public class CompetitionController {
     return competitions;
   }
 
-  public void createNewCompetition(Scanner in) {
+  public void createNewCompetition() {
     VIEW.printInline("Name of competition: ");
-    String competitionName = in.nextLine(); // TODO: Validate
+    String competitionName = InputController.anyString();
 
     VIEW.printInline("Date [dd/MM/yyyy]: ");
     LocalDate date =
-        LocalDate.parse(Input.validateDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        LocalDate.parse(InputController.validateDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 
     VIEW.printInline("Please enter start time of the competition [HH:mm]: ");
     LocalTime startTime =
-        LocalTime.parse(Input.validateCompetitionTime(), DateTimeFormatter.ofPattern("HH:mm"));
+        LocalTime.parse(
+            InputController.validateCompetitionTime(), DateTimeFormatter.ofPattern("HH:mm"));
     competitions.add(new CompetitionModel(generateId(), competitionName, date, startTime));
 
     VIEW.printSuccess("Competition successfully created.");
@@ -50,25 +49,25 @@ public class CompetitionController {
     saveCompetitionsToFile();
   }
 
-  public void addResultToCompetition(Scanner in) {
+  public void addResultToCompetition() {
     VIEW.printInline("Competition ID: ");
-    CompetitionModel competition = getCompetition(in); // TODO: Validate
+    CompetitionModel competition = InputController.validateCompetitionsId(competitions);
 
     VIEW.printInline("Member ID: ");
-    MemberModel member = getMember(in.nextLine()); // TODO: Validate
+    MemberModel member = getMember(InputController.anyString()); // TODO: Validate
 
     VIEW.displayOptions(styleToArray());
-    int styleChoice = Input.validateOptionRange(styleToArray().length);
+    int styleChoice = InputController.validateOptionRange(styleToArray().length);
 
-    String[] strings =
+    String[] distances =
         distanceToArray(StyleModel.values()[styleChoice - 1].name(), member.getGender());
-    VIEW.displayOptions(strings);
-    int distanceChoice = in.nextInt(strings.length);
+    VIEW.displayOptions(distances);
+    int distanceChoice = InputController.validateOptionRange(distances.length);
 
     VIEW.printInline("Result time [mm:ss:SS]: ");
     LocalTime time =
         LocalTime.parse(
-            "00:" + Input.validateCompetitionResultTime(),
+            "00:" + InputController.validateCompetitionResultTime(),
             DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
     DisciplineModel disciplineModel =
@@ -80,31 +79,9 @@ public class CompetitionController {
     VIEW.printSuccess("Result successfully added.");
   }
 
-  /**
-   * Returns a competition based on the provided ID.
-   *
-   * @param in is the competition id for the competition you wish to return
-   * @return a competition based on the id that is provided
-   */
-  public CompetitionModel getCompetition(Scanner in) { // TODO: Move to ValidateModel
-    String input = in.nextLine();
-    while (!ValidateModel.isValidCompetitionId(competitions, input)) {
-      VIEW.printInlineWarning("Not a valid ID. Please try again: ");
-      input = in.nextLine();
-    }
-
-    for (CompetitionModel competition : competitions) {
-      if (input.equals(competition.getId())) {
-        return competition;
-      }
-    }
-
-    return null;
-  }
-
-  public void viewCompetitionResults(Scanner in) {
+  public void viewCompetitionResults() {
     VIEW.printInline("Competition ID: ");
-    CompetitionModel competition = getCompetition(in);
+    CompetitionModel competition = InputController.validateCompetitionsId(competitions);
     ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
     String[] resultsToString = new String[resultsOfCompetition.size()];
 

@@ -2,8 +2,6 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.LeaderboardController;
 
-import java.util.Scanner;
-
 public class TopResultsMenuAction extends MenuActions {
 
   public TopResultsMenuAction(String itemName) {
@@ -12,6 +10,6 @@ public class TopResultsMenuAction extends MenuActions {
 
   @Override
   public void run() {
-    new LeaderboardController().displayTop5Results(new Scanner(System.in)); // TODO: remove scanner
+    new LeaderboardController().displayTop5Results(); // TODO: remove scanner
   }
 }

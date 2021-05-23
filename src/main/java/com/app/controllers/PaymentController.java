@@ -1,6 +1,5 @@
 package com.app.controllers;
 
-import com.app.controllers.utils.Input;
 import com.app.models.MemberModel;
 import com.app.models.MemberNotFoundException;
 import com.app.models.services.ConfigService;
@@ -53,7 +52,7 @@ public class PaymentController {
     reviewPaymentFile();
     VIEW.printInline("Would you like to update the memberships of valid members? [Y/n]: ");
 
-    if (Input.promptYesNo()) {
+    if (InputController.promptYesNo()) {
       updateMemberShip(getValidPayments());
       VIEW.printSuccess("Memberships successfully updated.");
     } else {

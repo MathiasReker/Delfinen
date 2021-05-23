@@ -1,7 +1,6 @@
 package com.app.controllers;
 
 import com.app.controllers.menuactions.MenuActions;
-import com.app.controllers.utils.Input;
 import com.app.models.MenuModel;
 import com.app.views.MenuView;
 
@@ -28,7 +27,7 @@ public class MenuController {
       VIEW.printMenuOptions(MENU.getMenuHeader(), MENU.getMenuActionMenuItems());
       VIEW.printInline(MENU.getLeadText());
 
-      int input = Input.validateOptionRange(MENU.getMenuActionMenuItems().length) - 1;
+      int input = InputController.validateOptionRange(MENU.getMenuActionMenuItems().length) - 1;
       MENU.getMenuItem(input).run();
       running = MENU.getMenuItem(input).isKeepRunning();
     }

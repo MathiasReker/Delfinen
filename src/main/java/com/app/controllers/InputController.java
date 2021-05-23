@@ -1,15 +1,16 @@
-package com.app.controllers.utils;
+package com.app.controllers;
 
+import com.app.models.CompetitionModel;
 import com.app.models.MemberModel;
 import com.app.models.ValidateModel;
-import com.app.views.MenuView;
+import com.app.views.InputView;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Input {
+public class InputController {
   private static final Scanner IN = new Scanner(System.in);
-  private static final MenuView VIEW = new MenuView();
+  private static final InputView VIEW = new InputView();
 
   public static boolean promptYesNo() {
     String input = IN.nextLine();
@@ -144,5 +145,26 @@ public class Input {
 
   public static String anyString() {
     return IN.nextLine();
+  }
+
+  /**
+   * Returns a competition based on the provided ID.
+   *
+   * @return a competition based on the id that is provided
+   */
+  public static CompetitionModel validateCompetitionsId(ArrayList<CompetitionModel> competitions) {
+    String input = IN.nextLine();
+    while (!ValidateModel.isValidCompetitionId(competitions, input)) {
+      VIEW.printInlineWarning("Not a valid ID. Please try again: ");
+      input = IN.nextLine();
+    }
+
+    for (CompetitionModel competition : competitions) {
+      if (input.equals(competition.getId())) {
+        return competition;
+      }
+    }
+
+    return null; // TODO: refactor
   }
 }

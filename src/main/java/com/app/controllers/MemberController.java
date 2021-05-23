@@ -1,6 +1,5 @@
 package com.app.controllers;
 
-import com.app.controllers.utils.Input;
 import com.app.models.*;
 import com.app.models.services.ConfigService;
 import com.app.models.services.MemberService;
@@ -30,23 +29,23 @@ public class MemberController {
 
   public void createMember() {
     VIEW.printInline("Name: ");
-    String name = Input.validateName();
+    String name = InputController.validateName();
 
     VIEW.printInline("Mail: ");
-    String mail = Input.validateMail();
+    String mail = InputController.validateMail();
 
     VIEW.displayOptions(gendersToArray());
-    int genderIndex = Input.validateOptionRange(GenderModel.values().length);
+    int genderIndex = InputController.validateOptionRange(GenderModel.values().length);
     GenderModel gender = GenderModel.values()[genderIndex - 1];
 
     VIEW.printInline("Birthday [dd/MM/yyyy]: ");
-    String birthday = Input.validateDate();
+    String birthday = InputController.validateDate();
 
     VIEW.printInline("Phone: ");
-    String phone = Input.validatePhoneNumber();
+    String phone = InputController.validatePhoneNumber();
 
     VIEW.printInline("Competitive [Y/n]: ");
-    boolean competitive = Input.promptYesNo();
+    boolean competitive = InputController.promptYesNo();
 
     String id = generateMemberId();
 
@@ -139,9 +138,9 @@ public class MemberController {
         boolean stop = false;
         while (!stop) { // allow removal of members
           VIEW.print("Do you want to remove a member from the list? [Y/n]:");
-          if (Input.promptYesNo()) {
+          if (InputController.promptYesNo()) {
             VIEW.print("Type member ID to delete: ");
-            String input = Input.anyString();
+            String input = InputController.anyString();
             try {
               MemberModel member = getMemberByID(input, expiringMembers);
               expiringMembers.remove(member);
@@ -153,7 +152,7 @@ public class MemberController {
           }
         }
         VIEW.print("Are you sure you want to send the payment requests? [Y/n]");
-        if (Input.promptYesNo()) {
+        if (InputController.promptYesNo()) {
           paymentRequester.createPaymentRequest(expiringMembers.toArray(new MemberModel[0]));
         }
       }
@@ -275,7 +274,7 @@ public class MemberController {
 
   public void viewMemberByName() {
     VIEW.printInline("Name: ");
-    String name = Input.validateName();
+    String name = InputController.validateName();
 
     ArrayList<MemberModel> sortedList = getMemberByName(name);
 
@@ -302,7 +301,7 @@ public class MemberController {
 
   public void anonymizeMember() {
     VIEW.printInline("Input ID [press \"q\" to quit]: ");
-    String id = Input.validateMemberId(members);
+    String id = InputController.validateMemberId(members);
 
     if (null != id) {
       try {
@@ -324,7 +323,7 @@ public class MemberController {
   public void editMember() {
     VIEW.printInline("Input ID [press \"q\" to quit]: ");
 
-    String id = Input.validateMemberId(members);
+    String id = InputController.validateMemberId(members);
 
     if (null != id) {
       try {
@@ -333,21 +332,21 @@ public class MemberController {
         String[] options = new String[] {"Name", "Mail", "Phone number", "Birthday [dd/MM/yyyy]"};
         VIEW.displayOptions(options);
 
-        int index = Input.validateOptionRange(options.length) - 1;
+        int index = InputController.validateOptionRange(options.length) - 1;
 
         VIEW.printInline(options[index] + ": ");
 
         if (0 == index) {
-          String name = Input.validateName();
+          String name = InputController.validateName();
           member.setName(name);
         } else if (1 == index) {
-          String mail = Input.validateMail();
+          String mail = InputController.validateMail();
           member.setMail(mail);
         } else if (2 == index) {
-          String mail = Input.validatePhoneNumber();
+          String mail = InputController.validatePhoneNumber();
           member.setPhoneNumber(mail);
         } else if (3 == index) { // TODO: Condition '3 == index' is always 'true'
-          String birthday = Input.validateDate();
+          String birthday = InputController.validateDate();
           member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         }
 

@@ -5,7 +5,6 @@ import com.app.views.CompetitionView;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
 
 public class LeaderboardController {
   private final CompetitionView VIEW = new CompetitionView();
@@ -49,29 +48,26 @@ public class LeaderboardController {
     return result;
   }
 
-  public void displayTop5Results(Scanner in) {
-    if (!ALL_COMPETITIONS.isEmpty()) { // TODO: refactor input
-      String style;
-      int distance;
-
+  public void displayTop5Results() {
+    if (!ALL_COMPETITIONS.isEmpty()) {
       VIEW.displayOptions(COMPETITION_CONTROLLER.styleToArray());
-      int input = in.nextInt();
-      while (!ValidateModel.isValidRange(input, 1, COMPETITION_CONTROLLER.styleToArray().length)) {
-        in.next(); // TODO: Validate
-        input = in.nextInt();
-      }
-      style = StyleModel.values()[input - 1].name();
 
+      int styleInput =
+          InputController.validateOptionRange(COMPETITION_CONTROLLER.styleToArray().length);
+      String style = StyleModel.values()[styleInput - 1].name(); // TODO: sure about the -1?
       VIEW.displayOptions(COMPETITION_CONTROLLER.distanceToArray(style, GenderModel.OTHER));
-      input = in.nextInt();
-      while (!ValidateModel.isValidRange(
-          input, 1, COMPETITION_CONTROLLER.distanceToArray(style, GenderModel.OTHER).length)) {
-        in.next(); // TODO: Validate
-        input = in.nextInt();
-      }
-      distance = DistanceModel.values()[input - 1].getMeters();
 
-      findTop5(style, distance); // TODO: Output the values. Right now nothing is displayed.
+      int distanceInput =
+          InputController.validateOptionRange(
+              COMPETITION_CONTROLLER.distanceToArray(style, GenderModel.OTHER).length);
+      int distance =
+          DistanceModel.values()[distanceInput - 1].getMeters(); // TODO: sure about the -1?
+
+      ResultModel[] top5 = findTop5(style, distance);
+      for (ResultModel s : top5) {
+        VIEW.print(String.valueOf(s));
+        // TODO: Top5 was not printed. This is is quick fix. However, this is not tested.
+      }
     }
   }
 }
