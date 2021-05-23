@@ -8,6 +8,7 @@ public class MemberMenuAction extends MenuActions {
     super(description);
   }
 
+  @Override
   public void run() {
     new MenuController("Member management", "Please choose a menu option: ", menu()).run();
   }

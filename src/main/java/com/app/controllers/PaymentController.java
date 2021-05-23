@@ -1,7 +1,7 @@
 package com.app.controllers;
 
 import com.app.models.MemberModel;
-import com.app.models.MemberNotFoundException;
+import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.ConfigService;
 import com.app.models.services.PaymentService;
 import com.app.views.PaymentsView;

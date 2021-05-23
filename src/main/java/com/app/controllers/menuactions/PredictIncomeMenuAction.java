@@ -8,6 +8,7 @@ public class PredictIncomeMenuAction extends MenuActions {
     super(description);
   }
 
+  @Override
   public void run() {
     new PredictionController().predictIncome();
   }

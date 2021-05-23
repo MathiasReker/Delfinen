@@ -1,4 +1,4 @@
-package com.app.models;
+package com.app.models.exceptions;
 
 public class CouldNotLoadMemberException extends Exception {
   public CouldNotLoadMemberException(String message) {

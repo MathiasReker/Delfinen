@@ -1,6 +1,7 @@
 package com.app.controllers;
 
 import com.app.models.*;
+import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.CompetitionService;
 import com.app.models.services.ConfigService;
 import com.app.views.CompetitionView;
