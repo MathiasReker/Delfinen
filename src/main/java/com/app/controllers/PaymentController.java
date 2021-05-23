@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PaymentController {
-
   private final MemberController MEMBER_CONTROLLER = new MemberController();
   private final PaymentsView VIEW = new PaymentsView();
   private ArrayList<String> approvedPaymentsIds = new ArrayList<>();
@@ -28,7 +27,6 @@ public class PaymentController {
   }
 
   private void updateMemberShip(ArrayList<MemberModel> members) {
-
     for (MemberModel member : members) {
       if (member.getMemberships().size() != 0) {
         member.getLatestMembership().setPayed(true);

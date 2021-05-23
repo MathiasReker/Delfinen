@@ -56,7 +56,7 @@ public class LeaderboardController {
       VIEW.displayOptions(COMPETITION_CONTROLLER.styleToArray());
       int input = in.nextInt();
       while (!ValidateModel.isValidRange(input, 1, COMPETITION_CONTROLLER.styleToArray().length)) {
-        in.next();
+        in.next(); // TODO: Validate
         input = in.nextInt();
       }
       style = StyleModel.values()[input - 1].name();
@@ -65,7 +65,7 @@ public class LeaderboardController {
       input = in.nextInt();
       while (!ValidateModel.isValidRange(
           input, 1, COMPETITION_CONTROLLER.distanceToArray(style, GenderModel.OTHER).length)) {
-        in.next();
+        in.next(); // TODO: Validate
         input = in.nextInt();
       }
       distance = DistanceModel.values()[input - 1].getMeters();

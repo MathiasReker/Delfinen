@@ -1,8 +1,10 @@
 package com.app.controllers.utils;
 
+import com.app.models.MemberModel;
 import com.app.models.ValidateModel;
 import com.app.views.MenuView;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Input { // TODO rename
@@ -55,5 +57,89 @@ public class Input { // TODO rename
       }
       VIEW.printInlineWarning("Not a valid choice. Please try again: ");
     }
+  }
+
+  public static String validateName(Scanner in) {
+    while (true) {
+      String result = in.nextLine();
+      if (ValidateModel.isValidName(result)) {
+        return result;
+      }
+      VIEW.printInlineWarning("Not a valid name. Please try again: ");
+    }
+  }
+
+  public static String validateMail(Scanner in) {
+    while (true) {
+      String result = in.nextLine();
+      if (ValidateModel.isValidMail(result)) {
+        return result;
+      }
+      VIEW.printInlineWarning("Not a valid mail. Please try again: ");
+    }
+  }
+
+  public static String validateDate(Scanner in) {
+    String result = in.nextLine();
+    while (!ValidateModel.isValidDate(result)) {
+      VIEW.printInlineWarning("Not a valid date. Please try again: ");
+      result = in.nextLine();
+    }
+
+    return result;
+  }
+
+  public static String validatePhoneNumber(Scanner in) {
+    while (true) {
+      String result = in.nextLine().trim();
+      if (ValidateModel.isValidPhoneNumber(result)) {
+        return result;
+      }
+      VIEW.printInlineWarning("Not a valid phone number. Please try again: ");
+    }
+  }
+
+  public static String validateMemberId(ArrayList<MemberModel> members, Scanner in) {
+    while (true) {
+      String result = in.nextLine();
+
+      if (result.equals("q")) {
+        return null;
+      }
+
+      for (MemberModel m : members) {
+        if (m.getID().equals(result)) {
+          return result;
+        }
+      }
+
+      VIEW.printInlineWarning("Not a valid ID. Please try again: ");
+    }
+  }
+
+  /**
+   * A method to validate that the time input we receive is a valid format
+   *
+   * @param in a String with the time that needs to be parsed.
+   * @return returns a time as a LocalTime type
+   */
+  public static String validateCompetitionResultTime(Scanner in) {
+    String result = in.nextLine();
+    while (!ValidateModel.isValidCompetitionResultTime("00:" + result)) {
+      VIEW.printInlineWarning("Not a valid time. Please try again: ");
+      result = in.nextLine();
+    }
+
+    return result;
+  }
+
+  public static String validateCompetitionTime(Scanner in) {
+    String result = in.nextLine();
+    while (!ValidateModel.isValidCompetitionTime(result)) {
+      VIEW.printInlineWarning("Not a valid time. Please try again: ");
+      result = in.nextLine();
+    }
+
+    return result;
   }
 }

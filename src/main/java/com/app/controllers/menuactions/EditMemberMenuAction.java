@@ -12,7 +12,8 @@ public class EditMemberMenuAction extends MenuActions {
   @Override
   public void run() {
     Scanner in = new Scanner(System.in);
-    new MemberController().viewMembers();
-    new MemberController().editMember(in);
+    MemberController memberController = new MemberController();
+    memberController.viewMembers();
+    memberController.editMember(in);
   }
 }

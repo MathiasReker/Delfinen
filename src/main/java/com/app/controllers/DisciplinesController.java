@@ -71,6 +71,7 @@ public class DisciplinesController {
         return true;
       }
     }
+
     return false;
   }
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 public class ValidateModel {
   public static boolean isValidDate(String date) {
@@ -24,7 +25,7 @@ public class ValidateModel {
     }
   }
 
-  public static boolean isValidResultTime(String time) {
+  public static boolean isValidCompetitionResultTime(String time) {
     try {
       LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
       return true;
@@ -50,5 +51,14 @@ public class ValidateModel {
 
   public static boolean isValidRange(int in, int min, int max) {
     return in <= max && in >= min;
+  }
+
+  public static boolean isValidCompetitionId(ArrayList<CompetitionModel> competitions, String id) { // TODO: Move to ValidateModel?
+    for (CompetitionModel competition : competitions) {
+      if (id.equals(competition.getId())) {
+        return true;
+      }
+    }
+    return false;
   }
 }

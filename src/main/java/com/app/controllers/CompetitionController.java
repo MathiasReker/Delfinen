@@ -1,10 +1,12 @@
 package com.app.controllers;
 
+import com.app.controllers.utils.Input;
 import com.app.models.*;
 import com.app.models.services.CompetitionService;
 import com.app.views.CompetitionView;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -32,12 +34,12 @@ public class CompetitionController {
 
   public void createNewCompetition(Scanner in) {
     VIEW.printInline("Name of competition: ");
-    String competitionName = in.nextLine();
+    String competitionName = in.nextLine(); // TODO: Validate
     VIEW.printInline("Date [dd/MM/yyyy]: ");
-    LocalDate date = LocalDate.parse(validateDate(in), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    LocalDate date = LocalDate.parse(Input.validateDate(in), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
     VIEW.printInline("Please enter start time of the competition [HH:mm]: ");
     LocalTime startTime =
-        LocalTime.parse(validCompetitionTime(in), DateTimeFormatter.ofPattern("HH:mm"));
+        LocalTime.parse(Input.validateCompetitionTime(in), DateTimeFormatter.ofPattern("HH:mm"));
     competitions.add(new CompetitionModel(generateId(), competitionName, date, startTime));
 
     VIEW.printSuccess("Competition successfully created.");
@@ -61,7 +63,7 @@ public class CompetitionController {
 
     VIEW.printInline("Result time [mm:ss:SS]: ");
     LocalTime time =
-        LocalTime.parse("00:" + validResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
+        LocalTime.parse("00:" + Input.validateCompetitionResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
@@ -79,8 +81,8 @@ public class CompetitionController {
    * @return a competition based on the id that is provided
    */
   public CompetitionModel getCompetition(Scanner in) {
-    String input = in.nextLine();
-    while (!isValidCompetitionId(input)) {
+    String input = in.nextLine(); // TODO: Validate
+    while (!ValidateModel.isValidCompetitionId(competitions, input)) {
       VIEW.printInlineWarning("Not a valid ID. Please try again: ");
       input = in.nextLine();
     }
@@ -90,15 +92,6 @@ public class CompetitionController {
       }
     }
     return null;
-  }
-
-  public boolean isValidCompetitionId(String id) {
-    for (CompetitionModel competition : competitions) {
-      if (id.equals(competition.getId())) {
-        return true;
-      }
-    }
-    return false;
   }
 
   public void viewCompetitionResults(Scanner in) {
@@ -119,13 +112,14 @@ public class CompetitionController {
 
   public MemberModel getMember(String id) {
     MemberController memberController = new MemberController();
-    MemberModel memberModel = null;
+    MemberModel result = null;
     try {
-      memberModel = memberController.getMemberByID(id);
+      result = memberController.getMemberByID(id);
     } catch (MemberNotFoundException e) {
       e.printStackTrace();
     }
-    return memberModel;
+
+    return result;
   }
 
   /**
@@ -145,6 +139,7 @@ public class CompetitionController {
     for (int i = 0; i < result.length; i++) {
       result[i] = StyleModel.values()[i].name();
     }
+
     return result;
   }
 
@@ -156,41 +151,6 @@ public class CompetitionController {
 
     for (int i = 0; i < result.length; i++) {
       result[i] = String.valueOf(disciplineModels.get(i).getDistance());
-    }
-    return result;
-  }
-
-  private String validateDate(Scanner in) {
-    String result = in.nextLine();
-    while (!ValidateModel.isValidDate(result)) {
-      VIEW.printInlineWarning("Not a valid date. Please try again: ");
-      result = in.nextLine();
-    }
-
-    return result;
-  }
-
-  /**
-   * A method to validate that the time input we receive is a valid format
-   *
-   * @param in a String with the time that needs to be parsed.
-   * @return returns a time as a LocalTime type
-   */
-  private String validResultTime(Scanner in) {
-    String result = in.nextLine();
-    while (!ValidateModel.isValidResultTime("00:" + result)) {
-      VIEW.printInlineWarning("Not a valid time. Please try again: ");
-      result = in.nextLine();
-    }
-
-    return result;
-  }
-
-  public String validCompetitionTime(Scanner in) {
-    String result = in.nextLine();
-    while (!ValidateModel.isValidCompetitionTime(result)) {
-      VIEW.printInlineWarning("Not a valid time. Please try again: ");
-      result = in.nextLine();
     }
 
     return result;
@@ -207,6 +167,7 @@ public class CompetitionController {
   private ArrayList<CompetitionModel> toArraylist(CompetitionModel[] competitions) {
     ArrayList<CompetitionModel> result = new ArrayList<>();
     Collections.addAll(result, competitions);
+
     return result;
   }
 

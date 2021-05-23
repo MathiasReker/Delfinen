@@ -30,20 +30,20 @@ public class MemberController {
 
   public void createMember(Scanner in) {
     VIEW.printInline("Name: ");
-    String name = validateName(in);
+    String name = Input.validateName(in);
 
     VIEW.printInline("Mail: ");
-    String mail = validateMail(in);
+    String mail = Input.validateMail(in);
 
     VIEW.displayOptions(gendersToArray());
     int genderIndex = Input.validateOptionRange(in, GenderModel.values().length);
     GenderModel gender = GenderModel.values()[genderIndex - 1];
 
     VIEW.printInline("Birthday [dd/MM/yyyy]: ");
-    String birthday = validateDate(in);
+    String birthday = Input.validateDate(in);
 
     VIEW.printInline("Phone: ");
-    String phone = validatePhoneNumber(in);
+    String phone = Input.validatePhoneNumber(in);
 
     VIEW.printInline("Competitive [Y/n]: ");
     boolean competitive = Input.promptYesNo(in);
@@ -78,46 +78,6 @@ public class MemberController {
     String[] result = new String[GenderModel.values().length];
     for (int i = 0; i < result.length; i++) {
       result[i] = GenderModel.values()[i].name();
-    }
-
-    return result;
-  }
-
-  private String validateName(Scanner in) {
-    while (true) {
-      String result = in.nextLine();
-      if (ValidateModel.isValidName(result)) {
-        return result;
-      }
-      VIEW.printInlineWarning("Not a valid name. Please try again: ");
-    }
-  }
-
-  private String validateMail(Scanner in) {
-    while (true) {
-      String result = in.nextLine();
-      if (ValidateModel.isValidMail(result)) {
-        return result;
-      }
-      VIEW.printInlineWarning("Not a valid mail. Please try again: ");
-    }
-  }
-
-  private String validatePhoneNumber(Scanner in) {
-    while (true) {
-      String result = in.nextLine().trim();
-      if (ValidateModel.isValidPhoneNumber(result)) {
-        return result;
-      }
-      VIEW.printInlineWarning("Not a valid phone number. Please try again: ");
-    }
-  }
-
-  private String validateDate(Scanner in) {
-    String result = in.nextLine();
-    while (!ValidateModel.isValidDate(result)) {
-      VIEW.printInlineWarning("Not a valid date. Please try again: ");
-      result = in.nextLine();
     }
 
     return result;
@@ -314,7 +274,7 @@ public class MemberController {
 
   public void viewMemberByName(Scanner in) {
     VIEW.printInline("Name: ");
-    String name = validateName(in);
+    String name = Input.validateName(in);
 
     ArrayList<MemberModel> sortedList = getMemberByName(name);
 
@@ -339,27 +299,9 @@ public class MemberController {
     return result;
   }
 
-  private String getValidId(Scanner in) {
-    while (true) {
-      String result = in.nextLine();
-
-      if (result.equals("q")) {
-        return null;
-      }
-
-      for (MemberModel m : members) {
-        if (m.getID().equals(result)) {
-          return result;
-        }
-      }
-
-      VIEW.printInlineWarning("Not a valid ID. Please try again: ");
-    }
-  }
-
   public void anonymizeMember(Scanner in) {
     VIEW.printInline("Input ID [press \"q\" to quit]: ");
-    String id = getValidId(in);
+    String id = Input.validateMemberId(members, in);
 
     if (null != id) {
       try {
@@ -381,7 +323,7 @@ public class MemberController {
   public void editMember(Scanner in) {
     VIEW.printInline("Input ID [press \"q\" to quit]: ");
 
-    String id = getValidId(in);
+    String id = Input.validateMemberId(members, in);
 
     if (null != id) {
       try {
@@ -395,16 +337,16 @@ public class MemberController {
         VIEW.printInline(options[index] + ": ");
 
         if (0 == index) {
-          String name = validateName(in);
+          String name = Input.validateName(in);
           member.setName(name);
         } else if (1 == index) {
-          String mail = validateMail(in);
+          String mail = Input.validateMail(in);
           member.setMail(mail);
         } else if (2 == index) {
-          String mail = validatePhoneNumber(in);
+          String mail = Input.validatePhoneNumber(in);
           member.setPhoneNumber(mail);
         } else if (3 == index) { // TODO: Condition '3 == index' is always 'true'
-          String birthday = validateDate(in);
+          String birthday = Input.validateDate(in);
           member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         }
 
