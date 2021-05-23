@@ -4,6 +4,9 @@ import com.app.models.*;
 import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.CompetitionService;
 import com.app.models.services.ConfigService;
+import com.app.models.types.DistanceType;
+import com.app.models.types.GenderType;
+import com.app.models.types.StyleType;
 import com.app.views.CompetitionView;
 
 import java.io.IOException;
@@ -62,7 +65,7 @@ public class CompetitionController {
     int styleChoice = InputController.validateOptionRange(styleToArray().length);
 
     String[] distances =
-        distanceToArray(StyleModel.values()[styleChoice - 1].name(), member.getGender());
+        distanceToArray(StyleType.values()[styleChoice - 1].name(), member.getGender());
     VIEW.displayOptions(distances);
     int distanceChoice = InputController.validateOptionRange(distances.length);
 
@@ -74,7 +77,7 @@ public class CompetitionController {
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
-            DistanceModel.values()[distanceChoice - 1].getMeters(),
+            DistanceType.values()[distanceChoice - 1].getMeters(),
             styleToArray()[styleChoice - 1]);
 
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
@@ -122,16 +125,16 @@ public class CompetitionController {
   }
 
   public String[] styleToArray() {
-    String[] result = new String[StyleModel.values().length];
+    String[] result = new String[StyleType.values().length];
 
     for (int i = 0; i < result.length; i++) {
-      result[i] = StyleModel.values()[i].name();
+      result[i] = StyleType.values()[i].name();
     }
 
     return result;
   }
 
-  public String[] distanceToArray(String style, GenderModel gender) {
+  public String[] distanceToArray(String style, GenderType gender) {
     DisciplinesController disciplinesController = new DisciplinesController();
     ArrayList<DisciplineModel> disciplineModels =
         disciplinesController.chosenDiscipline(gender.name(), style);

@@ -1,6 +1,9 @@
 package com.app.controllers;
 
 import com.app.models.*;
+import com.app.models.types.DistanceType;
+import com.app.models.types.GenderType;
+import com.app.models.types.StyleType;
 import com.app.views.CompetitionView;
 
 import java.util.ArrayList;
@@ -54,14 +57,14 @@ public class LeaderboardController {
 
       int styleInput =
           InputController.validateOptionRange(COMPETITION_CONTROLLER.styleToArray().length);
-      String style = StyleModel.values()[styleInput - 1].name(); // TODO: sure about the -1?
-      VIEW.displayOptions(COMPETITION_CONTROLLER.distanceToArray(style, GenderModel.OTHER));
+      String style = StyleType.values()[styleInput - 1].name(); // TODO: sure about the -1?
+      VIEW.displayOptions(COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER));
 
       int distanceInput =
           InputController.validateOptionRange(
-              COMPETITION_CONTROLLER.distanceToArray(style, GenderModel.OTHER).length);
+              COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER).length);
       int distance =
-          DistanceModel.values()[distanceInput - 1].getMeters(); // TODO: sure about the -1?
+          DistanceType.values()[distanceInput - 1].getMeters(); // TODO: sure about the -1?
 
       ResultModel[] top5 = findTop5(style, distance);
       for (ResultModel s : top5) {

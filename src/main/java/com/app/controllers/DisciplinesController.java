@@ -1,9 +1,9 @@
 package com.app.controllers;
 
 import com.app.models.DisciplineModel;
-import com.app.models.DistanceModel;
-import com.app.models.GenderModel;
-import com.app.models.StyleModel;
+import com.app.models.types.DistanceType;
+import com.app.models.types.GenderType;
+import com.app.models.types.StyleType;
 
 import java.util.ArrayList;
 
@@ -34,31 +34,31 @@ public class DisciplinesController {
     if (!styleExist(style)) {
       throw new IllegalArgumentException("No such style");
     }
-    ArrayList<DistanceModel> distances = new ArrayList<>();
+    ArrayList<DistanceType> distances = new ArrayList<>();
 
-    distances.add(DistanceModel.FIFTY);
-    distances.add(DistanceModel.HUNDRED);
-    distances.add(DistanceModel.TWO_HUNDRED);
+    distances.add(DistanceType.FIFTY);
+    distances.add(DistanceType.HUNDRED);
+    distances.add(DistanceType.TWO_HUNDRED);
 
-    if (style.equals(StyleModel.MEDLEY.name())) {
-      distances.add(DistanceModel.FOUR_HUNDRED);
+    if (style.equals(StyleType.MEDLEY.name())) {
+      distances.add(DistanceType.FOUR_HUNDRED);
     }
 
-    if (style.equals(StyleModel.FREESTYLE.name())) {
-      distances.add(DistanceModel.FOUR_HUNDRED);
-      if (gender.equals(GenderModel.MALE.name())) {
-        distances.add(DistanceModel.FIFTEEN_HUNDRED);
-      } else if (gender.equals(GenderModel.FEMALE.name())) {
-        distances.add(DistanceModel.EIGHT_HUNDRED);
+    if (style.equals(StyleType.FREESTYLE.name())) {
+      distances.add(DistanceType.FOUR_HUNDRED);
+      if (gender.equals(GenderType.MALE.name())) {
+        distances.add(DistanceType.FIFTEEN_HUNDRED);
+      } else if (gender.equals(GenderType.FEMALE.name())) {
+        distances.add(DistanceType.EIGHT_HUNDRED);
       } else {
-        distances.add(DistanceModel.EIGHT_HUNDRED);
-        distances.add(DistanceModel.FIFTEEN_HUNDRED);
+        distances.add(DistanceType.EIGHT_HUNDRED);
+        distances.add(DistanceType.FIFTEEN_HUNDRED);
       }
     }
 
     ArrayList<DisciplineModel> result = new ArrayList<>();
 
-    for (DistanceModel d : distances) {
+    for (DistanceType d : distances) {
       result.add(new DisciplineModel(d.getMeters(), style));
     }
 
@@ -66,7 +66,7 @@ public class DisciplinesController {
   }
 
   private boolean styleExist(String style) {
-    for (StyleModel sm : StyleModel.values()) {
+    for (StyleType sm : StyleType.values()) {
       if (sm.name().equals(style)) {
         return true;
       }

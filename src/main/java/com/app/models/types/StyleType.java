@@ -1,6 +1,6 @@
-package com.app.models;
+package com.app.models.types;
 
-public enum StyleModel {
+public enum StyleType {
   /** All the swim styles we offer. */
   BUTTERFLY,
   BACKSTROKE,

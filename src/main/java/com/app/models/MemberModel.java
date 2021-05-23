@@ -1,5 +1,7 @@
 package com.app.models;
 
+import com.app.models.types.GenderType;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -11,7 +13,7 @@ public class MemberModel implements Serializable {
   private String ID;
   private String name;
   private LocalDate birthdate;
-  private GenderModel gender;
+  private GenderType gender;
   private String phoneNumber;
   private String mail;
   private boolean competitive;
@@ -43,7 +45,7 @@ public class MemberModel implements Serializable {
       String ID,
       String name,
       LocalDate birthdate,
-      GenderModel gender,
+      GenderType gender,
       String phoneNumber,
       String mail,
       boolean competitive,
@@ -86,11 +88,11 @@ public class MemberModel implements Serializable {
     this.deleted = deleted;
   }
 
-  public GenderModel getGender() {
+  public GenderType getGender() {
     return gender;
   }
 
-  public void setGender(GenderModel gender) {
+  public void setGender(GenderType gender) {
     this.gender = gender;
   }
 

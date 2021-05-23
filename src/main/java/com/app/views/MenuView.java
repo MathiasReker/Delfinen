@@ -1,7 +1,7 @@
 package com.app.views;
 
-import com.app.views.utils.ColorKey;
-import com.app.views.utils.ColorText;
+import com.app.views.types.ColorKeyType;
+import com.app.views.types.ColorTextType;
 
 public class MenuView extends View {
   /**
@@ -24,14 +24,14 @@ public class MenuView extends View {
 
     // Create the header
     System.out.println(symbol1 + symbol2.repeat(45) + symbol3);
-    ColorText headerFormatted = new ColorText(header.toUpperCase(), ColorKey.BLUE_BOLD_BRIGHT);
+    ColorTextType headerFormatted = new ColorTextType(header.toUpperCase(), ColorKeyType.BLUE_BOLD_BRIGHT);
     System.out.printf("%2$s %1$-54s %2$s%n", headerFormatted, symbol4);
     System.out.println(symbol10 + symbol2.repeat(4) + symbol5 + symbol2.repeat(40) + symbol6);
 
     // Create the body
     for (int i = 0; i < menuAction.length; i++) {
-      ColorText menuActionFormatted = new ColorText(menuAction[i], ColorKey.BLUE_BRIGHT);
-      ColorText numberFormatted = new ColorText(i + 1, ColorKey.WHITE_BRIGHT);
+      ColorTextType menuActionFormatted = new ColorTextType(menuAction[i], ColorKeyType.BLUE_BRIGHT);
+      ColorTextType numberFormatted = new ColorTextType(i + 1, ColorKeyType.WHITE_BRIGHT);
       System.out.printf(
           "%3$s %1$-13s %3$s %2$-49s %3$s%n", numberFormatted, menuActionFormatted, symbol4);
     }

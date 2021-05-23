@@ -6,6 +6,7 @@ import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.ConfigService;
 import com.app.models.services.MemberService;
 import com.app.models.services.PaymentRequestService;
+import com.app.models.types.GenderType;
 import com.app.views.MemberView;
 
 import java.io.IOException;
@@ -37,8 +38,8 @@ public class MemberController {
     String mail = InputController.validateMail();
 
     VIEW.displayOptions(gendersToArray());
-    int genderIndex = InputController.validateOptionRange(GenderModel.values().length);
-    GenderModel gender = GenderModel.values()[genderIndex - 1];
+    int genderIndex = InputController.validateOptionRange(GenderType.values().length);
+    GenderType gender = GenderType.values()[genderIndex - 1];
 
     VIEW.printInline("Birthday [dd/MM/yyyy]: ");
     String birthday = InputController.validateDate();
@@ -59,7 +60,7 @@ public class MemberController {
       String id,
       String name,
       String mail,
-      GenderModel gender,
+      GenderType gender,
       String birthday,
       String phone,
       boolean competitive) {
@@ -76,9 +77,9 @@ public class MemberController {
   }
 
   private String[] gendersToArray() {
-    String[] result = new String[GenderModel.values().length];
+    String[] result = new String[GenderType.values().length];
     for (int i = 0; i < result.length; i++) {
-      result[i] = GenderModel.values()[i].name();
+      result[i] = GenderType.values()[i].name();
     }
 
     return result;

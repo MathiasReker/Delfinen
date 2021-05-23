@@ -1,6 +1,6 @@
-package com.app.views.utils;
+package com.app.views.types;
 
-public enum ColorKey {
+public enum ColorKeyType {
   RESET("\033[0m"),
 
   BLACK("\033[0;30m"),
@@ -46,7 +46,7 @@ public enum ColorKey {
    *
    * @param code String.
    */
-  ColorKey(String code) {
+  ColorKeyType(String code) {
     this.code = code;
   }
 

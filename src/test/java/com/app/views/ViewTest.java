@@ -1,6 +1,6 @@
 package com.app.views;
 
-import com.app.views.utils.ColorKey;
+import com.app.views.types.ColorKeyType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ public class ViewTest {
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     System.setOut(new PrintStream(outContent));
 
-    view.print("Test", ColorKey.YELLOW_BOLD);
+    view.print("Test", ColorKeyType.YELLOW_BOLD);
 
     Assertions.assertEquals("[1;33mTest\u001B[0m", outContent.toString().trim());
   }
@@ -35,7 +35,7 @@ public class ViewTest {
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     System.setOut(new PrintStream(outContent));
 
-    view.print("Test", ColorKey.YELLOW_BOLD);
+    view.print("Test", ColorKeyType.YELLOW_BOLD);
 
     Assertions.assertNotEquals("Test", outContent.toString().trim());
   }

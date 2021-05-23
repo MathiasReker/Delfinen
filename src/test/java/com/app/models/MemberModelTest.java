@@ -1,5 +1,6 @@
 package com.app.models;
 
+import com.app.models.types.GenderType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -35,8 +36,8 @@ public class MemberModelTest {
 
   @Test
   public void testSetGender() {
-    test.setGender(GenderModel.FEMALE);
-    GenderModel expected = GenderModel.FEMALE;
+    test.setGender(GenderType.FEMALE);
+    GenderType expected = GenderType.FEMALE;
 
     Assertions.assertEquals(expected, test.getGender());
   }
@@ -92,7 +93,7 @@ public class MemberModelTest {
             "test",
             "test",
             LocalDate.parse("10/11/2020", DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-            GenderModel.FEMALE,
+            GenderType.FEMALE,
             "12345678",
             "test@test.com",
             true,

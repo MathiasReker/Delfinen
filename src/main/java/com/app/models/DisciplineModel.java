@@ -1,5 +1,7 @@
 package com.app.models;
 
+import com.app.models.types.StyleType;
+
 import java.io.Serializable;
 
 public class DisciplineModel implements Serializable {
@@ -43,6 +45,6 @@ public class DisciplineModel implements Serializable {
    */
   public String chosenStyle(int choice) { // TODO: Method 'chosenStyle(int)' is never used
     // TODO: 17-05-2021 skulle nok flyttes til en anden klasse
-    return StyleModel.values()[choice].toString();
+    return StyleType.values()[choice].toString();
   }
 }
