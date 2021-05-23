@@ -68,14 +68,10 @@ public class FileService {
     }
   }
 
-  public void writeToBin(byte[] bytes) {
-    try {
-      FileOutputStream fos = new FileOutputStream(PATH);
-      fos.write(bytes);
-      fos.close();
-    } catch (IOException e) {
-      // ignore
-    }
+  public void writeToBin(byte[] bytes) throws IOException {
+    FileOutputStream fos = new FileOutputStream(PATH);
+    fos.write(bytes);
+    fos.close();
   }
 
   public byte[] loadFromBin() throws IOException {
@@ -83,6 +79,7 @@ public class FileService {
     FileInputStream fis = new FileInputStream(PATH);
     result = fis.readAllBytes();
     fis.close();
+
     return result;
   }
 }

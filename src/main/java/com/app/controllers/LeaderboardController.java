@@ -45,6 +45,7 @@ public class LeaderboardController {
         }
       }
     }
+
     return result;
   }
 

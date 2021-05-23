@@ -26,9 +26,10 @@ public class MemberService {
     byte[] membersInByte = FILE_SERVICE.loadFromBin();
     ByteArrayInputStream bais = new ByteArrayInputStream(membersInByte);
     ObjectInputStream ois = new ObjectInputStream(bais);
-    MemberModel[] members = (MemberModel[]) ois.readObject();
+    MemberModel[] result = (MemberModel[]) ois.readObject();
     ois.close();
     bais.close();
-    return members;
+
+    return result;
   }
 }

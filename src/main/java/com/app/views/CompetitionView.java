@@ -2,7 +2,6 @@ package com.app.views;
 
 public class CompetitionView extends View {
   public void displayCompetitionResults(String[] competitionResults) {
-
     System.out.println(
         "-----------------------------------------------------------------------------");
     System.out.printf("%-10s %-20s %-20s %-20s", "Name", "Style", "Distance", "Completion time");

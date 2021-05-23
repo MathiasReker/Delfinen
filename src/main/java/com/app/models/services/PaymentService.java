@@ -22,6 +22,7 @@ public class PaymentService {
       String[] data = s.split(";");
       result.add(data[0]);
     }
+
     return result;
   }
 

@@ -3,7 +3,6 @@ package com.app.views;
 import java.math.BigDecimal;
 
 public class PredictionView extends View {
-
   private float movePointLeft(int prediction) {
     return new BigDecimal(prediction).movePointLeft(2).floatValue();
   }

@@ -354,7 +354,6 @@ public class MemberController {
       } catch (MemberNotFoundException e) {
         e.printStackTrace();
       }
-
     } else {
       VIEW.printSuccess("Action cancelled.");
     }
@@ -365,8 +364,8 @@ public class MemberController {
     if (members.size() > 0) {
       oldId = Integer.parseInt(members.get(members.size() - 1).getID());
     }
-    int newId = oldId + 1;
+    int result = oldId + 1;
 
-    return String.valueOf(newId);
+    return String.valueOf(result);
   }
 }

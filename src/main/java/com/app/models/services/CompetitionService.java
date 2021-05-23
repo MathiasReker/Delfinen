@@ -27,9 +27,10 @@ public class CompetitionService {
     byte[] competitionsInByte = FILE_SERVICE.loadFromBin();
     ByteArrayInputStream bais = new ByteArrayInputStream(competitionsInByte);
     ObjectInputStream ois = new ObjectInputStream(bais);
-    CompetitionModel[] competitions = (CompetitionModel[]) ois.readObject();
+    CompetitionModel[] result = (CompetitionModel[]) ois.readObject();
     ois.close();
     bais.close();
-    return competitions;
+
+    return result;
   }
 }

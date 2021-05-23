@@ -6,7 +6,6 @@ import com.app.models.services.CompetitionService;
 import com.app.views.CompetitionView;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -35,8 +34,11 @@ public class CompetitionController {
   public void createNewCompetition(Scanner in) {
     VIEW.printInline("Name of competition: ");
     String competitionName = in.nextLine(); // TODO: Validate
+
     VIEW.printInline("Date [dd/MM/yyyy]: ");
-    LocalDate date = LocalDate.parse(Input.validateDate(in), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    LocalDate date =
+        LocalDate.parse(Input.validateDate(in), DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
     VIEW.printInline("Please enter start time of the competition [HH:mm]: ");
     LocalTime startTime =
         LocalTime.parse(Input.validateCompetitionTime(in), DateTimeFormatter.ofPattern("HH:mm"));
@@ -49,21 +51,26 @@ public class CompetitionController {
 
   public void addResultToCompetition(Scanner in) {
     VIEW.printInline("Competition ID: ");
-    CompetitionModel competition = getCompetition(in);
+    CompetitionModel competition = getCompetition(in); // TODO: Validate
+
     VIEW.printInline("Member ID: ");
-    MemberModel member = getMember(in.nextLine());
+    MemberModel member = getMember(in.nextLine()); // TODO: Validate
+
     VIEW.displayOptions(styleToArray());
-    int styleChoice = in.nextInt();
+    int styleChoice = in.nextInt(); // TODO: Validate
+
     in.nextLine();
 
     VIEW.displayOptions(
         distanceToArray(StyleModel.values()[styleChoice - 1].name(), member.getGender()));
     int distanceChoice = in.nextInt();
-    in.nextLine();
+    in.nextLine(); // TODO: Validate
 
     VIEW.printInline("Result time [mm:ss:SS]: ");
     LocalTime time =
-        LocalTime.parse("00:" + Input.validateCompetitionResultTime(in), DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
+        LocalTime.parse(
+            "00:" + Input.validateCompetitionResultTime(in),
+            DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
@@ -91,6 +98,7 @@ public class CompetitionController {
         return competition;
       }
     }
+
     return null;
   }
 
@@ -107,6 +115,7 @@ public class CompetitionController {
       String completionTime = resultsOfCompetition.get(i).getResultTime().toString();
       resultsToString[i] = String.join(";", name, style, distance, completionTime);
     }
+
     VIEW.displayCompetitionResults(resultsToString);
   }
 

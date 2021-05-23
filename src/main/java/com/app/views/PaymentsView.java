@@ -1,9 +1,8 @@
 package com.app.views;
 
 public class PaymentsView extends View {
-
   public void displayPayments(String[] payments) {
-
+    // TODO: Use view class
     System.out.println("-----------------------");
     System.out.printf("%-10s %-20s", "ID", "Name");
     System.out.println();

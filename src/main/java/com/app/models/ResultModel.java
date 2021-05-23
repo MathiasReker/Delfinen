@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.time.LocalTime;
 
 public class ResultModel implements Serializable, Comparable<ResultModel> {
-
   private MemberModel member;
   private LocalTime resultTime;
   private DisciplineModel discipline;
