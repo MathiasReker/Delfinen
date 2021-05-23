@@ -19,7 +19,8 @@ public class PaymentController {
 
   public PaymentController() {
     try {
-      paymentService = new PaymentService("data/payment-requests/out.txt");
+      String path = "data/payment-requests/";
+      paymentService = new PaymentService(path);
       approvedPaymentsIds = paymentService.getApprovedPayments();
     } catch (IOException e) {
       VIEW.printWarning("The competitions could not be loaded.");

@@ -26,7 +26,7 @@ public class PaymentService {
   }
 
   public void backupToFile(ArrayList<String> strings) throws IOException {
-    FileService fileService = new FileService(createNewPath());
+    FileService fileService = new FileService(getNewPAth());
     String[] result = new String[strings.size()];
 
     for (int i = 0; i < result.length; i++) {
@@ -35,11 +35,7 @@ public class PaymentService {
     fileService.writeToFile(result);
   }
 
-  private String createNewPath() { // TODO: Refactor
-    String s = path;
-    String[] data = s.split("/");
-    data[2] = "backup.txt";
-    s = String.join("/", data[0], data[1], LocalDate.now() + data[2]);
-    return s;
+  private String getNewPAth() {
+    return "data/payment-requests/" + LocalDate.now() + "-backup.txt";
   }
 }
