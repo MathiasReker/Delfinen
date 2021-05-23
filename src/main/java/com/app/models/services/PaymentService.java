@@ -18,8 +18,8 @@ public class PaymentService {
     String[] competitionString = FILE_SERVICE.readFromFile();
     ArrayList<String> result = new ArrayList<>();
     for (String s : competitionString) {
-      String[] data = s.split(";");
-      result.add(data[0]);
+      ;
+      result.add(s.split(";")[0]);
     }
 
     return result;

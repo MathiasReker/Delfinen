@@ -1,7 +1,6 @@
 package com.app.models.types;
 
 public enum DistanceType {
-  /** Possible distances for ever swim style. */
   FIFTY(50),
   HUNDRED(100),
   TWO_HUNDRED(200),

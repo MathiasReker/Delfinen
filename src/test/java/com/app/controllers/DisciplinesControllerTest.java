@@ -10,10 +10,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 
 class DisciplinesControllerTest {
-
   @Test
   public void testChosenDistance() {
-
     ArrayList<DisciplineModel> expect = new ArrayList<>();
     expect.add(new DisciplineModel(DistanceType.FIFTY.getMeters(), StyleType.BUTTERFLY.name()));
     expect.add(new DisciplineModel(DistanceType.HUNDRED.getMeters(), StyleType.BUTTERFLY.name()));
@@ -29,7 +27,6 @@ class DisciplinesControllerTest {
 
   @Test
   public void testChosenDistanceMaleFreestyle() {
-
     ArrayList<DisciplineModel> expect = new ArrayList<>();
     expect.add(new DisciplineModel(DistanceType.FIFTY.getMeters(), StyleType.BUTTERFLY.name()));
     expect.add(new DisciplineModel(DistanceType.HUNDRED.getMeters(), StyleType.BUTTERFLY.name()));
@@ -49,7 +46,6 @@ class DisciplinesControllerTest {
 
   @Test
   public void testChosenDistanceWomanFreestyle() {
-
     ArrayList<DisciplineModel> expect = new ArrayList<>();
     expect.add(new DisciplineModel(DistanceType.FIFTY.getMeters(), StyleType.BUTTERFLY.name()));
     expect.add(new DisciplineModel(DistanceType.HUNDRED.getMeters(), StyleType.BUTTERFLY.name()));
@@ -69,7 +65,6 @@ class DisciplinesControllerTest {
 
   @Test
   public void testChosenDistanceWomanFreestyleFail() {
-
     ArrayList<DisciplineModel> expect =
         new DisciplinesController()
             .chosenDiscipline(GenderType.MALE.name(), StyleType.FREESTYLE.name());

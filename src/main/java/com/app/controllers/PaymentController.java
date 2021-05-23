@@ -39,10 +39,10 @@ public class PaymentController {
         MemberModel member = MEMBER_CONTROLLER.getMemberByID(approvedPaymentsIds.get(i));
         String id = member.getId();
         String name = member.getName();
-        resultsToString[i] = new String[]{id, name};
+        resultsToString[i] = new String[] {id, name};
       } catch (MemberNotFoundException e) {
         String id = approvedPaymentsIds.get(i);
-        resultsToString[i] = new String[]{id, null};
+        resultsToString[i] = new String[] {id, null};
       }
     }
     VIEW.displayPayments(resultsToString);
