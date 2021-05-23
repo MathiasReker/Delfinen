@@ -145,6 +145,4 @@ public class Input {
   public static String anyString() {
     return IN.nextLine();
   }
-
-
 }

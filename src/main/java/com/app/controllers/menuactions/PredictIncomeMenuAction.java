@@ -2,7 +2,6 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.PredictionController;
 
-import java.util.Scanner;
 
 public class PredictIncomeMenuAction extends MenuActions {
 

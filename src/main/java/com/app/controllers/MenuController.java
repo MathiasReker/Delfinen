@@ -5,8 +5,6 @@ import com.app.controllers.utils.Input;
 import com.app.models.MenuModel;
 import com.app.views.MenuView;
 
-import java.util.Scanner;
-
 public class MenuController {
   private final MenuModel MENU;
   private final MenuView VIEW;

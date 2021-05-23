@@ -53,8 +53,7 @@ public class ValidateModel {
     return in <= max && in >= min;
   }
 
-  public static boolean isValidCompetitionId(
-      ArrayList<CompetitionModel> competitions, String id) {
+  public static boolean isValidCompetitionId(ArrayList<CompetitionModel> competitions, String id) {
     for (CompetitionModel competition : competitions) {
       if (id.equals(competition.getId())) {
         return true;
