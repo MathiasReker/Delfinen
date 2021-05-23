@@ -1,16 +1,15 @@
 package com.app.views;
 
 public class CompetitionView extends View {
-  public void displayCompetitionResults(String[] competitionResults) {
+  public void displayCompetitionResults(String[][] competitionResults) {
     System.out.println(
         "-----------------------------------------------------------------------------");
     System.out.printf("%-10s %-20s %-20s %-20s", "Name", "Style", "Distance", "Completion time");
     System.out.println();
     System.out.println(
         "-----------------------------------------------------------------------------");
-    for (String c : competitionResults) {
-      String[] temp = c.split(";");
-      System.out.format("%-10s %-20s %-20s m %-10s", temp[0], temp[1], temp[2], temp[3]);
+    for (String[] c : competitionResults) {
+      System.out.format("%-10s %-20s %-20s m %-10s", c[0], c[1], c[2], c[3]);
       System.out.println();
     }
     System.out.println(

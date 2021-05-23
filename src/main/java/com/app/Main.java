@@ -6,7 +6,3 @@ public class Main {
     new App().menu();
   }
 }
-
-// TODO: lookup by ID
-// TODO: quit actions by q
-// TODO: display more info on member?

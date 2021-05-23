@@ -26,7 +26,7 @@ public class MemberController {
     try {
       members = membersToStringArray(loadMembers());
     } catch (CouldNotLoadMemberException e) {
-      VIEW.printWarning("Could not load any members");
+      VIEW.printWarning("Could not load any members.");
       members = new ArrayList<>();
     }
   }
@@ -39,8 +39,8 @@ public class MemberController {
     String mail = InputController.validateMail();
 
     VIEW.displayOptions(gendersToArray());
-    int genderIndex = InputController.validateOptionRange(GenderType.values().length);
-    GenderType gender = GenderType.values()[genderIndex - 1];
+    int genderIndex = InputController.validateOptionRange(GenderType.values().length) - 1;
+    GenderType gender = GenderType.values()[genderIndex];
 
     VIEW.printInline("Birthday [dd/MM/yyyy]: ");
     String birthday = InputController.validateDate();
@@ -92,7 +92,7 @@ public class MemberController {
    * @param member Member to renew
    * @param durationYears years to add to membership
    */
-  public void renewMembership(MemberModel member, int durationYears) { // TODO: what
+  public void renewMembership(MemberModel member, int durationYears) {
     ArrayList<MembershipModel> memberships = member.getMemberships();
     MembershipModel lastMembership = memberships.get(memberships.size() - 1);
     int comparedDate = lastMembership.getExpiringDate().compareTo(LocalDate.now());
@@ -300,7 +300,7 @@ public class MemberController {
       } else if (2 == index) {
         viewMemberByMail();
       } else if (3 == index) {
-        viewMemberByPhone();
+        viewMemberByPhoneNumber();
       }
     }
   }
@@ -341,7 +341,7 @@ public class MemberController {
     }
   }
 
-  public ArrayList<MemberModel> getMemberByName(String name) { // TODO: move
+  public ArrayList<MemberModel> getMemberByName(String name) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
@@ -366,7 +366,7 @@ public class MemberController {
     }
   }
 
-  public ArrayList<MemberModel> getMemberByMail(String mail) { // TODO: move
+  public ArrayList<MemberModel> getMemberByMail(String mail) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
@@ -380,7 +380,7 @@ public class MemberController {
     return result;
   }
 
-  public void viewMemberByPhone() {
+  public void viewMemberByPhoneNumber() {
     String phoneNumber = InputController.validatePhoneNumber();
     ArrayList<MemberModel> sortedList = getMemberByPhoneNumber(phoneNumber);
 
@@ -391,7 +391,7 @@ public class MemberController {
     }
   }
 
-  public ArrayList<MemberModel> getMemberByPhoneNumber(String phoneNumber) { // TODO: move
+  public ArrayList<MemberModel> getMemberByPhoneNumber(String phoneNumber) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
@@ -454,7 +454,7 @@ public class MemberController {
           } else if (2 == index) {
             String mail = InputController.validatePhoneNumber();
             member.setPhoneNumber(mail);
-          } else if (3 == index) { // TODO: Condition '3 == index' is always 'true'
+          } else if (3 == index) {
             String birthday = InputController.validateDate();
             member.setBirthdate(
                 LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));

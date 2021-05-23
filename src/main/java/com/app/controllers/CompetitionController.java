@@ -29,7 +29,8 @@ public class CompetitionController {
       competitionService = new CompetitionService(new ConfigService("competitionsBin").getPath());
       competitions = toArraylist(competitionService.getCompetitionsFromFile());
     } catch (IOException | ClassNotFoundException e) {
-      VIEW.printWarning(e.getMessage());
+      VIEW.printWarning("Could not load any competitions.");
+      competitions = new ArrayList<>();
     }
   }
 
@@ -53,7 +54,7 @@ public class CompetitionController {
 
     VIEW.printSuccess("Competition successfully created.");
 
-    saveCompetitionsToFile();
+    saveCompetitions();
   }
 
   public void addResultToCompetition() {
@@ -88,19 +89,24 @@ public class CompetitionController {
 
   public void viewCompetitionResults() {
     VIEW.printInline("Competition ID: ");
+    // TODO: dont show if 0
     CompetitionModel competition = InputController.validateCompetitionsId(competitions);
+
     ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
-    String[] resultsToString = new String[resultsOfCompetition.size()];
+    String[][] results = new String[resultsOfCompetition.size()][4];
 
     for (int i = 0; i < resultsOfCompetition.size(); i++) {
-      String name = resultsOfCompetition.get(i).getMember().getName();
-      String style = resultsOfCompetition.get(i).getDiscipline().getStyle();
-      String distance = Integer.toString(resultsOfCompetition.get(i).getDiscipline().getDistance());
-      String completionTime = resultsOfCompetition.get(i).getResultTime().toString();
-      resultsToString[i] = String.join(";", name, style, distance, completionTime);
+      ResultModel resultModel = resultsOfCompetition.get(i);
+
+      String name = resultModel.getMember().getName();
+      String style = resultModel.getDiscipline().getStyle();
+      String distance = Integer.toString(resultModel.getDiscipline().getDistance());
+      String completionTime = resultModel.getResultTime().toString();
+
+      results[i] = new String[] {name, style, distance, completionTime};
     }
 
-    VIEW.displayCompetitionResults(resultsToString);
+    VIEW.displayCompetitionResults(results);
   }
 
   public MemberModel getMember(String id) {
@@ -123,7 +129,7 @@ public class CompetitionController {
    */
   public void addResultToCompetition(CompetitionModel competition, ResultModel resultModel) {
     competition.addResult(resultModel);
-    saveCompetitionsToFile();
+    saveCompetitions();
   }
 
   public String[] styleToArray() {
@@ -149,7 +155,7 @@ public class CompetitionController {
     return result;
   }
 
-  public void saveCompetitionsToFile() {
+  public void saveCompetitions() {
     try {
       competitionService.saveCompetitionsToFile(competitions.toArray(new CompetitionModel[0]));
     } catch (IOException e) {
