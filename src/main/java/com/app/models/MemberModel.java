@@ -104,7 +104,7 @@ public class MemberModel implements Serializable {
     this.birthdate = birthdate;
   }
 
-  public String getID() {
+  public String getId() {
     return ID;
   }
 

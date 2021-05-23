@@ -37,7 +37,7 @@ public class PaymentController {
     for (int i = 0; i < approvedPaymentsIds.size(); i++) {
       try {
         MemberModel member = MEMBER_CONTROLLER.getMemberByID(approvedPaymentsIds.get(i));
-        String id = member.getID();
+        String id = member.getId();
         String name = member.getName();
         resultsToString[i] = String.join(";", id, name);
       } catch (MemberNotFoundException e) {

@@ -10,6 +10,6 @@ public class SearchMemberMenuAction extends MenuActions {
 
   @Override
   public void run() {
-    new MemberController().viewMemberByName();
+    new MemberController().searchMember();
   }
 }

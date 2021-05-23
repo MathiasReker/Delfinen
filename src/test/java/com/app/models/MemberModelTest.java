@@ -14,7 +14,7 @@ public class MemberModelTest {
   @Test
   public void testSetID() {
     test.setID("1");
-    Assertions.assertEquals("1", test.getID());
+    Assertions.assertEquals("1", test.getId());
   }
 
   @Test

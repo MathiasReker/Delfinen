@@ -17,7 +17,7 @@ public class PaymentRequestService {
     String[] paymentRequests = new String[memberModels.length];
     for (int i = 0; i < paymentRequests.length; i++) {
       int price = PricingModel.calculateMemberPrice(memberModels[i]);
-      String memberId = memberModels[i].getID();
+      String memberId = memberModels[i].getId();
       paymentRequests[i] = String.join(";", memberId, String.valueOf(price));
     }
     FILE_SERVICE.writeToFile(paymentRequests);

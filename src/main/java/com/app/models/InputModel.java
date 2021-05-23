@@ -55,7 +55,7 @@ public class InputModel {
 
   public static boolean isValidMemberId(String in, ArrayList<MemberModel> members) {
     for (MemberModel m : members) {
-      if (m.getID().equals(in)) {
+      if (m.getId().equals(in)) {
         return true;
       }
     }

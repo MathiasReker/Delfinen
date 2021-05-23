@@ -131,7 +131,7 @@ public class MemberController {
       VIEW.print("Expiring members:"); // show Members
       for (MemberModel member : expiringMembers) {
         VIEW.print( // TODO
-            member.getID()
+            member.getId()
                 + "\t"
                 + member.getName()
                 + "\t"
@@ -168,7 +168,7 @@ public class MemberController {
   MemberModel getMemberByID(String id, ArrayList<MemberModel> members)
       throws MemberNotFoundException {
     for (MemberModel member : members) {
-      if (member.getID().equals(id)) {
+      if (member.getId().equals(id)) {
         return member;
       }
     }
@@ -177,7 +177,7 @@ public class MemberController {
 
   MemberModel getMemberByID(String id) throws MemberNotFoundException {
     for (MemberModel member : members) {
-      if (member.getID().equals(id)) {
+      if (member.getId().equals(id)) {
         return member;
       }
     }
@@ -211,40 +211,48 @@ public class MemberController {
   }
 
   public void viewMembers() {
-    String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
-    VIEW.displayMember(header, getColumnWidth());
+    if (members.isEmpty()) {
+      VIEW.printWarning("No members.");
+    } else {
+      String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+      VIEW.displayMember(header, getColumnWidth());
 
-    for (MemberModel member : members) {
-      String[] body =
-          new String[] {
-            member.getID(),
-            member.getName(),
-            member.getMail(),
-            member.getPhoneNumber(),
-            String.valueOf(member.getAge()),
-            String.valueOf(member.getGender()),
-          };
+      for (MemberModel member : members) {
+        String[] body =
+            new String[] {
+              member.getId(),
+              member.getName(),
+              member.getMail(),
+              member.getPhoneNumber(),
+              String.valueOf(member.getAge()),
+              String.valueOf(member.getGender()),
+            };
 
-      VIEW.displayMember(body, getColumnWidth());
+        VIEW.displayMember(body, getColumnWidth());
+      }
     }
   }
 
   public void viewMembers(ArrayList<MemberModel> members) {
-    String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
-    VIEW.displayMember(header, getColumnWidth());
+    if (members.isEmpty()) {
+      VIEW.printWarning("No members.");
+    } else {
+      String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+      VIEW.displayMember(header, getColumnWidth());
 
-    for (MemberModel member : members) {
-      String[] body =
-          new String[] {
-            member.getID(),
-            member.getName(),
-            member.getMail(),
-            member.getPhoneNumber(),
-            String.valueOf(member.getAge()),
-            String.valueOf(member.getGender()),
-          };
+      for (MemberModel member : members) {
+        String[] body =
+            new String[] {
+              member.getId(),
+              member.getName(),
+              member.getMail(),
+              member.getPhoneNumber(),
+              String.valueOf(member.getAge()),
+              String.valueOf(member.getGender()),
+            };
 
-      VIEW.displayMember(body, getColumnWidth());
+        VIEW.displayMember(body, getColumnWidth());
+      }
     }
   }
 
@@ -254,7 +262,7 @@ public class MemberController {
     for (MemberModel member : members) {
       String[] arr =
           new String[] {
-            member.getID(),
+            member.getId(),
             member.getName(),
             member.getMail(),
             member.getPhoneNumber(),
@@ -276,10 +284,54 @@ public class MemberController {
     return result;
   }
 
-  public void viewMemberByName() {
-    VIEW.printInline("Name: ");
-    String name = InputController.validateName();
+  public void searchMember() {
+    if (!members.isEmpty()) {
+      String[] options = new String[] {"ID", "Name", "Mail", "Phone number"};
+      VIEW.displayOptions(options);
 
+      int index = InputController.validateOptionRange(options.length) - 1;
+
+      VIEW.printInline(options[index] + ": ");
+
+      if (0 == index) {
+        viewMemberById();
+      } else if (1 == index) {
+        viewMemberByName();
+      } else if (2 == index) {
+        viewMemberByMail();
+      } else if (3 == index) {
+        viewMemberByPhone();
+      }
+    }
+  }
+
+  public void viewMemberById() {
+    String id = InputController.validateMemberId(members);
+    ArrayList<MemberModel> sortedList = getMemberById(id);
+
+    if (0 == sortedList.size()) {
+      VIEW.printWarning("No members with the ID: " + id);
+    } else {
+      viewMembers(sortedList);
+    }
+  }
+
+  public ArrayList<MemberModel> getMemberById(String id) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel m : members) {
+      if (null != m.getId()) {
+        if (m.getId().equals(id)) {
+          result.add(m);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public void viewMemberByName() {
+    String name = InputController.validateName();
     ArrayList<MemberModel> sortedList = getMemberByName(name);
 
     if (0 == sortedList.size()) {
@@ -289,7 +341,7 @@ public class MemberController {
     }
   }
 
-  public ArrayList<MemberModel> getMemberByName(String name) {
+  public ArrayList<MemberModel> getMemberByName(String name) { // TODO: move
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
@@ -303,70 +355,125 @@ public class MemberController {
     return result;
   }
 
-  public void anonymizeMember() {
-    VIEW.printInline("Input ID [press \"q\" to quit]: ");
-    String id = InputController.validateMemberId(members);
+  public void viewMemberByMail() {
+    String mail = InputController.validateMail();
+    ArrayList<MemberModel> sortedList = getMemberByMail(mail);
 
-    if (null != id) {
-      try {
-        MemberModel member = getMemberByID(id);
-        member.setName(null);
-        member.setPhoneNumber(null);
-        member.setMail(null);
-        member.setDeleted(true);
-      } catch (MemberNotFoundException e) {
-        VIEW.printWarning(e.getMessage());
-      }
-
-      saveMembers();
+    if (0 == sortedList.size()) {
+      VIEW.printWarning("No members with the mail: " + mail);
     } else {
-      VIEW.printSuccess("Action cancelled.");
+      viewMembers(sortedList);
+    }
+  }
+
+  public ArrayList<MemberModel> getMemberByMail(String mail) { // TODO: move
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel m : members) {
+      if (null != m.getMail()) {
+        if (m.getMail().equals(mail)) {
+          result.add(m);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public void viewMemberByPhone() {
+    String phoneNumber = InputController.validatePhoneNumber();
+    ArrayList<MemberModel> sortedList = getMemberByPhoneNumber(phoneNumber);
+
+    if (0 == sortedList.size()) {
+      VIEW.printWarning("No members with the phone number: " + phoneNumber);
+    } else {
+      viewMembers(sortedList);
+    }
+  }
+
+  public ArrayList<MemberModel> getMemberByPhoneNumber(String phoneNumber) { // TODO: move
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel m : members) {
+      if (null != m.getPhoneNumber()) {
+        if (m.getPhoneNumber().equals(phoneNumber)) {
+          result.add(m);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public void anonymizeMember() {
+    if (!members.isEmpty()) {
+      VIEW.printInline("Input ID [press \"q\" to quit]: ");
+      String id = InputController.validateMemberId(members);
+
+      if (null != id) {
+        try {
+          MemberModel member = getMemberByID(id);
+          member.setName(null);
+          member.setPhoneNumber(null);
+          member.setMail(null);
+          member.setDeleted(true);
+        } catch (MemberNotFoundException e) {
+          VIEW.printWarning(e.getMessage());
+        }
+
+        saveMembers();
+      } else {
+        VIEW.printSuccess("Action cancelled.");
+      }
     }
   }
 
   public void editMember() {
-    VIEW.printInline("Input ID [press \"q\" to quit]: ");
+    if (!members.isEmpty()) {
+      VIEW.printInline("Input ID [press \"q\" to quit]: ");
 
-    String id = InputController.validateMemberId(members);
+      String id = InputController.validateMemberId(members);
 
-    if (null != id) {
-      try {
-        MemberModel member = getMemberByID(id);
+      if (null != id) {
+        try {
+          MemberModel member = getMemberByID(id);
 
-        String[] options = new String[] {"Name", "Mail", "Phone number", "Birthday [dd/MM/yyyy]"};
-        VIEW.displayOptions(options);
+          String[] options = new String[] {"Name", "Mail", "Phone number", "Birthday [dd/MM/yyyy]"};
+          VIEW.displayOptions(options);
 
-        int index = InputController.validateOptionRange(options.length) - 1;
+          int index = InputController.validateOptionRange(options.length) - 1;
 
-        VIEW.printInline(options[index] + ": ");
+          VIEW.printInline(options[index] + ": ");
 
-        if (0 == index) {
-          String name = InputController.validateName();
-          member.setName(name);
-        } else if (1 == index) {
-          String mail = InputController.validateMail();
-          member.setMail(mail);
-        } else if (2 == index) {
-          String mail = InputController.validatePhoneNumber();
-          member.setPhoneNumber(mail);
-        } else if (3 == index) { // TODO: Condition '3 == index' is always 'true'
-          String birthday = InputController.validateDate();
-          member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+          if (0 == index) {
+            String name = InputController.validateName();
+            member.setName(name);
+          } else if (1 == index) {
+            String mail = InputController.validateMail();
+            member.setMail(mail);
+          } else if (2 == index) {
+            String mail = InputController.validatePhoneNumber();
+            member.setPhoneNumber(mail);
+          } else if (3 == index) { // TODO: Condition '3 == index' is always 'true'
+            String birthday = InputController.validateDate();
+            member.setBirthdate(
+                LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+          }
+
+          saveMembers();
+        } catch (MemberNotFoundException e) {
+          e.printStackTrace();
         }
-
-        saveMembers();
-      } catch (MemberNotFoundException e) {
-        e.printStackTrace();
+      } else {
+        VIEW.printSuccess("Action cancelled.");
       }
-    } else {
-      VIEW.printSuccess("Action cancelled.");
     }
   }
 
   private String generateMemberId() {
     int oldId = 0;
     if (members.size() > 0) {
-      oldId = Integer.parseInt(members.get(members.size() - 1).getID());
+      oldId = Integer.parseInt(members.get(members.size() - 1).getId());
     }
     int result = oldId + 1;
 
