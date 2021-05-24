@@ -7,6 +7,7 @@ public class MemberMenuAction extends MenuActions {
     super(description);
   }
 
+  @Override
   public void run() {
     new MenuController("Member management", "Please choose a menu option: ", menu()).run();
   }
@@ -14,9 +15,12 @@ public class MemberMenuAction extends MenuActions {
   MenuActions[] menu() {
     return new MenuActions[] {
       new CreateMemberSubMenuAction("Create member"),
+      new ViewMemberMenuAction("View member"),
       new EditMemberMenuAction("Edit member"),
-      new RenewalRequestMenuAction("Send payment requests for expiring Members"),
-      new RenewMembershipsMenuAction(("Renew paid memberships ")),
+      new AnonymizeMenuAction("Anonymize member"),
+      new SearchMemberMenuAction("Search member"),
+      new RenewalRequestMenuAction("Requests payment for expiring members"),
+      new RenewMembershipsMenuAction(("Renew paid memberships")),
       new ExitMenuAction("Back")
     };
   }

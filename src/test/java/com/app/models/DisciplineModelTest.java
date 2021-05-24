@@ -1,86 +1,77 @@
 package com.app.models;
 
+import com.app.models.types.DistanceType;
+import com.app.models.types.StyleType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class DisciplineModelTest {
-
   @Test
   public void testGetDistanceWithADistanceOfFifty() {
-
-    int result = DistanceModel.FIFTY.getMeters();
+    int result = DistanceType.FIFTY.getMeters();
 
     Assertions.assertEquals(50, result);
   }
 
   @Test
   public void testGetDistanceWithADistanceOfHundred() {
-
-    int result = DistanceModel.HUNDRED.getMeters();
+    int result = DistanceType.HUNDRED.getMeters();
 
     Assertions.assertEquals(100, result);
   }
 
   @Test
   public void testGetDistanceWithADistanceOfTwoHundred() {
-
-    int result = DistanceModel.TWO_HUNDRED.getMeters();
+    int result = DistanceType.TWO_HUNDRED.getMeters();
 
     Assertions.assertEquals(200, result);
   }
 
   @Test
   public void testGetDistanceWithADistanceOfFourHundred() {
-
-    int result = DistanceModel.FOUR_HUNDRED.getMeters();
+    int result = DistanceType.FOUR_HUNDRED.getMeters();
 
     Assertions.assertEquals(400, result);
   }
 
   @Test
   public void testGetDistanceWithADistanceOfEightHundred() {
-
-    int result = DistanceModel.EIGHT_HUNDRED.getMeters();
+    int result = DistanceType.EIGHT_HUNDRED.getMeters();
 
     Assertions.assertEquals(800, result);
   }
 
   @Test
   public void testGetDistanceWithADistanceOfFifteenHundred() {
-
-    int result = DistanceModel.FIFTEEN_HUNDRED.getMeters();
+    int result = DistanceType.FIFTEEN_HUNDRED.getMeters();
 
     Assertions.assertEquals(1500, result);
   }
 
   @Test
   public void testGetStyleButterfly() {
-
-    String result = StyleModel.BUTTERFLY.name();
+    String result = StyleType.BUTTERFLY.name();
 
     Assertions.assertEquals("BUTTERFLY", result);
   }
 
   @Test
   public void testGetStyleBackstroke() {
-
-    String result = StyleModel.BACKSTROKE.name();
+    String result = StyleType.BACKSTROKE.name();
 
     Assertions.assertEquals("BACKSTROKE", result);
   }
 
   @Test
   public void testGetStyleFreestyle() {
-
-    String result = StyleModel.FREESTYLE.name();
+    String result = StyleType.FREESTYLE.name();
 
     Assertions.assertEquals("FREESTYLE", result);
   }
 
   @Test
   public void testGetStyleMedley() {
-
-    String result = StyleModel.MEDLEY.name();
+    String result = StyleType.MEDLEY.name();
 
     Assertions.assertEquals("MEDLEY", result);
   }

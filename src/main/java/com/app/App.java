@@ -6,7 +6,6 @@ import com.app.controllers.menuactions.*;
 public class App {
   /** Build the menu. */
   void menu() {
-    // TODO: Add menu actions
     new MenuController("Main Menu", "Please choose an option: ", menuActions()).run();
   }
 

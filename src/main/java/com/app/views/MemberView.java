@@ -1,13 +1,17 @@
 package com.app.views;
 
 public class MemberView extends View {
-  public void displayOptions(String[] gender) {
-    String[] result = new String[gender.length];
+  public void displayMember(String[] member, int[] columnWidth) {
+    for (int i = 0; i < member.length; i++) {
+      String s = member[i];
 
-    for (int i = 0; i < gender.length; i++) {
-      result[i] = gender[i] + " [" + (i + 1) + "]";
+      if (s == null) {
+        s = "--";
+      }
+
+      System.out.printf("%-" + (columnWidth[i] + 4) + "s", s);
     }
 
-    printInline(String.join(", ", result) + ": ");
+    System.out.println();
   }
 }

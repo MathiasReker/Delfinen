@@ -4,8 +4,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
-public class ValidateModel {
+public class InputModel {
   public static boolean isValidDate(String date) {
     try {
       LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -24,7 +25,7 @@ public class ValidateModel {
     }
   }
 
-  public static boolean isValidResultTime(String time) {
+  public static boolean isValidCompetitionResultTime(String time) {
     try {
       LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
       return true;
@@ -50,5 +51,25 @@ public class ValidateModel {
 
   public static boolean isValidRange(int in, int min, int max) {
     return in <= max && in >= min;
+  }
+
+  public static boolean isValidMemberId(String in, ArrayList<MemberModel> members) {
+    for (MemberModel m : members) {
+      if (m.getId().equals(in)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public static boolean isValidCompetitionId(String in, ArrayList<CompetitionModel> competitions) {
+    for (CompetitionModel c : competitions) {
+      if (c.getId().equals(in)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

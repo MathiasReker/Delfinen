@@ -1,8 +1,11 @@
 package com.app.models;
 
+import com.app.models.types.GenderType;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 
 public class MemberModel implements Serializable {
@@ -10,12 +13,13 @@ public class MemberModel implements Serializable {
   private String ID;
   private String name;
   private LocalDate birthdate;
-  private GenderModel gender;
+  private GenderType gender;
   private String phoneNumber;
   private String mail;
   private boolean competitive;
   private ArrayList<DisciplineModel> disciplines = new ArrayList<>();
   private ArrayList<MembershipModel> memberships = new ArrayList<>();
+  private boolean deleted;
 
   public MemberModel() {
     CREATE_DATE = LocalDateTime.now().toLocalDate();
@@ -41,7 +45,7 @@ public class MemberModel implements Serializable {
       String ID,
       String name,
       LocalDate birthdate,
-      GenderModel gender,
+      GenderType gender,
       String phoneNumber,
       String mail,
       boolean competitive,
@@ -76,11 +80,19 @@ public class MemberModel implements Serializable {
     this.name = name;
   }
 
-  public GenderModel getGender() {
+  public boolean isDeleted() { // TODO: Method 'isDeleted()' is never used
+    return deleted;
+  }
+
+  public void setDeleted(boolean deleted) {
+    this.deleted = deleted;
+  }
+
+  public GenderType getGender() {
     return gender;
   }
 
-  public void setGender(GenderModel gender) {
+  public void setGender(GenderType gender) {
     this.gender = gender;
   }
 
@@ -92,7 +104,7 @@ public class MemberModel implements Serializable {
     this.birthdate = birthdate;
   }
 
-  public String getID() {
+  public String getId() {
     return ID;
   }
 
@@ -157,5 +169,39 @@ public class MemberModel implements Serializable {
   public MembershipModel getLatestMembership() {
     ArrayList<MembershipModel> memberships = getMemberships();
     return memberships.get(memberships.size() - 1);
+  }
+
+  public int getAge() {
+    LocalDate currentDate = LocalDate.now();
+    if (birthdate == null) {
+      return 0;
+    }
+
+    int ageInYears = Period.between(birthdate, currentDate).getYears();
+
+    return Math.max(ageInYears, 0);
+  }
+
+  /**
+   * Returns an Arraylist of expiring members based on the Array given as argument
+   *
+   * @param days Amount of days to look ahead of current day.
+   * @param memberModels Array of members to look through
+   * @return ArrayList of expiring members
+   */
+  public ArrayList<MemberModel> getExpiringMembers(MemberModel[] memberModels, int days) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel member : memberModels) {
+      ArrayList<MembershipModel> memberships = member.getMemberships();
+      if (memberships.size() != 0) {
+        LocalDate expiringDate = memberships.get(memberships.size() - 1).getExpiringDate();
+        if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
+          result.add(member);
+        }
+      }
+    }
+
+    return result;
   }
 }

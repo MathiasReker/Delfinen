@@ -1,10 +1,10 @@
-package com.app.views.utils;
+package com.app.views.types;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ColorTextTest {
-  ColorText colorText = new ColorText("Test", ColorKey.BLUE);
+public class ColorTextTypeTest {
+  ColorTextType colorText = new ColorTextType("Test", ColorKeyType.BLUE);
 
   @Test
   public void testToString() {
