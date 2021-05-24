@@ -93,10 +93,6 @@ public class CompetitionController {
     VIEW.printSuccess("Result successfully added.");
   }
 
-
-
-
-
   public void viewCompetitionResults() {
     if (competitions.isEmpty()) {
       VIEW.print("No competitions available.");
