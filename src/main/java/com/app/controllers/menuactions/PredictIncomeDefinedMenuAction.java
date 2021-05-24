@@ -2,7 +2,7 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.PredictionController;
 
-public class PredictIncomeDefinedMenuAction extends MenuActions {
+public class PredictIncomeDefinedMenuAction extends MenuAction {
 
   public PredictIncomeDefinedMenuAction(String description) {
     super(description);

@@ -9,8 +9,8 @@ public class App {
     new MenuController("Main Menu", "Please choose an option: ", menuActions()).run();
   }
 
-  MenuActions[] menuActions() {
-    return new MenuActions[] {
+  MenuAction[] menuActions() {
+    return new MenuAction[] {
       new MemberSubMenuMenuAction("Member management"),
       new CompetitionSubMenuMenuAction("Competition management"),
       new PaymentSubMenuMenuAction("Payment Management"),

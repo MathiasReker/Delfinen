@@ -2,7 +2,7 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.LeaderboardController;
 
-public class TopResultsMenuAction extends MenuActions {
+public class TopResultsMenuAction extends MenuAction {
 
   public TopResultsMenuAction(String itemName) {
     super(itemName);

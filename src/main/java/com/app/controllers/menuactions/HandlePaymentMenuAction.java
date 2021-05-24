@@ -2,7 +2,7 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.PaymentController;
 
-public class HandlePaymentMenuAction extends MenuActions {
+public class HandlePaymentMenuAction extends MenuAction {
 
   public HandlePaymentMenuAction(String itemName) {
     super(itemName);

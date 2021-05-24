@@ -1,9 +1,9 @@
 package com.app.models;
 
-import com.app.controllers.menuactions.MenuActions;
+import com.app.controllers.menuactions.MenuAction;
 
 public class MenuModel {
-  private final MenuActions[] MENU_ACTIONS;
+  private final MenuAction[] MENU_ACTIONS;
   private final String MENU_HEADER;
   private final String LOAD_TEXT;
 
@@ -14,7 +14,7 @@ public class MenuModel {
    * @param menuActions Array that includes all the menu items.
    * @param leadText String that tells the user what to do.
    */
-  public MenuModel(String menuHeader, MenuActions[] menuActions, String leadText) {
+  public MenuModel(String menuHeader, MenuAction[] menuActions, String leadText) {
     this.MENU_ACTIONS = menuActions;
     this.MENU_HEADER = menuHeader;
     this.LOAD_TEXT = leadText;
@@ -26,7 +26,7 @@ public class MenuModel {
    * @param index int that tells the index position of the menu item.
    * @return menu item.
    */
-  public MenuActions getMenuItem(int index) {
+  public MenuAction getMenuItem(int index) {
     return MENU_ACTIONS[index];
   }
 

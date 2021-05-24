@@ -2,7 +2,7 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.MenuController;
 
-public class MemberSubMenuMenuAction extends MenuActions {
+public class MemberSubMenuMenuAction extends MenuAction {
   public MemberSubMenuMenuAction(String description) {
     super(description);
   }
@@ -12,8 +12,8 @@ public class MemberSubMenuMenuAction extends MenuActions {
     new MenuController("Member management", "Please choose a menu option: ", menu()).run();
   }
 
-  MenuActions[] menu() {
-    return new MenuActions[] {
+  MenuAction[] menu() {
+    return new MenuAction[] {
       new CreateMemberMenuAction("Create member"),
       new ViewMemberMenuAction("View member"),
       new EditMemberMenuAction("Edit member"),

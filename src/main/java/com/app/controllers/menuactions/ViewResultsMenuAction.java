@@ -2,7 +2,7 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.CompetitionController;
 
-public class ViewResultsMenuAction extends MenuActions {
+public class ViewResultsMenuAction extends MenuAction {
 
   public ViewResultsMenuAction(String itemName) {
     super(itemName);

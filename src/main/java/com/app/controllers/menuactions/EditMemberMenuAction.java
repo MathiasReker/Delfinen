@@ -2,7 +2,7 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.MemberController;
 
-public class EditMemberMenuAction extends MenuActions {
+public class EditMemberMenuAction extends MenuAction {
   public EditMemberMenuAction(String itemName) {
     super(itemName);
   }

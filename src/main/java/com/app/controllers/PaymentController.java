@@ -1,12 +1,15 @@
 package com.app.controllers;
 
 import com.app.models.MemberModel;
+import com.app.models.MembershipModel;
 import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.ConfigService;
 import com.app.models.services.PaymentService;
 import com.app.views.PaymentsView;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 
 public class PaymentController {
@@ -84,5 +87,35 @@ public class PaymentController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public void findMemberArrears() {
+    ArrayList<MemberModel> unpaidMembers =
+        MEMBER_CONTROLLER.getUnpaidMembers(getValidPayments().toArray(new MemberModel[0]));
+    ArrayList<MemberModel> arrears = new ArrayList<>();
+
+    for (MemberModel member : unpaidMembers) {
+      ArrayList<MembershipModel> memberships = member.getMemberships();
+      if (memberships.size() == 1) {
+        if (memberships.get(0).getStartingDate().compareTo(LocalDate.now().plusDays(14)) < 0) {
+          arrears.add(member);
+        }
+      } else {
+        if (member.getLatestMembership().getStartingDate().compareTo((LocalDate.now().plusDays(14)))
+            < 0) {
+          arrears.add(member);
+        }
+      }
+    }
+    int size = arrears.size();
+    String[][] arrearsData = new String[size][3];
+    for (int i = 0; i < size; i++) {
+      Period days;
+      days = LocalDate.now().until(arrears.get(i).getLatestMembership().getStartingDate());
+      arrearsData[i] = new String[]{arrears.get(i).getId(),arrears.get(i).getName(), String.valueOf(days)};
+    }
+
+    VIEW.displayArrears(arrearsData);
+
   }
 }

@@ -2,7 +2,7 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.MenuController;
 
-public class CompetitionSubMenuMenuAction extends MenuActions {
+public class CompetitionSubMenuMenuAction extends MenuAction {
   public CompetitionSubMenuMenuAction(String itemName) {
     super(itemName);
   }
@@ -12,8 +12,8 @@ public class CompetitionSubMenuMenuAction extends MenuActions {
     new MenuController("Competition Management", "Please choose an option: ", menu()).run();
   }
 
-  MenuActions[] menu() {
-    return new MenuActions[] {
+  MenuAction[] menu() {
+    return new MenuAction[] {
       new CreateCompetitionSubMenuMenuAction("Create Competition"),
       new AddResultMenuAction("Add Result"),
       new ViewResultsMenuAction("View Results"),
