@@ -21,7 +21,7 @@ import java.util.Collections;
 
 public class CompetitionController {
   private final CompetitionView VIEW = new CompetitionView();
-  private ArrayList<CompetitionModel> competitions = new ArrayList<>();
+  private ArrayList<CompetitionModel> competitions;
   private CompetitionService competitionService;
 
   public CompetitionController() {
@@ -66,7 +66,7 @@ public class CompetitionController {
         getMember(InputController.validateMemberId(new MemberController().getMembers()));
     do {
       addResultTime(member, competition);
-      VIEW.printInline("Do you wish to add another result to this member [Y/N]: ");
+      VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
     } while (InputController.promptYesNo());
   }
 
@@ -111,7 +111,7 @@ public class CompetitionController {
   }
 
   private String[][] arrayWithResultToDisplay(ArrayList<ResultModel> resultTimes) {
-    String[][] results = new String[resultTimes.size()][4];
+    String[][] result = new String[resultTimes.size()][4];
 
     for (int i = 0; i < resultTimes.size(); i++) {
       ResultModel resultModel = resultTimes.get(i);
@@ -121,10 +121,10 @@ public class CompetitionController {
       String distance = Integer.toString(resultModel.getDiscipline().getDistance().getMeters());
       String completionTime = resultModel.getResultTime().toString();
 
-      results[i] = new String[] {name, style, distance, completionTime};
+      result[i] = new String[] {name, style, distance, completionTime};
     }
 
-    return results;
+    return result;
   }
 
   public MemberModel getMember(String id) {
@@ -190,7 +190,7 @@ public class CompetitionController {
 
   private String generateId() {
     int oldId = 0;
-    if (competitions.size() > 0) {
+    if (!competitions.isEmpty()) {
       oldId = Integer.parseInt(competitions.get(competitions.size() - 1).getId());
     }
     int newId = oldId + 1;

@@ -22,7 +22,7 @@ public class PaymentControllerTest {
     memberModels.add(testMember);
     testMember.addMembership(testMembership);
 
-    ArrayList<MemberModel> result = paymentController.findMembersInArrear(memberModels);
+    ArrayList<MemberModel> result = paymentController.findMembersInArray(memberModels);
 
     Assertions.assertEquals(result.get(0).getId(), memberModels.get(0).getId());
   }
