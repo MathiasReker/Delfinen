@@ -166,6 +166,7 @@ public class InputController {
 
   public static String validatePlacement() {
     int placement = validateInteger();
+    IN.nextLine();
 
     return String.valueOf(placement);
   }
