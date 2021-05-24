@@ -53,8 +53,8 @@ public class LeaderboardController {
     if (finals.isEmpty()) {
       return false;
     }
-    for (int i = 0; i < finals.size(); i++) {
-      if (finals.get(i).getMember().getId().equals(member.getId())) {
+    for (ResultModel aFinal : finals) {
+      if (aFinal.getMember().getId().equals(member.getId())) {
         return true;
       }
     }
