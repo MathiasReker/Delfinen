@@ -1,0 +1,3 @@
+competitionsBin;data/bin/competitions.bin
+membersBin;data/bin/members.bin
+paymentRequests;data/payment-requests/

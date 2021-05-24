@@ -6,27 +6,26 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class PaymentService {
-
   private final FileService FILE_SERVICE;
-  private String path;
+  private final String PATH;
 
   public PaymentService(String path) throws IOException {
     FILE_SERVICE = new FileService(path);
-    this.path = path;
+    this.PATH = path;
   }
 
   public ArrayList<String> getApprovedPayments() throws FileNotFoundException {
     String[] competitionString = FILE_SERVICE.readFromFile();
     ArrayList<String> result = new ArrayList<>();
     for (String s : competitionString) {
-      String[] data = s.split(";");
-      result.add(data[0]);
+      result.add(s.split(";")[0]);
     }
+
     return result;
   }
 
   public void backupToFile(ArrayList<String> strings) throws IOException {
-    FileService fileService = new FileService(createNewPath());
+    FileService fileService = new FileService(getFullBackupFilePath());
     String[] result = new String[strings.size()];
 
     for (int i = 0; i < result.length; i++) {
@@ -35,12 +34,7 @@ public class PaymentService {
     fileService.writeToFile(result);
   }
 
-  private String createNewPath() { // TODO kig igen lav mere generisk
-
-    String s = path;
-    String[] data = s.split("/");
-    data[2] = "backup.txt";
-    s = String.join("/", data[0], data[1], LocalDate.now() + data[2]);
-    return s;
+  private String getFullBackupFilePath() {
+    return PATH + LocalDate.now() + "-backup.txt";
   }
 }

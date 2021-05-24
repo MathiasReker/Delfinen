@@ -42,7 +42,7 @@ public class FileService {
   }
 
   /**
-   * Recieves an array of strings and creates a new file
+   * Receives an array of strings and creates a new file
    *
    * @param input of Strings that you want to write to the file
    * @throws FileNotFoundException
@@ -68,14 +68,10 @@ public class FileService {
     }
   }
 
-  public void writeToBin(byte[] bytes) {
-    try {
-      FileOutputStream fos = new FileOutputStream(PATH);
-      fos.write(bytes);
-      fos.close();
-    } catch (IOException e) {
-      // ignore
-    }
+  public void writeToBin(byte[] bytes) throws IOException {
+    FileOutputStream fos = new FileOutputStream(PATH);
+    fos.write(bytes);
+    fos.close();
   }
 
   public byte[] loadFromBin() throws IOException {
@@ -83,6 +79,20 @@ public class FileService {
     FileInputStream fis = new FileInputStream(PATH);
     result = fis.readAllBytes();
     fis.close();
+
+    return result;
+  }
+
+  public ArrayList<String> readTextFile() throws FileNotFoundException {
+    ArrayList<String> result = new ArrayList<>();
+
+    Scanner reader = new Scanner(FILE);
+
+    while (reader.hasNextLine()) {
+      result.add(reader.nextLine());
+    }
+    reader.close();
+
     return result;
   }
 }

@@ -1,8 +1,8 @@
-package com.app.views.utils;
+package com.app.views.types;
 
-public class ColorText {
+public class ColorTextType {
   private final String TEXT;
-  private final ColorKey COLOR;
+  private final ColorKeyType COLOR;
 
   /**
    * Set the text and color attributes.
@@ -10,7 +10,7 @@ public class ColorText {
    * @param text String.
    * @param color ColorKey.
    */
-  public ColorText(String text, ColorKey color) {
+  public ColorTextType(String text, ColorKeyType color) {
     this.TEXT = text;
     this.COLOR = color;
   }
@@ -21,7 +21,7 @@ public class ColorText {
    * @param number int.
    * @param color ColorKey.
    */
-  public ColorText(int number, ColorKey color) {
+  public ColorTextType(int number, ColorKeyType color) {
     this.TEXT = String.valueOf(number);
     this.COLOR = color;
   }
@@ -33,6 +33,6 @@ public class ColorText {
    */
   @Override
   public String toString() {
-    return COLOR + TEXT + ColorKey.RESET;
+    return COLOR + TEXT + ColorKeyType.RESET;
   }
 }

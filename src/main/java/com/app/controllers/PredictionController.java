@@ -5,18 +5,16 @@ import com.app.models.PricingModel;
 import com.app.views.PredictionView;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class PredictionController {
-  private final MemberController MEMBER_CONTROLLER = new MemberController();
   private final PredictionView VIEW = new PredictionView();
 
   public PredictionController() {}
 
-  public void predictIncome(Scanner in) {
-    VIEW.print("Data is based om how many Members that expire");
-    VIEW.printInline("Input amount of days to predict ahead:");
-    int days = in.nextInt();
+  public void predictIncome() {
+    VIEW.print("The prediction is calculated based on how many members will expire.");
+    VIEW.printInline("Input the amount of days to predict ahead: ");
+    int days = InputController.validateInteger();
 
     int prediction = predictIncomeInXDays(days);
 
@@ -30,11 +28,12 @@ public class PredictionController {
   }
 
   public int predictIncomeInXDays(int days) {
-    int result = 0;
     ArrayList<MemberModel> expiringMembers =
-        MEMBER_CONTROLLER.getExpiringMembers(
-            MEMBER_CONTROLLER.getMEMBERS().toArray(new MemberModel[0]), days);
+        new MemberModel()
+            .getExpiringMembers(
+                new MemberController().getMembers().toArray(new MemberModel[0]), days);
 
+    int result = 0;
     for (MemberModel member : expiringMembers) {
       result += PricingModel.calculateMemberPrice(member);
     }

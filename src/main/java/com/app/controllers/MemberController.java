@@ -1,54 +1,57 @@
 package com.app.controllers;
 
-import com.app.controllers.utils.Input;
-import com.app.models.*;
+import com.app.models.MemberModel;
+import com.app.models.MembershipModel;
+import com.app.models.exceptions.CouldNotLoadMemberException;
+import com.app.models.exceptions.MemberNotFoundException;
+import com.app.models.services.ConfigService;
 import com.app.models.services.MemberService;
 import com.app.models.services.PaymentRequestService;
+import com.app.models.types.GenderType;
 import com.app.views.MemberView;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Arrays;
 
 public class MemberController {
-  private final MemberView MEMBER_VIEW;
-  private final String FILE = "data/members.bin";
+  private final MemberView VIEW;
+
   private ArrayList<MemberModel> members;
 
   public MemberController() {
-    MEMBER_VIEW = new MemberView();
+    VIEW = new MemberView();
     try {
-      members = memberArrayToArrayList(loadMembers());
-      printMembers();
+      members = membersToStringArray(loadMembers());
     } catch (CouldNotLoadMemberException e) {
-      MEMBER_VIEW.printWarning("Could not load Members");
+      VIEW.printWarning("Could not load any members.");
       members = new ArrayList<>();
     }
   }
 
-  public void createMember(Scanner in) {
-    MEMBER_VIEW.printInline("Name: ");
-    String name = validateName(in);
+  public void createMember() {
+    VIEW.printInline("Name: ");
+    String name = InputController.validateName();
 
-    MEMBER_VIEW.printInline("Mail: ");
-    String mail = validateMail(in);
+    VIEW.printInline("Mail: ");
+    String mail = InputController.validateMail();
 
-    MEMBER_VIEW.displayOptions(gendersToArray());
-    int genderIndex = validateOptionRange(in, GenderModel.values().length);
-    GenderModel gender = GenderModel.values()[genderIndex - 1];
+    VIEW.displayOptions(gendersToArray());
+    int genderIndex = InputController.validateOptionRange(GenderType.values().length) - 1;
+    GenderType gender = GenderType.values()[genderIndex];
 
-    MEMBER_VIEW.printInline("Birthday [dd/MM/yyyy]: ");
-    String birthday = validateDate(in);
+    VIEW.printInline("Birthday [dd/MM/yyyy]: ");
+    String birthday = InputController.validateDate();
 
-    MEMBER_VIEW.printInline("Phone: ");
-    String phone = validatePhoneNumber(in);
+    VIEW.printInline("Phone: ");
+    String phone = InputController.validatePhoneNumber();
 
-    MEMBER_VIEW.printInline("Competitive [Y/n]: ");
-    boolean competitive = Input.promptYesNo(in);
+    VIEW.printInline("Competitive [Y/n]: ");
+    boolean competitive = InputController.promptYesNo();
 
-    String id = generateID();
+    String id = generateMemberId();
 
     addMember(id, name, mail, gender, birthday, phone, competitive);
     saveMembers();
@@ -58,7 +61,7 @@ public class MemberController {
       String id,
       String name,
       String mail,
-      GenderModel gender,
+      GenderType gender,
       String birthday,
       String phone,
       boolean competitive) {
@@ -75,73 +78,12 @@ public class MemberController {
   }
 
   private String[] gendersToArray() {
-    String[] result = new String[GenderModel.values().length];
+    String[] result = new String[GenderType.values().length];
     for (int i = 0; i < result.length; i++) {
-      result[i] = GenderModel.values()[i].name();
+      result[i] = GenderType.values()[i].name();
     }
 
     return result;
-  }
-
-  private String validateName(Scanner in) {
-    while (true) {
-      String result = in.nextLine();
-      if (ValidateModel.isValidName(result)) {
-        return result;
-      }
-      MEMBER_VIEW.printInlineWarning("Not a valid name. Please try again: ");
-    }
-  }
-
-  private String validateMail(Scanner in) {
-    while (true) {
-      String result = in.nextLine();
-      if (ValidateModel.isValidMail(result)) {
-        return result;
-      }
-      MEMBER_VIEW.printInlineWarning("Not a valid mail. Please try again: ");
-    }
-  }
-
-  private String validatePhoneNumber(Scanner in) {
-    while (true) {
-      String result = in.nextLine().trim();
-      if (ValidateModel.isValidPhoneNumber(result)) {
-        return result;
-      }
-      MEMBER_VIEW.printInlineWarning("Not a valid phone number. Please try again: ");
-    }
-  }
-
-  private String validateDate(Scanner in) {
-    String result = in.nextLine();
-    while (!ValidateModel.isValidDate(result)) {
-      MEMBER_VIEW.printInlineWarning("Not a valid date. Please try again: ");
-      result = in.nextLine();
-    }
-
-    return result;
-  }
-
-  private int validateOptionRange(Scanner in, int max) {
-    while (true) {
-      int result = validateInteger(in);
-
-      if (ValidateModel.isValidRange(result, 1, max)) {
-        in.nextLine();
-        return result;
-      }
-      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-    }
-  }
-
-  private int validateInteger(Scanner in) {
-    while (!in.hasNextInt()) {
-      MEMBER_VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-      in.next();
-    }
-
-    return in.nextInt();
   }
 
   /**
@@ -150,7 +92,7 @@ public class MemberController {
    * @param member Member to renew
    * @param durationYears years to add to membership
    */
-  public void renewMembership(MemberModel member, int durationYears) { // what
+  public void renewMembership(MemberModel member, int durationYears) {
     ArrayList<MembershipModel> memberships = member.getMemberships();
     MembershipModel lastMembership = memberships.get(memberships.size() - 1);
     int comparedDate = lastMembership.getExpiringDate().compareTo(LocalDate.now());
@@ -174,20 +116,22 @@ public class MemberController {
     result.setExpiringDate(result.getExpiringDate().plusYears(durationYears));
     result.setActive(true);
     result.setPayed(false);
+
     return result;
   }
 
-  public void requestRenewalFromExpiringMembers(Scanner in) { // WIP
+  // TODO: Refactor into shorter methods
+  public void requestRenewalFromExpiringMembers() { // WIP
     try {
       ArrayList<MemberModel> expiringMembers =
-          getExpiringMembers(members.toArray(new MemberModel[0]), 30);
+          new MemberModel().getExpiringMembers(members.toArray(new MemberModel[0]), 30);
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
 
-      MEMBER_VIEW.print("Expiring members:"); // show Members
+      VIEW.print("Expiring members:"); // show Members
       for (MemberModel member : expiringMembers) {
-        MEMBER_VIEW.print( // TODO
-            member.getID()
+        VIEW.print( // TODO
+            member.getId()
                 + "\t"
                 + member.getName()
                 + "\t"
@@ -197,143 +141,342 @@ public class MemberController {
       if (expiringMembers.size() > 0) {
         boolean stop = false;
         while (!stop) { // allow removal of members
-          MEMBER_VIEW.print("do you want to remove a member from the list? [Y/n]:");
-          if (Input.promptYesNo(in)) {
-            MEMBER_VIEW.print("Type member ID to delete:");
-            String input = in.nextLine();
+          VIEW.print("Do you want to remove a member from the list? [Y/n]:");
+          if (InputController.promptYesNo()) {
+            VIEW.print("Type member ID to delete: ");
+            String input = InputController.validateMemberId(members);
             try {
               MemberModel member = getMemberByID(input, expiringMembers);
               expiringMembers.remove(member);
             } catch (MemberNotFoundException e) {
-              MEMBER_VIEW.printWarning("Member was not found");
+              VIEW.printWarning("Member was not found");
             }
           } else {
             stop = true;
           }
         }
-        MEMBER_VIEW.print("Are you sure you want to send payment requests? [Y/n[");
-        if (Input.promptYesNo(in)) {
+        VIEW.print("Are you sure you want to send the payment requests? [Y/n]");
+        if (InputController.promptYesNo()) {
           paymentRequester.createPaymentRequest(expiringMembers.toArray(new MemberModel[0]));
         }
       }
     } catch (IOException e) {
-      System.out.println("cant do that");
+      VIEW.printWarning(e.getMessage());
     }
   }
 
   MemberModel getMemberByID(String id, ArrayList<MemberModel> members)
       throws MemberNotFoundException {
     for (MemberModel member : members) {
-      if (member.getID().equals(id)) {
+      if (member.getId().equals(id)) {
         return member;
       }
     }
     throw new MemberNotFoundException();
   }
 
-  // Har overloaded den her metode da jeg skal bruge array i denne klasse
   MemberModel getMemberByID(String id) throws MemberNotFoundException {
     for (MemberModel member : members) {
-      if (member.getID().equals(id)) {
+      if (member.getId().equals(id)) {
         return member;
       }
     }
     throw new MemberNotFoundException();
   }
 
-  /**
-   * Returns an Arraylist of expiring members based on the Array given as argument
-   *
-   * @param days Amount of days to look ahead of current day.
-   * @param memberModels Array of members to look through
-   * @return ArrayList of expiring members
-   */
-  ArrayList<MemberModel> getExpiringMembers(
-      MemberModel[] memberModels, int days) { // TODO Move to model?
-    ArrayList<MemberModel> result = new ArrayList<>();
-
-    for (MemberModel member : memberModels) {
-      ArrayList<MembershipModel> memberships = member.getMemberships();
-      if (memberships.size() != 0) {
-        LocalDate expiringDate = memberships.get(memberships.size() - 1).getExpiringDate();
-        if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
-          result.add(member);
-        }
-      }
-    }
-    return result;
-  }
-
-  // Delete when depricated
-  private MemberModel[] createMembersForTest() {
-    MemberModel[] members = {
-      new MemberModel(), new MemberModel(), new MemberModel(), new MemberModel()
-    };
-
-    int test = 10;
-    for (MemberModel member : members) {
-      member.setID("M" + test);
-      member.setName("Name" + test);
-      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-      member.setBirthdate(LocalDate.parse("01-01-2020", formatter));
-      member.addMembership(new MembershipModel());
-      member.getMemberships().get(0).setExpiringDate(LocalDate.parse(test + "-10-2020", formatter));
-      member.getMemberships().get(0).setActive(true);
-      member.getMemberships().get(0).setPayed(true);
-      test++;
-    }
-
-    return members;
-  }
-
-  public ArrayList<MemberModel> getMEMBERS() {
+  public ArrayList<MemberModel> getMembers() {
     return members;
   }
 
   public void saveMembers() {
     try {
-      new MemberService(FILE).saveMembers(members.toArray(new MemberModel[0]));
-      MEMBER_VIEW.printSuccess("The member has been saved.");
+      new MemberService(new ConfigService("membersBin").getPath())
+          .saveMembers(members.toArray(new MemberModel[0]));
+      VIEW.printSuccess("The member is successfully saved.");
     } catch (IOException e) {
-      // ignore
+      VIEW.printWarning(e.getMessage());
     }
   }
 
   public MemberModel[] loadMembers() throws CouldNotLoadMemberException {
-    MemberModel[] test;
     try {
-      MemberService memberService = new MemberService(FILE);
-      test = memberService.loadMembers();
-      return test;
+      return new MemberService(new ConfigService("membersBin").getPath()).loadMembers();
     } catch (IOException | ClassNotFoundException e) {
-      throw new CouldNotLoadMemberException(e.getMessage());
+      return new MemberModel[0];
     }
   }
 
-  private ArrayList<MemberModel> memberArrayToArrayList(MemberModel[] members) {
-    ArrayList<MemberModel> result = new ArrayList<>();
-    for (MemberModel m : members) {
-      result.add(m);
+  private ArrayList<MemberModel> membersToStringArray(MemberModel[] members) {
+    return new ArrayList<>(Arrays.asList(members));
+  }
+
+  public void viewMembers() {
+    if (members.isEmpty()) {
+      VIEW.printWarning("No members.");
+    } else {
+      String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+      VIEW.displayMember(header, getColumnWidth());
+
+      for (MemberModel member : members) {
+        String[] body =
+            new String[] {
+              member.getId(),
+              member.getName(),
+              member.getMail(),
+              member.getPhoneNumber(),
+              String.valueOf(member.getAge()),
+              String.valueOf(member.getGender()),
+            };
+
+        VIEW.displayMember(body, getColumnWidth());
+      }
     }
+  }
+
+  public void viewMembers(ArrayList<MemberModel> members) {
+    if (members.isEmpty()) {
+      VIEW.printWarning("No members.");
+    } else {
+      String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+      VIEW.displayMember(header, getColumnWidth());
+
+      for (MemberModel member : members) {
+        String[] body =
+            new String[] {
+              member.getId(),
+              member.getName(),
+              member.getMail(),
+              member.getPhoneNumber(),
+              String.valueOf(member.getAge()),
+              String.valueOf(member.getGender()),
+            };
+
+        VIEW.displayMember(body, getColumnWidth());
+      }
+    }
+  }
+
+  public int[] getColumnWidth() {
+    int[] result = new int[7];
+
+    for (MemberModel member : members) {
+      String[] arr =
+          new String[] {
+            member.getId(),
+            member.getName(),
+            member.getMail(),
+            member.getPhoneNumber(),
+            String.valueOf(member.getAge()),
+            String.valueOf(member.getGender()),
+          };
+
+      for (int i = 0; i < arr.length; i++) {
+        if (arr[i] == null) {
+          arr[i] = "--";
+        }
+
+        if (arr[i].length() > result[i]) {
+          result[i] = arr[i].length();
+        }
+      }
+    }
+
     return result;
   }
 
-  private void printMembers() {
-    for (MemberModel m : members) {
-      System.out.print(m.getID());
-      System.out.println(m.getName());
+  public void searchMember() {
+    if (!members.isEmpty()) {
+      String[] options = new String[] {"ID", "Name", "Mail", "Phone number"};
+      VIEW.displayOptions(options);
+
+      int index = InputController.validateOptionRange(options.length) - 1;
+
+      VIEW.printInline(options[index] + ": ");
+
+      if (0 == index) {
+        viewMemberById();
+      } else if (1 == index) {
+        viewMemberByName();
+      } else if (2 == index) {
+        viewMemberByMail();
+      } else if (3 == index) {
+        viewMemberByPhoneNumber();
+      }
     }
   }
 
-  private String generateID() { // TODO refactor to valuof
-    int id;
-    try {
-      int temp = Integer.parseInt(members.get(members.size() - 1).getID());
-      id = temp + 1;
-    } catch (IndexOutOfBoundsException e) {
-      id = 1;
+  public void viewMemberById() {
+    String id = InputController.validateMemberId(members);
+    ArrayList<MemberModel> sortedList = getMemberById(id);
+
+    if (0 == sortedList.size()) {
+      VIEW.printWarning("No members with the ID: " + id);
+    } else {
+      viewMembers(sortedList);
+    }
+  }
+
+  public ArrayList<MemberModel> getMemberById(String id) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel m : members) {
+      if (null != m.getId()) {
+        if (m.getId().equals(id)) {
+          result.add(m);
+        }
+      }
     }
 
-    return Integer.toString(id);
+    return result;
+  }
+
+  public void viewMemberByName() {
+    String name = InputController.validateName();
+    ArrayList<MemberModel> sortedList = getMemberByName(name);
+
+    if (0 == sortedList.size()) {
+      VIEW.printWarning("No members with the name: " + name);
+    } else {
+      viewMembers(sortedList);
+    }
+  }
+
+  public ArrayList<MemberModel> getMemberByName(String name) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel m : members) {
+      if (null != m.getName()) {
+        if (m.getName().equals(name)) {
+          result.add(m);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public void viewMemberByMail() {
+    String mail = InputController.validateMail();
+    ArrayList<MemberModel> sortedList = getMemberByMail(mail);
+
+    if (0 == sortedList.size()) {
+      VIEW.printWarning("No members with the mail: " + mail);
+    } else {
+      viewMembers(sortedList);
+    }
+  }
+
+  public ArrayList<MemberModel> getMemberByMail(String mail) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel m : members) {
+      if (null != m.getMail()) {
+        if (m.getMail().equals(mail)) {
+          result.add(m);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public void viewMemberByPhoneNumber() {
+    String phoneNumber = InputController.validatePhoneNumber();
+    ArrayList<MemberModel> sortedList = getMemberByPhoneNumber(phoneNumber);
+
+    if (0 == sortedList.size()) {
+      VIEW.printWarning("No members with the phone number: " + phoneNumber);
+    } else {
+      viewMembers(sortedList);
+    }
+  }
+
+  public ArrayList<MemberModel> getMemberByPhoneNumber(String phoneNumber) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel m : members) {
+      if (null != m.getPhoneNumber()) {
+        if (m.getPhoneNumber().equals(phoneNumber)) {
+          result.add(m);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public void anonymizeMember() {
+    if (!members.isEmpty()) {
+      VIEW.printInline("Input ID [press \"q\" to quit]: ");
+      String id = InputController.validateMemberId(members);
+
+      if (null != id) {
+        try {
+          MemberModel member = getMemberByID(id);
+          member.setName(null);
+          member.setPhoneNumber(null);
+          member.setMail(null);
+          member.setDeleted(true);
+        } catch (MemberNotFoundException e) {
+          VIEW.printWarning(e.getMessage());
+        }
+
+        saveMembers();
+      } else {
+        VIEW.printSuccess("Action cancelled.");
+      }
+    }
+  }
+
+  public void editMember() {
+    if (!members.isEmpty()) {
+      VIEW.printInline("Input ID [press \"q\" to quit]: ");
+
+      String id = InputController.validateMemberId(members);
+
+      if (null != id) {
+        try {
+          MemberModel member = getMemberByID(id);
+
+          String[] options = new String[] {"Name", "Mail", "Phone number", "Birthday [dd/MM/yyyy]"};
+          VIEW.displayOptions(options);
+
+          int index = InputController.validateOptionRange(options.length) - 1;
+
+          VIEW.printInline(options[index] + ": ");
+
+          if (0 == index) {
+            String name = InputController.validateName();
+            member.setName(name);
+          } else if (1 == index) {
+            String mail = InputController.validateMail();
+            member.setMail(mail);
+          } else if (2 == index) {
+            String mail = InputController.validatePhoneNumber();
+            member.setPhoneNumber(mail);
+          } else if (3 == index) {
+            String birthday = InputController.validateDate();
+            member.setBirthdate(
+                LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+          }
+
+          saveMembers();
+        } catch (MemberNotFoundException e) {
+          e.printStackTrace();
+        }
+      } else {
+        VIEW.printSuccess("Action cancelled.");
+      }
+    }
+  }
+
+  private String generateMemberId() {
+    int oldId = 0;
+    if (members.size() > 0) {
+      oldId = Integer.parseInt(members.get(members.size() - 1).getId());
+    }
+    int result = oldId + 1;
+
+    return String.valueOf(result);
   }
 }
