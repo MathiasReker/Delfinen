@@ -163,6 +163,12 @@ public class InputController {
     return result;
   }
 
+  public static String validatePlacement() {
+    int placement = validateInteger();
+
+    return String.valueOf(placement);
+  }
+
   public static String anyString() {
     return IN.nextLine();
   }

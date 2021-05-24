@@ -9,7 +9,23 @@ public class CompetitionView extends View {
     System.out.println(
         "-----------------------------------------------------------------------------");
     for (String[] c : competitionResults) {
-      System.out.format("%-10s %-20s %-20s %-10s", c[0], c[1], c[2] + " m", c[3]);
+      System.out.format("%-10s %-20s %-20s %-20s", c[0], c[1], c[2] + " m", c[3]);
+      System.out.println();
+    }
+    System.out.println(
+        "-----------------------------------------------------------------------------");
+  }
+
+  public void displayTopResults(String[][] competitionResults) {
+    String format = "%-20s %-10s %-20s %-20s";
+    System.out.println(
+        "-----------------------------------------------------------------------------");
+    System.out.printf(format, "Competition Name", "Placement", "Name", "Completion time");
+    System.out.println();
+    System.out.println(
+        "-----------------------------------------------------------------------------");
+    for (String[] c : competitionResults) {
+      System.out.format(format, c[0], c[1], c[2], c[3]);
       System.out.println();
     }
     System.out.println(

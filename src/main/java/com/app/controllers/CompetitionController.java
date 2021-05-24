@@ -78,11 +78,15 @@ public class CompetitionController {
             "00:" + InputController.validateCompetitionResultTime(),
             DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
+    String placement;
+    VIEW.printInline("Placement: ");
+    placement = InputController.validatePlacement();
+
     DisciplineModel disciplineModel =
         new DisciplineModel(
             DistanceType.values()[distanceChoice - 1], StyleType.values()[styleChoice - 1]);
 
-    addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
+    addResultToCompetition(competition, new ResultModel(member, time, disciplineModel, competition, placement));
     VIEW.printSuccess("Result successfully added.");
   }
 
@@ -99,7 +103,7 @@ public class CompetitionController {
     }
   }
 
-  public String[][] arrayWithResultToDisplay(ArrayList<ResultModel> resultTimes) {
+  private String[][] arrayWithResultToDisplay(ArrayList<ResultModel> resultTimes) {
     String[][] results = new String[resultTimes.size()][4];
 
     for (int i = 0; i < resultTimes.size(); i++) {

@@ -56,6 +56,23 @@ public class LeaderboardController {
     return result;
   }
 
+  private String[][] arrayWithResultToDisplay(ArrayList<ResultModel> resultTimes) {
+    String[][] results = new String[resultTimes.size()][4];
+
+    for (int i = 0; i < resultTimes.size(); i++) {
+      ResultModel resultModel = resultTimes.get(i);
+
+      String competitionName = resultModel.getCompetition().getName();
+      String placement = resultModel.getPlacement();
+      String name = resultModel.getMember().getName();
+      String completionTime = resultModel.getResultTime().toString();
+
+      results[i] = new String[] {competitionName, placement, name, completionTime};
+    }
+
+    return results;
+  }
+
   public void displayTop5Results() {
     if (!ALL_COMPETITIONS.isEmpty()) {
       VIEW.displayOptions(COMPETITION_CONTROLLER.styleToArray());
@@ -73,7 +90,7 @@ public class LeaderboardController {
       ArrayList<ResultModel> top5 = new ArrayList<>();
       Collections.addAll(top5, findTop(style, distance, 5));
 
-      VIEW.displayCompetitionResults(COMPETITION_CONTROLLER.arrayWithResultToDisplay(top5));
+      VIEW.displayTopResults(arrayWithResultToDisplay(top5));
     }
   }
 }
