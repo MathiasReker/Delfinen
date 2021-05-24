@@ -86,50 +86,71 @@ public class MemberController {
 
     return result;
   }
-  
-  // TODO: Refactor into shorter methods - move to other class?
-  public void requestRenewalFromExpiringMembers() { // WIP
+
+  public void renewExpiringMembers() {
+    ArrayList<MemberModel> expiringMembers =
+        getExpiringMembers(members.toArray(new MemberModel[0]), 30);
+
+    VIEW.print("Expiring members:"); // show Members
+    viewMembers(expiringMembers);
+
+    if (expiringMembers.size() > 0) {
+      boolean stop = false;
+      while (!stop) { // allow removal of members
+        VIEW.print("Do you want to remove a member from the list? [Y/n]:");
+        if (InputController.promptYesNo()) {
+          expiringMembers = removeMemberFromList(expiringMembers);
+        } else {
+          stop = true;
+        }
+      }
+      for (MemberModel member : expiringMembers) {
+        MEMBERSHIP_CONTROLLER.renewMembership(member, 1);
+      }
+    }
+  }
+
+  public void requestPaymentForUnpaidMembers() {
     try {
-      ArrayList<MemberModel> expiringMembers =
-          getExpiringMembers(members.toArray(new MemberModel[0]), 30);
+      ArrayList<MemberModel> unpaidMembers = getUnpaidMembers(members.toArray(new MemberModel[0]));
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
-
-      VIEW.print("Expiring members:"); // show Members
-      for (MemberModel member : expiringMembers) {
-        VIEW.print( // TODO
-            member.getId()
-                + "\t"
-                + member.getName()
-                + "\t"
-                + member.getLatestMembership().getExpiringDate()
-                + "\n");
-      }
-      if (expiringMembers.size() > 0) {
-        boolean stop = false;
-        while (!stop) { // allow removal of members
-          VIEW.print("Do you want to remove a member from the list? [Y/n]:");
+      VIEW.print("Unpaid members:");
+      boolean stop = false;
+      while (!stop) { // allow removal of members
+        VIEW.print("Do you want to remove a member from the list? [Y/n]:");
+        if (InputController.promptYesNo()) {
+          viewMembers(unpaidMembers);
+          unpaidMembers = removeMemberFromList(unpaidMembers);
+        } else {
+          stop = true;
+        }
+        if (unpaidMembers.size() > 0) {
+          removeMemberFromList(unpaidMembers);
+          VIEW.print("Are you sure you want to send the payment requests? [Y/n]");
           if (InputController.promptYesNo()) {
-            VIEW.print("Type member ID to delete: ");
-            String input = InputController.validateMemberId(members);
-            try {
-              MemberModel member = getMemberByID(input, expiringMembers);
-              expiringMembers.remove(member);
-            } catch (MemberNotFoundException e) {
-              VIEW.printWarning("Member was not found");
-            }
-          } else {
-            stop = true;
+            paymentRequester.createPaymentRequest(unpaidMembers.toArray(new MemberModel[0]));
           }
         }
-        VIEW.print("Are you sure you want to send the payment requests? [Y/n]");
-        if (InputController.promptYesNo()) {
-          paymentRequester.createPaymentRequest(expiringMembers.toArray(new MemberModel[0]));
-        }
       }
+
     } catch (IOException e) {
       VIEW.printWarning(e.getMessage());
     }
+  }
+
+  private ArrayList<MemberModel> removeMemberFromList(ArrayList<MemberModel> members) {
+    ArrayList<MemberModel> result = new ArrayList<>(members);
+    VIEW.print("Type member ID to remove: ");
+    String input = InputController.validateMemberId(members);
+    try {
+      MemberModel member = getMemberByID(input, members);
+      result.remove(member);
+    } catch (MemberNotFoundException e) {
+      VIEW.printWarning("Member was not found");
+    }
+
+    return result;
   }
 
   MemberModel getMemberByID(String id, ArrayList<MemberModel> members)

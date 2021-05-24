@@ -15,8 +15,9 @@ public class PaymentSubMenuMenuAction extends MenuActions {
 
   private MenuActions[] setupMenu() {
     return new MenuActions[] {
-      new RenewalRequestMenuAction("Request payment for expiring members"),
-      new RenewMembershipsMenuAction(("Renew paid memberships")),
+      new RenewalRequestMenuAction("Renew Expiring Members"),
+      new PaymentRequestMenuAction("Create Payment Request for unpaid membership"),
+      new HandlePaymentMenuAction(("Handle incoming payments")),
       new PredictIncomeMenuAction("Predict Income - input days"),
       new PredictIncomeDefinedMenuAction("Predict Income - 30 days"),
       new ExitMenuAction("Back"),

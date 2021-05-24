@@ -10,6 +10,6 @@ public class RenewalRequestMenuAction extends MenuActions {
 
   @Override
   public void run() {
-    new MemberController().requestRenewalFromExpiringMembers();
+    new MemberController().renewExpiringMembers();
   }
 }
