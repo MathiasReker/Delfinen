@@ -1,5 +1,6 @@
 package com.app.models;
 
+import com.app.models.types.AgeGroupType;
 import com.app.models.types.GenderType;
 
 import java.io.Serializable;
@@ -16,6 +17,7 @@ public class MemberModel implements Serializable {
   private GenderType gender;
   private String phoneNumber;
   private String mail;
+  private String ageGroup;
   private boolean competitive;
   private ArrayList<DisciplineModel> disciplines = new ArrayList<>();
   private ArrayList<MembershipModel> memberships = new ArrayList<>();
@@ -151,6 +153,14 @@ public class MemberModel implements Serializable {
    */
   void setDisciplines(ArrayList<DisciplineModel> disciplines) {
     this.disciplines = disciplines;
+  }
+
+  public String getAgeGroup() {
+    if (getAge() <= AgeGroupType.JUNIOR.getAgeLimit()) {
+      return AgeGroupType.JUNIOR.name();
+    } else {
+      return AgeGroupType.SENIOR.name();
+    }
   }
 
   public ArrayList<MembershipModel> getMemberships() {
