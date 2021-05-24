@@ -120,7 +120,7 @@ public class MemberController {
     return result;
   }
 
-  // TODO: Refactor into shorter methods
+  // TODO: Refactor into shorter methods - move to other class?
   public void requestRenewalFromExpiringMembers() { // WIP
     try {
       ArrayList<MemberModel> expiringMembers =
