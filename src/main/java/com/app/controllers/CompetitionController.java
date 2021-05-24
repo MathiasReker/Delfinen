@@ -64,7 +64,13 @@ public class CompetitionController {
     VIEW.printInline("Member ID: ");
     MemberModel member =
         getMember(InputController.validateMemberId(new MemberController().getMembers()));
+    do {
+      addResultTime(member, competition);
+      VIEW.printInline("Do you wish to add another result to this member [Y/N]: ");
+    }while (InputController.promptYesNo());
+  }
 
+  public void addResultTime(MemberModel member,CompetitionModel competition){
     VIEW.displayOptions(styleToArray());
     int styleChoice = InputController.validateOptionRange(styleToArray().length);
 
@@ -86,6 +92,10 @@ public class CompetitionController {
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
     VIEW.printSuccess("Result successfully added.");
   }
+
+
+
+
 
   public void viewCompetitionResults() {
     if (competitions.isEmpty()) {
