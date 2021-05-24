@@ -1,5 +1,6 @@
 package com.app.controllers;
 
+import com.app.controllers.utils.Input;
 import com.app.models.*;
 import com.app.models.services.CompetitionService;
 import com.app.views.CompetitionView;
@@ -47,19 +48,25 @@ public class CompetitionController {
   }
 
   public void addResultToCompetition(Scanner in) {
-
     VIEW.printInline("Please enter Competition ID: ");
     CompetitionModel competition = getCompetition(in);
     VIEW.printInline("Please enter member ID: ");
     MemberModel member = getMember(in.nextLine());
+
+    do {
+      addResultTime(in, member, competition);
+      VIEW.printInline("Do you wish to add another result to this member [Y/N]: ");
+    }while (Input.promptYesNo(in));
+  }
+
+  public void addResultTime(Scanner in, MemberModel member,CompetitionModel competition){
     VIEW.displayMenu(styleToArray());
-    int styleChoice = in.nextInt();
-    in.nextLine();
+    int styleChoice = validateOptionRange(in, StyleModel.values().length);
 
     VIEW.displayMenu(
         distanceToArray(StyleModel.values()[styleChoice - 1].name(), member.getGender()));
-    int distanceChoice = in.nextInt();
-    in.nextLine();
+    int maxRange = distanceToArray(StyleModel.values()[styleChoice - 1].name(), member.getGender()).length;
+    int distanceChoice = validateOptionRange(in, maxRange);
 
     VIEW.printInline("Enter result [mm:ss:SS]: ");
     LocalTime time =
@@ -214,7 +221,7 @@ public class CompetitionController {
     return result;
   }
 
-  private String generateID() { // TODO refactor to valuof
+  private String generateID() {
     int id;
     try {
       int temp = Integer.parseInt(competitions.get(competitions.size() - 1).getId());
@@ -222,6 +229,28 @@ public class CompetitionController {
     } catch (IndexOutOfBoundsException e) {
       id = 1;
     }
-    return Integer.toString(id);
+    return String.valueOf(id);
+  }
+
+  private int validateOptionRange(Scanner in, int max) {
+    while (true) {
+      int result = validateInteger(in);
+
+      if (ValidateModel.isValidRange(result, 1, max)) {
+        in.nextLine();
+        return result;
+      }
+      VIEW.printInlineWarning("Not a valid choice. Please try again: ");
+    }
+  }
+
+
+  private int validateInteger(Scanner in) {
+    while (!in.hasNextInt()) {
+      VIEW.printInlineWarning("Not a valid choice. Please try again: ");
+      in.next();
+    }
+
+    return in.nextInt();
   }
 }
