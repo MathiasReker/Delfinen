@@ -16,7 +16,7 @@ public class PricingModel {
     if (age > 18 && age < 60) {
       return 160000; // Senior price
     } else {
-      return (int) (160000 * 0.8); // 25 % discount
+      return (int) (160000 * 0.75); // 25 % discount
     }
   }
 }
