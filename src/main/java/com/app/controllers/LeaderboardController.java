@@ -8,7 +8,6 @@ import com.app.models.types.StyleType;
 import com.app.views.CompetitionView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class LeaderboardController {
@@ -25,8 +24,6 @@ public class LeaderboardController {
    * @return an array of the amount the fastest swimmers in a given discipline.
    */
   private ResultModel[] findTop(StyleType style, DistanceType distance, int amount) {
-    // TODO: Refactor to arraylist, sort and limit to 5 at the display.
-    // TODO: Must work with less than 5 result. :-)
     ArrayList<ResultModel> allResults = findDiscipline(style, distance);
 
     if (allResults.size() < amount) {
@@ -74,13 +71,6 @@ public class LeaderboardController {
       Collections.addAll(top5, findTop(style, distance, 5));
 
       VIEW.displayCompetitionResults(COMPETITION_CONTROLLER.arrayWithResultToDisplay(top5));
-
-//      for (int i = 0, top5Length = top5.length; i < top5Length; i++) {
-//        VIEW.print(
-//            String.format(
-//                "%d: %s",
-//                i + 1, top5[i].getMember())); // TODO: Add rest of the details and move to view.
-//      }
     }
   }
 
