@@ -10,6 +10,6 @@ public class ViewMemberMenuAction extends MenuAction {
 
   @Override
   public void run() {
-    new MemberController().displayTableMembers();
+    new MemberController().viewTableMembers();
   }
 }

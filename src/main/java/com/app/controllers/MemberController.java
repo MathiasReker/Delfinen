@@ -95,7 +95,7 @@ public class MemberController {
       boolean stop = false;
       while (!stop) { // allow removal of members
         VIEW.print("Expiring members:"); // show Members
-        displayTableMembers(expiringMembers);
+        viewTableMembers(expiringMembers);
         VIEW.print("Do you want to remove a member from the list? [Y/n]:");
         if (InputController.promptYesNo()) {
           expiringMembers = removeMemberFromList(expiringMembers);
@@ -117,7 +117,7 @@ public class MemberController {
       boolean stop = false;
       while (!stop) { // allow removal of members
         VIEW.print("Unpaid members:");
-        displayTableMembers(unpaidMembers);
+        viewTableMembers(unpaidMembers);
         VIEW.print("Do you want to remove a member from the list? [Y/n]:");
         if (InputController.promptYesNo()) {
           unpaidMembers = removeMemberFromList(unpaidMembers);
@@ -211,7 +211,7 @@ public class MemberController {
     return new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
   }
 
-  public void displayTableMembers(MemberModel member) {
+  public void viewTableMembers(MemberModel member) {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
@@ -223,7 +223,7 @@ public class MemberController {
     }
   }
 
-  public void displayTableMembers(ArrayList<MemberModel> members) {
+  public void viewTableMembers(ArrayList<MemberModel> members) {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
@@ -237,7 +237,7 @@ public class MemberController {
     }
   }
 
-  public void displayTableMembers() {
+  public void viewTableMembers() {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
@@ -296,7 +296,7 @@ public class MemberController {
     String id = InputController.validateMemberId(members);
 
     if (null != getMemberById(id)) {
-      displayTableMembers(getMemberById(id));
+      viewTableMembers(getMemberById(id));
     } else {
       VIEW.printWarning("No members with the ID: " + id);
     }
@@ -321,7 +321,7 @@ public class MemberController {
     if (0 == sortedList.size()) {
       VIEW.printWarning("No members with the name: " + name);
     } else {
-      displayTableMembers(sortedList);
+      viewTableMembers(sortedList);
     }
   }
 
@@ -346,7 +346,7 @@ public class MemberController {
     if (0 == sortedList.size()) {
       VIEW.printWarning("No members with the mail: " + mail);
     } else {
-      displayTableMembers(sortedList);
+      viewTableMembers(sortedList);
     }
   }
 
@@ -371,7 +371,7 @@ public class MemberController {
     if (0 == sortedList.size()) {
       VIEW.printWarning("No members with the phone number: " + phoneNumber);
     } else {
-      displayTableMembers(sortedList);
+      viewTableMembers(sortedList);
     }
   }
 
