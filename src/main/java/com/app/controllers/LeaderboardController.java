@@ -8,6 +8,7 @@ import com.app.models.types.StyleType;
 import com.app.views.CompetitionView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class LeaderboardController {
@@ -23,12 +24,16 @@ public class LeaderboardController {
    * @param distance of the style.
    * @return an array of the amount the fastest swimmers in a given discipline.
    */
-  private ResultModel[] findTop(String style, int distance, int amount) {
-    ResultModel[] result =
-        new ResultModel[amount]; // TODO: Refactor to arraylist, sort and limit to 5 at the display.
+  private ResultModel[] findTop(StyleType style, DistanceType distance, int amount) {
+    // TODO: Refactor to arraylist, sort and limit to 5 at the display.
     // TODO: Must work with less than 5 result. :-)
     ArrayList<ResultModel> allResults = findDiscipline(style, distance);
 
+    if (allResults.size() < amount) {
+      amount = allResults.size();
+    }
+
+    ResultModel[] result = new ResultModel[amount];
     Collections.sort(allResults);
 
     for (int i = 0; i < result.length; i++) {
@@ -38,14 +43,14 @@ public class LeaderboardController {
     return result;
   }
 
-  private ArrayList<ResultModel> findDiscipline(String style, int distance) {
+  private ArrayList<ResultModel> findDiscipline(StyleType style, DistanceType distance) {
     ArrayList<ResultModel> result = new ArrayList<>();
 
     for (CompetitionModel cm : ALL_COMPETITIONS) {
 
       for (int j = 0; j < cm.getResult().size(); j++) {
         if (cm.getResult().get(j).getDiscipline().getStyle().equals(style)
-            && cm.getResult().get(j).getDiscipline().getDistance() == distance) {
+            && cm.getResult().get(j).getDiscipline().getDistance().equals(distance)) {
           result.add(cm.getResult().get(j));
         }
       }
@@ -58,23 +63,25 @@ public class LeaderboardController {
     if (!ALL_COMPETITIONS.isEmpty()) {
       VIEW.displayOptions(COMPETITION_CONTROLLER.styleToArray());
 
-      int styleInput =
-          InputController.validateOptionRange(COMPETITION_CONTROLLER.styleToArray().length);
-      String style = StyleType.values()[styleInput - 1].name();
+      int styleInput = InputController.validateOptionRange(COMPETITION_CONTROLLER.styleToArray().length);
+      StyleType style = StyleType.values()[styleInput - 1];
       VIEW.displayOptions(COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER));
 
-      int distanceInput =
-          InputController.validateOptionRange(
-              COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER).length);
-      int distance = DistanceType.values()[distanceInput - 1].getMeters();
+      int distanceInput = InputController.validateOptionRange(COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER).length);
+      DistanceType distance = DistanceType.values()[distanceInput - 1];
 
-      ResultModel[] top5 = findTop(style, distance, 5);
-      for (int i = 0, top5Length = top5.length; i < top5Length; i++) {
-        VIEW.print(
-            String.format(
-                "%d: %s",
-                i + 1, top5[i].getMember())); // TODO: Add rest of the details and move to view.
-      }
+      ArrayList<ResultModel> top5 = new ArrayList<>();
+      Collections.addAll(top5, findTop(style, distance, 5));
+
+      VIEW.displayCompetitionResults(COMPETITION_CONTROLLER.arrayWithResultToDisplay(top5));
+
+//      for (int i = 0, top5Length = top5.length; i < top5Length; i++) {
+//        VIEW.print(
+//            String.format(
+//                "%d: %s",
+//                i + 1, top5[i].getMember())); // TODO: Add rest of the details and move to view.
+//      }
     }
   }
+
 }

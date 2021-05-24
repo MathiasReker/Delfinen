@@ -30,8 +30,8 @@ public class DisciplinesController {
    * @param style that define the distance.
    * @return a list og disciplines.
    */
-  public ArrayList<DisciplineModel> chosenDiscipline(String gender, String style) {
-    if (!styleExist(style)) {
+  public ArrayList<DisciplineModel> chosenDiscipline(GenderType gender, StyleType style) {
+    if (!styleExist(style.name())) {
       throw new IllegalArgumentException("No such style");
     }
     ArrayList<DistanceType> distances = new ArrayList<>();
@@ -40,15 +40,15 @@ public class DisciplinesController {
     distances.add(DistanceType.HUNDRED);
     distances.add(DistanceType.TWO_HUNDRED);
 
-    if (style.equals(StyleType.MEDLEY.name())) {
+    if (style.equals(StyleType.MEDLEY)) {
       distances.add(DistanceType.FOUR_HUNDRED);
     }
 
-    if (style.equals(StyleType.FREESTYLE.name())) {
+    if (style.equals(StyleType.FREESTYLE)) {
       distances.add(DistanceType.FOUR_HUNDRED);
-      if (gender.equals(GenderType.MALE.name())) {
+      if (gender.equals(GenderType.MALE)) {
         distances.add(DistanceType.FIFTEEN_HUNDRED);
-      } else if (gender.equals(GenderType.FEMALE.name())) {
+      } else if (gender.equals(GenderType.FEMALE)) {
         distances.add(DistanceType.EIGHT_HUNDRED);
       } else {
         distances.add(DistanceType.EIGHT_HUNDRED);
@@ -59,7 +59,7 @@ public class DisciplinesController {
     ArrayList<DisciplineModel> result = new ArrayList<>();
 
     for (DistanceType d : distances) {
-      result.add(new DisciplineModel(d.getMeters(), style));
+      result.add(new DisciplineModel(d, style));
     }
 
     return result;
