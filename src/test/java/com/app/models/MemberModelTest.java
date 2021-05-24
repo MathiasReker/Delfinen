@@ -67,7 +67,7 @@ public class MemberModelTest {
 
   @Test
   public void testAddMembership() {
-    test.addMembership(new MembershipModel());
+    test.addMembership(new MembershipModel("test"));
     int expectedMembershipLength = 1;
 
     Assertions.assertEquals(expectedMembershipLength, test.getMemberships().size());

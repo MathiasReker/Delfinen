@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 public class MemberController {
   private final MemberView VIEW;
-
+  private final MembershipController MEMBERSHIP_CONTROLLER = new MembershipController();
   private ArrayList<MemberModel> members;
 
   public MemberController() {
@@ -73,6 +73,7 @@ public class MemberController {
     member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     member.setPhoneNumber(phone);
     member.setCompetitive(competitive);
+    MEMBERSHIP_CONTROLLER.addMembership(member);
 
     members.add(member);
   }
@@ -85,45 +86,12 @@ public class MemberController {
 
     return result;
   }
-
-  /**
-   * Method for renewing memberships.
-   *
-   * @param member Member to renew
-   * @param durationYears years to add to membership
-   */
-  public void renewMembership(MemberModel member, int durationYears) {
-    ArrayList<MembershipModel> memberships = member.getMemberships();
-    MembershipModel lastMembership = memberships.get(memberships.size() - 1);
-    int comparedDate = lastMembership.getExpiringDate().compareTo(LocalDate.now());
-    if (comparedDate < 0) {
-      MembershipModel newMembership = createNewMembership(LocalDate.now(), durationYears);
-      member.addMembership(newMembership);
-    } else if (comparedDate > 0) {
-      MembershipModel newMembership =
-          createNewMembership(lastMembership.getExpiringDate().plusDays(1), durationYears);
-      member.addMembership(newMembership);
-    } else {
-      MembershipModel newMembership =
-          createNewMembership(LocalDate.now().plusDays(1), durationYears);
-      member.addMembership(newMembership);
-    }
-  }
-
-  private MembershipModel createNewMembership(LocalDate date, int durationYears) {
-    MembershipModel result = new MembershipModel();
-    result.setStartingDate(date);
-    result.setExpiringDate(result.getExpiringDate().plusYears(durationYears));
-    result.setActive(true);
-    result.setPayed(false);
-
-    return result;
-  }
-
+  
   // TODO: Refactor into shorter methods - move to other class?
   public void requestRenewalFromExpiringMembers() { // WIP
     try {
-      ArrayList<MemberModel> expiringMembers = getExpiringMembers(members.toArray(new MemberModel[0]), 30);
+      ArrayList<MemberModel> expiringMembers =
+          getExpiringMembers(members.toArray(new MemberModel[0]), 30);
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
 
@@ -492,7 +460,22 @@ public class MemberController {
     for (MemberModel member : memberModels) {
       MembershipModel latestMembership = member.getLatestMembership();
       LocalDate expiringDate = latestMembership.getExpiringDate();
-      if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
+      if (expiringDate != null) {
+        if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
+          result.add(member);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public ArrayList<MemberModel> getUnpaidMembers(MemberModel[] memberModels) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel member : memberModels) {
+      MembershipModel latestMembership = member.getLatestMembership();
+      if (!latestMembership.isPayed() && latestMembership.isActive()) {
         result.add(member);
       }
     }
@@ -500,4 +483,3 @@ public class MemberController {
     return result;
   }
 }
-

@@ -10,8 +10,8 @@ public class MembershipModel implements Serializable {
   private boolean payed;
   private boolean active;
 
-  public MembershipModel() { // TODO Get next UniqueValue
-    this.ID = "NextUniqueValue";
+  public MembershipModel(String id) {
+    this.ID = id;
   }
 
   /**
@@ -25,7 +25,7 @@ public class MembershipModel implements Serializable {
    * @param payed PaymentStatus
    * @param active
    */
-  MembershipModel(
+  public MembershipModel(
       String id, LocalDate startingDate, LocalDate expiringDate, boolean payed, boolean active) {
     this.ID = id;
     setStartingDate(startingDate);
