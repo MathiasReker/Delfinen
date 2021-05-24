@@ -112,7 +112,7 @@ public class MemberController {
 
   public void requestPaymentForUnpaidMembers() {
     try {
-      ArrayList<MemberModel> unpaidMembers = getUnpaidMembers(members.toArray(new MemberModel[0]));
+      ArrayList<MemberModel> unpaidMembers = getUnpaidMembers(members);
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
       boolean stop = false;
@@ -490,7 +490,7 @@ public class MemberController {
     return result;
   }
 
-  public ArrayList<MemberModel> getUnpaidMembers(MemberModel[] memberModels) {
+  public ArrayList<MemberModel> getUnpaidMembers(ArrayList<MemberModel> memberModels) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {

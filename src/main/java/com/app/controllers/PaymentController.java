@@ -89,33 +89,39 @@ public class PaymentController {
     }
   }
 
-  public void findMemberArrears() {
+  public void displayMembersInArrear() {
     ArrayList<MemberModel> unpaidMembers =
-        MEMBER_CONTROLLER.getUnpaidMembers(getValidPayments().toArray(new MemberModel[0]));
-    ArrayList<MemberModel> arrears = new ArrayList<>();
+        MEMBER_CONTROLLER.getUnpaidMembers(MEMBER_CONTROLLER.getMembers());
+    ArrayList<MemberModel> arrears = findMembersInArrear(unpaidMembers);
 
-    for (MemberModel member : unpaidMembers) {
-      ArrayList<MembershipModel> memberships = member.getMemberships();
-      if (memberships.size() == 1) {
-        if (memberships.get(0).getStartingDate().compareTo(LocalDate.now().plusDays(14)) < 0) {
-          arrears.add(member);
-        }
-      } else {
-        if (member.getLatestMembership().getStartingDate().compareTo((LocalDate.now().plusDays(14)))
-            < 0) {
-          arrears.add(member);
-        }
-      }
-    }
     int size = arrears.size();
     String[][] arrearsData = new String[size][3];
     for (int i = 0; i < size; i++) {
       Period days;
       days = LocalDate.now().until(arrears.get(i).getLatestMembership().getStartingDate());
-      arrearsData[i] = new String[]{arrears.get(i).getId(),arrears.get(i).getName(), String.valueOf(days)};
+      arrearsData[i] =
+          new String[] {arrears.get(i).getId(), arrears.get(i).getName(), String.valueOf(days)};
     }
 
     VIEW.displayArrears(arrearsData);
+  }
 
+  ArrayList<MemberModel> findMembersInArrear(ArrayList<MemberModel> members) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel member : members) {
+      ArrayList<MembershipModel> memberships = member.getMemberships();
+      if (memberships.size() == 1) {
+        if (memberships.get(0).getStartingDate().compareTo(LocalDate.now().plusDays(14)) < 0) {
+          result.add(member);
+        }
+      } else {
+        if (member.getLatestMembership().getStartingDate().compareTo((LocalDate.now().plusDays(14)))
+            < 0) {
+          result.add(member);
+        }
+      }
+    }
+    return result;
   }
 }

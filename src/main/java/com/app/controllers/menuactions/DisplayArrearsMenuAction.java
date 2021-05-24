@@ -9,6 +9,6 @@ public class DisplayArrearsMenuAction extends MenuAction {
 
   @Override
   public void run() {
-    new PaymentController().findMemberArrears();
+    new PaymentController().displayMembersInArrear();
   }
 }
