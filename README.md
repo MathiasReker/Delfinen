@@ -12,7 +12,7 @@
 The structure of the project is as follows:
 
 * `other` contains diagrams etc.
-* `data` contains text-files used as storage.
+* `data` contains files used as storage.
 * `src` contains all source code of the project.
 * `main` contains all main code of the project.
 * `java` contains java code of the project.
