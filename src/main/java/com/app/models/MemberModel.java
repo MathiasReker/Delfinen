@@ -168,6 +168,9 @@ public class MemberModel implements Serializable {
 
   public MembershipModel getLatestMembership() {
     ArrayList<MembershipModel> memberships = getMemberships();
+    if (memberships.size() == 0) {
+      return null;
+    }
     return memberships.get(memberships.size() - 1);
   }
 
@@ -180,28 +183,5 @@ public class MemberModel implements Serializable {
     int ageInYears = Period.between(birthdate, currentDate).getYears();
 
     return Math.max(ageInYears, 0);
-  }
-
-  /**
-   * Returns an Arraylist of expiring members based on the Array given as argument
-   *
-   * @param days Amount of days to look ahead of current day.
-   * @param memberModels Array of members to look through
-   * @return ArrayList of expiring members
-   */
-  public ArrayList<MemberModel> getExpiringMembers(MemberModel[] memberModels, int days) {
-    ArrayList<MemberModel> result = new ArrayList<>();
-
-    for (MemberModel member : memberModels) {
-      ArrayList<MembershipModel> memberships = member.getMemberships();
-      if (memberships.size() != 0) {
-        LocalDate expiringDate = memberships.get(memberships.size() - 1).getExpiringDate();
-        if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
-          result.add(member);
-        }
-      }
-    }
-
-    return result;
   }
 }

@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 public class MemberController {
   private final MemberView VIEW;
-
+  private final MembershipController MEMBERSHIP_CONTROLLER = new MembershipController();
   private ArrayList<MemberModel> members;
 
   public MemberController() {
@@ -73,6 +73,7 @@ public class MemberController {
     member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     member.setPhoneNumber(phone);
     member.setCompetitive(competitive);
+    MEMBERSHIP_CONTROLLER.addMembership(member);
 
     members.add(member);
   }
@@ -86,83 +87,68 @@ public class MemberController {
     return result;
   }
 
-  /**
-   * Method for renewing memberships.
-   *
-   * @param member Member to renew
-   * @param durationYears years to add to membership
-   */
-  public void renewMembership(MemberModel member, int durationYears) {
-    ArrayList<MembershipModel> memberships = member.getMemberships();
-    MembershipModel lastMembership = memberships.get(memberships.size() - 1);
-    int comparedDate = lastMembership.getExpiringDate().compareTo(LocalDate.now());
-    if (comparedDate < 0) {
-      MembershipModel newMembership = createNewMembership(LocalDate.now(), durationYears);
-      member.addMembership(newMembership);
-    } else if (comparedDate > 0) {
-      MembershipModel newMembership =
-          createNewMembership(lastMembership.getExpiringDate().plusDays(1), durationYears);
-      member.addMembership(newMembership);
-    } else {
-      MembershipModel newMembership =
-          createNewMembership(LocalDate.now().plusDays(1), durationYears);
-      member.addMembership(newMembership);
+  public void renewExpiringMembers() {
+    ArrayList<MemberModel> expiringMembers =
+        getExpiringMembers(members.toArray(new MemberModel[0]), 30);
+
+    if (expiringMembers.size() > 0) {
+      boolean stop = false;
+      while (!stop) { // allow removal of members
+        VIEW.print("Expiring members:"); // show Members
+        viewMembers(expiringMembers);
+        VIEW.print("Do you want to remove a member from the list? [Y/n]:");
+        if (InputController.promptYesNo()) {
+          expiringMembers = removeMemberFromList(expiringMembers);
+        } else {
+          stop = true;
+        }
+      }
+      for (MemberModel member : expiringMembers) {
+        MEMBERSHIP_CONTROLLER.renewMembership(member, 1);
+      }
     }
   }
 
-  private MembershipModel createNewMembership(LocalDate date, int durationYears) {
-    MembershipModel result = new MembershipModel();
-    result.setStartingDate(date);
-    result.setExpiringDate(result.getExpiringDate().plusYears(durationYears));
-    result.setActive(true);
-    result.setPayed(false);
-
-    return result;
-  }
-
-  // TODO: Refactor into shorter methods
-  public void requestRenewalFromExpiringMembers() { // WIP
+  public void requestPaymentForUnpaidMembers() {
     try {
-      ArrayList<MemberModel> expiringMembers =
-          new MemberModel().getExpiringMembers(members.toArray(new MemberModel[0]), 30);
+      ArrayList<MemberModel> unpaidMembers = getUnpaidMembers(members);
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
-
-      VIEW.print("Expiring members:"); // show Members
-      for (MemberModel member : expiringMembers) {
-        VIEW.print( // TODO
-            member.getId()
-                + "\t"
-                + member.getName()
-                + "\t"
-                + member.getLatestMembership().getExpiringDate()
-                + "\n");
-      }
-      if (expiringMembers.size() > 0) {
-        boolean stop = false;
-        while (!stop) { // allow removal of members
-          VIEW.print("Do you want to remove a member from the list? [Y/n]:");
+      boolean stop = false;
+      while (!stop) { // allow removal of members
+        VIEW.print("Unpaid members:");
+        viewMembers(unpaidMembers);
+        VIEW.print("Do you want to remove a member from the list? [Y/n]:");
+        if (InputController.promptYesNo()) {
+          unpaidMembers = removeMemberFromList(unpaidMembers);
+        } else {
+          stop = true;
+        }
+        if (unpaidMembers.size() > 0) {
+          VIEW.print("Are you sure you want to send the payment requests? [Y/n]");
           if (InputController.promptYesNo()) {
-            VIEW.print("Type member ID to delete: ");
-            String input = InputController.validateMemberId(members);
-            try {
-              MemberModel member = getMemberByID(input, expiringMembers);
-              expiringMembers.remove(member);
-            } catch (MemberNotFoundException e) {
-              VIEW.printWarning("Member was not found");
-            }
-          } else {
-            stop = true;
+            paymentRequester.createPaymentRequest(unpaidMembers.toArray(new MemberModel[0]));
           }
         }
-        VIEW.print("Are you sure you want to send the payment requests? [Y/n]");
-        if (InputController.promptYesNo()) {
-          paymentRequester.createPaymentRequest(expiringMembers.toArray(new MemberModel[0]));
-        }
       }
+
     } catch (IOException e) {
       VIEW.printWarning(e.getMessage());
     }
+  }
+
+  private ArrayList<MemberModel> removeMemberFromList(ArrayList<MemberModel> members) {
+    ArrayList<MemberModel> result = new ArrayList<>(members);
+    VIEW.print("Type member ID to remove: ");
+    String input = InputController.validateMemberId(members);
+    try {
+      MemberModel member = getMemberByID(input, members);
+      result.remove(member);
+    } catch (MemberNotFoundException e) {
+      VIEW.printWarning("Member was not found");
+    }
+
+    return result;
   }
 
   MemberModel getMemberByID(String id, ArrayList<MemberModel> members)
@@ -478,5 +464,41 @@ public class MemberController {
     int result = oldId + 1;
 
     return String.valueOf(result);
+  }
+
+  /**
+   * Returns an Arraylist of expiring members based on the Array given as argument
+   *
+   * @param days Amount of days to look ahead of current day.
+   * @param memberModels Array of members to look through
+   * @return ArrayList of expiring members
+   */
+  public ArrayList<MemberModel> getExpiringMembers(MemberModel[] memberModels, int days) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel member : memberModels) {
+      MembershipModel latestMembership = member.getLatestMembership();
+      LocalDate expiringDate = latestMembership.getExpiringDate();
+      if (expiringDate != null) {
+        if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
+          result.add(member);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public ArrayList<MemberModel> getUnpaidMembers(ArrayList<MemberModel> memberModels) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel member : memberModels) {
+      MembershipModel latestMembership = member.getLatestMembership();
+      if (!latestMembership.isPayed() && latestMembership.isActive()) {
+        result.add(member);
+      }
+    }
+
+    return result;
   }
 }

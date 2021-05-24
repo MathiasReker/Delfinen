@@ -2,8 +2,8 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.CompetitionController;
 
-public class CreateCompetitionSubMenuAction extends MenuActions {
-  public CreateCompetitionSubMenuAction(String itemName) {
+public class CreateCompetitionSubMenuMenuAction extends MenuAction {
+  public CreateCompetitionSubMenuMenuAction(String itemName) {
     super(itemName);
   }
 

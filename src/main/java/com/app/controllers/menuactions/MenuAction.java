@@ -1,6 +1,6 @@
 package com.app.controllers.menuactions;
 
-public abstract class MenuActions {
+public abstract class MenuAction {
   private final String ITEM_NAME;
   private boolean keepRunning = true;
 
@@ -9,7 +9,7 @@ public abstract class MenuActions {
    *
    * @param itemName String describes the item name in the menu.
    */
-  public MenuActions(String itemName) {
+  public MenuAction(String itemName) {
     this.ITEM_NAME = itemName;
   }
 
@@ -19,7 +19,7 @@ public abstract class MenuActions {
    * @param keepRunning boolean that indicates if the menu will run.
    * @param itemName String that describes the item name in the menu.
    */
-  public MenuActions(String itemName, boolean keepRunning) {
+  public MenuAction(String itemName, boolean keepRunning) {
     this.keepRunning = keepRunning;
     this.ITEM_NAME = itemName;
   }

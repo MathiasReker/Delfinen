@@ -9,10 +9,10 @@ public class App {
     new MenuController("Main Menu", "Please choose an option: ", menuActions()).run();
   }
 
-  MenuActions[] menuActions() {
-    return new MenuActions[] {
-      new MemberMenuAction("Member management"),
-      new CompetitionMenuAction("Competition management"),
+  MenuAction[] menuActions() {
+    return new MenuAction[] {
+      new MemberSubMenuMenuAction("Member management"),
+      new CompetitionSubMenuMenuAction("Competition management"),
       new PaymentSubMenuMenuAction("Payment Management"),
       new TopResultsMenuAction("Display top 5"),
       new ExitMenuAction("Exit"),
