@@ -5,8 +5,8 @@ import com.app.models.DisciplineModel;
 import com.app.models.MemberModel;
 import com.app.models.ResultModel;
 import com.app.models.exceptions.MemberNotFoundException;
-import com.app.models.services.CompetitionService;
 import com.app.models.services.ConfigService;
+import com.app.models.services.IOService;
 import com.app.models.types.DistanceType;
 import com.app.models.types.GenderType;
 import com.app.models.types.StyleType;
@@ -22,12 +22,12 @@ import java.util.Collections;
 public class CompetitionController {
   private final CompetitionView VIEW = new CompetitionView();
   private ArrayList<CompetitionModel> competitions = new ArrayList<>();
-  private CompetitionService competitionService;
+  private IOService competitionService;
 
   public CompetitionController() {
     try {
-      competitionService = new CompetitionService(new ConfigService("competitionsBin").getPath());
-      competitions = toArraylist(competitionService.getCompetitionsFromFile());
+      competitionService = new IOService(new ConfigService("competitionsBin").getPath());
+      competitions = toArraylist((CompetitionModel[]) competitionService.load());
     } catch (IOException | ClassNotFoundException e) {
       VIEW.printWarning("Could not load any competitions.");
       competitions = new ArrayList<>();
@@ -175,7 +175,7 @@ public class CompetitionController {
 
   public void saveCompetitions() {
     try {
-      competitionService.saveCompetitionsToFile(competitions.toArray(new CompetitionModel[0]));
+      competitionService.save(competitions.toArray(new CompetitionModel[0]));
     } catch (IOException e) {
       VIEW.printWarning(e.getMessage());
     }

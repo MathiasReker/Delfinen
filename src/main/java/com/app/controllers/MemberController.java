@@ -5,7 +5,7 @@ import com.app.models.MembershipModel;
 import com.app.models.exceptions.CouldNotLoadMemberException;
 import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.ConfigService;
-import com.app.models.services.MemberService;
+import com.app.models.services.IOService;
 import com.app.models.services.PaymentRequestService;
 import com.app.models.types.GenderType;
 import com.app.views.MemberView;
@@ -176,8 +176,8 @@ public class MemberController {
 
   public void saveMembers() {
     try {
-      new MemberService(new ConfigService("membersBin").getPath())
-          .saveMembers(members.toArray(new MemberModel[0]));
+      new IOService(new ConfigService("membersBin").getPath())
+          .save(members.toArray(new MemberModel[0]));
       VIEW.printSuccess("The member is successfully saved.");
     } catch (IOException e) {
       VIEW.printWarning(e.getMessage());
@@ -186,7 +186,7 @@ public class MemberController {
 
   public MemberModel[] loadMembers() throws CouldNotLoadMemberException {
     try {
-      return new MemberService(new ConfigService("membersBin").getPath()).loadMembers();
+      return (MemberModel[]) new IOService(new ConfigService("membersBin").getPath()).load();
     } catch (IOException | ClassNotFoundException e) {
       return new MemberModel[0];
     }

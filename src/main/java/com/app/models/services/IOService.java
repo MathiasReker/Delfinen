@@ -1,21 +1,19 @@
 package com.app.models.services;
 
-import com.app.models.CompetitionModel;
-
 import java.io.*;
 
-public class CompetitionService {
+public class IOService {
+  FileService FILE_SERVICE;
 
-  private final FileService FILE_SERVICE;
-
-  public CompetitionService(String path) throws IOException {
+  public IOService(String path) throws IOException {
     FILE_SERVICE = new FileService(path);
+
   }
 
-  public void saveCompetitionsToFile(CompetitionModel[] competitions) throws IOException {
+  public void save(Object[] objects) throws IOException {
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     ObjectOutputStream oos = new ObjectOutputStream(baos);
-    oos.writeObject(competitions);
+    oos.writeObject(objects);
     byte[] competitionsInBytes = baos.toByteArray();
     oos.flush();
     oos.close();
@@ -23,11 +21,11 @@ public class CompetitionService {
     FILE_SERVICE.writeToBin(competitionsInBytes);
   }
 
-  public CompetitionModel[] getCompetitionsFromFile() throws IOException, ClassNotFoundException {
+  public Object[] load() throws IOException, ClassNotFoundException {
     byte[] competitionsInByte = FILE_SERVICE.loadFromBin();
     ByteArrayInputStream bais = new ByteArrayInputStream(competitionsInByte);
     ObjectInputStream ois = new ObjectInputStream(bais);
-    CompetitionModel[] result = (CompetitionModel[]) ois.readObject();
+    Object[] result = (Object[]) ois.readObject();
     ois.close();
     bais.close();
 
