@@ -92,7 +92,8 @@ public class CompetitionController {
         new DisciplineModel(
             DistanceType.values()[distanceChoice - 1], StyleType.values()[styleChoice - 1]);
 
-    addResultToCompetition(competition, new ResultModel(member, time, disciplineModel, competition, placement));
+    addResultToCompetition(
+        competition, new ResultModel(member, time, disciplineModel, competition, placement));
     VIEW.printSuccess("Result successfully added.");
   }
 
