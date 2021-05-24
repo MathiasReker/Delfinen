@@ -113,7 +113,7 @@ public class MemberController {
     try {
       ArrayList<MemberModel> unpaidMembers = getUnpaidMembers(members);
       PaymentRequestService paymentRequester =
-          new PaymentRequestService("data/payment-requests/out.txt");
+          new PaymentRequestService(new ConfigService("paymentRequestsPath").getPath() + "out.txt");
       boolean stop = false;
       while (!stop) { // allow removal of members
         VIEW.print("Unpaid members:");
