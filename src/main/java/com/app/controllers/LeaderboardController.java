@@ -60,11 +60,14 @@ public class LeaderboardController {
     if (!ALL_COMPETITIONS.isEmpty()) {
       VIEW.displayOptions(COMPETITION_CONTROLLER.styleToArray());
 
-      int styleInput = InputController.validateOptionRange(COMPETITION_CONTROLLER.styleToArray().length);
+      int styleInput =
+          InputController.validateOptionRange(COMPETITION_CONTROLLER.styleToArray().length);
       StyleType style = StyleType.values()[styleInput - 1];
       VIEW.displayOptions(COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER));
 
-      int distanceInput = InputController.validateOptionRange(COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER).length);
+      int distanceInput =
+          InputController.validateOptionRange(
+              COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER).length);
       DistanceType distance = DistanceType.values()[distanceInput - 1];
 
       ArrayList<ResultModel> top5 = new ArrayList<>();
@@ -73,5 +76,4 @@ public class LeaderboardController {
       VIEW.displayCompetitionResults(COMPETITION_CONTROLLER.arrayWithResultToDisplay(top5));
     }
   }
-
 }

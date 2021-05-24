@@ -68,8 +68,7 @@ public class CompetitionController {
     VIEW.displayOptions(styleToArray());
     int styleChoice = InputController.validateOptionRange(styleToArray().length);
 
-    String[] distances =
-        distanceToArray(StyleType.values()[styleChoice - 1], member.getGender());
+    String[] distances = distanceToArray(StyleType.values()[styleChoice - 1], member.getGender());
     VIEW.displayOptions(distances);
     int distanceChoice = InputController.validateOptionRange(distances.length);
 
