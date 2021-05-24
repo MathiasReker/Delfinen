@@ -26,7 +26,7 @@ public class PaymentsView extends View {
         if (null == string[1]) {
           string[1] = "--";
         }
-        System.out.format("%-10s %-20s %-30s", string[0], string[1],string[3]);
+        System.out.format("%-10s %-20s %-30s", string[0], string[1],string[2]);
         System.out.println();
       }
       System.out.println("-----------------------");
