@@ -74,8 +74,7 @@ public class CompetitionController {
     VIEW.displayOptions(styleToArray());
     int styleChoice = InputController.validateOptionRange(styleToArray().length);
 
-    String[] distances =
-        distanceToArray(StyleType.values()[styleChoice - 1].name(), member.getGender());
+    String[] distances = distanceToArray(StyleType.values()[styleChoice - 1], member.getGender());
     VIEW.displayOptions(distances);
     int distanceChoice = InputController.validateOptionRange(distances.length);
 
@@ -87,7 +86,7 @@ public class CompetitionController {
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
-            DistanceType.values()[distanceChoice - 1].getMeters(), styleToArray()[styleChoice - 1]);
+            DistanceType.values()[distanceChoice - 1], StyleType.values()[styleChoice - 1]);
 
     addResultToCompetition(competition, new ResultModel(member, time, disciplineModel));
     VIEW.printSuccess("Result successfully added.");
@@ -101,21 +100,26 @@ public class CompetitionController {
       CompetitionModel competition = InputController.validateCompetitionsId(competitions);
 
       ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
-      String[][] results = new String[resultsOfCompetition.size()][4];
 
-      for (int i = 0; i < resultsOfCompetition.size(); i++) {
-        ResultModel resultModel = resultsOfCompetition.get(i);
-
-        String name = resultModel.getMember().getName();
-        String style = resultModel.getDiscipline().getStyle();
-        String distance = Integer.toString(resultModel.getDiscipline().getDistance());
-        String completionTime = resultModel.getResultTime().toString();
-
-        results[i] = new String[] {name, style, distance, completionTime};
-      }
-
-      VIEW.displayCompetitionResults(results);
+      VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
     }
+  }
+
+  public String[][] arrayWithResultToDisplay(ArrayList<ResultModel> resultTimes) {
+    String[][] results = new String[resultTimes.size()][4];
+
+    for (int i = 0; i < resultTimes.size(); i++) {
+      ResultModel resultModel = resultTimes.get(i);
+
+      String name = resultModel.getMember().getName();
+      String style = resultModel.getDiscipline().getStyle().name();
+      String distance = Integer.toString(resultModel.getDiscipline().getDistance().getMeters());
+      String completionTime = resultModel.getResultTime().toString();
+
+      results[i] = new String[] {name, style, distance, completionTime};
+    }
+
+    return results;
   }
 
   public MemberModel getMember(String id) {
@@ -151,10 +155,10 @@ public class CompetitionController {
     return result;
   }
 
-  public String[] distanceToArray(String style, GenderType gender) {
+  public String[] distanceToArray(StyleType style, GenderType gender) {
     DisciplinesController disciplinesController = new DisciplinesController();
     ArrayList<DisciplineModel> disciplineModels =
-        disciplinesController.chosenDiscipline(gender.name(), style);
+        disciplinesController.chosenDiscipline(gender, style);
     String[] result = new String[disciplineModels.size()];
 
     for (int i = 0; i < result.length; i++) {

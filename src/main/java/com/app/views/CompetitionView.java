@@ -9,7 +9,7 @@ public class CompetitionView extends View {
     System.out.println(
         "-----------------------------------------------------------------------------");
     for (String[] c : competitionResults) {
-      System.out.format("%-10s %-20s %-20s m %-10s", c[0], c[1], c[2], c[3]);
+      System.out.format("%-10s %-20s %-20s %-10s", c[0], c[1], c[2] + " m", c[3]);
       System.out.println();
     }
     System.out.println(
