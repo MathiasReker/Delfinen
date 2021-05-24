@@ -1,10 +1,13 @@
 package com.app.models;
 
+import com.app.models.types.DistanceType;
+import com.app.models.types.StyleType;
+
 import java.io.Serializable;
 
 public class DisciplineModel implements Serializable {
-  private final int DISTANCE;
-  private final String STYLE;
+  private final DistanceType DISTANCE;
+  private final StyleType STYLE;
 
   /**
    * Create the swim style, with a given style and distance.
@@ -12,7 +15,7 @@ public class DisciplineModel implements Serializable {
    * @param distance of the swim style.
    * @param style you want to use.
    */
-  public DisciplineModel(int distance, String style) {
+  public DisciplineModel(DistanceType distance, StyleType style) {
     this.DISTANCE = distance;
     this.STYLE = style;
   }
@@ -22,7 +25,7 @@ public class DisciplineModel implements Serializable {
    *
    * @return the distance.
    */
-  public int getDistance() {
+  public DistanceType getDistance() {
     return DISTANCE;
   }
 
@@ -31,7 +34,7 @@ public class DisciplineModel implements Serializable {
    *
    * @return the swim style.
    */
-  public String getStyle() {
+  public StyleType getStyle() {
     return STYLE;
   }
 }

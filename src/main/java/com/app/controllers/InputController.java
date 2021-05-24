@@ -53,6 +53,7 @@ public class InputController {
     while (!InputModel.isValidRange(result, 1, max)) {
       VIEW.printInlineWarning("Not a valid choice. Please try again: ");
       result = IN.nextInt();
+      IN.nextLine();
     }
 
     IN.nextLine();

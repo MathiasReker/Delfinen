@@ -1,6 +1,8 @@
 package com.app.models;
 
+import com.app.models.types.DistanceType;
 import com.app.models.types.GenderType;
+import com.app.models.types.StyleType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -73,7 +75,7 @@ public class MemberModelTest {
 
   @Test
   public void testAddDiscipline() {
-    test.addDiscipline(new DisciplineModel(100, "FreeStyle"));
+    test.addDiscipline(new DisciplineModel(DistanceType.HUNDRED, StyleType.FREESTYLE));
     int expectedMembershipLength = 1;
 
     Assertions.assertEquals(expectedMembershipLength, test.getDisciplines().size());
