@@ -23,7 +23,7 @@ public class PaymentController {
       paymentService = new PaymentService(new ConfigService("paymentRequests").getPath());
       approvedPaymentsIds = paymentService.getApprovedPayments();
     } catch (IOException e) {
-      VIEW.printWarning("The competitions could not be loaded.");
+      VIEW.printWarning("The payment file could not be loaded.");
     }
   }
 

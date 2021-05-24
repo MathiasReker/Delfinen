@@ -51,7 +51,7 @@ public class MembershipController {
       MemberModel member, LocalDate date, int durationYears) {
     MembershipModel result = new MembershipModel(generateMembershipId(member));
     result.setStartingDate(date);
-    result.setExpiringDate(result.getExpiringDate().plusYears(durationYears));
+    result.setExpiringDate(result.getStartingDate().plusYears(durationYears));
     result.setActive(true);
     result.setPayed(false);
 

@@ -91,12 +91,12 @@ public class MemberController {
     ArrayList<MemberModel> expiringMembers =
         getExpiringMembers(members.toArray(new MemberModel[0]), 30);
 
-    VIEW.print("Expiring members:"); // show Members
-    viewMembers(expiringMembers);
 
     if (expiringMembers.size() > 0) {
       boolean stop = false;
       while (!stop) { // allow removal of members
+        VIEW.print("Expiring members:"); // show Members
+        viewMembers(expiringMembers);
         VIEW.print("Do you want to remove a member from the list? [Y/n]:");
         if (InputController.promptYesNo()) {
           expiringMembers = removeMemberFromList(expiringMembers);
@@ -115,18 +115,17 @@ public class MemberController {
       ArrayList<MemberModel> unpaidMembers = getUnpaidMembers(members.toArray(new MemberModel[0]));
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
-      VIEW.print("Unpaid members:");
       boolean stop = false;
       while (!stop) { // allow removal of members
+        VIEW.print("Unpaid members:");
+        viewMembers(unpaidMembers);
         VIEW.print("Do you want to remove a member from the list? [Y/n]:");
         if (InputController.promptYesNo()) {
-          viewMembers(unpaidMembers);
           unpaidMembers = removeMemberFromList(unpaidMembers);
         } else {
           stop = true;
         }
         if (unpaidMembers.size() > 0) {
-          removeMemberFromList(unpaidMembers);
           VIEW.print("Are you sure you want to send the payment requests? [Y/n]");
           if (InputController.promptYesNo()) {
             paymentRequester.createPaymentRequest(unpaidMembers.toArray(new MemberModel[0]));
