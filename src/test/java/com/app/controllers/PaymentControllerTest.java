@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class PaymentControllerTest {
 
   @Test
-  public void testArreardays() {
+  public void testArrearFind() {
     PaymentController paymentController = new PaymentController();
     ArrayList<MemberModel> memberModels = new ArrayList<>();
     MemberModel testMember = new MemberModel();
@@ -25,6 +25,36 @@ public class PaymentControllerTest {
     ArrayList<MemberModel> result = paymentController.findMembersInArrear(memberModels);
 
     Assertions.assertEquals(result.get(0).getId(),memberModels.get(0).getId());
+
+  }
+
+
+  @Test
+  public void testArrearCalcPeriod(){
+    PaymentController paymentController = new PaymentController();
+
+    LocalDate test1 = LocalDate.now();
+    LocalDate test2 = LocalDate.now().plusDays(14);
+    String expected = "14";
+
+    Assertions.assertEquals(expected,paymentController.calcPeriod(test1,test2));
+
+  }
+
+
+
+  @Test
+  public void testArrearCalcPeriodYear(){
+    PaymentController paymentController = new PaymentController();
+
+    LocalDate test1 = LocalDate.now();
+    LocalDate test2 = LocalDate.now().plusDays(365);
+    String expected = "365";
+    if (LocalDate.now().isLeapYear()) {
+      expected = "366";
+    }
+
+    Assertions.assertEquals(expected,paymentController.calcPeriod(test1,test2));
 
   }
 }
