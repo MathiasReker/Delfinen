@@ -58,6 +58,7 @@ public class PaymentController {
     if (InputController.promptYesNo()) {
       updateMemberShip(getValidPayments());
       VIEW.printSuccess("Memberships successfully updated.");
+      MEMBER_CONTROLLER.saveMembers();
     } else {
       VIEW.printWarning("Canceled.");
     }
