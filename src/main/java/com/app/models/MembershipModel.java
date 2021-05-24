@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 public class MembershipModel implements Serializable {
   private final String ID;
+  private final LocalDate CREATION_DATE;
   private LocalDate startingDate;
   private LocalDate expiringDate;
   private boolean payed;
@@ -12,6 +13,7 @@ public class MembershipModel implements Serializable {
 
   public MembershipModel(String id) {
     this.ID = id;
+    CREATION_DATE = LocalDate.now();
   }
 
   /**
@@ -28,6 +30,7 @@ public class MembershipModel implements Serializable {
   public MembershipModel(
       String id, LocalDate startingDate, LocalDate expiringDate, boolean payed, boolean active) {
     this.ID = id;
+    CREATION_DATE = LocalDate.now();
     setStartingDate(startingDate);
     setExpiringDate(expiringDate);
     setPayed(payed);
