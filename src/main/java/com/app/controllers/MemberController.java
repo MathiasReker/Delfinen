@@ -91,7 +91,6 @@ public class MemberController {
     ArrayList<MemberModel> expiringMembers =
         getExpiringMembers(members.toArray(new MemberModel[0]), 30);
 
-
     if (expiringMembers.size() > 0) {
       boolean stop = false;
       while (!stop) { // allow removal of members

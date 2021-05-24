@@ -9,7 +9,6 @@ import com.app.views.PaymentsView;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
@@ -98,9 +97,9 @@ public class PaymentController {
     int size = arrears.size();
     String[][] arrearsData = new String[size][3];
     for (int i = 0; i < size; i++) {
-      String days = calcPeriod(LocalDate.now(),arrears.get(i).getLatestMembership().getStartingDate());
-      arrearsData[i] =
-          new String[] {arrears.get(i).getId(), arrears.get(i).getName(), days};
+      String days =
+          calcPeriod(LocalDate.now(), arrears.get(i).getLatestMembership().getStartingDate());
+      arrearsData[i] = new String[] {arrears.get(i).getId(), arrears.get(i).getName(), days};
     }
 
     VIEW.displayArrears(arrearsData);
@@ -125,10 +124,9 @@ public class PaymentController {
     return result;
   }
 
-  String calcPeriod(LocalDate date1, LocalDate date2){
-    long test = ChronoUnit.DAYS.between(date1,date2);
+  String calcPeriod(LocalDate date1, LocalDate date2) {
+    long test = ChronoUnit.DAYS.between(date1, date2);
 
     return String.valueOf(test);
   }
-
 }
