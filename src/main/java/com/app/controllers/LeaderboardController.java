@@ -23,9 +23,9 @@ public class LeaderboardController {
    * @param distance of the style.
    * @return an array of the amount the fastest swimmers in a given discipline.
    */
-  private ResultModel[] findTop5(String style, int distance) {
+  private ResultModel[] findTop(String style, int distance, int amount) {
     ResultModel[] result =
-        new ResultModel[5]; // TODO: Refactor to arraylist, sort and limit to 5 at the display.
+        new ResultModel[amount]; // TODO: Refactor to arraylist, sort and limit to 5 at the display.
     // TODO: Must work with less than 5 result. :-)
     ArrayList<ResultModel> allResults = findDiscipline(style, distance);
 
@@ -68,7 +68,7 @@ public class LeaderboardController {
               COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER).length);
       int distance = DistanceType.values()[distanceInput - 1].getMeters();
 
-      ResultModel[] top5 = findTop5(style, distance);
+      ResultModel[] top5 = findTop(style, distance, 5);
       for (int i = 0, top5Length = top5.length; i < top5Length; i++) {
         VIEW.print(
             String.format(
