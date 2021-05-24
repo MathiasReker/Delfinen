@@ -7,7 +7,6 @@ public class IOService {
 
   public IOService(String path) throws IOException {
     FILE_SERVICE = new FileService(path);
-
   }
 
   public void save(Object[] objects) throws IOException {
