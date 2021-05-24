@@ -10,7 +10,7 @@ public class EditMemberMenuAction extends MenuAction {
   @Override
   public void run() {
     MemberController memberController = new MemberController();
-    memberController.viewMembers();
+    memberController.displayTableMembers();
     memberController.editMember();
   }
 }
