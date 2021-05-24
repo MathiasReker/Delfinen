@@ -35,7 +35,7 @@ public class InputController {
   public static int validateInteger() {
     while (!IN.hasNextInt()) {
       VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-      IN.next();
+      IN.nextLine();
     }
 
     return IN.nextInt();
@@ -166,6 +166,7 @@ public class InputController {
 
   public static String validatePlacement() {
     int placement = validateInteger();
+    IN.nextLine();
 
     return String.valueOf(placement);
   }
