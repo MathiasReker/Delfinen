@@ -3,6 +3,7 @@ package com.app.controllers;
 import com.app.models.CompetitionModel;
 import com.app.models.InputModel;
 import com.app.models.MemberModel;
+import com.app.models.TrainingModel;
 import com.app.views.InputView;
 
 import java.util.ArrayList;
@@ -130,6 +131,24 @@ public class InputController {
       }*/
 
       for (CompetitionModel c : competitions) {
+        if (c.getId().equals(result)) {
+          return c;
+        }
+      }
+
+      VIEW.printInlineWarning("Not a valid ID. Please try again: ");
+    }
+  }
+
+  public static TrainingModel validateTrainingId(ArrayList<TrainingModel> trainings) {
+    while (true) {
+      String result = IN.nextLine(); // TODO: refactor return String
+
+      if (result.equals("q")) {
+        return null;
+      }
+
+      for (TrainingModel c : trainings) {
         if (c.getId().equals(result)) {
           return c;
         }

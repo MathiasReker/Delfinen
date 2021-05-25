@@ -17,6 +17,7 @@ public class CompetitionSubMenuMenuAction extends MenuAction {
       new CreateCompetitionSubMenuMenuAction("Create Competition"),
       new AddResultMenuAction("Add Result"),
       new ViewResultsMenuAction("View Results"),
+      new TrainingMenuAction("Training Management"),
       new ExitMenuAction("Back")
     };
   }

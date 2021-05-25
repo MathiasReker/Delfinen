@@ -2,12 +2,12 @@ package com.app.views;
 
 public class TrainingView extends View {
 
-  private final String FORMAT = "%-20s %-10s %-20s %-20s";
+  private final String FORMAT = "%-20s %-15s %-15s %-20s";
 
   public void displayTrainings(String[][] competitionResults) {
     System.out.println(
         "-----------------------------------------------------------------------------");
-    System.out.printf(FORMAT, "Date", "Style", "Distance", "Completion time");
+    System.out.printf(FORMAT, "Name", "Style", "Distance", "Completion time");
     System.out.println();
     System.out.println(
         "-----------------------------------------------------------------------------");

@@ -37,4 +37,9 @@ public class TrainingModel {
   public void setResult(ArrayList<ResultModel> result) {
     this.result = result;
   }
+
+  public void addResult(ResultModel result) {
+    this.result.add(result);
+  }
+
 }
