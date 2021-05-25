@@ -32,7 +32,7 @@ public class CompetitionView extends View {
         "-----------------------------------------------------------------------------");
   }
 
-  public void displayMember(String[] competition, int[] columnWidth) {
+  public void displayCompetition(String[] competition, int[] columnWidth) {
     for (int i = 0; i < competition.length; i++) {
       String s = competition[i];
 

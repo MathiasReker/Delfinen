@@ -254,11 +254,11 @@ public class CompetitionController {
       VIEW.printWarning("No competitions.");
     } else {
       String[] header = getCompetitionHeader();
-      VIEW.displayMember(header, getColumnWidth());
+      VIEW.displayCompetition(header, getColumnWidth());
 
       for (CompetitionModel competition : competitions) {
         String[] body = getCompetitionLine(competition);
-        VIEW.displayMember(body, getColumnWidth());
+        VIEW.displayCompetition(body, getColumnWidth());
       }
     }
   }
