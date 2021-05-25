@@ -20,7 +20,7 @@ public class PaymentController {
 
   public PaymentController() {
     try {
-      paymentService = new PaymentService(new ConfigService("paymentRequests").getPath());
+      paymentService = new PaymentService(new ConfigService("paymentRequestsPath").getPath());
       approvedPaymentsIds = paymentService.getApprovedPayments();
     } catch (IOException e) {
       VIEW.printWarning("The payment file could not be loaded.");
@@ -122,6 +122,7 @@ public class PaymentController {
         }
       }
     }
+
     return result;
   }
 

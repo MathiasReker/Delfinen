@@ -1,5 +1,7 @@
 package com.app.models;
 
+import com.app.models.types.AgeGroupType;
+
 public class PricingModel {
 
   /**
@@ -9,14 +11,13 @@ public class PricingModel {
    * @return price
    */
   public static int calculateMemberPrice(MemberModel member) {
-    int age = member.getAge();
-    if (age < 18) {
-      return 100000; // Youth price
-    }
-    if (age > 18 && age < 60) {
-      return 160000; // Senior price
+    if (member.getAgeGroup().equals(AgeGroupType.JUNIOR.name())) {
+      return 100000; // Junior price
     } else {
-      return (int) (160000 * 0.75); // 25 % discount
+      if (member.getAge() > 60) {
+        return (int) (160000 * 0.75); // 25 % discount
+      }
+      return 160000; // Senior price
     }
   }
 }

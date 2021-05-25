@@ -95,8 +95,8 @@ public class MemberController {
       boolean stop = false;
       while (!stop) { // allow removal of members
         VIEW.print("Expiring members:"); // show Members
-        viewTableMembers(expiringMembers);
-        VIEW.print("Do you want to remove a member from the list? [Y/n]:");
+        viewMembers(expiringMembers);
+        VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
         if (InputController.promptYesNo()) {
           expiringMembers = removeMemberFromList(expiringMembers);
         } else {
@@ -113,19 +113,19 @@ public class MemberController {
     try {
       ArrayList<MemberModel> unpaidMembers = getUnpaidMembers(members);
       PaymentRequestService paymentRequester =
-          new PaymentRequestService("data/payment-requests/out.txt");
+          new PaymentRequestService(new ConfigService("paymentRequestsPath").getPath() + "out.txt");
       boolean stop = false;
-      while (!stop) { // allow removal of members
+      while (!stop) { // Allow removal of members
         VIEW.print("Unpaid members:");
-        viewTableMembers(unpaidMembers);
-        VIEW.print("Do you want to remove a member from the list? [Y/n]:");
+        viewMembers(unpaidMembers);
+        VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
         if (InputController.promptYesNo()) {
           unpaidMembers = removeMemberFromList(unpaidMembers);
         } else {
           stop = true;
         }
-        if (unpaidMembers.size() > 0) {
-          VIEW.print("Are you sure you want to send the payment requests? [Y/n]");
+        if (!unpaidMembers.isEmpty()) {
+          VIEW.printInline("Are you sure you want to send the payment requests? [Y/n]: ");
           if (InputController.promptYesNo()) {
             paymentRequester.createPaymentRequest(unpaidMembers.toArray(new MemberModel[0]));
           }
@@ -145,7 +145,7 @@ public class MemberController {
       MemberModel member = getMemberByID(input, members);
       result.remove(member);
     } catch (MemberNotFoundException e) {
-      VIEW.printWarning("Member was not found");
+      VIEW.printWarning("Member was not found.");
     }
 
     return result;
