@@ -10,7 +10,7 @@ public class AnonymizeMenuAction extends MenuAction {
   @Override
   public void run() {
     MemberController member = new MemberController();
-    member.viewMembers();
+    member.viewTableMembers();
     member.anonymizeMember();
   }
 }

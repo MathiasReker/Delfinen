@@ -196,73 +196,74 @@ public class MemberController {
     return new ArrayList<>(Arrays.asList(members));
   }
 
-  public void viewMembers() {
+  private String[] getMemberLine(MemberModel member) {
+    return new String[] {
+      member.getId(),
+      member.getName(),
+      member.getMail(),
+      member.getPhoneNumber(),
+      String.valueOf(member.getAge()),
+      String.valueOf(member.getGender()),
+    };
+  }
+
+  private String[] getMemberHeader() {
+    return new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+  }
+
+  public void viewTableMembers(MemberModel member) {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+      String[] header = getMemberHeader();
+      VIEW.displayMember(header, getColumnWidth());
+
+      String[] body = getMemberLine(member);
+      VIEW.displayMember(body, getColumnWidth());
+    }
+  }
+
+  public void viewTableMembers(ArrayList<MemberModel> members) {
+    if (members.isEmpty()) {
+      VIEW.printWarning("No members.");
+    } else {
+      String[] header = getMemberHeader();
       VIEW.displayMember(header, getColumnWidth());
 
       for (MemberModel member : members) {
-        String[] body =
-            new String[] {
-              member.getId(),
-              member.getName(),
-              member.getMail(),
-              member.getPhoneNumber(),
-              String.valueOf(member.getAge()),
-              String.valueOf(member.getGender()),
-            };
-
+        String[] body = getMemberLine(member);
         VIEW.displayMember(body, getColumnWidth());
       }
     }
   }
 
-  public void viewMembers(ArrayList<MemberModel> members) {
+  public void viewTableMembers() {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+      String[] header = getMemberHeader();
       VIEW.displayMember(header, getColumnWidth());
 
       for (MemberModel member : members) {
-        String[] body =
-            new String[] {
-              member.getId(),
-              member.getName(),
-              member.getMail(),
-              member.getPhoneNumber(),
-              String.valueOf(member.getAge()),
-              String.valueOf(member.getGender()),
-            };
-
+        String[] body = getMemberLine(member);
         VIEW.displayMember(body, getColumnWidth());
       }
     }
   }
 
   public int[] getColumnWidth() {
-    int[] result = new int[7];
+    int[] result = new int[getMemberHeader().length];
 
     for (MemberModel member : members) {
-      String[] arr =
-          new String[] {
-            member.getId(),
-            member.getName(),
-            member.getMail(),
-            member.getPhoneNumber(),
-            String.valueOf(member.getAge()),
-            String.valueOf(member.getGender()),
-          };
+      String[] body = getMemberLine(member);
 
-      for (int i = 0; i < arr.length; i++) {
-        if (arr[i] == null) {
-          arr[i] = "--";
+      for (int i = 0; i < body.length; i++) {
+        if (body[i] == null) {
+          body[i] = "--";
         }
 
-        if (arr[i].length() > result[i]) {
-          result[i] = arr[i].length();
+        if (body[i].length() > result[i]) {
+          result[i] = body[i].length();
         }
       }
     }
@@ -282,9 +283,9 @@ public class MemberController {
       if (0 == index) {
         viewMemberById();
       } else if (1 == index) {
-        viewMemberByName();
+        viewMembersByName();
       } else if (2 == index) {
-        viewMemberByMail();
+        viewMembersByMail();
       } else if (3 == index) {
         viewMemberByPhoneNumber();
       }
@@ -293,41 +294,38 @@ public class MemberController {
 
   public void viewMemberById() {
     String id = InputController.validateMemberId(members);
-    ArrayList<MemberModel> sortedList = getMemberById(id);
 
-    if (0 == sortedList.size()) {
-      VIEW.printWarning("No members with the ID: " + id);
+    if (null != getMemberById(id)) {
+      viewTableMembers(getMemberById(id));
     } else {
-      viewMembers(sortedList);
+      VIEW.printWarning("No members with the ID: " + id);
     }
   }
 
-  public ArrayList<MemberModel> getMemberById(String id) {
-    ArrayList<MemberModel> result = new ArrayList<>();
-
-    for (MemberModel m : members) {
-      if (null != m.getId()) {
-        if (m.getId().equals(id)) {
-          result.add(m);
+  public MemberModel getMemberById(String id) {
+    for (MemberModel result : members) {
+      if (null != result.getId()) {
+        if (result.getId().equals(id)) {
+          return result;
         }
       }
     }
 
-    return result;
+    return null;
   }
 
-  public void viewMemberByName() {
+  public void viewMembersByName() {
     String name = InputController.validateName();
-    ArrayList<MemberModel> sortedList = getMemberByName(name);
+    ArrayList<MemberModel> sortedList = getMembersByName(name);
 
     if (0 == sortedList.size()) {
       VIEW.printWarning("No members with the name: " + name);
     } else {
-      viewMembers(sortedList);
+      viewTableMembers(sortedList);
     }
   }
 
-  public ArrayList<MemberModel> getMemberByName(String name) {
+  public ArrayList<MemberModel> getMembersByName(String name) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
@@ -341,18 +339,18 @@ public class MemberController {
     return result;
   }
 
-  public void viewMemberByMail() {
+  public void viewMembersByMail() {
     String mail = InputController.validateMail();
-    ArrayList<MemberModel> sortedList = getMemberByMail(mail);
+    ArrayList<MemberModel> sortedList = getMembersByMail(mail);
 
     if (0 == sortedList.size()) {
       VIEW.printWarning("No members with the mail: " + mail);
     } else {
-      viewMembers(sortedList);
+      viewTableMembers(sortedList);
     }
   }
 
-  public ArrayList<MemberModel> getMemberByMail(String mail) {
+  public ArrayList<MemberModel> getMembersByMail(String mail) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
@@ -373,7 +371,7 @@ public class MemberController {
     if (0 == sortedList.size()) {
       VIEW.printWarning("No members with the phone number: " + phoneNumber);
     } else {
-      viewMembers(sortedList);
+      viewTableMembers(sortedList);
     }
   }
 
