@@ -1,6 +1,5 @@
 package com.app.models.services;
 
-import com.app.models.CompetitionModel;
 import com.app.models.TrainingModel;
 
 import java.io.*;
@@ -8,6 +7,7 @@ import java.io.*;
 public class TrainingService {
 
   private final FileService FILE_SERVICE;
+
   public TrainingService(String path) throws IOException {
     FILE_SERVICE = new FileService(path);
   }

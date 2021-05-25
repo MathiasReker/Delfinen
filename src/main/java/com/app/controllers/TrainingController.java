@@ -71,10 +71,6 @@ public class TrainingController {
             "00:" + InputController.validateCompetitionResultTime(),
             DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
-    String placement;
-    VIEW.printInline("Placement: ");
-    placement = InputController.validatePlacement();
-
     DisciplineModel disciplineModel =
         new DisciplineModel(
             DistanceType.values()[distanceChoice - 1], StyleType.values()[styleChoice - 1]);
@@ -85,9 +81,9 @@ public class TrainingController {
 
   public void viewTrainingResults() {
     if (trainings.isEmpty()) {
-      VIEW.print("No competitions available.");
+      VIEW.print("No trainings available.");
     } else {
-      VIEW.printInline("Competition ID: ");
+      VIEW.printInline("Training ID: ");
       TrainingModel training = InputController.validateTrainingId(trainings);
 
       ArrayList<ResultModel> resultsOfCompetition = training.getResult();

@@ -1,9 +1,10 @@
 package com.app.models;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class TrainingModel {
+public class TrainingModel implements Serializable {
 
   private String id;
   private LocalDate trainingDate;

@@ -1,3 +1,4 @@
 competitionsBin;data/bin/competitions.bin
+trainingsBin;data/bin/trainings.bin
 membersBin;data/bin/members.bin
 paymentRequestsPath;data/payment-requests/
