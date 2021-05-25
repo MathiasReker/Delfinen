@@ -96,7 +96,7 @@ public class MemberController {
       while (!stop) { // allow removal of members
         VIEW.print("Expiring members:"); // show Members
         viewMembers(expiringMembers);
-        VIEW.print("Do you want to remove a member from the list? [Y/n]:");
+        VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
         if (InputController.promptYesNo()) {
           expiringMembers = removeMemberFromList(expiringMembers);
         } else {
@@ -115,17 +115,17 @@ public class MemberController {
       PaymentRequestService paymentRequester =
           new PaymentRequestService("data/payment-requests/out.txt");
       boolean stop = false;
-      while (!stop) { // allow removal of members
+      while (!stop) { // Allow removal of members
         VIEW.print("Unpaid members:");
         viewMembers(unpaidMembers);
-        VIEW.print("Do you want to remove a member from the list? [Y/n]:");
+        VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
         if (InputController.promptYesNo()) {
           unpaidMembers = removeMemberFromList(unpaidMembers);
         } else {
           stop = true;
         }
-        if (unpaidMembers.size() > 0) {
-          VIEW.print("Are you sure you want to send the payment requests? [Y/n]");
+        if (!unpaidMembers.isEmpty()) {
+          VIEW.printInline("Are you sure you want to send the payment requests? [Y/n]: ");
           if (InputController.promptYesNo()) {
             paymentRequester.createPaymentRequest(unpaidMembers.toArray(new MemberModel[0]));
           }
@@ -145,7 +145,7 @@ public class MemberController {
       MemberModel member = getMemberByID(input, members);
       result.remove(member);
     } catch (MemberNotFoundException e) {
-      VIEW.printWarning("Member was not found");
+      VIEW.printWarning("Member was not found.");
     }
 
     return result;

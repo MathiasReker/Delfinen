@@ -15,7 +15,7 @@ public class MembershipController {
   private String generateMembershipId(MemberModel member) {
     ArrayList<MembershipModel> memberships = member.getMemberships();
     int oldId = 0;
-    if (memberships.size() > 0) {
+    if (!memberships.isEmpty()) {
       oldId = Integer.parseInt(memberships.get(memberships.size() - 1).getID());
     }
     int result = oldId + 1;
@@ -32,7 +32,9 @@ public class MembershipController {
   public void renewMembership(MemberModel member, int durationYears) {
     ArrayList<MembershipModel> memberships = member.getMemberships();
     MembershipModel lastMembership = memberships.get(memberships.size() - 1);
+
     int comparedDate = lastMembership.getExpiringDate().compareTo(LocalDate.now());
+
     if (comparedDate < 0) {
       MembershipModel newMembership = createNewMembership(member, LocalDate.now(), durationYears);
       member.addMembership(newMembership);

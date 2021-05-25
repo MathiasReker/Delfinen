@@ -171,6 +171,7 @@ public class MemberModel implements Serializable {
     if (memberships.size() == 0) {
       return null;
     }
+
     return memberships.get(memberships.size() - 1);
   }
 

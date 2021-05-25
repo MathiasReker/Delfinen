@@ -119,7 +119,7 @@ public class InputController {
 
   public static CompetitionModel validateCompetitionsId(ArrayList<CompetitionModel> competitions) {
     while (true) {
-      String result = IN.nextLine(); // TODO: refactor return String?
+      String result = IN.nextLine(); // TODO: refactor return String
 
       if (result.equals("q")) {
         return null;
