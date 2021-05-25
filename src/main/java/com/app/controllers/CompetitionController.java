@@ -133,16 +133,16 @@ public class CompetitionController {
     return result;
   }
 
-  private String timeToString(ResultModel resultModel){
-    String [] data = String.valueOf(resultModel.getResultTime()).split(":");
+  private String timeToString(ResultModel resultModel) {
+    String[] data = String.valueOf(resultModel.getResultTime()).split(":");
     String result = "";
     for (int i = 1; i < data.length; i++) {
       result += data[i];
-      if (i < data.length -1){
+      if (i < data.length - 1) {
         result += ":";
       }
     }
-    return  result;
+    return result;
   }
 
   public MemberModel getMember(String id) {
