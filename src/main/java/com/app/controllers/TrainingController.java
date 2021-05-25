@@ -1,10 +1,7 @@
 package com.app.controllers;
 
-import com.app.models.CompetitionModel;
 import com.app.models.TrainingModel;
-import com.app.models.services.CompetitionService;
 import com.app.models.services.ConfigService;
-import com.app.views.CompetitionView;
 
 import java.io.IOException;
 import java.time.LocalDate;
