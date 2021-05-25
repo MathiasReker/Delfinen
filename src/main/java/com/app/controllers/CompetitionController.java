@@ -125,12 +125,24 @@ public class CompetitionController {
       String name = resultModel.getMember().getName();
       String style = resultModel.getDiscipline().getStyle().name();
       String distance = Integer.toString(resultModel.getDiscipline().getDistance().getMeters());
-      String completionTime = resultModel.getResultTime().toString();
+      String completionTime = timeToString(resultModel);
 
       result[i] = new String[] {name, style, distance, completionTime};
     }
 
     return result;
+  }
+
+  private String timeToString(ResultModel resultModel){
+    String [] data = String.valueOf(resultModel.getResultTime()).split(":");
+    String result = "";
+    for (int i = 1; i < data.length; i++) {
+      result += data[i];
+      if (i < data.length -1){
+        result += ":";
+      }
+    }
+    return  result;
   }
 
   public MemberModel getMember(String id) {
