@@ -20,7 +20,7 @@ public class LeaderboardController {
   /**
    * find top swimmers in all competitions.
    *
-   * @param style    to check.
+   * @param style to check.
    * @param distance of the style.
    * @return an array of the amount the fastest swimmers in a given discipline.
    */
@@ -41,11 +41,9 @@ public class LeaderboardController {
           amount++;
         }
       }
-
     }
 
     return result;
-
   }
 
   private boolean memberExist(ArrayList<ResultModel> finals, MemberModel member) {
@@ -60,7 +58,6 @@ public class LeaderboardController {
     }
 
     return false;
-
   }
 
   private ArrayList<ResultModel> findDiscipline(StyleType style, DistanceType distance) {
@@ -91,7 +88,6 @@ public class LeaderboardController {
       String completionTime = resultModel.getResultTime().toString();
 
       result[i] = new String[] {competitionName, placement, name, completionTime};
-
     }
 
     return result;
@@ -117,8 +113,6 @@ public class LeaderboardController {
       } catch (NullPointerException e) {
         VIEW.print("No results for " + distance.getMeters() + " m " + style + ".");
       }
-
-
     }
   }
 }
