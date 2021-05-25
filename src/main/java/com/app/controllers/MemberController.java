@@ -95,7 +95,7 @@ public class MemberController {
       boolean stop = false;
       while (!stop) { // allow removal of members
         VIEW.print("Expiring members:"); // show Members
-        viewMembers(expiringMembers);
+        viewTableMembers(expiringMembers);
         VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
         if (InputController.promptYesNo()) {
           expiringMembers = removeMemberFromList(expiringMembers);
@@ -117,7 +117,7 @@ public class MemberController {
       boolean stop = false;
       while (!stop) { // Allow removal of members
         VIEW.print("Unpaid members:");
-        viewMembers(unpaidMembers);
+        viewTableMembers(unpaidMembers);
         VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
         if (InputController.promptYesNo()) {
           unpaidMembers = removeMemberFromList(unpaidMembers);
