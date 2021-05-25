@@ -17,7 +17,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class CompetitionController {
@@ -136,10 +135,10 @@ public class CompetitionController {
 
   private String timeToString(ResultModel resultModel) {
     String[] data = String.valueOf(resultModel.getResultTime()).split(":");
-    String [] result = new String[data.length-1];
-    
-    System.arraycopy(data, 1, result, 0 , data.length-1);
-    
+    String[] result = new String[data.length - 1];
+
+    System.arraycopy(data, 1, result, 0, data.length - 1);
+
     return String.join(":", result);
   }
 
