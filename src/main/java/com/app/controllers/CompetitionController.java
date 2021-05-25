@@ -135,14 +135,14 @@ public class CompetitionController {
 
   private String timeToString(ResultModel resultModel) {
     String[] data = String.valueOf(resultModel.getResultTime()).split(":");
-    String result = "";
+    StringBuilder result = new StringBuilder();
     for (int i = 1; i < data.length; i++) {
-      result += data[i];
+      result.append(data[i]);
       if (i < data.length - 1) {
-        result += ":";
+        result.append(":");
       }
     }
-    return result;
+    return String.valueOf(result);
   }
 
   public MemberModel getMember(String id) {
