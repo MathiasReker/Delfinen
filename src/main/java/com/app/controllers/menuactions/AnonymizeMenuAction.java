@@ -2,7 +2,7 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.MemberController;
 
-public class AnonymizeMenuAction extends MenuActions {
+public class AnonymizeMenuAction extends MenuAction {
   public AnonymizeMenuAction(String itemName) {
     super(itemName);
   }
@@ -10,7 +10,7 @@ public class AnonymizeMenuAction extends MenuActions {
   @Override
   public void run() {
     MemberController member = new MemberController();
-    member.viewMembers();
+    member.viewTableMembers();
     member.anonymizeMember();
   }
 }

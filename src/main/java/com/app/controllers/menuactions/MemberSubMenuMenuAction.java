@@ -2,8 +2,8 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.MenuController;
 
-public class MemberMenuAction extends MenuActions {
-  public MemberMenuAction(String description) {
+public class MemberSubMenuMenuAction extends MenuAction {
+  public MemberSubMenuMenuAction(String description) {
     super(description);
   }
 
@@ -12,15 +12,13 @@ public class MemberMenuAction extends MenuActions {
     new MenuController("Member management", "Please choose a menu option: ", menu()).run();
   }
 
-  MenuActions[] menu() {
-    return new MenuActions[] {
-      new CreateMemberSubMenuAction("Create member"),
+  MenuAction[] menu() {
+    return new MenuAction[] {
+      new CreateMemberMenuAction("Create member"),
       new ViewMemberMenuAction("View member"),
       new EditMemberMenuAction("Edit member"),
       new AnonymizeMenuAction("Anonymize member"),
       new SearchMemberMenuAction("Search member"),
-      new RenewalRequestMenuAction("Requests payment for expiring members"),
-      new RenewMembershipsMenuAction(("Renew paid memberships")),
       new ExitMenuAction("Back")
     };
   }

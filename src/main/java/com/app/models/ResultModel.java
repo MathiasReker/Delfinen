@@ -10,7 +10,12 @@ public class ResultModel implements Serializable, Comparable<ResultModel> {
   private CompetitionModel competition;
   private String placement;
 
-  public ResultModel(MemberModel member, LocalTime resultTime, DisciplineModel discipline, CompetitionModel competition, String placement) {
+  public ResultModel(
+      MemberModel member,
+      LocalTime resultTime,
+      DisciplineModel discipline,
+      CompetitionModel competition,
+      String placement) {
     this.member = member;
     this.resultTime = resultTime;
     this.discipline = discipline;

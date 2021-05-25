@@ -31,9 +31,6 @@ public class DisciplinesController {
    * @return a list og disciplines.
    */
   public ArrayList<DisciplineModel> chosenDiscipline(GenderType gender, StyleType style) {
-    if (!styleExist(style.name())) {
-      throw new IllegalArgumentException("No such style");
-    }
     ArrayList<DistanceType> distances = new ArrayList<>();
 
     distances.add(DistanceType.FIFTY);
@@ -63,15 +60,5 @@ public class DisciplinesController {
     }
 
     return result;
-  }
-
-  private boolean styleExist(String style) {
-    for (StyleType sm : StyleType.values()) {
-      if (sm.name().equals(style)) {
-        return true;
-      }
-    }
-
-    return false;
   }
 }

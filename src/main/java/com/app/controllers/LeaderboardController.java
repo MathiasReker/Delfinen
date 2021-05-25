@@ -80,7 +80,7 @@ public class LeaderboardController {
   }
 
   private String[][] arrayWithResultToDisplay(ArrayList<ResultModel> resultTimes) {
-    String[][] results = new String[resultTimes.size()][4];
+    String[][] result = new String[resultTimes.size()][4];
 
     for (int i = 0; i < resultTimes.size(); i++) {
       ResultModel resultModel = resultTimes.get(i);
@@ -90,10 +90,11 @@ public class LeaderboardController {
       String name = resultModel.getMember().getName();
       String completionTime = resultModel.getResultTime().toString();
 
-      results[i] = new String[]{competitionName, placement, name, completionTime};
+      result[i] = new String[] {competitionName, placement, name, completionTime};
+
     }
 
-    return results;
+    return result;
   }
 
   public void displayTop5Results() {

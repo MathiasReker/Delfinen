@@ -1,6 +1,6 @@
 package com.app.controllers;
 
-import com.app.controllers.menuactions.MenuActions;
+import com.app.controllers.menuactions.MenuAction;
 import com.app.models.MenuModel;
 import com.app.views.MenuView;
 
@@ -15,7 +15,7 @@ public class MenuController {
    * @param leadText String that tells the user what to do.
    * @param menuActions String.
    */
-  public MenuController(String menuHeader, String leadText, MenuActions[] menuActions) {
+  public MenuController(String menuHeader, String leadText, MenuAction[] menuActions) {
     MENU = new MenuModel(menuHeader, menuActions, leadText);
     VIEW = new MenuView();
   }

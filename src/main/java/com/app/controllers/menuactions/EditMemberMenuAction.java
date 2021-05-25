@@ -2,7 +2,7 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.MemberController;
 
-public class EditMemberMenuAction extends MenuActions {
+public class EditMemberMenuAction extends MenuAction {
   public EditMemberMenuAction(String itemName) {
     super(itemName);
   }
@@ -10,7 +10,7 @@ public class EditMemberMenuAction extends MenuActions {
   @Override
   public void run() {
     MemberController memberController = new MemberController();
-    memberController.viewMembers();
+    memberController.viewTableMembers();
     memberController.editMember();
   }
 }

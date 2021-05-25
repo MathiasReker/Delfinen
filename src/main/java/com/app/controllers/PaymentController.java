@@ -1,12 +1,15 @@
 package com.app.controllers;
 
 import com.app.models.MemberModel;
+import com.app.models.MembershipModel;
 import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.ConfigService;
 import com.app.models.services.PaymentService;
 import com.app.views.PaymentsView;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class PaymentController {
@@ -17,10 +20,10 @@ public class PaymentController {
 
   public PaymentController() {
     try {
-      paymentService = new PaymentService(new ConfigService("paymentRequests").getPath());
+      paymentService = new PaymentService(new ConfigService("paymentRequestsPath").getPath());
       approvedPaymentsIds = paymentService.getApprovedPayments();
     } catch (IOException e) {
-      VIEW.printWarning("The competitions could not be loaded.");
+      VIEW.printWarning("The payment file could not be loaded.");
     }
   }
 
@@ -55,6 +58,7 @@ public class PaymentController {
     if (InputController.promptYesNo()) {
       updateMemberShip(getValidPayments());
       VIEW.printSuccess("Memberships successfully updated.");
+      MEMBER_CONTROLLER.saveMembers();
     } else {
       VIEW.printWarning("Canceled.");
     }
@@ -84,5 +88,47 @@ public class PaymentController {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  public void displayMembersInArrear() {
+    ArrayList<MemberModel> unpaidMembers =
+        MEMBER_CONTROLLER.getUnpaidMembers(MEMBER_CONTROLLER.getMembers());
+    ArrayList<MemberModel> arrears = findMembersInArrear(unpaidMembers);
+
+    int size = arrears.size();
+    String[][] arrearsData = new String[size][3];
+    for (int i = 0; i < size; i++) {
+      String days =
+          calcPeriod(LocalDate.now(), arrears.get(i).getLatestMembership().getStartingDate());
+      arrearsData[i] = new String[] {arrears.get(i).getId(), arrears.get(i).getName(), days};
+    }
+
+    VIEW.displayArrears(arrearsData);
+  }
+
+  ArrayList<MemberModel> findMembersInArrear(ArrayList<MemberModel> members) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel member : members) {
+      ArrayList<MembershipModel> memberships = member.getMemberships();
+      if (memberships.size() == 1) {
+        if (memberships.get(0).getStartingDate().compareTo(LocalDate.now().plusDays(14)) < 0) {
+          result.add(member);
+        }
+      } else {
+        if (member.getLatestMembership().getStartingDate().compareTo((LocalDate.now().plusDays(14)))
+            < 0) {
+          result.add(member);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  String calcPeriod(LocalDate date1, LocalDate date2) {
+    long test = ChronoUnit.DAYS.between(date1, date2);
+
+    return String.valueOf(test);
   }
 }

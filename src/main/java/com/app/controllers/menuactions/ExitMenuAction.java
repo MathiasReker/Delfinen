@@ -1,6 +1,6 @@
 package com.app.controllers.menuactions;
 
-public class ExitMenuAction extends MenuActions {
+public class ExitMenuAction extends MenuAction {
   /**
    * Stop the program from running.
    *

@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 public class MemberController {
   private final MemberView VIEW;
-
+  private final MembershipController MEMBERSHIP_CONTROLLER = new MembershipController();
   private ArrayList<MemberModel> members;
 
   public MemberController() {
@@ -73,6 +73,7 @@ public class MemberController {
     member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     member.setPhoneNumber(phone);
     member.setCompetitive(competitive);
+    MEMBERSHIP_CONTROLLER.addMembership(member);
 
     members.add(member);
   }
@@ -86,83 +87,68 @@ public class MemberController {
     return result;
   }
 
-  /**
-   * Method for renewing memberships.
-   *
-   * @param member Member to renew
-   * @param durationYears years to add to membership
-   */
-  public void renewMembership(MemberModel member, int durationYears) {
-    ArrayList<MembershipModel> memberships = member.getMemberships();
-    MembershipModel lastMembership = memberships.get(memberships.size() - 1);
-    int comparedDate = lastMembership.getExpiringDate().compareTo(LocalDate.now());
-    if (comparedDate < 0) {
-      MembershipModel newMembership = createNewMembership(LocalDate.now(), durationYears);
-      member.addMembership(newMembership);
-    } else if (comparedDate > 0) {
-      MembershipModel newMembership =
-          createNewMembership(lastMembership.getExpiringDate().plusDays(1), durationYears);
-      member.addMembership(newMembership);
-    } else {
-      MembershipModel newMembership =
-          createNewMembership(LocalDate.now().plusDays(1), durationYears);
-      member.addMembership(newMembership);
+  public void renewExpiringMembers() {
+    ArrayList<MemberModel> expiringMembers =
+        getExpiringMembers(members.toArray(new MemberModel[0]), 30);
+
+    if (expiringMembers.size() > 0) {
+      boolean stop = false;
+      while (!stop) { // allow removal of members
+        VIEW.print("Expiring members:"); // show Members
+        viewTableMembers(expiringMembers);
+        VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
+        if (InputController.promptYesNo()) {
+          expiringMembers = removeMemberFromList(expiringMembers);
+        } else {
+          stop = true;
+        }
+      }
+      for (MemberModel member : expiringMembers) {
+        MEMBERSHIP_CONTROLLER.renewMembership(member, 1);
+      }
     }
   }
 
-  private MembershipModel createNewMembership(LocalDate date, int durationYears) {
-    MembershipModel result = new MembershipModel();
-    result.setStartingDate(date);
-    result.setExpiringDate(result.getExpiringDate().plusYears(durationYears));
-    result.setActive(true);
-    result.setPayed(false);
-
-    return result;
-  }
-
-  // TODO: Refactor into shorter methods
-  public void requestRenewalFromExpiringMembers() { // WIP
+  public void requestPaymentForUnpaidMembers() {
     try {
-      ArrayList<MemberModel> expiringMembers =
-          new MemberModel().getExpiringMembers(members.toArray(new MemberModel[0]), 30);
+      ArrayList<MemberModel> unpaidMembers = getUnpaidMembers(members);
       PaymentRequestService paymentRequester =
-          new PaymentRequestService("data/payment-requests/out.txt");
-
-      VIEW.print("Expiring members:"); // show Members
-      for (MemberModel member : expiringMembers) {
-        VIEW.print( // TODO
-            member.getId()
-                + "\t"
-                + member.getName()
-                + "\t"
-                + member.getLatestMembership().getExpiringDate()
-                + "\n");
-      }
-      if (expiringMembers.size() > 0) {
-        boolean stop = false;
-        while (!stop) { // allow removal of members
-          VIEW.print("Do you want to remove a member from the list? [Y/n]:");
+          new PaymentRequestService(new ConfigService("paymentRequestsPath").getPath() + "out.txt");
+      boolean stop = false;
+      while (!stop) { // Allow removal of members
+        VIEW.print("Unpaid members:");
+        viewTableMembers(unpaidMembers);
+        VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
+        if (InputController.promptYesNo()) {
+          unpaidMembers = removeMemberFromList(unpaidMembers);
+        } else {
+          stop = true;
+        }
+        if (!unpaidMembers.isEmpty()) {
+          VIEW.printInline("Are you sure you want to send the payment requests? [Y/n]: ");
           if (InputController.promptYesNo()) {
-            VIEW.print("Type member ID to delete: ");
-            String input = InputController.validateMemberId(members);
-            try {
-              MemberModel member = getMemberByID(input, expiringMembers);
-              expiringMembers.remove(member);
-            } catch (MemberNotFoundException e) {
-              VIEW.printWarning("Member was not found");
-            }
-          } else {
-            stop = true;
+            paymentRequester.createPaymentRequest(unpaidMembers.toArray(new MemberModel[0]));
           }
         }
-        VIEW.print("Are you sure you want to send the payment requests? [Y/n]");
-        if (InputController.promptYesNo()) {
-          paymentRequester.createPaymentRequest(expiringMembers.toArray(new MemberModel[0]));
-        }
       }
+
     } catch (IOException e) {
       VIEW.printWarning(e.getMessage());
     }
+  }
+
+  private ArrayList<MemberModel> removeMemberFromList(ArrayList<MemberModel> members) {
+    ArrayList<MemberModel> result = new ArrayList<>(members);
+    VIEW.print("Type member ID to remove: ");
+    String input = InputController.validateMemberId(members);
+    try {
+      MemberModel member = getMemberByID(input, members);
+      result.remove(member);
+    } catch (MemberNotFoundException e) {
+      VIEW.printWarning("Member was not found.");
+    }
+
+    return result;
   }
 
   MemberModel getMemberByID(String id, ArrayList<MemberModel> members)
@@ -210,73 +196,74 @@ public class MemberController {
     return new ArrayList<>(Arrays.asList(members));
   }
 
-  public void viewMembers() {
+  private String[] getMemberLine(MemberModel member) {
+    return new String[] {
+      member.getId(),
+      member.getName(),
+      member.getMail(),
+      member.getPhoneNumber(),
+      String.valueOf(member.getAge()),
+      String.valueOf(member.getGender()),
+    };
+  }
+
+  private String[] getMemberHeader() {
+    return new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+  }
+
+  public void viewTableMembers(MemberModel member) {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+      String[] header = getMemberHeader();
+      VIEW.displayMember(header, getColumnWidth());
+
+      String[] body = getMemberLine(member);
+      VIEW.displayMember(body, getColumnWidth());
+    }
+  }
+
+  public void viewTableMembers(ArrayList<MemberModel> members) {
+    if (members.isEmpty()) {
+      VIEW.printWarning("No members.");
+    } else {
+      String[] header = getMemberHeader();
       VIEW.displayMember(header, getColumnWidth());
 
       for (MemberModel member : members) {
-        String[] body =
-            new String[] {
-              member.getId(),
-              member.getName(),
-              member.getMail(),
-              member.getPhoneNumber(),
-              String.valueOf(member.getAge()),
-              String.valueOf(member.getGender()),
-            };
-
+        String[] body = getMemberLine(member);
         VIEW.displayMember(body, getColumnWidth());
       }
     }
   }
 
-  public void viewMembers(ArrayList<MemberModel> members) {
+  public void viewTableMembers() {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      String[] header = new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+      String[] header = getMemberHeader();
       VIEW.displayMember(header, getColumnWidth());
 
       for (MemberModel member : members) {
-        String[] body =
-            new String[] {
-              member.getId(),
-              member.getName(),
-              member.getMail(),
-              member.getPhoneNumber(),
-              String.valueOf(member.getAge()),
-              String.valueOf(member.getGender()),
-            };
-
+        String[] body = getMemberLine(member);
         VIEW.displayMember(body, getColumnWidth());
       }
     }
   }
 
   public int[] getColumnWidth() {
-    int[] result = new int[7];
+    int[] result = new int[getMemberHeader().length];
 
     for (MemberModel member : members) {
-      String[] arr =
-          new String[] {
-            member.getId(),
-            member.getName(),
-            member.getMail(),
-            member.getPhoneNumber(),
-            String.valueOf(member.getAge()),
-            String.valueOf(member.getGender()),
-          };
+      String[] body = getMemberLine(member);
 
-      for (int i = 0; i < arr.length; i++) {
-        if (arr[i] == null) {
-          arr[i] = "--";
+      for (int i = 0; i < body.length; i++) {
+        if (body[i] == null) {
+          body[i] = "--";
         }
 
-        if (arr[i].length() > result[i]) {
-          result[i] = arr[i].length();
+        if (body[i].length() > result[i]) {
+          result[i] = body[i].length();
         }
       }
     }
@@ -296,9 +283,9 @@ public class MemberController {
       if (0 == index) {
         viewMemberById();
       } else if (1 == index) {
-        viewMemberByName();
+        viewMembersByName();
       } else if (2 == index) {
-        viewMemberByMail();
+        viewMembersByMail();
       } else if (3 == index) {
         viewMemberByPhoneNumber();
       }
@@ -307,41 +294,38 @@ public class MemberController {
 
   public void viewMemberById() {
     String id = InputController.validateMemberId(members);
-    ArrayList<MemberModel> sortedList = getMemberById(id);
 
-    if (0 == sortedList.size()) {
-      VIEW.printWarning("No members with the ID: " + id);
+    if (null != getMemberById(id)) {
+      viewTableMembers(getMemberById(id));
     } else {
-      viewMembers(sortedList);
+      VIEW.printWarning("No members with the ID: " + id);
     }
   }
 
-  public ArrayList<MemberModel> getMemberById(String id) {
-    ArrayList<MemberModel> result = new ArrayList<>();
-
-    for (MemberModel m : members) {
-      if (null != m.getId()) {
-        if (m.getId().equals(id)) {
-          result.add(m);
+  public MemberModel getMemberById(String id) {
+    for (MemberModel result : members) {
+      if (null != result.getId()) {
+        if (result.getId().equals(id)) {
+          return result;
         }
       }
     }
 
-    return result;
+    return null;
   }
 
-  public void viewMemberByName() {
+  public void viewMembersByName() {
     String name = InputController.validateName();
-    ArrayList<MemberModel> sortedList = getMemberByName(name);
+    ArrayList<MemberModel> sortedList = getMembersByName(name);
 
     if (0 == sortedList.size()) {
       VIEW.printWarning("No members with the name: " + name);
     } else {
-      viewMembers(sortedList);
+      viewTableMembers(sortedList);
     }
   }
 
-  public ArrayList<MemberModel> getMemberByName(String name) {
+  public ArrayList<MemberModel> getMembersByName(String name) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
@@ -355,18 +339,18 @@ public class MemberController {
     return result;
   }
 
-  public void viewMemberByMail() {
+  public void viewMembersByMail() {
     String mail = InputController.validateMail();
-    ArrayList<MemberModel> sortedList = getMemberByMail(mail);
+    ArrayList<MemberModel> sortedList = getMembersByMail(mail);
 
     if (0 == sortedList.size()) {
       VIEW.printWarning("No members with the mail: " + mail);
     } else {
-      viewMembers(sortedList);
+      viewTableMembers(sortedList);
     }
   }
 
-  public ArrayList<MemberModel> getMemberByMail(String mail) {
+  public ArrayList<MemberModel> getMembersByMail(String mail) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
@@ -387,7 +371,7 @@ public class MemberController {
     if (0 == sortedList.size()) {
       VIEW.printWarning("No members with the phone number: " + phoneNumber);
     } else {
-      viewMembers(sortedList);
+      viewTableMembers(sortedList);
     }
   }
 
@@ -478,5 +462,41 @@ public class MemberController {
     int result = oldId + 1;
 
     return String.valueOf(result);
+  }
+
+  /**
+   * Returns an Arraylist of expiring members based on the Array given as argument
+   *
+   * @param days Amount of days to look ahead of current day.
+   * @param memberModels Array of members to look through
+   * @return ArrayList of expiring members
+   */
+  public ArrayList<MemberModel> getExpiringMembers(MemberModel[] memberModels, int days) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel member : memberModels) {
+      MembershipModel latestMembership = member.getLatestMembership();
+      LocalDate expiringDate = latestMembership.getExpiringDate();
+      if (expiringDate != null) {
+        if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
+          result.add(member);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public ArrayList<MemberModel> getUnpaidMembers(ArrayList<MemberModel> memberModels) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel member : memberModels) {
+      MembershipModel latestMembership = member.getLatestMembership();
+      if (!latestMembership.isPayed() && latestMembership.isActive()) {
+        result.add(member);
+      }
+    }
+
+    return result;
   }
 }

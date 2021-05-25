@@ -35,7 +35,7 @@ public class InputController {
   public static int validateInteger() {
     while (!IN.hasNextInt()) {
       VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-      IN.next();
+      IN.nextLine();
     }
 
     return IN.nextInt();
@@ -119,7 +119,7 @@ public class InputController {
 
   public static CompetitionModel validateCompetitionsId(ArrayList<CompetitionModel> competitions) {
     while (true) {
-      String result = IN.nextLine(); // TODO: refactor return String?
+      String result = IN.nextLine(); // TODO: refactor return String
 
       if (result.equals("q")) {
         return null;

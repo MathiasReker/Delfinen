@@ -5,13 +5,15 @@ import java.time.LocalDate;
 
 public class MembershipModel implements Serializable {
   private final String ID;
+  private final LocalDate CREATION_DATE;
   private LocalDate startingDate;
   private LocalDate expiringDate;
   private boolean payed;
   private boolean active;
 
-  public MembershipModel() { // TODO Get next UniqueValue
-    this.ID = "NextUniqueValue";
+  public MembershipModel(String id) {
+    this.ID = id;
+    CREATION_DATE = LocalDate.now();
   }
 
   /**
@@ -25,9 +27,10 @@ public class MembershipModel implements Serializable {
    * @param payed PaymentStatus
    * @param active
    */
-  MembershipModel(
+  public MembershipModel(
       String id, LocalDate startingDate, LocalDate expiringDate, boolean payed, boolean active) {
     this.ID = id;
+    CREATION_DATE = LocalDate.now();
     setStartingDate(startingDate);
     setExpiringDate(expiringDate);
     setPayed(payed);
