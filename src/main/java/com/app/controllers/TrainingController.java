@@ -2,6 +2,8 @@ package com.app.controllers;
 
 import com.app.models.TrainingModel;
 import com.app.models.services.ConfigService;
+import com.app.models.services.TrainingService;
+import com.app.views.TrainingView;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -11,14 +13,14 @@ import java.util.Collections;
 
 public class TrainingController {
 
-  private final TrainingView VIEW = new TrainingView(); // maby make a new training view
+  private final TrainingView VIEW = new TrainingView();
   private ArrayList<TrainingModel> training;
-  private TrainingService trainingService; // Maby make a new training service
+  private TrainingService trainingService;
 
   public TrainingController() {
     try {
-      TrainingService = new TrainingService(new ConfigService("trainingsBin").getPath());
-      training = toArraylist(trainingService.getTrainingsFromFile()); // check service to fit training
+      trainingService = new TrainingService(new ConfigService("trainingsBin").getPath());
+      training = toArraylist(trainingService.getTrainingsFromFile());
     } catch (IOException | ClassNotFoundException e) {
       VIEW.printWarning("Could not load any trainings.");
       training = new ArrayList<>();
