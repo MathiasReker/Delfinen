@@ -62,19 +62,19 @@ public class CompetitionController {
     if (competitions.isEmpty()) {
       VIEW.printWarning("No competitions available.");
     } else {
-    viewTableCompetitions();
-    VIEW.printInline("Competition ID: ");
-    CompetitionModel competition = InputController.validateCompetitionsId(competitions);
+      viewTableCompetitions();
+      VIEW.printInline("Competition ID: ");
+      CompetitionModel competition = InputController.validateCompetitionsId(competitions);
 
-    MEMBER_CONTROLLER.viewTableMembers();
-    VIEW.printInline("Member ID: ");
-    MemberModel member =
-        getMember(InputController.validateMemberId(new MemberController().getMembers()));
-    do {
-      addResultTime(member, competition);
-      VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
-    } while (InputController.promptYesNo());
-  }
+      MEMBER_CONTROLLER.viewTableMembers();
+      VIEW.printInline("Member ID: ");
+      MemberModel member =
+          getMember(InputController.validateMemberId(new MemberController().getMembers()));
+      do {
+        addResultTime(member, competition);
+        VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
+      } while (InputController.promptYesNo());
+    }
   }
 
   public void addResultTime(MemberModel member, CompetitionModel competition) {
@@ -90,7 +90,6 @@ public class CompetitionController {
         LocalTime.parse(
             "00:" + InputController.validateCompetitionResultTime(),
             DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
-
 
     VIEW.printInline("Placement: ");
     String placement = InputController.validatePlacement();
@@ -228,12 +227,13 @@ public class CompetitionController {
 
     return result;
   }
+
   private String[] getCompetitionLine(CompetitionModel competition) {
     return new String[] {
-        competition.getId(),
-        competition.getName(),
-        String.valueOf(competition.getStartDate()),
-        String.valueOf(competition.getStartTime())
+      competition.getId(),
+      competition.getName(),
+      String.valueOf(competition.getStartDate()),
+      String.valueOf(competition.getStartTime())
     };
   }
 

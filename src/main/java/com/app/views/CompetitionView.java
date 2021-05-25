@@ -44,6 +44,5 @@ public class CompetitionView extends View {
     }
 
     System.out.println();
-
   }
 }
