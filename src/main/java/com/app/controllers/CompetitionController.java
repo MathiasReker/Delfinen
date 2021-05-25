@@ -23,6 +23,7 @@ public class CompetitionController {
   private final CompetitionView VIEW = new CompetitionView();
   private ArrayList<CompetitionModel> competitions;
   private CompetitionService competitionService;
+  private final MemberController MEMBER_CONTROLLER = new MemberController();
 
   public CompetitionController() {
     try {
@@ -58,9 +59,14 @@ public class CompetitionController {
   }
 
   public void addResultToCompetition() {
+    if (competitions.isEmpty()) {
+      VIEW.printWarning("No competitions available.");
+    } else {
+    viewTableCompetitions();
     VIEW.printInline("Competition ID: ");
     CompetitionModel competition = InputController.validateCompetitionsId(competitions);
 
+    MEMBER_CONTROLLER.viewTableMembers();
     VIEW.printInline("Member ID: ");
     MemberModel member =
         getMember(InputController.validateMemberId(new MemberController().getMembers()));
@@ -68,6 +74,7 @@ public class CompetitionController {
       addResultTime(member, competition);
       VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
     } while (InputController.promptYesNo());
+  }
   }
 
   public void addResultTime(MemberModel member, CompetitionModel competition) {
@@ -84,9 +91,9 @@ public class CompetitionController {
             "00:" + InputController.validateCompetitionResultTime(),
             DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
-    String placement;
+
     VIEW.printInline("Placement: ");
-    placement = InputController.validatePlacement();
+    String placement = InputController.validatePlacement();
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
@@ -196,5 +203,51 @@ public class CompetitionController {
     int newId = oldId + 1;
 
     return String.valueOf(newId);
+  }
+
+  private String[] getCompetitionHeader() {
+    return new String[] {"ID", "Name", "Date", "Start time"};
+  }
+
+  public int[] getColumnWidth() {
+    int[] result = new int[getCompetitionHeader().length];
+
+    for (CompetitionModel competiton : competitions) {
+      String[] body = getCompetitionLine(competiton);
+
+      for (int i = 0; i < body.length; i++) {
+        if (body[i] == null) {
+          body[i] = "--";
+        }
+
+        if (body[i].length() > result[i]) {
+          result[i] = body[i].length();
+        }
+      }
+    }
+
+    return result;
+  }
+  private String[] getCompetitionLine(CompetitionModel competition) {
+    return new String[] {
+        competition.getId(),
+        competition.getName(),
+        String.valueOf(competition.getStartDate()),
+        String.valueOf(competition.getStartTime())
+    };
+  }
+
+  public void viewTableCompetitions() {
+    if (competitions.isEmpty()) {
+      VIEW.printWarning("No competitions.");
+    } else {
+      String[] header = getCompetitionHeader();
+      VIEW.displayMember(header, getColumnWidth());
+
+      for (CompetitionModel competition : competitions) {
+        String[] body = getCompetitionLine(competition);
+        VIEW.displayMember(body, getColumnWidth());
+      }
+    }
   }
 }

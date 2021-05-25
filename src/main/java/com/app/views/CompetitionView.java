@@ -31,4 +31,19 @@ public class CompetitionView extends View {
     System.out.println(
         "-----------------------------------------------------------------------------");
   }
+
+  public void displayMember(String[] competition, int[] columnWidth) {
+    for (int i = 0; i < competition.length; i++) {
+      String s = competition[i];
+
+      if (s == null) {
+        s = "--";
+      }
+
+      System.out.printf("%-" + (columnWidth[i] + 4) + "s", s);
+    }
+
+    System.out.println();
+
+  }
 }
