@@ -96,7 +96,7 @@ public class MemberController {
       while (!stop) { // allow removal of members
         VIEW.print("Expiring members:"); // show Members
         viewMembers(expiringMembers);
-        VIEW.printInline("Do you want to remove a member from the list? [Y/n]:");
+        VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
         if (InputController.promptYesNo()) {
           expiringMembers = removeMemberFromList(expiringMembers);
         } else {
@@ -118,14 +118,14 @@ public class MemberController {
       while (!stop) { // Allow removal of members
         VIEW.print("Unpaid members:");
         viewMembers(unpaidMembers);
-        VIEW.printInline("Do you want to remove a member from the list? [Y/n] ");
+        VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
         if (InputController.promptYesNo()) {
           unpaidMembers = removeMemberFromList(unpaidMembers);
         } else {
           stop = true;
         }
         if (!unpaidMembers.isEmpty()) {
-          VIEW.printInline("Are you sure you want to send the payment requests? [Y/n] ");
+          VIEW.printInline("Are you sure you want to send the payment requests? [Y/n]: ");
           if (InputController.promptYesNo()) {
             paymentRequester.createPaymentRequest(unpaidMembers.toArray(new MemberModel[0]));
           }

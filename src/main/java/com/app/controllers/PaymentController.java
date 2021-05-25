@@ -90,10 +90,10 @@ public class PaymentController {
     }
   }
 
-  public void displayMembersInArray() {
+  public void displayMembersInArrear() {
     ArrayList<MemberModel> unpaidMembers =
         MEMBER_CONTROLLER.getUnpaidMembers(MEMBER_CONTROLLER.getMembers());
-    ArrayList<MemberModel> arrears = findMembersInArray(unpaidMembers);
+    ArrayList<MemberModel> arrears = findMembersInArrear(unpaidMembers);
 
     int size = arrears.size();
     String[][] arrearsData = new String[size][3];
@@ -106,7 +106,7 @@ public class PaymentController {
     VIEW.displayArrears(arrearsData);
   }
 
-  ArrayList<MemberModel> findMembersInArray(ArrayList<MemberModel> members) {
+  ArrayList<MemberModel> findMembersInArrear(ArrayList<MemberModel> members) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : members) {
