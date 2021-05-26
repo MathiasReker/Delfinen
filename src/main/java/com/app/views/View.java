@@ -3,6 +3,8 @@ package com.app.views;
 import com.app.views.types.ColorKeyType;
 import com.app.views.types.ColorTextType;
 
+import java.util.ArrayList;
+
 abstract class View {
   public void printInline(String text) {
     System.out.print(new ColorTextType(text, ColorKeyType.WHITE_BRIGHT));
@@ -56,5 +58,9 @@ abstract class View {
     }
 
     printInline(String.join(", ", result) + ": ");
+  }
+
+  public void printTable(String[] headerIn, ArrayList<ArrayList<String>> bodyIn) {
+    new TableView(headerIn, bodyIn).printTable();
   }
 }

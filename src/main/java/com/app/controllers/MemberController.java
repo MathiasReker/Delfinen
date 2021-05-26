@@ -173,77 +173,81 @@ public class MemberController {
     return new ArrayList<>(Arrays.asList(members));
   }
 
-  private String[] getMemberLine(MemberModel member) {
-    return new String[] {
-      member.getId(),
-      member.getName(),
-      member.getMail(),
-      member.getPhoneNumber(),
-      String.valueOf(member.getAge()),
-      String.valueOf(member.getGender()),
-    };
-  }
-
   private String[] getMemberHeader() {
     return new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
-  }
-
-  public void viewTableMembers(MemberModel member) {
-    if (members.isEmpty()) {
-      VIEW.printWarning("No members.");
-    } else {
-      String[] header = getMemberHeader();
-      VIEW.displayMember(header, getColumnWidth());
-
-      String[] body = getMemberLine(member);
-      VIEW.displayMember(body, getColumnWidth());
-    }
   }
 
   public void viewTableMembers(ArrayList<MemberModel> members) {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      String[] header = getMemberHeader();
-      VIEW.displayMember(header, getColumnWidth());
-
-      for (MemberModel member : members) {
-        String[] body = getMemberLine(member);
-        VIEW.displayMember(body, getColumnWidth());
-      }
+      VIEW.printTable(getMemberHeader(), getMemberContent(members));
     }
+  }
+
+  public void viewTableMembers(MemberModel member) {
+    VIEW.printTable(getMemberHeader(), getMemberContent(members));
   }
 
   public void viewTableMembers() {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      String[] header = getMemberHeader();
-      VIEW.displayMember(header, getColumnWidth());
-
-      for (MemberModel member : members) {
-        String[] body = getMemberLine(member);
-        VIEW.displayMember(body, getColumnWidth());
-      }
+      VIEW.printTable(getMemberHeader(), getMemberContent(members));
     }
   }
 
-  public int[] getColumnWidth() {
-    int[] result = new int[getMemberHeader().length];
+  private ArrayList<ArrayList<String>> getMemberContent() {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
 
     for (MemberModel member : members) {
-      String[] body = getMemberLine(member);
+      ArrayList<String> row = new ArrayList<>();
 
-      for (int i = 0; i < body.length; i++) {
-        if (body[i] == null) {
-          body[i] = "--";
-        }
+      row.add(member.getId());
+      row.add(member.getName());
+      row.add(member.getMail());
+      row.add(member.getPhoneNumber());
+      row.add(String.valueOf(member.getAge()));
+      row.add(String.valueOf(member.getGender()));
 
-        if (body[i].length() > result[i]) {
-          result[i] = body[i].length();
-        }
-      }
+      result.add(row);
     }
+
+    return result;
+  }
+
+  private ArrayList<ArrayList<String>> getMemberContent(ArrayList<MemberModel> members) {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
+
+    for (MemberModel member : members) {
+      ArrayList<String> row = new ArrayList<>();
+
+      row.add(member.getId());
+      row.add(member.getName());
+      row.add(member.getMail());
+      row.add(member.getPhoneNumber());
+      row.add(String.valueOf(member.getAge()));
+      row.add(String.valueOf(member.getGender()));
+
+      result.add(row);
+    }
+
+    return result;
+  }
+
+  private ArrayList<ArrayList<String>> getMemberContent(MemberModel member) {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
+
+    ArrayList<String> row = new ArrayList<>();
+
+    row.add(member.getId());
+    row.add(member.getName());
+    row.add(member.getMail());
+    row.add(member.getPhoneNumber());
+    row.add(String.valueOf(member.getAge()));
+    row.add(String.valueOf(member.getGender()));
+
+    result.add(row);
 
     return result;
   }
