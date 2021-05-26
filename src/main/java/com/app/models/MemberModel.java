@@ -27,8 +27,8 @@ public class MemberModel implements Serializable {
   }
 
   /**
-   * Package Private constructor for instantiating objects in the model.
-   * Can be used when reading stored data.
+   * Package Private constructor for instantiating objects in the model. Can be used when reading
+   * stored data.
    *
    * @param ID
    * @param name
@@ -189,7 +189,7 @@ public class MemberModel implements Serializable {
     return Period.between(birthdate, currentDate).getYears();
   }
 
-  public int getSeniority(){
+  public int getSeniority() {
     LocalDate currentDate = LocalDate.now();
 
     return Period.between(getCreationDate(), currentDate).getYears();
