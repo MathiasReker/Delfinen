@@ -16,7 +16,6 @@ public class ResultController {
   private final ResultView VIEW = new ResultView();
   private final DisciplinesController DISC_CONTROLLER = new DisciplinesController();
 
-
   /**
    * Adds a result time to a competition
    *
@@ -27,7 +26,8 @@ public class ResultController {
     VIEW.displayOptions(DISC_CONTROLLER.styleToArray());
     int styleChoice = InputController.validateOptionRange(DISC_CONTROLLER.styleToArray().length);
 
-    String[] distances = DISC_CONTROLLER.distanceToArray(StyleType.values()[styleChoice - 1], member.getGender());
+    String[] distances =
+        DISC_CONTROLLER.distanceToArray(StyleType.values()[styleChoice - 1], member.getGender());
     VIEW.displayOptions(distances);
     int distanceChoice = InputController.validateOptionRange(distances.length);
 
@@ -43,6 +43,6 @@ public class ResultController {
     DisciplineModel disciplineModel =
         new DisciplineModel(
             DistanceType.values()[distanceChoice - 1], StyleType.values()[styleChoice - 1]);
-    return  new ResultModel(member, time, disciplineModel, competition, placement);
+    return new ResultModel(member, time, disciplineModel, competition, placement);
   }
 }

@@ -31,7 +31,6 @@ public class CompetitionModel implements Serializable {
     return startDate;
   }
 
-
   public String getName() {
     return name;
   }
@@ -43,7 +42,6 @@ public class CompetitionModel implements Serializable {
   public LocalTime getStartTime() { // TODO: Method 'getStartTime()' is never used
     return startTime;
   }
-
 
   public ArrayList<ResultModel> getResult() {
     return result;

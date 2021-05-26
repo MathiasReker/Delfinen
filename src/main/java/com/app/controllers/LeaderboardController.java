@@ -34,7 +34,7 @@ public class LeaderboardController {
     ArrayList<ResultModel> result = new ArrayList<>();
     Collections.sort(allResults);
 
-    //TODO this crashes when there is only one result (less than "amount")
+    // TODO this crashes when there is only one result (less than "amount")
     for (int i = 0; i < amount; i++) {
       if (!memberExist(result, allResults.get(i).getMember())) {
         result.add(allResults.get(i));
@@ -99,8 +99,7 @@ public class LeaderboardController {
     if (!ALL_COMPETITIONS.isEmpty()) {
       VIEW.displayOptions(DISC_CONTROLLER.styleToArray());
 
-      int styleInput =
-          InputController.validateOptionRange(DISC_CONTROLLER.styleToArray().length);
+      int styleInput = InputController.validateOptionRange(DISC_CONTROLLER.styleToArray().length);
       StyleType style = StyleType.values()[styleInput - 1];
       VIEW.displayOptions(DISC_CONTROLLER.distanceToArray(style, GenderType.OTHER));
 

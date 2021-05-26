@@ -21,7 +21,6 @@ public class CompetitionController {
   private CompetitionService competitionService;
   private final MemberController MEMBER_CONTROLLER = new MemberController();
 
-
   public CompetitionController() {
     try {
       competitionService = new CompetitionService(new ConfigService("competitionsBin").getPath());
@@ -79,8 +78,9 @@ public class CompetitionController {
           addResultToCompetition(competition, resultController.addResultTime(member, competition));
           VIEW.printInline("Do you wish to add another result to this member [Y/N]: ");
         } while (InputController.promptYesNo());
-        VIEW.printInline("Do you wish to add results for another member, on this competition [Y/N]: ");
-      }while (InputController.promptYesNo());
+        VIEW.printInline(
+            "Do you wish to add results for another member, on this competition [Y/N]: ");
+      } while (InputController.promptYesNo());
     }
   }
 
@@ -91,7 +91,7 @@ public class CompetitionController {
     } else {
       VIEW.printInline("Competition ID: ");
       CompetitionModel competition = InputController.validateCompetitionsId(competitions);
-      //Todo refactor to have validation of competion closer
+      // Todo refactor to have validation of competion closer
 
       ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
 
