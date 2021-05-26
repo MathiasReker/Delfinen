@@ -95,40 +95,124 @@ class CompetitionController{
     -CompetitionView
     -MemberController
     -Arraylist<CompetitionModel>
-    -CompetitionService 
+    -CompetitionService
+    +createNewCompetition()
+    +addResultToCompetition()
+    -addResultTime(member, competition)
+    +viewCompetitionResults()
+    -arrayWithResultToDisplay(result) String [][]
+    +getMember(id) MemberModel
+    +addResultToCompetition(competition, resultModel)
+    +styleToArray() String []
+    +distanceToArray(style, gender) String []
+    +saveCompetitions()
+    -toArraylist(competitions []) Arraylist<Competionsmodel>
+    -generateId() String
+    -getCompetitionHeader() String[]
+    +getColumnWidth() int[]
+    -getCompetitionLine(competition) String[]
+    +viewTableCompetitions()
 }
 
 class DisciplineController {
     -ArrayList<DisciplineModel>
+    +chosenDiscipline(gender, style) ArrayList<DisciplineModel>
 }
 class InputController{
     -Scanner
     -InputView
+    +promptYesNo() boolean
+    +validateInteger() int
+    +validateOptionRange(max) int
+    +validateName() String
+    +validateMail() String
+    +validateDate() String
+    +validatePhoneNumber() String
+    +validateMemberId(members) String
+    +validateCompetitionsId(competitions) CompetitionModel
+    +validateCompetitionResultTime() String
+    +validateCompetitionTime() String
+    +validatePlacement() String
+    +anyString() String
 }
 class LeaderboardController{
     -CompetitionView
     -CompetitionController
     -ArrayList<CompetitionModel>
+    -findTop(style, distance, amount) ResultModel[]
+    -findDiscipline(style, distance) ArrayList<ResultModel>
+    -arrayWithResultToDisplay(resultTimes) String[][]
+    +displayTop5Results()
+
 }
 class MemberController{
     -MemberView
     -MembershipController
     -ArrayList<MemberModel>
+    +createMember()
+    +addMember(id, name, mail, gender, birthday, phone, competitive, active)
+    -gendersToArray() String[]
+    -renewExpiringMembers()
+    +requestPaymentForUnpaidMembers()
+    +removeMemberFromList(members) ArrayList<MemberModel>
+    +getMemberByID(id, members) MenuModel
+    +getMemberByID(id) MenuModel
+    +saveMembers()
+    +loadMembers() MemberModel[]
+    +membersToStringArray(members) ArrayList<MemberModel>
+    -getMemberLine(member) String[]
+    -getMemberHeader() String[]
+    +viewTableMembers(member)
+    +viewTableMembers(members)
+    +viewTableMembers()
+    +getColumnWidth() int[]
+    +searchMember()
+    +viewMemberById()
+    +getMemberById(id) MemberModel
+    +viewMembersByName()
+    +getMembersByName(name) ArrayList<MemberModel>
+    +viewMembersByMail()
+    +getMembersByMail(mail) ArrayList<MemberModel>
+    +viewMemberByPhoneNumber()
+    +getMemberByPhoneNumber(phoneNumber) ArrayList<MemberModel>
+    +anonymizeMember()
+    +editMember()
+    +generateMemberId() String
+    +getExpiringMembers(memberModels,days) ArrayList<MemberModel>
+    +getUnpaidMembers(ArrayList<MemberModel> memberModels) ArrayList<MemberModel>
 }
-class MembershipController
+class MembershipController{
+  +addActiveMembership(member)
+  +addPassiveMembership(member)
+  -generateMembershipId(member) String
+  +renewMembership(member, durationYears)
+  -createNewMembership() MembershipModel
+}
 class MenuController{
     -MenuView
     -MenuModel
+    +Run()
 }
 class PaymentController{
     -MemberController
     -PaymentView
     -ArrayList<String>
     -PaymentService
+    +updateMemberShip(members)
+    -reviewPaymentFile()
+    +handlePayments()
+    -getValidPayments() ArrayList<MemberModel>
+    -createBackupFile(failedPayments)
+    +displayMembersInArrear()
+    +findMembersInArrear(members) ArrayList<MemberModel>
+    +calcPeriod(date1, date2) String
 }
 class PredictionController{
     -PredictionView
     -MemberController
+    +predictIncome()
+    +predictIncome(days)
+    +predictIncomeInXDays(days) int
 }
 class CompetitionModel{
     -id:String
@@ -142,7 +226,18 @@ class DisciplineModel{
     -distance:DistanceType
     -style:StyleType
 }
-class InputModel
+class InputModel{
+  +isValidDate(date)$ boolean
+  +isValidCompetitionTime(time)$ boolean
+  +isValidCompetitionResultTime(time)$ boolean
+  +isValidName(text)$ boolean
+  +isValidMail(text)$ boolean
+  +isValidPhoneNumber(text)$ boolean
+  +isValidRange(in, min, max)$ boolean
+  +isValidMemberId(in, members)$ boolean
+  +isValidCompetitionId(in, competitions)$ boolean
+
+}
 class MemberModel{
     -id:String
     -name:String
@@ -156,6 +251,9 @@ class MemberModel{
     -disciplines:ArrayList<DisciplineModel>
     -memberships:ArrayList<MembershipModel>
     -deleted:boolean
+    +getAgeGroup() String
+    +getLatestMembership() MembershipModel
+    +getAge() int
 }
 class MembershipModel{
     -id:String
@@ -170,7 +268,9 @@ class MenuModel{
     -MENU_HEADER:String
     -LOAD_TEXT:String
 }
-class PricingModel
+class PricingModel{
+  +calculateMemberPrice(member) int
+}
 class ResultModel{
     -member:MemberModel
     -resultTime:LocalTime
@@ -185,11 +285,23 @@ class GenderType
 <<Enumaration>> DistanceType
 <<Enumaration>> GenderType
 
-class CompetitionView
+class CompetitionView{
+  +displayCompetitionResults(competitionResults)
+  +displayTopResults(competitionResults)
+  +displayCompetition(competition, columnWidth)
+
+}
 class InputView
-class MemberView
-class MenuView
-class PaymentView
+class MemberView{
+  displayMember(member, columnWidth)
+}
+class MenuView{
+  +printMenuOptions(header, menuAction)
+}
+class PaymentView{
+  +displayPayments(payments)
+  +displayArrears(arrears)
+}
 class PredictionView
 class View
 <<abstract>> View
