@@ -500,7 +500,7 @@ public class MemberController {
 
     for (MemberModel member : memberModels) {
       MembershipModel latestMembership = member.getLatestMembership();
-      if (!latestMembership.isPayed() && latestMembership.isActive()) {
+      if (!latestMembership.isPayed()) {
         result.add(member);
       }
     }
