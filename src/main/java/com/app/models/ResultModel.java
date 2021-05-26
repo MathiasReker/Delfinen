@@ -8,6 +8,7 @@ public class ResultModel implements Serializable, Comparable<ResultModel> {
   private LocalTime resultTime;
   private DisciplineModel discipline;
   private CompetitionModel competition;
+  private TrainingModel training;
   private String placement;
 
   public ResultModel(
@@ -21,6 +22,17 @@ public class ResultModel implements Serializable, Comparable<ResultModel> {
     this.discipline = discipline;
     this.competition = competition;
     this.placement = placement;
+  }
+
+  public ResultModel(
+      MemberModel member,
+      LocalTime resultTime,
+      DisciplineModel discipline,
+      TrainingModel training) {
+    this.member = member;
+    this.resultTime = resultTime;
+    this.discipline = discipline;
+    this.training = training;
   }
 
   public CompetitionModel getCompetition() {
