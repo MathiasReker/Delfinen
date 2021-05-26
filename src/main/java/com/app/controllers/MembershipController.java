@@ -70,15 +70,16 @@ public class MembershipController {
     return result;
   }
 
-  public boolean membershipExpiresInDays(MemberModel member,int days){
-    if(member.getLatestMembership().getExpiringDate().minusDays(days).compareTo(LocalDate.now()) <= 0){
+  public boolean membershipExpiresInDays(MemberModel member, int days) {
+    if (member.getLatestMembership().getExpiringDate().minusDays(days).compareTo(LocalDate.now())
+        <= 0) {
       return true;
     }
     return false;
   }
 
-  public boolean membershipUnpaid(MemberModel member){
-    if(member.getLatestMembership().isPayed()){
+  public boolean membershipUnpaid(MemberModel member) {
+    if (member.getLatestMembership().isPayed()) {
       return true;
     }
     return false;
