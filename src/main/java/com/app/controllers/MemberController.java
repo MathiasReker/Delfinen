@@ -93,25 +93,15 @@ public class MemberController {
     return result;
   }
 
-  public void renewExpiringMembers() {
+  public void renewExpiringMembers(int days) {
     ArrayList<MemberModel> expiringMembers =
-        getExpiringMembers(members.toArray(new MemberModel[0]), 30);
+        getExpiringMembers(members.toArray(new MemberModel[0]), days);
 
     if (expiringMembers.size() > 0) {
-      boolean stop = false;
-      while (!stop) { // allow removal of members
-        VIEW.print("Expiring members:"); // show Members
-        viewTableMembers(expiringMembers);
-        VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
-        if (InputController.promptYesNo()) {
-          expiringMembers = removeMemberFromList(expiringMembers);
-        } else {
-          stop = true;
-        }
-      }
-      for (MemberModel member : expiringMembers) {
-        MEMBERSHIP_CONTROLLER.renewMembership(member, 1);
-      }
+      expiringMembers = removeMemberFromList(expiringMembers);
+    }
+    for (MemberModel member : expiringMembers) {
+      MEMBERSHIP_CONTROLLER.renewMembership(member, 1);
     }
   }
 
