@@ -3,9 +3,9 @@ package com.app.models;
 import com.app.models.types.AgeGroupType;
 
 public class PricingModel {
-  private static final int PASSIVE_PRICE = 50000;
-  private static final int JUNIOR_PRICE = 100000;
-  private static final int SENIOR_PRICE = 160000;
+  private static final int PASSIVE_PRICE = 500;
+  private static final int JUNIOR_PRICE = 1000;
+  private static final int SENIOR_PRICE = 1600;
 
   /**
    * Returns hardcoded price based on requirements
@@ -13,17 +13,27 @@ public class PricingModel {
    * @param member member to get price of.
    * @return price
    */
-  public static int calculateMemberPrice(MemberModel member) {
+  public static int getMemberPrice(MemberModel member) {
     if (!member.getLatestMembership().isActive()) {
-      return PASSIVE_PRICE; // Passive price
+      return getPriceInOre(PASSIVE_PRICE);
     }
-    if (member.getAgeGroup().equals(AgeGroupType.JUNIOR.name())) {
-      return JUNIOR_PRICE; // Junior price
+
+    if (member.getAgeGroup().equals(AgeGroupType.JUNIOR)) {
+      return getPriceInOre(JUNIOR_PRICE);
     } else {
       if (member.getAge() > 60) {
-        return (int) (SENIOR_PRICE * 0.75); // 25 % discount
+        int priceWithDiscount = getPriceWithDiscount(SENIOR_PRICE, 25);
+        return getPriceInOre(priceWithDiscount);
       }
-      return SENIOR_PRICE; // Senior price
+
+      return getPriceInOre(SENIOR_PRICE);
     }
+  }
+  private static int getPriceWithDiscount(int price, int discountPercent) {
+    return (int) (price * (100 - discountPercent) / 100.0);
+  }
+
+  private static int getPriceInOre(int price) {
+    return price * 100;
   }
 }
