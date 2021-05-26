@@ -134,4 +134,16 @@ public class DisciplinesController {
     }
     return null;
   }
+
+  //Author: Andreas
+  public String[] getDisciplineDescriptions(ArrayList<DisciplineModel> disciplines) {
+    String[] result = new String[disciplines.size()];
+    for (int i = 0; i < disciplines.size(); i++) {
+      result[i] =
+          disciplines.get(i).getDistance().getMeters()
+              + "m "
+              + disciplines.get(i).getStyle().name();
+    }
+    return result;
+  }
 }

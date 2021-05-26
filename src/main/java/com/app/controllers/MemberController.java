@@ -198,6 +198,7 @@ public class MemberController {
       VIEW.displayMember(header, getColumnWidth());
 
       String[] body = getMemberLine(member);
+
       VIEW.displayMember(body, getColumnWidth());
     }
   }
