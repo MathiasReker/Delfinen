@@ -8,8 +8,12 @@ import java.util.ArrayList;
 
 public class MembershipController {
 
-  public void addMembership(MemberModel member) {
+  public void addActiveMembership(MemberModel member) {
     member.addMembership(createNewMembership(member, LocalDate.now(), 1));
+  }
+
+  public void addPassiveMembership(MemberModel member){
+    member.addMembership((createNewMembership(member,LocalDate.now(),1)));
   }
 
   private String generateMembershipId(MemberModel member) {

@@ -11,6 +11,9 @@ public class PricingModel {
    * @return price
    */
   public static int calculateMemberPrice(MemberModel member) {
+    if(!member.getLatestMembership().isActive()){
+      return 50000;
+    }
     if (member.getAgeGroup().equals(AgeGroupType.JUNIOR.name())) {
       return 100000; // Junior price
     } else {
