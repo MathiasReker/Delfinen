@@ -192,8 +192,11 @@ public class CompetitionController {
     competition.addResult(resultModel);
     saveCompetitions();
   }
-  
 
+  /**
+   *
+   * @return a String Array of converted styles
+   */
   public String[] styleToArray() {
     String[] result = new String[StyleType.values().length];
 
@@ -226,7 +229,6 @@ public class CompetitionController {
   /**
    * Saves the competitions to a file
    */
-
   public void saveCompetitions() {
     try {
       competitionService.saveCompetitionsToFile(competitions.toArray(new CompetitionModel[0]));
