@@ -29,6 +29,7 @@ public class PricingModel {
       return getPriceInOre(SENIOR_PRICE);
     }
   }
+
   private static int getPriceWithDiscount(int price, int discountPercent) {
     return (int) (price * (100 - discountPercent) / 100.0);
   }
