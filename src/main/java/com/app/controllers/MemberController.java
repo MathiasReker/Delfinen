@@ -19,6 +19,7 @@ import java.util.Arrays;
 public class MemberController {
   private final MemberView VIEW;
   private final MembershipController MEMBERSHIP_CONTROLLER = new MembershipController();
+  private final PaymentController PAYMENT_CONTROLLER = new PaymentController();
   private ArrayList<MemberModel> members;
 
   public MemberController() {
@@ -111,7 +112,7 @@ public class MemberController {
 
   public void requestPaymentForUnpaidMembers() {
     try {
-      ArrayList<MemberModel> unpaidMembers = getUnpaidMembers(members);
+      ArrayList<MemberModel> unpaidMembers = PAYMENT_CONTROLLER.getUnpaidMembers(members);
       PaymentRequestService paymentRequester =
           new PaymentRequestService(new ConfigService("paymentRequestsPath").getPath() + "out.txt");
       boolean stop = false;
@@ -481,19 +482,6 @@ public class MemberController {
         if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
           result.add(member);
         }
-      }
-    }
-
-    return result;
-  }
-
-  public ArrayList<MemberModel> getUnpaidMembers(ArrayList<MemberModel> memberModels) {
-    ArrayList<MemberModel> result = new ArrayList<>();
-
-    for (MemberModel member : memberModels) {
-      MembershipModel latestMembership = member.getLatestMembership();
-      if (!latestMembership.isPayed() && latestMembership.isActive()) {
-        result.add(member);
       }
     }
 

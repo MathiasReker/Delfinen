@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class PaymentController {
   private final MemberController MEMBER_CONTROLLER = new MemberController();
+  private final PaymentController PAYMENT_CONTROLLER = new PaymentController();
   private final PaymentsView VIEW = new PaymentsView();
   private ArrayList<String> approvedPaymentsIds = new ArrayList<>();
   private PaymentService paymentService;
@@ -92,7 +93,7 @@ public class PaymentController {
 
   public void displayMembersInArrear() {
     ArrayList<MemberModel> unpaidMembers =
-        MEMBER_CONTROLLER.getUnpaidMembers(MEMBER_CONTROLLER.getMembers());
+        PAYMENT_CONTROLLER.getUnpaidMembers(MEMBER_CONTROLLER.getMembers());
     ArrayList<MemberModel> arrears = findMembersInArrear(unpaidMembers);
 
     int size = arrears.size();
@@ -120,6 +121,19 @@ public class PaymentController {
             < 0) {
           result.add(member);
         }
+      }
+    }
+
+    return result;
+  }
+
+  public ArrayList<MemberModel> getUnpaidMembers(ArrayList<MemberModel> members) {
+    ArrayList<MemberModel> result = new ArrayList<>();
+
+    for (MemberModel member : members) {
+      MembershipModel latestMembership = member.getLatestMembership();
+      if (!latestMembership.isPayed() && latestMembership.isActive()) {
+        result.add(member);
       }
     }
 
