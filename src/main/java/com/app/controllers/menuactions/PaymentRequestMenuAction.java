@@ -1,6 +1,6 @@
 package com.app.controllers.menuactions;
 
-import com.app.controllers.MemberController;
+import com.app.controllers.PaymentController;
 
 public class PaymentRequestMenuAction extends MenuAction {
   public PaymentRequestMenuAction(String description) {
@@ -9,6 +9,6 @@ public class PaymentRequestMenuAction extends MenuAction {
 
   @Override
   public void run() {
-    new MemberController().requestPaymentForUnpaidMembers();
+    new PaymentController().requestPaymentForUnpaidMembers();
   }
 }

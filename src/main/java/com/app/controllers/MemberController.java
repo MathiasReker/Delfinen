@@ -5,7 +5,6 @@ import com.app.models.exceptions.CouldNotLoadMemberException;
 import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.ConfigService;
 import com.app.models.services.MemberService;
-import com.app.models.services.PaymentRequestService;
 import com.app.models.types.GenderType;
 import com.app.views.MemberView;
 
@@ -94,67 +93,38 @@ public class MemberController {
     return result;
   }
 
-  public void renewExpiringMembers() {
+  public void renewExpiringMembers(int days) {
     ArrayList<MemberModel> expiringMembers =
-        getExpiringMembers(members.toArray(new MemberModel[0]), 30);
+        getExpiringMembers(members.toArray(new MemberModel[0]), days);
 
     if (expiringMembers.size() > 0) {
-      boolean stop = false;
-      while (!stop) { // allow removal of members
-        VIEW.print("Expiring members:"); // show Members
-        viewTableMembers(expiringMembers);
-        VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
-        if (InputController.promptYesNo()) {
-          expiringMembers = removeMemberFromList(expiringMembers);
-        } else {
-          stop = true;
-        }
-      }
-      for (MemberModel member : expiringMembers) {
-        MEMBERSHIP_CONTROLLER.renewMembership(member, 1);
-      }
+      expiringMembers = removeMemberFromList(expiringMembers);
+    }
+    for (MemberModel member : expiringMembers) {
+      MEMBERSHIP_CONTROLLER.renewMembership(member, 1);
     }
   }
 
-  public void requestPaymentForUnpaidMembers() {
-    try {
-      ArrayList<MemberModel> unpaidMembers = getUnpaidMembers(members);
-      PaymentRequestService paymentRequester =
-          new PaymentRequestService(new ConfigService("paymentRequestsPath").getPath() + "out.txt");
-      boolean stop = false;
-      while (!stop) { // Allow removal of members
-        VIEW.print("Unpaid members:");
-        viewTableMembers(unpaidMembers);
-        VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
-        if (InputController.promptYesNo()) {
-          unpaidMembers = removeMemberFromList(unpaidMembers);
-        } else {
-          stop = true;
-        }
-        if (!unpaidMembers.isEmpty()) {
-          VIEW.printInline("Are you sure you want to send the payment requests? [Y/n]: ");
-          if (InputController.promptYesNo()) {
-            paymentRequester.createPaymentRequest(unpaidMembers.toArray(new MemberModel[0]));
-          }
-        }
-      }
-
-    } catch (IOException e) {
-      VIEW.printWarning(e.getMessage());
-    }
-  }
-
-  private ArrayList<MemberModel> removeMemberFromList(ArrayList<MemberModel> members) {
+  public ArrayList<MemberModel> removeMemberFromList(ArrayList<MemberModel> members) {
     ArrayList<MemberModel> result = new ArrayList<>(members);
-    VIEW.print("Type member ID to remove: ");
-    String input = InputController.validateMemberId(members);
-    try {
-      MemberModel member = getMemberByID(input, members);
-      result.remove(member);
-    } catch (MemberNotFoundException e) {
-      VIEW.printWarning("Member was not found.");
+    boolean stop = false;
+    while (!stop) { // Allow removal of members
+      VIEW.print("Members:");
+      viewTableMembers(members);
+      VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
+      if (InputController.promptYesNo()) {
+        VIEW.print("Type member ID to remove: ");
+        String input = InputController.validateMemberId(members);
+        try {
+          MemberModel member = getMemberByID(input, members);
+          result.remove(member);
+        } catch (MemberNotFoundException e) {
+          VIEW.printWarning("Member was not found.");
+        }
+      } else {
+        stop = true;
+      }
     }
-
     return result;
   }
 
@@ -494,7 +464,7 @@ public class MemberController {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {
-      if (MEMBERSHIP_CONTROLLER.membershipUnpaid(member)) {
+      if (!MEMBERSHIP_CONTROLLER.membershipUnpaid(member)) {
         result.add(member);
       }
     }

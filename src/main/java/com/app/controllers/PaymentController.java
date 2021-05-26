@@ -4,6 +4,7 @@ import com.app.models.MemberModel;
 import com.app.models.MembershipModel;
 import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.ConfigService;
+import com.app.models.services.PaymentRequestService;
 import com.app.models.services.PaymentService;
 import com.app.views.PaymentsView;
 
@@ -18,19 +19,10 @@ public class PaymentController {
   private ArrayList<String> approvedPaymentsIds = new ArrayList<>();
   private PaymentService paymentService;
 
-  public PaymentController() {
-    try {
-      paymentService = new PaymentService(new ConfigService("paymentRequestsPath").getPath());
-      approvedPaymentsIds = paymentService.getApprovedPayments();
-    } catch (IOException e) {
-      VIEW.printWarning("The payment file could not be loaded.");
-    }
-  }
-
   private void updateMemberShip(ArrayList<MemberModel> members) {
     for (MemberModel member : members) {
       if (member.getMemberships().size() != 0) {
-        member.getLatestMembership().setPayed(true);
+        member.getLatestMembership().setPaid(true);
       }
     }
   }
@@ -52,15 +44,21 @@ public class PaymentController {
   }
 
   public void handlePayments() {
-    reviewPaymentFile();
-    VIEW.printInline("Would you like to update the memberships of valid members? [Y/n]: ");
+    try {
+      paymentService = new PaymentService(new ConfigService("paymentRequestsPath").getPath());
+      approvedPaymentsIds = paymentService.getApprovedPayments();
+      reviewPaymentFile();
+      VIEW.printInline("Would you like to update the memberships of valid members? [Y/n]: ");
 
-    if (InputController.promptYesNo()) {
-      updateMemberShip(getValidPayments());
-      VIEW.printSuccess("Memberships successfully updated.");
-      MEMBER_CONTROLLER.saveMembers();
-    } else {
-      VIEW.printWarning("Canceled.");
+      if (InputController.promptYesNo()) {
+        updateMemberShip(getValidPayments());
+        VIEW.printSuccess("Memberships successfully updated.");
+        MEMBER_CONTROLLER.saveMembers();
+      } else {
+        VIEW.printWarning("Canceled.");
+      }
+    } catch (IOException e) {
+      VIEW.printWarning("The payment file could not be loaded.");
     }
   }
 
@@ -130,5 +128,24 @@ public class PaymentController {
     long test = ChronoUnit.DAYS.between(date1, date2);
 
     return String.valueOf(test);
+  }
+
+  public void requestPaymentForUnpaidMembers() {
+    try {
+      ArrayList<MemberModel> unpaidMembers =
+          MEMBER_CONTROLLER.getUnpaidMembers(MEMBER_CONTROLLER.getMembers());
+      PaymentRequestService paymentRequester =
+          new PaymentRequestService(new ConfigService("paymentRequestsPath").getPath() + "out.txt");
+      unpaidMembers = MEMBER_CONTROLLER.removeMemberFromList(unpaidMembers);
+      if (!unpaidMembers.isEmpty()) {
+        VIEW.printInline("Are you sure you want to send the payment requests? [Y/n]: ");
+        if (InputController.promptYesNo()) {
+          paymentRequester.createPaymentRequest(unpaidMembers.toArray(new MemberModel[0]));
+        }
+      }
+
+    } catch (IOException e) {
+      VIEW.printWarning(e.getMessage());
+    }
   }
 }

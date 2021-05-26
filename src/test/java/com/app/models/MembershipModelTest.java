@@ -36,9 +36,9 @@ public class MembershipModelTest {
   public void testSetPayed() {
     setup();
 
-    test.setPayed(false);
+    test.setPaid(false);
 
-    assertFalse(test.isPayed());
+    assertFalse(test.isPaid());
   }
 
   @Test
