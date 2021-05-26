@@ -26,6 +26,4 @@ public class PricingModel {
       return SENIOR_PRICE; // Senior price
     }
   }
-
-  public static int calculateDifference() {}
 }
