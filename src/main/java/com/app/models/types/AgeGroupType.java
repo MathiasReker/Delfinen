@@ -4,13 +4,13 @@ public enum AgeGroupType {
   JUNIOR(18),
   SENIOR(60);
 
-  private final int AGE_LIMIT;
+  private final int AGE;
 
   AgeGroupType(int age) {
-    this.AGE_LIMIT = age;
+    this.AGE = age;
   }
 
-  public int getAgeLimit() {
-    return AGE_LIMIT;
+  public int getAge() {
+    return AGE;
   }
 }

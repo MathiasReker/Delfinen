@@ -17,7 +17,6 @@ public class MemberModel implements Serializable {
   private GenderType gender;
   private String phoneNumber;
   private String mail;
-  private String ageGroup;
   private boolean competitive;
   private ArrayList<DisciplineModel> disciplines = new ArrayList<>();
   private ArrayList<MembershipModel> memberships = new ArrayList<>();
@@ -155,11 +154,11 @@ public class MemberModel implements Serializable {
     this.disciplines = disciplines;
   }
 
-  public String getAgeGroup() {
-    if (getAge() <= AgeGroupType.JUNIOR.getAgeLimit()) {
-      return AgeGroupType.JUNIOR.name();
+  public AgeGroupType getAgeGroup() {
+    if (getAge() <= AgeGroupType.JUNIOR.getAge()) {
+      return AgeGroupType.JUNIOR;
     } else {
-      return AgeGroupType.SENIOR.name();
+      return AgeGroupType.SENIOR;
     }
   }
 
