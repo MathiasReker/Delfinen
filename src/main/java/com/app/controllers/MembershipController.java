@@ -9,11 +9,11 @@ import java.util.ArrayList;
 public class MembershipController {
 
   public void addActiveMembership(MemberModel member) {
-    member.addMembership(createNewMembership(member, LocalDate.now(), 1));
+    member.addMembership(createNewMembership(member, LocalDate.now(), 1,true));
   }
 
   public void addPassiveMembership(MemberModel member){
-    member.addMembership((createNewMembership(member,LocalDate.now(),1)));
+    member.addMembership((createNewMembership(member,LocalDate.now(),1,false)));
   }
 
   private String generateMembershipId(MemberModel member) {
@@ -40,25 +40,25 @@ public class MembershipController {
     int comparedDate = lastMembership.getExpiringDate().compareTo(LocalDate.now());
 
     if (comparedDate < 0) {
-      MembershipModel newMembership = createNewMembership(member, LocalDate.now(), durationYears);
+      MembershipModel newMembership = createNewMembership(member, LocalDate.now(), durationYears,lastMembership.isActive());
       member.addMembership(newMembership);
     } else if (comparedDate > 0) {
       MembershipModel newMembership =
-          createNewMembership(member, lastMembership.getExpiringDate().plusDays(1), durationYears);
+          createNewMembership(member, lastMembership.getExpiringDate().plusDays(1), durationYears,lastMembership.isActive());
       member.addMembership(newMembership);
     } else {
       MembershipModel newMembership =
-          createNewMembership(member, LocalDate.now().plusDays(1), durationYears);
+          createNewMembership(member, LocalDate.now().plusDays(1), durationYears,lastMembership.isActive());
       member.addMembership(newMembership);
     }
   }
 
   private MembershipModel createNewMembership(
-      MemberModel member, LocalDate date, int durationYears) {
+      MemberModel member, LocalDate date, int durationYears,boolean active) {
     MembershipModel result = new MembershipModel(generateMembershipId(member));
     result.setStartingDate(date);
     result.setExpiringDate(result.getStartingDate().plusYears(durationYears));
-    result.setActive(true);
+    result.setActive(active);
     result.setPayed(false);
 
     return result;
