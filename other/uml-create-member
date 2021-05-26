@@ -1,13 +1,14 @@
 classDiagram
 Main --> App
 App --> MenuController
-
-
-CreateMemberMenuAction --> MemberController
-MemberSubMenuMenuAction --> MenuController
-
+ExitMenuAction ..o MemberSubMenuMenuAction
 ExitMenuAction --|> MenuAction
 CreateMemberMenuAction --|> MenuAction
+CreateMemberMenuAction --> MemberController
+MemberSubMenuMenuAction --> MenuController
+CreateMemberMenuAction ..o MemberSubMenuMenuAction
+
+
 
 MemberController o-- MemberView
 MemberController --> MemberModel
@@ -21,8 +22,7 @@ InputModel --> MemberModel
 InputModel --> CompetitionModel
 MemberModel --> MembershipModel
 
-CompetitionSubMenuMenuAction --> MenuController
-CreateMemberMenuAction --> MemberController
+
 
 
 InputController <.. MemberController
