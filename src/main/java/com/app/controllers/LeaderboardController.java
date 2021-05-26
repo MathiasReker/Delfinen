@@ -106,13 +106,13 @@ public class LeaderboardController {
           InputController.validateOptionRange(
               COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER).length);
       DistanceType distance = DistanceType.values()[distanceInput - 1];
-     
-        ArrayList<ResultModel> top5 = findTop(style, distance, 5);
-     if (top5.isEmpty()) {  
+
+      ArrayList<ResultModel> top5 = findTop(style, distance, 5);
+      if (top5.isEmpty()) {
         VIEW.print("No results for " + distance.getMeters() + " m " + style + ".");
-     } else {
-      VIEW.displayTopResults(arrayWithResultToDisplay(top5));
-     }
+      } else {
+        VIEW.displayTopResults(arrayWithResultToDisplay(top5));
+      }
     }
   }
 }
