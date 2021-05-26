@@ -3,6 +3,10 @@ package com.app.models;
 import com.app.models.types.AgeGroupType;
 
 public class PricingModel {
+  private static final int PASSIVE_PRICE = 50000;
+  private static final int JUNIOR_PRICE = 100000;
+  private static final int SENIOR_PRICE = 160000;
+
   /**
    * Returns hardcoded price based on requirements
    *
