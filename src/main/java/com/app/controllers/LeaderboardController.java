@@ -3,6 +3,7 @@ package com.app.controllers;
 import com.app.models.CompetitionModel;
 import com.app.models.MemberModel;
 import com.app.models.ResultModel;
+import com.app.models.types.AgeGroupType;
 import com.app.models.types.DistanceType;
 import com.app.models.types.GenderType;
 import com.app.models.types.StyleType;
@@ -25,7 +26,7 @@ public class LeaderboardController {
    * @param distance of the style.
    * @return an array of the amount the fastest swimmers in a given discipline.
    */
-  private ArrayList<ResultModel> findTop(StyleType style, DistanceType distance, int amount) {
+  private ArrayList<ResultModel> findTop(StyleType style, DistanceType distance, int amount, GenderType genderType, AgeGroupType ageGroupType) {
     ArrayList<ResultModel> allResults = findDiscipline(style, distance);
     if (allResults.isEmpty()) {
       return allResults; // Changed from null
@@ -36,7 +37,10 @@ public class LeaderboardController {
 
     // TODO this crashes when there is only one result (less than "amount")
     for (int i = 0; i < amount; i++) {
-      if (!memberExist(result, allResults.get(i).getMember())) {
+
+      if (!memberExist(result, allResults.get(i).getMember()) &&
+          allResults.get(i).getMember().getGender()==genderType &&
+      allResults.get(i).getMember().getAgeGroup() == ageGroupType) {
         result.add(allResults.get(i));
       } else {
         if (amount < allResults.size()) {
@@ -97,23 +101,44 @@ public class LeaderboardController {
 
   public void displayTop5Results() {
     if (!ALL_COMPETITIONS.isEmpty()) {
-      VIEW.displayOptions(DISC_CONTROLLER.styleToArray());
 
+      VIEW.displayOptions(DISC_CONTROLLER.styleToArray());
       int styleInput = InputController.validateOptionRange(DISC_CONTROLLER.styleToArray().length);
       StyleType style = StyleType.values()[styleInput - 1];
-      VIEW.displayOptions(DISC_CONTROLLER.distanceToArray(style, GenderType.OTHER));
 
+      VIEW.displayOptions(DISC_CONTROLLER.distanceToArray(style, GenderType.OTHER));
       int distanceInput =
           InputController.validateOptionRange(
               DISC_CONTROLLER.distanceToArray(style, GenderType.OTHER).length);
       DistanceType distance = DistanceType.values()[distanceInput - 1];
 
-      ArrayList<ResultModel> top5 = findTop(style, distance, 5);
-      if (top5.isEmpty()) {
-        VIEW.print("No results for " + distance.getMeters() + " m " + style + ".");
-      } else {
-        VIEW.displayTopResults(arrayWithResultToDisplay(top5));
-      }
+      VIEW.displayOptions(ageGroupToArray());
+      int agegroupInput = InputController.validateOptionRange(ageGroupToArray().length);
+      AgeGroupType ageGroupType = AgeGroupType.values()[agegroupInput-1];
+
+      displayTop5(style, distance, 5, GenderType.MALE, ageGroupType);
+      displayTop5(style, distance, 5, GenderType.FEMALE, ageGroupType);
+      displayTop5(style, distance, 5, GenderType.OTHER, ageGroupType);
+
+
     }
+  }
+
+  public void displayTop5(StyleType style, DistanceType distance, int amount, GenderType genderType, AgeGroupType ageGroupType){
+    ArrayList<ResultModel> top5 = findTop(style, distance, amount, genderType, ageGroupType);
+    if (top5.isEmpty()) {
+      VIEW.print("No results for " + distance.getMeters() + " m in " + style + ", for gender " + genderType.name() +
+      ", in age group " + ageGroupType.name());
+    } else {
+      VIEW.displayTopResults(arrayWithResultToDisplay(top5));
+    }
+  }
+  public String[] ageGroupToArray() {
+    String[] result = new String[AgeGroupType.values().length];
+
+    for (int i = 0; i < result.length; i++) {
+      result[i] = AgeGroupType.values()[i].name();
+    }
+    return result;
   }
 }
