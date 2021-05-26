@@ -3,10 +3,12 @@ package com.app;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.NoSuchElementException;
 
 public class AppTest {
@@ -49,12 +51,18 @@ public class AppTest {
     PrintStream ps = new PrintStream(outContent);
     System.setOut(ps);
 
-    // Input -1 in the menu
-    String input = "5";
+    //Input "5" for exit
+    String input = "5\n";
     InputStream in = new ByteArrayInputStream(input.getBytes());
     System.setIn(in);
 
+    new App().menu();
 
+    String content = outContent.toString(StandardCharsets.UTF_8);
+    String[] contents = content.split("\n");
+    String expected = "\u001B[0;97mPlease choose an option: \u001B[0m";
+
+    Assertions.assertEquals(expected, contents[contents.length-1]);
 
   }
 }
