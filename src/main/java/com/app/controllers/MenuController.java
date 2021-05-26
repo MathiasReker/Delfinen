@@ -3,7 +3,6 @@ package com.app.controllers;
 import com.app.controllers.menuactions.MenuAction;
 import com.app.models.MenuModel;
 import com.app.views.MenuView;
-import com.app.views.TableView;
 
 import java.util.ArrayList;
 
