@@ -61,4 +61,33 @@ public class DisciplinesController {
 
     return result;
   }
+
+  /** @return a String Array of converted styles */
+  public String[] styleToArray() {
+    String[] result = new String[StyleType.values().length];
+
+    for (int i = 0; i < result.length; i++) {
+      result[i] = StyleType.values()[i].name();
+    }
+
+    return result;
+  }
+
+  /**
+   * Creates an array of the distances available based on swim style and gender
+   *
+   * @param style the style we wish to filter on
+   * @param gender the gender we wish to filter on
+   * @return a String array with filtered distances
+   */
+  public String[] distanceToArray(StyleType style, GenderType gender) {
+    ArrayList<DisciplineModel> disciplineModels = chosenDiscipline(gender, style);
+    String[] result = new String[disciplineModels.size()];
+
+    for (int i = 0; i < result.length; i++) {
+      result[i] = String.valueOf(disciplineModels.get(i).getDistance());
+    }
+
+    return result;
+  }
 }

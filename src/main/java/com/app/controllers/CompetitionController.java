@@ -1,15 +1,11 @@
 package com.app.controllers;
 
 import com.app.models.CompetitionModel;
-import com.app.models.DisciplineModel;
 import com.app.models.MemberModel;
 import com.app.models.ResultModel;
 import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.CompetitionService;
 import com.app.models.services.ConfigService;
-import com.app.models.types.DistanceType;
-import com.app.models.types.GenderType;
-import com.app.models.types.StyleType;
 import com.app.views.CompetitionView;
 
 import java.io.IOException;
@@ -64,6 +60,8 @@ public class CompetitionController {
    * from user Uses addResultTime to add a time to the competition
    */
   public void addResultToCompetition() {
+    ResultController resultController = new ResultController();
+
     if (competitions.isEmpty()) {
       VIEW.printWarning("No competitions available.");
     } else {
@@ -71,47 +69,19 @@ public class CompetitionController {
       VIEW.printInline("Competition ID: ");
       CompetitionModel competition = InputController.validateCompetitionsId(competitions);
 
-      MEMBER_CONTROLLER.viewTableMembers();
-      VIEW.printInline("Member ID: ");
-      MemberModel member =
-          getMember(InputController.validateMemberId(new MemberController().getMembers()));
       do {
-        addResultTime(member, competition);
-        VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
+        MEMBER_CONTROLLER.viewTableMembers();
+        VIEW.printInline("Member ID: ");
+        MemberModel member =
+            getMember(InputController.validateMemberId(new MemberController().getMembers()));
+        do {
+          addResultToCompetition(competition, resultController.addResultTime(member, competition));
+          VIEW.printInline("Do you wish to add another result to this member [Y/N]: ");
+        } while (InputController.promptYesNo());
+        VIEW.printInline(
+            "Do you wish to add results for another member, on this competition [Y/N]: ");
       } while (InputController.promptYesNo());
     }
-  }
-
-  /**
-   * Adds a result time to a competition
-   *
-   * @param member Member that we want to add a result to
-   * @param competition The competition that we want to add a result to
-   */
-  public void addResultTime(MemberModel member, CompetitionModel competition) {
-    VIEW.displayOptions(styleToArray());
-    int styleChoice = InputController.validateOptionRange(styleToArray().length);
-
-    String[] distances = distanceToArray(StyleType.values()[styleChoice - 1], member.getGender());
-    VIEW.displayOptions(distances);
-    int distanceChoice = InputController.validateOptionRange(distances.length);
-
-    VIEW.printInline("Result time [mm:ss:SS]: ");
-    LocalTime time =
-        LocalTime.parse(
-            "00:" + InputController.validateCompetitionResultTime(),
-            DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
-
-    VIEW.printInline("Placement: ");
-    String placement = InputController.validatePlacement();
-
-    DisciplineModel disciplineModel =
-        new DisciplineModel(
-            DistanceType.values()[distanceChoice - 1], StyleType.values()[styleChoice - 1]);
-
-    addResultToCompetition(
-        competition, new ResultModel(member, time, disciplineModel, competition, placement));
-    VIEW.printSuccess("Result successfully added.");
   }
 
   /** View competition results based on a competition id */
@@ -121,6 +91,7 @@ public class CompetitionController {
     } else {
       VIEW.printInline("Competition ID: ");
       CompetitionModel competition = InputController.validateCompetitionsId(competitions);
+      // Todo refactor to have validation of competion closer
 
       ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
 
@@ -176,37 +147,6 @@ public class CompetitionController {
   public void addResultToCompetition(CompetitionModel competition, ResultModel resultModel) {
     competition.addResult(resultModel);
     saveCompetitions();
-  }
-
-  /** @return a String Array of converted styles */
-  public String[] styleToArray() {
-    String[] result = new String[StyleType.values().length];
-
-    for (int i = 0; i < result.length; i++) {
-      result[i] = StyleType.values()[i].name();
-    }
-
-    return result;
-  }
-
-  /**
-   * Creates an array of the distances available based on swim style and gender
-   *
-   * @param style the style we wish to filter on
-   * @param gender the gender we wish to filter on
-   * @return a String array with filtered distances
-   */
-  public String[] distanceToArray(StyleType style, GenderType gender) {
-    DisciplinesController disciplinesController = new DisciplinesController();
-    ArrayList<DisciplineModel> disciplineModels =
-        disciplinesController.chosenDiscipline(gender, style);
-    String[] result = new String[disciplineModels.size()];
-
-    for (int i = 0; i < result.length; i++) {
-      result[i] = String.valueOf(disciplineModels.get(i).getDistance());
-    }
-
-    return result;
   }
 
   /** Saves the competitions to a file */
