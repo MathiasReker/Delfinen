@@ -8,7 +8,6 @@ import com.app.models.services.MemberService;
 import com.app.models.services.PaymentRequestService;
 import com.app.models.types.GenderType;
 import com.app.views.MemberView;
-import com.app.views.TableView;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -212,19 +211,19 @@ public class MemberController {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      new TableView(getMemberHeader(), getMemberContent(members)).printTable();
+      VIEW.printTable(getMemberHeader(), getMemberContent(members));
     }
   }
 
   public void viewTableMembers(MemberModel member) {
-    new TableView(getMemberHeader(), getMemberContent(member)).printTable();
+    VIEW.printTable(getMemberHeader(), getMemberContent(members));
   }
 
   public void viewTableMembers() {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      new TableView(getMemberHeader(), getMemberContent()).printTable();
+      VIEW.printTable(getMemberHeader(), getMemberContent(members));
     }
   }
 

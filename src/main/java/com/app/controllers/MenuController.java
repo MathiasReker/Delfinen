@@ -49,6 +49,6 @@ public class MenuController {
       content.add(row);
     }
 
-    new TableView(header, content).printTable();
+    VIEW.printTable(header, content);
   }
 }
