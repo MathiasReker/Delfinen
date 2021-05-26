@@ -33,5 +33,4 @@ public class TrainingService {
 
     return result;
   }
-
 }

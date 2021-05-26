@@ -42,5 +42,4 @@ public class TrainingModel implements Serializable {
   public void addResult(ResultModel result) {
     this.result.add(result);
   }
-
 }

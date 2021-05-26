@@ -18,5 +18,4 @@ public class TrainingView extends View {
     System.out.println(
         "-----------------------------------------------------------------------------");
   }
-
 }

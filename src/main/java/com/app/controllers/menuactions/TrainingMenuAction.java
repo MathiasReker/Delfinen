@@ -13,12 +13,11 @@ public class TrainingMenuAction extends MenuAction {
   }
 
   MenuAction[] menu() {
-    return new MenuAction[]{
-        new CreateTrainingMenuMenuAction("Create Training"),
-        new AddTrainingResultMenuAction("Add Training Results"),
-        new ViewTrainingResultsMenuAction("View Training Results"),
-        new ExitMenuAction("Back")
+    return new MenuAction[] {
+      new CreateTrainingMenuMenuAction("Create Training"),
+      new AddTrainingResultMenuAction("Add Training Results"),
+      new ViewTrainingResultsMenuAction("View Training Results"),
+      new ExitMenuAction("Back")
     };
   }
-
 }

@@ -111,7 +111,8 @@ public class TrainingController {
 
   public void saveCompetitions() {
     try {
-      trainingService.saveTrainingsToFile(trainings.toArray(new TrainingModel[0])); //Make a Training service
+      trainingService.saveTrainingsToFile(
+          trainings.toArray(new TrainingModel[0])); // Make a Training service
     } catch (IOException e) {
       VIEW.printWarning(e.getMessage());
     }
@@ -173,5 +174,4 @@ public class TrainingController {
 
     return String.valueOf(newId);
   }
-
 }
