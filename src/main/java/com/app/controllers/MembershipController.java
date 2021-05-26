@@ -72,10 +72,10 @@ public class MembershipController {
 
   public boolean membershipExpiresInDays(MemberModel member, int days) {
     return member.getLatestMembership().getExpiringDate().minusDays(days).compareTo(LocalDate.now())
-        <= 0);
+        <= 0;
   }
 
   public boolean membershipUnpaid(MemberModel member) {
-   return member.getLatestMembership().isPayed());
+   return member.getLatestMembership().isPayed();
   }
 }
