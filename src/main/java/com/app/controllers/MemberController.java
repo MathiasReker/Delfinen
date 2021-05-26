@@ -1,7 +1,6 @@
 package com.app.controllers;
 
 import com.app.models.MemberModel;
-import com.app.models.MembershipModel;
 import com.app.models.exceptions.CouldNotLoadMemberException;
 import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.ConfigService;
@@ -483,12 +482,8 @@ public class MemberController {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {
-      MembershipModel latestMembership = member.getLatestMembership();
-      LocalDate expiringDate = latestMembership.getExpiringDate();
-      if (expiringDate != null) {
-        if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
-          result.add(member);
-        }
+      if (MEMBERSHIP_CONTROLLER.membershipExpiresInDays(member, days)) {
+        result.add(member);
       }
     }
 
@@ -499,12 +494,11 @@ public class MemberController {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {
-      MembershipModel latestMembership = member.getLatestMembership();
-      if (!latestMembership.isPayed()) {
+      if (MEMBERSHIP_CONTROLLER.membershipUnpaid(member)) {
         result.add(member);
       }
     }
-
+    
     return result;
   }
 }
