@@ -23,6 +23,7 @@ public class CompetitionController {
   private final CompetitionView VIEW = new CompetitionView();
   private ArrayList<CompetitionModel> competitions;
   private CompetitionService competitionService;
+  private final MemberController MEMBER_CONTROLLER = new MemberController();
 
   public CompetitionController() {
     try {
@@ -38,6 +39,7 @@ public class CompetitionController {
     return competitions;
   }
 
+  /** Create a new competition, uses input controller to get input from user */
   public void createNewCompetition() {
     VIEW.printInline("Name of competition: ");
     String competitionName = InputController.anyString();
@@ -57,19 +59,35 @@ public class CompetitionController {
     saveCompetitions();
   }
 
+  /**
+   * Adds a result to a competition if the competition exists, uses input controller to get input
+   * from user Uses addResultTime to add a time to the competition
+   */
   public void addResultToCompetition() {
-    VIEW.printInline("Competition ID: ");
-    CompetitionModel competition = InputController.validateCompetitionsId(competitions);
+    if (competitions.isEmpty()) {
+      VIEW.printWarning("No competitions available.");
+    } else {
+      viewTableCompetitions();
+      VIEW.printInline("Competition ID: ");
+      CompetitionModel competition = InputController.validateCompetitionsId(competitions);
 
-    VIEW.printInline("Member ID: ");
-    MemberModel member =
-        getMember(InputController.validateMemberId(new MemberController().getMembers()));
-    do {
-      addResultTime(member, competition);
-      VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
-    } while (InputController.promptYesNo());
+      MEMBER_CONTROLLER.viewTableMembers();
+      VIEW.printInline("Member ID: ");
+      MemberModel member =
+          getMember(InputController.validateMemberId(new MemberController().getMembers()));
+      do {
+        addResultTime(member, competition);
+        VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
+      } while (InputController.promptYesNo());
+    }
   }
 
+  /**
+   * Adds a result time to a competition
+   *
+   * @param member Member that we want to add a result to
+   * @param competition The competition that we want to add a result to
+   */
   public void addResultTime(MemberModel member, CompetitionModel competition) {
     VIEW.displayOptions(styleToArray());
     int styleChoice = InputController.validateOptionRange(styleToArray().length);
@@ -84,9 +102,8 @@ public class CompetitionController {
             "00:" + InputController.validateCompetitionResultTime(),
             DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
-    String placement;
     VIEW.printInline("Placement: ");
-    placement = InputController.validatePlacement();
+    String placement = InputController.validatePlacement();
 
     DisciplineModel disciplineModel =
         new DisciplineModel(
@@ -97,6 +114,7 @@ public class CompetitionController {
     VIEW.printSuccess("Result successfully added.");
   }
 
+  /** View competition results based on a competition id */
   public void viewCompetitionResults() {
     if (competitions.isEmpty()) {
       VIEW.print("No competitions available.");
@@ -110,6 +128,12 @@ public class CompetitionController {
     }
   }
 
+  /**
+   * Converts and array of result models to a 2d String array
+   *
+   * @param resultTimes Arraylist of result times, that needs to be converted to a string
+   * @return A 2d String array
+   */
   private String[][] arrayWithResultToDisplay(ArrayList<ResultModel> resultTimes) {
     String[][] result = new String[resultTimes.size()][4];
 
@@ -127,6 +151,10 @@ public class CompetitionController {
     return result;
   }
 
+  /**
+   * @param id of the member that needs to be returned
+   * @return a memeber based on id, if it exists
+   */
   public MemberModel getMember(String id) {
     MemberController memberController = new MemberController();
     MemberModel result = null;
@@ -150,6 +178,7 @@ public class CompetitionController {
     saveCompetitions();
   }
 
+  /** @return a String Array of converted styles */
   public String[] styleToArray() {
     String[] result = new String[StyleType.values().length];
 
@@ -160,6 +189,13 @@ public class CompetitionController {
     return result;
   }
 
+  /**
+   * Creates an array of the distances available based on swim style and gender
+   *
+   * @param style the style we wish to filter on
+   * @param gender the gender we wish to filter on
+   * @return a String array with filtered distances
+   */
   public String[] distanceToArray(StyleType style, GenderType gender) {
     DisciplinesController disciplinesController = new DisciplinesController();
     ArrayList<DisciplineModel> disciplineModels =
@@ -173,6 +209,7 @@ public class CompetitionController {
     return result;
   }
 
+  /** Saves the competitions to a file */
   public void saveCompetitions() {
     try {
       competitionService.saveCompetitionsToFile(competitions.toArray(new CompetitionModel[0]));
@@ -181,6 +218,12 @@ public class CompetitionController {
     }
   }
 
+  /**
+   * Converts an array to an arraylist, this is used for loading the competitions into the program
+   *
+   * @param competitions the competitions that need to be converted
+   * @return a arraylist of competitions
+   */
   private ArrayList<CompetitionModel> toArraylist(CompetitionModel[] competitions) {
     ArrayList<CompetitionModel> result = new ArrayList<>();
     Collections.addAll(result, competitions);
@@ -188,6 +231,11 @@ public class CompetitionController {
     return result;
   }
 
+  /**
+   * Generates the available ID
+   *
+   * @return a String of the next available ID
+   */
   private String generateId() {
     int oldId = 0;
     if (!competitions.isEmpty()) {
@@ -196,5 +244,61 @@ public class CompetitionController {
     int newId = oldId + 1;
 
     return String.valueOf(newId);
+  }
+
+  /** @return a Stringarray of the competition header */
+  private String[] getCompetitionHeader() {
+    return new String[] {"ID", "Name", "Date", "Start time"};
+  }
+
+  /** @return a int array with the columwidth */
+  public int[] getColumnWidth() {
+    int[] result = new int[getCompetitionHeader().length];
+
+    for (CompetitionModel competiton : competitions) {
+      String[] body = getCompetitionLine(competiton);
+
+      for (int i = 0; i < body.length; i++) {
+        if (body[i] == null) {
+          body[i] = "--";
+        }
+
+        if (body[i].length() > result[i]) {
+          result[i] = body[i].length();
+        }
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Converts a competition into a String array
+   *
+   * @param competition that needs to be converted to a String Array
+   * @return the the competition as a String array
+   */
+  private String[] getCompetitionLine(CompetitionModel competition) {
+    return new String[] {
+      competition.getId(),
+      competition.getName(),
+      String.valueOf(competition.getStartDate()),
+      String.valueOf(competition.getStartTime())
+    };
+  }
+
+  /** creates a view for the user of the competitions available */
+  public void viewTableCompetitions() {
+    if (competitions.isEmpty()) {
+      VIEW.printWarning("No competitions.");
+    } else {
+      String[] header = getCompetitionHeader();
+      VIEW.displayCompetition(header, getColumnWidth());
+
+      for (CompetitionModel competition : competitions) {
+        String[] body = getCompetitionLine(competition);
+        VIEW.displayCompetition(body, getColumnWidth());
+      }
+    }
   }
 }
