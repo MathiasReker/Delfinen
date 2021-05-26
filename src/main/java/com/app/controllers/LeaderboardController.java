@@ -14,6 +14,7 @@ import java.util.Collections;
 public class LeaderboardController {
   private final CompetitionView VIEW = new CompetitionView();
   private final CompetitionController COMPETITION_CONTROLLER = new CompetitionController();
+  private final DisciplinesController DISC_CONTROLLER = new DisciplinesController();
   private final ArrayList<CompetitionModel> ALL_COMPETITIONS =
       COMPETITION_CONTROLLER.getCompetitions();
 
@@ -33,6 +34,7 @@ public class LeaderboardController {
     ArrayList<ResultModel> result = new ArrayList<>();
     Collections.sort(allResults);
 
+    //TODO this crashes when there is only one result (less than "amount")
     for (int i = 0; i < amount; i++) {
       if (!memberExist(result, allResults.get(i).getMember())) {
         result.add(allResults.get(i));
@@ -95,16 +97,16 @@ public class LeaderboardController {
 
   public void displayTop5Results() {
     if (!ALL_COMPETITIONS.isEmpty()) {
-      VIEW.displayOptions(COMPETITION_CONTROLLER.styleToArray());
+      VIEW.displayOptions(DISC_CONTROLLER.styleToArray());
 
       int styleInput =
-          InputController.validateOptionRange(COMPETITION_CONTROLLER.styleToArray().length);
+          InputController.validateOptionRange(DISC_CONTROLLER.styleToArray().length);
       StyleType style = StyleType.values()[styleInput - 1];
-      VIEW.displayOptions(COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER));
+      VIEW.displayOptions(DISC_CONTROLLER.distanceToArray(style, GenderType.OTHER));
 
       int distanceInput =
           InputController.validateOptionRange(
-              COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER).length);
+              DISC_CONTROLLER.distanceToArray(style, GenderType.OTHER).length);
       DistanceType distance = DistanceType.values()[distanceInput - 1];
 
       ArrayList<ResultModel> top5 = findTop(style, distance, 5);
