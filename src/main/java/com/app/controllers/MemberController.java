@@ -5,7 +5,6 @@ import com.app.models.exceptions.CouldNotLoadMemberException;
 import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.ConfigService;
 import com.app.models.services.MemberService;
-import com.app.models.services.PaymentRequestService;
 import com.app.models.types.GenderType;
 import com.app.views.MemberView;
 
