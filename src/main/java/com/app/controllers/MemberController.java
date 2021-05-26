@@ -1,5 +1,6 @@
 package com.app.controllers;
 
+import com.app.models.DisciplineModel;
 import com.app.models.MemberModel;
 import com.app.models.exceptions.CouldNotLoadMemberException;
 import com.app.models.exceptions.MemberNotFoundException;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 public class MemberController {
   private final MemberView VIEW;
   private final MembershipController MEMBERSHIP_CONTROLLER = new MembershipController();
+  private final DisciplinesController DISC_CONTROLLER = new DisciplinesController();
   private ArrayList<MemberModel> members;
 
   public MemberController() {
@@ -470,5 +472,18 @@ public class MemberController {
     }
 
     return result;
+  }
+  private void addDisciplineToMember(MemberModel member, DisciplineModel discipline) {
+    if (member.getDisciplines().isEmpty()) {
+      member.addDiscipline(discipline);
+    } else if (!DISC_CONTROLLER.lookupDiscipline(member.getDisciplines(), discipline)) {
+      member.addDiscipline(discipline);
+    }
+  }
+
+  public void addDisciplineToMember(MemberModel member){
+    VIEW.printInline("Which discipline do you want to add");
+    DisciplineModel discipline;
+
   }
 }
