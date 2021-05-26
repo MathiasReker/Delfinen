@@ -487,7 +487,7 @@ public class MemberController {
   }
 
   public void addDisciplineToMember(MemberModel member) {
-    VIEW.printInline("Which discipline do you want to add");
+    VIEW.print("Which discipline do you want to add");
     DisciplineModel discipline =
         DISC_CONTROLLER.getDisciplineModelStyleAndDistance(member.getGender());
     addDiscipline(member, discipline);
