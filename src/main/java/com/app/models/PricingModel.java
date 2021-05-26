@@ -27,5 +27,7 @@ public class PricingModel {
     }
   }
 
-  public static int calculateDifference() {}
+  public static int calculateDifference() {
+    return 0; //TODO not done method
+  }
 }
