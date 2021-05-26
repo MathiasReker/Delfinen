@@ -92,7 +92,7 @@ public class DisciplinesController {
 
     return result;
   }
-
+  // Author: Andreas
   public boolean lookupDiscipline(
       ArrayList<DisciplineModel> disciplines, DisciplineModel discipline) {
     for (DisciplineModel disciplineModel : disciplines) {
@@ -101,7 +101,7 @@ public class DisciplinesController {
     }
     return false;
   }
-
+  // Author: Andreas
   public DisciplineModel getDiscipline(
       ArrayList<DisciplineModel> disciplines, DisciplineModel discipline) {
     for (DisciplineModel disciplineModel : disciplines) {
@@ -113,6 +113,7 @@ public class DisciplinesController {
     return null;
   }
 
+  // Author: Mohammed, Andreas
   public DisciplineModel getDisciplineModelStyleAndDistance(GenderType gender) {
 
     VIEW.displayOptions(styleToArray());
@@ -122,12 +123,12 @@ public class DisciplinesController {
     VIEW.displayOptions(distances);
     int distanceChoice = InputController.validateOptionRange(distances.length);
 
-    StyleType style = StyleType.values()[styleChoice-1];
-    DistanceType distance = DistanceType.values()[distanceChoice-1];
+    StyleType style = StyleType.values()[styleChoice - 1];
+    DistanceType distance = DistanceType.values()[distanceChoice - 1];
 
-    ArrayList<DisciplineModel> temp = chosenDiscipline(gender,style);
-    for(DisciplineModel discipline : temp){
-      if(discipline.getDistance().equals(distance)){
+    ArrayList<DisciplineModel> temp = chosenDiscipline(gender, style);
+    for (DisciplineModel discipline : temp) {
+      if (discipline.getDistance().equals(distance)) {
         return discipline;
       }
     }

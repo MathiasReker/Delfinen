@@ -401,7 +401,10 @@ public class MemberController {
         try {
           MemberModel member = getMemberByID(id);
 
-          String[] options = new String[] {"Name", "Mail", "Phone number", "Birthday [dd/MM/yyyy]"};
+          String[] options =
+              new String[] {
+                "Name", "Mail", "Phone number", "Birthday [dd/MM/yyyy]", "Add Discipline"
+              };
           VIEW.displayOptions(options);
 
           int index = InputController.validateOptionRange(options.length) - 1;
@@ -421,8 +424,9 @@ public class MemberController {
             String birthday = InputController.validateDate();
             member.setBirthdate(
                 LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+          } else if (4 == index) {
+            addDisciplineToMember(member);
           }
-
           saveMembers();
         } catch (MemberNotFoundException e) {
           e.printStackTrace();
@@ -473,7 +477,8 @@ public class MemberController {
 
     return result;
   }
-  private void addDisciplineToMember(MemberModel member, DisciplineModel discipline) {
+
+  private void addDiscipline(MemberModel member, DisciplineModel discipline) {
     if (member.getDisciplines().isEmpty()) {
       member.addDiscipline(discipline);
     } else if (!DISC_CONTROLLER.lookupDiscipline(member.getDisciplines(), discipline)) {
@@ -481,9 +486,10 @@ public class MemberController {
     }
   }
 
-  public void addDisciplineToMember(MemberModel member){
+  public void addDisciplineToMember(MemberModel member) {
     VIEW.printInline("Which discipline do you want to add");
-    DisciplineModel discipline;
-
+    DisciplineModel discipline =
+        DISC_CONTROLLER.getDisciplineModelStyleAndDistance(member.getGender());
+    addDiscipline(member, discipline);
   }
 }
