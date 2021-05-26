@@ -1,6 +1,7 @@
 package com.app.controllers;
 
 import com.app.models.CompetitionModel;
+import com.app.models.MemberModel;
 import com.app.models.ResultModel;
 import com.app.models.types.DistanceType;
 import com.app.models.types.GenderType;
@@ -23,21 +24,40 @@ public class LeaderboardController {
    * @param distance of the style.
    * @return an array of the amount the fastest swimmers in a given discipline.
    */
-  private ResultModel[] findTop(StyleType style, DistanceType distance, int amount) {
+  private ArrayList<ResultModel> findTop(StyleType style, DistanceType distance, int amount) {
     ArrayList<ResultModel> allResults = findDiscipline(style, distance);
-
-    if (allResults.size() < amount) {
-      amount = allResults.size();
+    if (allResults.isEmpty()) {
+      return allResults; // Changed from null
     }
 
-    ResultModel[] result = new ResultModel[amount];
+    ArrayList<ResultModel> result = new ArrayList<>();
     Collections.sort(allResults);
 
-    for (int i = 0; i < result.length; i++) {
-      result[i] = allResults.get(i);
+    for (int i = 0; i < amount; i++) {
+      if (!memberExist(result, allResults.get(i).getMember())) {
+        result.add(allResults.get(i));
+      } else {
+        if (amount < allResults.size()) {
+          amount++;
+        }
+      }
     }
 
     return result;
+  }
+
+  private boolean memberExist(ArrayList<ResultModel> finals, MemberModel member) {
+
+    if (finals.isEmpty()) {
+      return false;
+    }
+    for (ResultModel aFinal : finals) {
+      if (aFinal.getMember().getId().equals(member.getId())) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   private ArrayList<ResultModel> findDiscipline(StyleType style, DistanceType distance) {
@@ -87,10 +107,12 @@ public class LeaderboardController {
               COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER).length);
       DistanceType distance = DistanceType.values()[distanceInput - 1];
 
-      ArrayList<ResultModel> top5 = new ArrayList<>();
-      Collections.addAll(top5, findTop(style, distance, 5));
-
-      VIEW.displayTopResults(arrayWithResultToDisplay(top5));
+      ArrayList<ResultModel> top5 = findTop(style, distance, 5);
+      if (top5.isEmpty()) {
+        VIEW.print("No results for " + distance.getMeters() + " m " + style + ".");
+      } else {
+        VIEW.displayTopResults(arrayWithResultToDisplay(top5));
+      }
     }
   }
 }

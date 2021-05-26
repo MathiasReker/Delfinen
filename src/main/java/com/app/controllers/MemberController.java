@@ -1,7 +1,6 @@
 package com.app.controllers;
 
 import com.app.models.MemberModel;
-import com.app.models.MembershipModel;
 import com.app.models.exceptions.CouldNotLoadMemberException;
 import com.app.models.exceptions.MemberNotFoundException;
 import com.app.models.services.ConfigService;
@@ -51,9 +50,12 @@ public class MemberController {
     VIEW.printInline("Competitive [Y/n]: ");
     boolean competitive = InputController.promptYesNo();
 
+    VIEW.printInline("Active member [Y/n]: ");
+    boolean active = InputController.promptYesNo();
+
     String id = generateMemberId();
 
-    addMember(id, name, mail, gender, birthday, phone, competitive);
+    addMember(id, name, mail, gender, birthday, phone, competitive, active);
     saveMembers();
   }
 
@@ -64,7 +66,8 @@ public class MemberController {
       GenderType gender,
       String birthday,
       String phone,
-      boolean competitive) {
+      boolean competitive,
+      boolean active) {
     MemberModel member = new MemberModel();
     member.setID(id);
     member.setName(name);
@@ -73,8 +76,12 @@ public class MemberController {
     member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     member.setPhoneNumber(phone);
     member.setCompetitive(competitive);
-    MEMBERSHIP_CONTROLLER.addMembership(member);
 
+    if (active) {
+      MEMBERSHIP_CONTROLLER.addActiveMembership(member);
+    } else {
+      MEMBERSHIP_CONTROLLER.addPassiveMembership(member);
+    }
     members.add(member);
   }
 
@@ -177,7 +184,7 @@ public class MemberController {
   public void saveMembers() {
     try {
       new MemberService(new ConfigService("membersBin").getPath())
-          .saveMembers(members.toArray(new MemberModel[0]));
+          .save(members.toArray(new MemberModel[0]));
       VIEW.printSuccess("The member is successfully saved.");
     } catch (IOException e) {
       VIEW.printWarning(e.getMessage());
@@ -186,7 +193,7 @@ public class MemberController {
 
   public MemberModel[] loadMembers() throws CouldNotLoadMemberException {
     try {
-      return new MemberService(new ConfigService("membersBin").getPath()).loadMembers();
+      return new MemberService(new ConfigService("membersBin").getPath()).load();
     } catch (IOException | ClassNotFoundException e) {
       return new MemberModel[0];
     }
@@ -475,12 +482,8 @@ public class MemberController {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {
-      MembershipModel latestMembership = member.getLatestMembership();
-      LocalDate expiringDate = latestMembership.getExpiringDate();
-      if (expiringDate != null) {
-        if (expiringDate.minusDays(days).compareTo(LocalDate.now()) <= 0) {
-          result.add(member);
-        }
+      if (MEMBERSHIP_CONTROLLER.membershipExpiresInDays(member, days)) {
+        result.add(member);
       }
     }
 
@@ -491,8 +494,7 @@ public class MemberController {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {
-      MembershipModel latestMembership = member.getLatestMembership();
-      if (!latestMembership.isPayed() && latestMembership.isActive()) {
+      if (MEMBERSHIP_CONTROLLER.membershipUnpaid(member)) {
         result.add(member);
       }
     }
