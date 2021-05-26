@@ -51,9 +51,12 @@ public class MemberController {
     VIEW.printInline("Competitive [Y/n]: ");
     boolean competitive = InputController.promptYesNo();
 
+    VIEW.printInline("Active member [Y/n]: ");
+    boolean active = InputController.promptYesNo();
+
     String id = generateMemberId();
 
-    addMember(id, name, mail, gender, birthday, phone, competitive);
+    addMember(id, name, mail, gender, birthday, phone, competitive, active);
     saveMembers();
   }
 
@@ -64,7 +67,8 @@ public class MemberController {
       GenderType gender,
       String birthday,
       String phone,
-      boolean competitive) {
+      boolean competitive,
+      boolean active) {
     MemberModel member = new MemberModel();
     member.setID(id);
     member.setName(name);
@@ -73,8 +77,12 @@ public class MemberController {
     member.setBirthdate(LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
     member.setPhoneNumber(phone);
     member.setCompetitive(competitive);
-    MEMBERSHIP_CONTROLLER.addMembership(member);
 
+    if (active) {
+      MEMBERSHIP_CONTROLLER.addActiveMembership(member);
+    } else {
+      MEMBERSHIP_CONTROLLER.addPassiveMembership(member);
+    }
     members.add(member);
   }
 
@@ -492,7 +500,7 @@ public class MemberController {
 
     for (MemberModel member : memberModels) {
       MembershipModel latestMembership = member.getLatestMembership();
-      if (!latestMembership.isPayed() && latestMembership.isActive()) {
+      if (!latestMembership.isPayed()) {
         result.add(member);
       }
     }
