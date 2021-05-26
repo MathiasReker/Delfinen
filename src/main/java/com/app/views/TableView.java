@@ -6,30 +6,30 @@ import com.app.views.types.ColorTextType;
 import java.util.ArrayList;
 
 public class TableView {
-  private final ArrayList<String> headers;
-  private final ArrayList<ArrayList<String>> table;
-  private final ArrayList<Integer> maxLength;
+  private final String[] HEADERS;
+  private final ArrayList<ArrayList<String>> BODY;
+  private final ArrayList<Integer> MAX_LENGTH;
 
-  public TableView(ArrayList<String> headersIn, ArrayList<ArrayList<String>> content) {
-    this.headers = headersIn;
-    this.maxLength = new ArrayList<>();
+  public TableView(String[] headerIn, ArrayList<ArrayList<String>> bodyIn) {
+    this.HEADERS = headerIn;
+    this.MAX_LENGTH = new ArrayList<>();
 
-    for (String header : headers) {
-      maxLength.add(header.length());
+    for (String header : HEADERS) {
+      MAX_LENGTH.add(header.length());
     }
 
-    this.table = content;
+    this.BODY = bodyIn;
     calcMaxLengthAll();
   }
 
   public void printTable() {
     StringBuilder padding = new StringBuilder();
-    int tablePadding = 2;
+    int tablePadding = 1;
     padding.append(" ".repeat(tablePadding));
 
     // Create rowSeparator
     StringBuilder sbRowSep = new StringBuilder();
-    for (Integer i : maxLength) {
+    for (Integer i : MAX_LENGTH) {
       sbRowSep.append("+");
       char separator = '-';
       sbRowSep.append(String.valueOf(separator).repeat(Math.max(0, i + (tablePadding * 2))));
@@ -44,12 +44,12 @@ public class TableView {
 
     // Create header
     sb.append("|");
-    for (int i = 0; i < headers.size(); i++) {
+    for (int i = 0; i < HEADERS.length; i++) {
       sb.append(padding);
-      sb.append(new ColorTextType(headers.get(i), ColorKeyType.BLUE_BOLD_BRIGHT));
+      sb.append(new ColorTextType(HEADERS[i], ColorKeyType.BLUE_BOLD_BRIGHT));
 
       // Fill up with empty spaces
-      sb.append(" ".repeat(Math.max(0, (maxLength.get(i) - headers.get(i).length()))));
+      sb.append(" ".repeat(Math.max(0, (MAX_LENGTH.get(i) - HEADERS[i].length()))));
       sb.append(padding);
       sb.append("|");
     }
@@ -58,7 +58,7 @@ public class TableView {
     sb.append("\n");
 
     // Create body
-    for (ArrayList<String> tempRow : table) {
+    for (ArrayList<String> tempRow : BODY) {
       // New row
       sb.append("|");
       for (int j = 0; j < tempRow.size(); j++) {
@@ -66,7 +66,7 @@ public class TableView {
         sb.append(new ColorTextType(tempRow.get(j), ColorKeyType.WHITE_BRIGHT));
 
         // Add empty spaces
-        sb.append(" ".repeat(Math.max(0, (maxLength.get(j) - tempRow.get(j).length()))));
+        sb.append(" ".repeat(Math.max(0, (MAX_LENGTH.get(j) - tempRow.get(j).length()))));
         sb.append(padding);
         sb.append("|");
       }
@@ -74,15 +74,16 @@ public class TableView {
       sb.append(rowSeparator);
       sb.append("\n");
     }
+
     System.out.println(sb);
   }
 
   // Update maxLength to make the column width dynamic
   private void calcMaxLengthAll() {
-    for (ArrayList<String> temp : table) {
+    for (ArrayList<String> temp : BODY) {
       for (int j = 0; j < temp.size(); j++) {
-        if (temp.get(j).length() > maxLength.get(j)) {
-          maxLength.set(j, temp.get(j).length());
+        if (temp.get(j).length() > MAX_LENGTH.get(j)) {
+          MAX_LENGTH.set(j, temp.get(j).length());
         }
       }
     }
