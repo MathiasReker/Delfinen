@@ -15,7 +15,7 @@ public class MemberSubMenuMenuAction extends MenuAction {
   MenuAction[] menu() {
     return new MenuAction[] {
       new CreateMemberMenuAction("Create member"),
-      new ViewMemberMenuAction("View member"),
+      new ViewMemberMenuAction("View all members"),
       new EditMemberMenuAction("Edit member"),
       new AnonymizeMenuAction("Anonymize member"),
       new SearchMemberMenuAction("Search member"),
