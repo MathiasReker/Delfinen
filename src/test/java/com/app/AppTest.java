@@ -41,4 +41,20 @@ public class AppTest {
     // Expect the test to throw exception
     Assertions.assertThrows(NoSuchElementException.class, () -> new App().menu());
   }
+
+  @Test
+  public void testExitMenuAction(){
+    // Avoid the menu to be shown on the screen
+    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+    PrintStream ps = new PrintStream(outContent);
+    System.setOut(ps);
+
+    // Input -1 in the menu
+    String input = "5";
+    InputStream in = new ByteArrayInputStream(input.getBytes());
+    System.setIn(in);
+
+
+
+  }
 }
