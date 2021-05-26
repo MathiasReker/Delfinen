@@ -80,7 +80,7 @@ public class MemberController {
 
     if (active) {
       MEMBERSHIP_CONTROLLER.addActiveMembership(member);
-    }else{
+    } else {
       MEMBERSHIP_CONTROLLER.addPassiveMembership(member);
     }
     members.add(member);

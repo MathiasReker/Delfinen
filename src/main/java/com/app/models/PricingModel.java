@@ -14,8 +14,8 @@ public class PricingModel {
    * @return price
    */
   public static int calculateMemberPrice(MemberModel member) {
-    if(!member.getLatestMembership().isActive()){
-      return PASSIVE_PRICE; //Passive price
+    if (!member.getLatestMembership().isActive()) {
+      return PASSIVE_PRICE; // Passive price
     }
     if (member.getAgeGroup().equals(AgeGroupType.JUNIOR.name())) {
       return JUNIOR_PRICE; // Junior price
@@ -26,7 +26,6 @@ public class PricingModel {
       return SENIOR_PRICE; // Senior price
     }
   }
-  public static int calculateDifference(){
 
-  }
+  public static int calculateDifference() {}
 }
