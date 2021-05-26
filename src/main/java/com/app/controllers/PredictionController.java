@@ -35,7 +35,7 @@ public class PredictionController {
 
     int result = 0;
     for (MemberModel member : expiringMembers) {
-      result += PricingModel.calculateMemberPrice(member);
+      result += PricingModel.getMemberPrice(member);
     }
 
     return result;
