@@ -36,7 +36,7 @@ public class AppTest {
     System.setOut(new PrintStream(outContent));
 
     // Input -1 in the menu
-    String input = "-1";
+    String input = "-1\n";
     InputStream in = new ByteArrayInputStream(input.getBytes());
     System.setIn(in);
 
