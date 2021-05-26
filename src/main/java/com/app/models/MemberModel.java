@@ -190,8 +190,6 @@ public class MemberModel implements Serializable {
       return 0;
     }
 
-    int ageInYears = Period.between(birthdate, currentDate).getYears();
-
-    return Math.max(ageInYears, 0);
+    return Period.between(birthdate, currentDate).getYears();
   }
 }

@@ -2,6 +2,7 @@ package com.app.models;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
@@ -9,11 +10,18 @@ import java.util.ArrayList;
 public class InputModel {
   public static boolean isValidDate(String date) {
     try {
-      LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-      return true;
+      int age = getAge(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+
+      return age >= 1 && age <= 150;
     } catch (DateTimeParseException e) {
       return false;
     }
+  }
+
+  private static int getAge(LocalDate birthdate) {
+    LocalDate currentDate = LocalDate.now();
+
+    return Period.between(birthdate, currentDate).getYears();
   }
 
   public static boolean isValidCompetitionTime(String time) {
