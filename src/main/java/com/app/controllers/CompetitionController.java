@@ -143,21 +143,10 @@ public class CompetitionController {
       String name = resultModel.getMember().getName();
       String style = resultModel.getDiscipline().getStyle().name();
       String distance = Integer.toString(resultModel.getDiscipline().getDistance().getMeters());
-      String completionTime = timeToString(resultModel);
+      String completionTime = resultModel.getResultTime().toString();
 
       result[i] = new String[] {name, style, distance, completionTime};
     }
-
-    return result;
-  }
-
-  /**
-   * @param resultModel the result that needs to be formatted
-   * @return a formatted String
-   */
-  private String timeToString(ResultModel resultModel) {
-    String data = String.valueOf(resultModel.getResultTime());
-    String result = data.substring(3);
 
     return result;
   }
