@@ -8,7 +8,7 @@ public class MembershipModel implements Serializable {
   private final LocalDate CREATION_DATE;
   private LocalDate startingDate;
   private LocalDate expiringDate;
-  private boolean payed;
+  private boolean paid;
   private boolean active;
 
   public MembershipModel(String id) {
@@ -33,7 +33,7 @@ public class MembershipModel implements Serializable {
     CREATION_DATE = LocalDate.now();
     setStartingDate(startingDate);
     setExpiringDate(expiringDate);
-    setPayed(payed);
+    setPaid(payed);
     setActive(active);
   }
 
@@ -65,11 +65,11 @@ public class MembershipModel implements Serializable {
     this.active = active;
   }
 
-  public boolean isPayed() {
-    return payed;
+  public boolean isPaid() {
+    return paid;
   }
 
-  public void setPayed(boolean payed) {
-    this.payed = payed;
+  public void setPaid(boolean paid) {
+    this.paid = paid;
   }
 }

@@ -65,7 +65,7 @@ public class MembershipController {
     result.setStartingDate(date);
     result.setExpiringDate(result.getStartingDate().plusYears(durationYears));
     result.setActive(active);
-    result.setPayed(false);
+    result.setPaid(false);
 
     return result;
   }
@@ -76,6 +76,6 @@ public class MembershipController {
   }
 
   public boolean membershipUnpaid(MemberModel member) {
-    return member.getLatestMembership().isPayed();
+    return member.getLatestMembership().isPaid();
   }
 }

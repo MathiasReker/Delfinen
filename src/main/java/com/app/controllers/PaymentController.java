@@ -22,7 +22,7 @@ public class PaymentController {
   private void updateMemberShip(ArrayList<MemberModel> members) {
     for (MemberModel member : members) {
       if (member.getMemberships().size() != 0) {
-        member.getLatestMembership().setPayed(true);
+        member.getLatestMembership().setPaid(true);
       }
     }
   }
