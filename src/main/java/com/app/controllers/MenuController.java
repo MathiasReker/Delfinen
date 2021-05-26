@@ -4,6 +4,8 @@ import com.app.controllers.menuactions.MenuAction;
 import com.app.models.MenuModel;
 import com.app.views.MenuView;
 
+import java.util.ArrayList;
+
 public class MenuController {
   private final MenuModel MENU;
   private final MenuView VIEW;
@@ -24,12 +26,28 @@ public class MenuController {
   public void run() {
     boolean running = true;
     while (running) {
-      VIEW.printMenuOptions(MENU.getMenuHeader(), MENU.getMenuActionMenuItems());
+
+      displayMenu();
+
       VIEW.printInline(MENU.getLeadText());
 
       int input = InputController.validateOptionRange(MENU.getMenuActionMenuItems().length) - 1;
       MENU.getMenuItem(input).run();
       running = MENU.getMenuItem(input).isKeepRunning();
     }
+  }
+
+  private void displayMenu() {
+    String[] header = new String[] {"No.", MENU.getMenuHeader()};
+    ArrayList<ArrayList<String>> content = new ArrayList<>();
+
+    for (int i = 0; i < MENU.getMenuActionMenuItems().length; i++) {
+      ArrayList<String> row = new ArrayList<>();
+      row.add(String.valueOf(i + 1));
+      row.add(MENU.getMenuActionMenuItems()[i]);
+      content.add(row);
+    }
+
+    VIEW.printTable(header, content);
   }
 }

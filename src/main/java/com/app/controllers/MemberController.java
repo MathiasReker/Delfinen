@@ -1,5 +1,6 @@
 package com.app.controllers;
 
+import com.app.models.DisciplineModel;
 import com.app.models.MemberModel;
 import com.app.models.exceptions.CouldNotLoadMemberException;
 import com.app.models.exceptions.MemberNotFoundException;
@@ -17,6 +18,7 @@ import java.util.Arrays;
 public class MemberController {
   private final MemberView VIEW;
   private final MembershipController MEMBERSHIP_CONTROLLER = new MembershipController();
+  private final DisciplineController DISC_CONTROLLER = new DisciplineController();
   private ArrayList<MemberModel> members;
 
   public MemberController() {
@@ -173,77 +175,81 @@ public class MemberController {
     return new ArrayList<>(Arrays.asList(members));
   }
 
-  private String[] getMemberLine(MemberModel member) {
-    return new String[] {
-      member.getId(),
-      member.getName(),
-      member.getMail(),
-      member.getPhoneNumber(),
-      String.valueOf(member.getAge()),
-      String.valueOf(member.getGender()),
-    };
-  }
-
-  private String[] getMemberHeader() {
-    return new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
-  }
-
-  public void viewTableMembers(MemberModel member) {
-    if (members.isEmpty()) {
-      VIEW.printWarning("No members.");
-    } else {
-      String[] header = getMemberHeader();
-      VIEW.displayMember(header, getColumnWidth());
-
-      String[] body = getMemberLine(member);
-      VIEW.displayMember(body, getColumnWidth());
+  private String[] getMemberHeader(boolean expanded) {
+    if (expanded) {
+      return new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender", "Favourite Disciplines"};
     }
+    return new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
   }
 
   public void viewTableMembers(ArrayList<MemberModel> members) {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      String[] header = getMemberHeader();
-      VIEW.displayMember(header, getColumnWidth());
-
-      for (MemberModel member : members) {
-        String[] body = getMemberLine(member);
-        VIEW.displayMember(body, getColumnWidth());
-      }
+      VIEW.printTable(getMemberHeader(false), getMemberContent(members, false));
     }
+  }
+
+  public void viewTableMembersExpanded(ArrayList<MemberModel> members) {
+    if (members.isEmpty()) {
+      VIEW.printWarning("No members.");
+    } else {
+      VIEW.printTable(getMemberHeader(true), getMemberContent(members, true));
+    }
+  }
+
+  public void viewTableMembersExpanded(MemberModel member) {
+    VIEW.printTable(getMemberHeader(true), getMemberContent(member, true));
   }
 
   public void viewTableMembers() {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      String[] header = getMemberHeader();
-      VIEW.displayMember(header, getColumnWidth());
-
-      for (MemberModel member : members) {
-        String[] body = getMemberLine(member);
-        VIEW.displayMember(body, getColumnWidth());
-      }
+      VIEW.printTable(getMemberHeader(false), getMemberContent(members, false));
     }
   }
 
-  public int[] getColumnWidth() {
-    int[] result = new int[getMemberHeader().length];
+  private ArrayList<ArrayList<String>> getMemberContent(
+      ArrayList<MemberModel> members, boolean expanded) {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
 
     for (MemberModel member : members) {
-      String[] body = getMemberLine(member);
+      ArrayList<String> row = new ArrayList<>();
 
-      for (int i = 0; i < body.length; i++) {
-        if (body[i] == null) {
-          body[i] = "--";
-        }
-
-        if (body[i].length() > result[i]) {
-          result[i] = body[i].length();
-        }
+      row.add(member.getId());
+      row.add(member.getName());
+      row.add(member.getMail());
+      row.add(member.getPhoneNumber());
+      row.add(String.valueOf(member.getAge()));
+      row.add(String.valueOf(member.getGender()));
+      if (expanded) {
+        row.add(
+            String.join(", ", DISC_CONTROLLER.getDisciplineDescriptions(member.getDisciplines())));
       }
+
+      result.add(row);
     }
+
+    return result;
+  }
+
+  private ArrayList<ArrayList<String>> getMemberContent(MemberModel member, boolean expanded) {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
+
+    ArrayList<String> row = new ArrayList<>();
+
+    row.add(member.getId());
+    row.add(member.getName());
+    row.add(member.getMail());
+    row.add(member.getPhoneNumber());
+    row.add(String.valueOf(member.getAge()));
+    row.add(String.valueOf(member.getGender()));
+    if (expanded) {
+      row.add(
+          String.join(", ", DISC_CONTROLLER.getDisciplineDescriptions(member.getDisciplines())));
+    }
+    result.add(row);
 
     return result;
   }
@@ -273,7 +279,7 @@ public class MemberController {
     String id = InputController.validateMemberId(members);
 
     if (null != getMemberById(id)) {
-      viewTableMembers(getMemberById(id));
+      viewTableMembersExpanded(getMemberById(id));
     } else {
       VIEW.printWarning("No members with the ID: " + id);
     }
@@ -298,7 +304,7 @@ public class MemberController {
     if (0 == sortedList.size()) {
       VIEW.printWarning("No members with the name: " + name);
     } else {
-      viewTableMembers(sortedList);
+      viewTableMembersExpanded(sortedList);
     }
   }
 
@@ -323,7 +329,7 @@ public class MemberController {
     if (0 == sortedList.size()) {
       VIEW.printWarning("No members with the mail: " + mail);
     } else {
-      viewTableMembers(sortedList);
+      viewTableMembersExpanded(sortedList);
     }
   }
 
@@ -348,7 +354,7 @@ public class MemberController {
     if (0 == sortedList.size()) {
       VIEW.printWarning("No members with the phone number: " + phoneNumber);
     } else {
-      viewTableMembers(sortedList);
+      viewTableMembersExpanded(sortedList);
     }
   }
 
@@ -391,6 +397,8 @@ public class MemberController {
 
   public void editMember() {
     if (!members.isEmpty()) {
+      viewTableMembers();
+
       VIEW.printInline("Input ID [press \"q\" to quit]: ");
 
       String id = InputController.validateMemberId(members);
@@ -399,7 +407,10 @@ public class MemberController {
         try {
           MemberModel member = getMemberByID(id);
 
-          String[] options = new String[] {"Name", "Mail", "Phone number", "Birthday [dd/MM/yyyy]"};
+          String[] options =
+              new String[] {
+                "Name", "Mail", "Phone number", "Birthday [dd/MM/yyyy]", "Add Discipline"
+              };
           VIEW.displayOptions(options);
 
           int index = InputController.validateOptionRange(options.length) - 1;
@@ -419,8 +430,9 @@ public class MemberController {
             String birthday = InputController.validateDate();
             member.setBirthdate(
                 LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+          } else if (4 == index) {
+            addDisciplineToMember(member);
           }
-
           saveMembers();
         } catch (MemberNotFoundException e) {
           e.printStackTrace();
@@ -470,5 +482,20 @@ public class MemberController {
     }
 
     return result;
+  }
+
+  private void addDiscipline(MemberModel member, DisciplineModel discipline) {
+    if (member.getDisciplines().isEmpty()) {
+      member.addDiscipline(discipline);
+    } else if (!DISC_CONTROLLER.lookupDiscipline(member.getDisciplines(), discipline)) {
+      member.addDiscipline(discipline);
+    }
+  }
+
+  public void addDisciplineToMember(MemberModel member) {
+    VIEW.print("Which discipline do you want to add");
+    DisciplineModel discipline =
+        DISC_CONTROLLER.getDisciplineModelStyleAndDistance(member.getGender());
+    addDiscipline(member, discipline);
   }
 }
