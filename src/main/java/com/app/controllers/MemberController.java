@@ -176,16 +176,17 @@ public class MemberController {
   }
 
   private String[] getMemberHeader(boolean expanded) {
-    if(expanded){
+    if (expanded) {
       return new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender", "Favourite Disciplines"};
     }
     return new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
   }
+
   public void viewTableMembers(ArrayList<MemberModel> members) {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      VIEW.printTable(getMemberHeader(false), getMemberContent(members,false));
+      VIEW.printTable(getMemberHeader(false), getMemberContent(members, false));
     }
   }
 
@@ -193,23 +194,24 @@ public class MemberController {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      VIEW.printTable(getMemberHeader(true), getMemberContent(members,true));
+      VIEW.printTable(getMemberHeader(true), getMemberContent(members, true));
     }
   }
 
   public void viewTableMembersExpanded(MemberModel member) {
-    VIEW.printTable(getMemberHeader(true), getMemberContent(member,true));
+    VIEW.printTable(getMemberHeader(true), getMemberContent(member, true));
   }
 
   public void viewTableMembers() {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      VIEW.printTable(getMemberHeader(false), getMemberContent(members,false));
+      VIEW.printTable(getMemberHeader(false), getMemberContent(members, false));
     }
   }
 
-  private ArrayList<ArrayList<String>> getMemberContent(ArrayList<MemberModel> members, boolean expanded) {
+  private ArrayList<ArrayList<String>> getMemberContent(
+      ArrayList<MemberModel> members, boolean expanded) {
     ArrayList<ArrayList<String>> result = new ArrayList<>();
 
     for (MemberModel member : members) {
@@ -223,7 +225,7 @@ public class MemberController {
       row.add(String.valueOf(member.getGender()));
       if (expanded) {
         row.add(
-                String.join(", ", DISC_CONTROLLER.getDisciplineDescriptions(member.getDisciplines())));
+            String.join(", ", DISC_CONTROLLER.getDisciplineDescriptions(member.getDisciplines())));
       }
 
       result.add(row);

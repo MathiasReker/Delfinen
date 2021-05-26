@@ -21,7 +21,8 @@ public class ResultController {
    * @param competition The competition that we want to add a result to
    */
   public ResultModel addResultTime(MemberModel member, CompetitionModel competition) {
-    DisciplineModel disciplineModel = DISC_CONTROLLER.getDisciplineModelStyleAndDistance(member.getGender());
+    DisciplineModel disciplineModel =
+        DISC_CONTROLLER.getDisciplineModelStyleAndDistance(member.getGender());
 
     VIEW.printInline("Result time [mm:ss:SS]: ");
     LocalTime time =

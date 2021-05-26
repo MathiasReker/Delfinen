@@ -135,7 +135,7 @@ public class DisciplinesController {
     return null;
   }
 
-  //Author: Andreas
+  // Author: Andreas
   public String[] getDisciplineDescriptions(ArrayList<DisciplineModel> disciplines) {
     String[] result = new String[disciplines.size()];
     for (int i = 0; i < disciplines.size(); i++) {
