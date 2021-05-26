@@ -177,7 +177,7 @@ public class MemberController {
   public void saveMembers() {
     try {
       new MemberService(new ConfigService("membersBin").getPath())
-          .saveMembers(members.toArray(new MemberModel[0]));
+          .save(members.toArray(new MemberModel[0]));
       VIEW.printSuccess("The member is successfully saved.");
     } catch (IOException e) {
       VIEW.printWarning(e.getMessage());
@@ -186,7 +186,7 @@ public class MemberController {
 
   public MemberModel[] loadMembers() throws CouldNotLoadMemberException {
     try {
-      return new MemberService(new ConfigService("membersBin").getPath()).loadMembers();
+      return new MemberService(new ConfigService("membersBin").getPath()).load();
     } catch (IOException | ClassNotFoundException e) {
       return new MemberModel[0];
     }

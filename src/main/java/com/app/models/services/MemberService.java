@@ -11,11 +11,11 @@ public class MemberService {
     PATH = path;
   }
 
-  public void saveMembers(MemberModel[] members) throws IOException {
+  public void save(MemberModel[] members) throws IOException {
     new ObjectService(PATH).save(members);
   }
 
-  public MemberModel[] loadMembers() throws IOException, ClassNotFoundException {
+  public MemberModel[] load() throws IOException, ClassNotFoundException {
     return (MemberModel[]) new ObjectService(PATH).load();
   }
 }

@@ -11,11 +11,11 @@ public class CompetitionService {
     PATH = path;
   }
 
-  public void saveCompetition(CompetitionModel[] members) throws IOException {
+  public void save(CompetitionModel[] members) throws IOException {
     new ObjectService(PATH).save(members);
   }
 
-  public CompetitionModel[] loadCompetition() throws IOException, ClassNotFoundException {
+  public CompetitionModel[] load() throws IOException, ClassNotFoundException {
     return (CompetitionModel[]) new ObjectService(PATH).load();
   }
 }
