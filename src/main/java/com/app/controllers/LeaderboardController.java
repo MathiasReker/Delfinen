@@ -1,22 +1,22 @@
 package com.app.controllers;
 
-import com.app.models.CompetitionModel;
+import com.app.models.SwimEventModel;
 import com.app.models.MemberModel;
 import com.app.models.ResultModel;
 import com.app.models.types.DistanceType;
 import com.app.models.types.GenderType;
 import com.app.models.types.StyleType;
-import com.app.views.CompetitionView;
+import com.app.views.SwimEventView;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class LeaderboardController {
-  private final CompetitionView VIEW = new CompetitionView();
-  private final CompetitionController COMPETITION_CONTROLLER = new CompetitionController();
-  private final DisciplinesController DISC_CONTROLLER = new DisciplinesController();
-  private final ArrayList<CompetitionModel> ALL_COMPETITIONS =
-      COMPETITION_CONTROLLER.getCompetitions();
+  private final SwimEventView VIEW = new SwimEventView();
+  private final SwimEventController COMPETITION_CONTROLLER = new SwimEventController();
+  private final DisciplineController DISC_CONTROLLER = new DisciplineController();
+  private final ArrayList<SwimEventModel> ALL_COMPETITIONS =
+      COMPETITION_CONTROLLER.getSwimEventModels();
 
   /**
    * find top swimmers in all competitions.
@@ -65,7 +65,7 @@ public class LeaderboardController {
   private ArrayList<ResultModel> findDiscipline(StyleType style, DistanceType distance) {
     ArrayList<ResultModel> result = new ArrayList<>();
 
-    for (CompetitionModel cm : ALL_COMPETITIONS) {
+    for (SwimEventModel cm : ALL_COMPETITIONS) {
 
       for (int j = 0; j < cm.getResult().size(); j++) {
         if (cm.getResult().get(j).getDiscipline().getStyle().equals(style)

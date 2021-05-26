@@ -1,22 +1,36 @@
 package com.app.models;
 
+import com.app.models.types.AgeGroupType;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class CompetitionModel implements Serializable {
+public class SwimEventModel implements Serializable {
   private String id;
   private LocalDate startDate;
   private String name;
   private LocalTime startTime;
   private ArrayList<ResultModel> result = new ArrayList<>();
+  private boolean practice;
+  private AgeGroupType ageGroup;
 
-  public CompetitionModel(String id, String name, LocalDate startDate, LocalTime startTime) {
+  public SwimEventModel(String id, String name, LocalDate startDate, LocalTime startTime, boolean practice, AgeGroupType ageGroup) {
     setId(id);
     this.startDate = startDate;
     this.name = name;
     this.startTime = startTime;
+    this.practice = practice;
+    this.ageGroup = ageGroup;
+  }
+
+  public boolean isPractice() {
+    return practice;
+  }
+
+  public void setPractice(boolean practice) {
+    this.practice = practice;
   }
 
   public String getId() {

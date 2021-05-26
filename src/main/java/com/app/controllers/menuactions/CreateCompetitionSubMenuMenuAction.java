@@ -1,6 +1,6 @@
 package com.app.controllers.menuactions;
 
-import com.app.controllers.CompetitionController;
+import com.app.controllers.SwimEventController;
 
 public class CreateCompetitionSubMenuMenuAction extends MenuAction {
   public CreateCompetitionSubMenuMenuAction(String itemName) {
@@ -9,7 +9,7 @@ public class CreateCompetitionSubMenuMenuAction extends MenuAction {
 
   @Override
   public void run() {
-    CompetitionController competitionController = new CompetitionController();
-    competitionController.createNewCompetition();
+    SwimEventController swimEventController = new SwimEventController();
+    swimEventController.createNewCompetition();
   }
 }

@@ -7,15 +7,14 @@ public class ResultModel implements Serializable, Comparable<ResultModel> {
   private MemberModel member;
   private LocalTime resultTime;
   private DisciplineModel discipline;
-  private CompetitionModel competition;
-  private TrainingModel training;
+  private SwimEventModel competition;
   private String placement;
 
   public ResultModel(
       MemberModel member,
       LocalTime resultTime,
       DisciplineModel discipline,
-      CompetitionModel competition,
+      SwimEventModel competition,
       String placement) {
     this.member = member;
     this.resultTime = resultTime;
@@ -24,22 +23,11 @@ public class ResultModel implements Serializable, Comparable<ResultModel> {
     this.placement = placement;
   }
 
-  public ResultModel(
-      MemberModel member,
-      LocalTime resultTime,
-      DisciplineModel discipline,
-      TrainingModel training) {
-    this.member = member;
-    this.resultTime = resultTime;
-    this.discipline = discipline;
-    this.training = training;
-  }
-
-  public CompetitionModel getCompetition() {
+  public SwimEventModel getCompetition() {
     return competition;
   }
 
-  public void setCompetition(CompetitionModel competition) {
+  public void setCompetition(SwimEventModel competition) {
     this.competition = competition;
   }
 

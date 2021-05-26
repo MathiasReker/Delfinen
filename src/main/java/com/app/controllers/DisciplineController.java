@@ -7,11 +7,11 @@ import com.app.models.types.StyleType;
 
 import java.util.ArrayList;
 
-public class DisciplinesController {
+public class DisciplineController {
 
   private ArrayList<DisciplineModel> disciplines = new ArrayList<>();
 
-  public DisciplinesController() {
+  public DisciplineController() {
     setDisciplines(disciplines);
   }
 

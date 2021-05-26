@@ -1,9 +1,8 @@
 package com.app.controllers;
 
-import com.app.models.CompetitionModel;
+import com.app.models.SwimEventModel;
 import com.app.models.InputModel;
 import com.app.models.MemberModel;
-import com.app.models.TrainingModel;
 import com.app.views.InputView;
 
 import java.util.ArrayList;
@@ -118,7 +117,7 @@ public class InputController {
     }
   }
 
-  public static CompetitionModel validateCompetitionsId(ArrayList<CompetitionModel> competitions) {
+  public static SwimEventModel validateSwimEventId(ArrayList<SwimEventModel> competitions) {
     while (true) {
       String result = IN.nextLine(); // TODO: refactor return String
       if (result.equals("q")) {
@@ -129,7 +128,7 @@ public class InputController {
         return result;
       }*/
 
-      for (CompetitionModel c : competitions) {
+      for (SwimEventModel c : competitions) {
         if (c.getId().equals(result)) {
           return c;
         }
@@ -139,21 +138,17 @@ public class InputController {
     }
   }
 
-  public static TrainingModel validateTrainingId(ArrayList<TrainingModel> trainings) {
+  public static String validateAgeGroup() {
+    String result = IN.nextLine();
     while (true) {
-      String result = IN.nextLine(); // TODO: refactor return String
-
-      if (result.equals("q")) {
-        return null;
+      if (result.equalsIgnoreCase("j")) {
+        return result;
       }
-
-      for (TrainingModel c : trainings) {
-        if (c.getId().equals(result)) {
-          return c;
-        }
+      if (result.equalsIgnoreCase("s")) {
+        return result;
       }
-
-      VIEW.printInlineWarning("Not a valid ID. Please try again: ");
+      VIEW.printInlineWarning("Not a valid choice. Please try again: ");
+      result = IN.nextLine();
     }
   }
 
@@ -162,7 +157,7 @@ public class InputController {
    *
    * @return returns a time as a LocalTime type
    */
-  public static String validateCompetitionResultTime() {
+  public static String validateCompetitionResultTime() { //TODO : name change
     String result = IN.nextLine();
     while (!InputModel.isValidCompetitionResultTime("00:" + result)) {
       VIEW.printInlineWarning("Not a valid time. Please try again: ");
@@ -172,7 +167,7 @@ public class InputController {
     return result;
   }
 
-  public static String validateCompetitionTime() {
+  public static String validateCompetitionTime() {//TODO : name change
     String result = IN.nextLine();
     while (!InputModel.isValidCompetitionTime(result)) {
       VIEW.printInlineWarning("Not a valid time. Please try again: ");

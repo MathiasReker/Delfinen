@@ -1,6 +1,6 @@
 package com.app.controllers.menuactions;
 
-import com.app.controllers.CompetitionController;
+import com.app.controllers.SwimEventController;
 
 public class AddResultMenuAction extends MenuAction {
 
@@ -10,6 +10,6 @@ public class AddResultMenuAction extends MenuAction {
 
   @Override
   public void run() {
-    new CompetitionController().addResultToCompetition();
+    new SwimEventController().addResultToCompetition();
   }
 }

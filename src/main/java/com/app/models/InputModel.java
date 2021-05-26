@@ -63,8 +63,8 @@ public class InputModel {
     return false;
   }
 
-  public static boolean isValidCompetitionId(String in, ArrayList<CompetitionModel> competitions) {
-    for (CompetitionModel c : competitions) {
+  public static boolean isValidCompetitionId(String in, ArrayList<SwimEventModel> competitions) {
+    for (SwimEventModel c : competitions) {
       if (c.getId().equals(in)) {
         return true;
       }

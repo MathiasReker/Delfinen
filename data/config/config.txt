@@ -1,4 +1,3 @@
-competitionsBin;data/bin/competitions.bin
-trainingsBin;data/bin/trainings.bin
+swimeventBin;data/bin/swim-event.bin
 membersBin;data/bin/members.bin
 paymentRequestsPath;data/payment-requests/

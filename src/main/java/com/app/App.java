@@ -11,8 +11,8 @@ public class App {
 
   MenuAction[] menuActions() {
     return new MenuAction[] {
-      new MemberSubMenuMenuAction("Member management"),
-      new CompetitionSubMenuMenuAction("Competition management"),
+      new MemberSubMenuMenuAction("Member Management"),
+      new SwimEventSubMenuMenuAction("Swim Event Management"),
       new PaymentSubMenuMenuAction("Payment Management"),
       new TopResultsMenuAction("Display top 5"),
       new ExitMenuAction("Exit"),
