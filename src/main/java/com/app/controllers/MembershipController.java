@@ -76,6 +76,6 @@ public class MembershipController {
   }
 
   public boolean membershipUnpaid(MemberModel member) {
-   return member.getLatestMembership().isPayed();
+    return member.getLatestMembership().isPayed();
   }
 }
