@@ -158,10 +158,19 @@ public class CompetitionController {
    * @return a formatted String
    */
   private String timeToString(ResultModel resultModel) {
+<<<<<<< HEAD
     String data = String.valueOf(resultModel.getResultTime());
     String result = data.substring(3);
 
     return result;
+=======
+    String[] data = String.valueOf(resultModel.getResultTime()).split(":");
+    String[] result = new String[data.length - 1];
+
+    System.arraycopy(data, 1, result, 0, data.length - 1);
+
+    return String.join(":", result);
+>>>>>>> 713c245a85a2bf21d26c5a030073818eafd6f0d4
   }
 
 
