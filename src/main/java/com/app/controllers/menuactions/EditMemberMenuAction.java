@@ -9,8 +9,6 @@ public class EditMemberMenuAction extends MenuAction {
 
   @Override
   public void run() {
-    MemberController memberController = new MemberController();
-    memberController.viewTableMembers();
-    memberController.editMember();
+    new MemberController().editMember();
   }
 }
