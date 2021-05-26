@@ -16,7 +16,13 @@ public class SwimEventModel implements Serializable {
   private boolean practice;
   private AgeGroupType ageGroup;
 
-  public SwimEventModel(String id, String name, LocalDate startDate, LocalTime startTime, boolean practice, AgeGroupType ageGroup) {
+  public SwimEventModel(
+      String id,
+      String name,
+      LocalDate startDate,
+      LocalTime startTime,
+      boolean practice,
+      AgeGroupType ageGroup) {
     setId(id);
     this.startDate = startDate;
     this.name = name;

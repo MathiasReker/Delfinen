@@ -14,10 +14,10 @@ public class CompetitionSubMenuAction extends MenuAction {
 
   MenuAction[] menu() {
     return new MenuAction[] {
-        new CreateCompetitionSubMenuMenuAction("Create Competition"),
-        new AddResultMenuAction("Add Result"),
-        new ViewResultsMenuAction("View Results"),
-        new ExitMenuAction("Back")
+      new CreateCompetitionSubMenuMenuAction("Create Competition"),
+      new AddResultMenuAction("Add Result"),
+      new ViewResultsMenuAction("View Results"),
+      new ExitMenuAction("Back")
     };
   }
 }
