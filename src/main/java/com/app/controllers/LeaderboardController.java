@@ -45,7 +45,8 @@ public class LeaderboardController {
 
       if (!memberExist(result, allResults.get(i).getMember())
           && allResults.get(i).getMember().getGender() == genderType
-          && allResults.get(i).getMember().getAgeGroup() == ageGroupType) {
+          && allResults.get(i).getMember().getAgeGroup() == ageGroupType
+          && allResults.get(i).getMember().isCompetitive()) {
         result.add(allResults.get(i));
       } else {
         if (amount < allResults.size()) {
