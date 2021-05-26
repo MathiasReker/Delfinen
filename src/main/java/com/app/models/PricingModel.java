@@ -22,7 +22,7 @@ public class PricingModel {
       return getPriceInOre(JUNIOR_PRICE);
     } else {
       if (member.getAge() > 60) {
-        int priceWithDiscount = getPriceWithDiscount(AgeGroupType.SENIOR.getPrice(), 25);
+        int priceWithDiscount = getPriceWithDiscount(SENIOR_PRICE, 25);
         return getPriceInOre(priceWithDiscount);
       }
 
