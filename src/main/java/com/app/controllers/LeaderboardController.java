@@ -27,7 +27,7 @@ public class LeaderboardController {
   private ArrayList<ResultModel> findTop(StyleType style, DistanceType distance, int amount) {
     ArrayList<ResultModel> allResults = findDiscipline(style, distance);
     if (allResults.isEmpty()) {
-      return null;
+      return allResults; // Changed from null
     }
 
     ArrayList<ResultModel> result = new ArrayList<>();
@@ -106,13 +106,13 @@ public class LeaderboardController {
           InputController.validateOptionRange(
               COMPETITION_CONTROLLER.distanceToArray(style, GenderType.OTHER).length);
       DistanceType distance = DistanceType.values()[distanceInput - 1];
-
-      try {
+     
         ArrayList<ResultModel> top5 = findTop(style, distance, 5);
-        VIEW.displayTopResults(arrayWithResultToDisplay(top5));
-      } catch (NullPointerException e) {
+     if (top5.isEmpty()) {  
         VIEW.print("No results for " + distance.getMeters() + " m " + style + ".");
-      }
+     } else {
+      VIEW.displayTopResults(arrayWithResultToDisplay(top5));
+     }
     }
   }
 }
