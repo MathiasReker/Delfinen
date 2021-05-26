@@ -23,6 +23,8 @@ public class TableView {
   }
 
   public void printTable() {
+    System.out.println();
+
     StringBuilder padding = new StringBuilder();
     int tablePadding = 1;
     padding.append(" ".repeat(tablePadding));
@@ -75,7 +77,7 @@ public class TableView {
       sb.append("\n");
     }
 
-    System.out.println(sb);
+    System.out.print(sb);
   }
 
   // Update maxLength to make the column width dynamic

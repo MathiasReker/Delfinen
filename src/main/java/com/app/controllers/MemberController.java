@@ -22,7 +22,6 @@ public class MemberController {
   private ArrayList<MemberModel> members;
 
   public MemberController() {
-    ConsoleTableTester();
     VIEW = new MemberView();
     try {
       members = membersToStringArray(loadMembers());
@@ -236,14 +235,27 @@ public class MemberController {
     if (members.isEmpty()) {
       VIEW.printWarning("No members.");
     } else {
-      String[] header = getMemberHeader();
-      VIEW.displayMember(header, getColumnWidth());
-
-      for (MemberModel member : members) {
-        String[] body = getMemberLine(member);
-        VIEW.displayMember(body, getColumnWidth());
-      }
+      new TableView(getMemberHeader(), getMemberContent()).printTable();
     }
+  }
+
+  private ArrayList<ArrayList<String>> getMemberContent() {
+    ArrayList<ArrayList<String>> content = new ArrayList<>();
+
+    for (MemberModel member : members) {
+      ArrayList<String> row = new ArrayList<>();
+
+      row.add(member.getId());
+      row.add(member.getName());
+      row.add(member.getMail());
+      row.add(member.getPhoneNumber());
+      row.add(String.valueOf(member.getAge()));
+      row.add(String.valueOf(member.getGender()));
+
+      content.add(row);
+    }
+
+    return content;
   }
 
   public void viewTableMembers() {
@@ -502,18 +514,5 @@ public class MemberController {
     }
 
     return result;
-  }
-
-  public void ConsoleTableTester() {
-    String[] header = new String[] {"header1", "header2"};
-
-    ArrayList<ArrayList<String>> content = new ArrayList<>();
-    ArrayList<String> row = new ArrayList<>();
-
-    row.add("number");
-    row.add("title");
-    content.add(row);
-
-    new TableView(header, content).printTable();
   }
 }
