@@ -2,34 +2,20 @@ package com.app.models.services;
 
 import com.app.models.MemberModel;
 
-import java.io.*;
+import java.io.IOException;
 
 public class MemberService {
-  private final FileService FILE_SERVICE;
+  private final String PATH;
 
   public MemberService(String path) throws IOException {
-    FILE_SERVICE = new FileService(path);
+    PATH = path;
   }
 
   public void saveMembers(MemberModel[] members) throws IOException {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    ObjectOutputStream oos = new ObjectOutputStream(baos);
-    oos.writeObject(members);
-    byte[] membersInBytes = baos.toByteArray();
-    oos.flush();
-    oos.close();
-    baos.close();
-    FILE_SERVICE.writeToBin(membersInBytes);
+    new ObjectService(PATH).save(members);
   }
 
   public MemberModel[] loadMembers() throws IOException, ClassNotFoundException {
-    byte[] membersInByte = FILE_SERVICE.loadFromBin();
-    ByteArrayInputStream bais = new ByteArrayInputStream(membersInByte);
-    ObjectInputStream ois = new ObjectInputStream(bais);
-    MemberModel[] result = (MemberModel[]) ois.readObject();
-    ois.close();
-    bais.close();
-
-    return result;
+    return (MemberModel[]) new ObjectService(PATH).load();
   }
 }

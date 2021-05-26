@@ -2,35 +2,20 @@ package com.app.models.services;
 
 import com.app.models.CompetitionModel;
 
-import java.io.*;
+import java.io.IOException;
 
 public class CompetitionService {
-
-  private final FileService FILE_SERVICE;
+  private final String PATH;
 
   public CompetitionService(String path) throws IOException {
-    FILE_SERVICE = new FileService(path);
+    PATH = path;
   }
 
-  public void saveCompetitionsToFile(CompetitionModel[] competitions) throws IOException {
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    ObjectOutputStream oos = new ObjectOutputStream(baos);
-    oos.writeObject(competitions);
-    byte[] competitionsInBytes = baos.toByteArray();
-    oos.flush();
-    oos.close();
-    baos.close();
-    FILE_SERVICE.writeToBin(competitionsInBytes);
+  public void saveCompetition(CompetitionModel[] members) throws IOException {
+    new ObjectService(PATH).save(members);
   }
 
-  public CompetitionModel[] getCompetitionsFromFile() throws IOException, ClassNotFoundException {
-    byte[] competitionsInByte = FILE_SERVICE.loadFromBin();
-    ByteArrayInputStream bais = new ByteArrayInputStream(competitionsInByte);
-    ObjectInputStream ois = new ObjectInputStream(bais);
-    CompetitionModel[] result = (CompetitionModel[]) ois.readObject();
-    ois.close();
-    bais.close();
-
-    return result;
+  public CompetitionModel[] loadCompetition() throws IOException, ClassNotFoundException {
+    return (CompetitionModel[]) new ObjectService(PATH).load();
   }
 }

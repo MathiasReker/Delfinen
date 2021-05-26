@@ -28,7 +28,7 @@ public class CompetitionController {
   public CompetitionController() {
     try {
       competitionService = new CompetitionService(new ConfigService("competitionsBin").getPath());
-      competitions = toArraylist(competitionService.getCompetitionsFromFile());
+      competitions = toArraylist(competitionService.loadCompetition());
     } catch (IOException | ClassNotFoundException e) {
       VIEW.printWarning("Could not load any competitions.");
       competitions = new ArrayList<>();
@@ -212,7 +212,7 @@ public class CompetitionController {
   /** Saves the competitions to a file */
   public void saveCompetitions() {
     try {
-      competitionService.saveCompetitionsToFile(competitions.toArray(new CompetitionModel[0]));
+      competitionService.saveCompetition(competitions.toArray(new CompetitionModel[0]));
     } catch (IOException e) {
       VIEW.printWarning(e.getMessage());
     }
