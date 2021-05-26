@@ -155,7 +155,7 @@ public class MemberModel implements Serializable {
   }
 
   public AgeGroupType getAgeGroup() {
-    if (getAge() <= AgeGroupType.JUNIOR.getAgeLimit()) {
+    if (getAge() <= AgeGroupType.JUNIOR.getAge()) {
       return AgeGroupType.JUNIOR;
     } else {
       return AgeGroupType.SENIOR;
