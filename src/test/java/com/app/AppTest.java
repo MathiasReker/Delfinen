@@ -45,13 +45,13 @@ public class AppTest {
   }
 
   @Test
-  public void testExitMenuAction(){
+  public void testExitMenuAction() {
     // Avoid the menu to be shown on the screen
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     PrintStream ps = new PrintStream(outContent);
     System.setOut(ps);
 
-    //Input "5" for exit
+    // Input "5" for exit
     String input = "5\n";
     InputStream in = new ByteArrayInputStream(input.getBytes());
     System.setIn(in);
@@ -62,7 +62,6 @@ public class AppTest {
     String[] contents = content.split("\n");
     String expected = "\u001B[0;97mPlease choose an option: \u001B[0m";
 
-    Assertions.assertEquals(expected, contents[contents.length-1]);
-
+    Assertions.assertEquals(expected, contents[contents.length - 1]);
   }
 }
