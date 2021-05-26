@@ -7,7 +7,7 @@ public class ValidateModelTest {
 
   @Test
   public void testIsValidDate() {
-    boolean result = InputModel.isValidDate("01/01/2021");
+    boolean result = InputModel.isValidDate("01/01/1992");
     Assertions.assertTrue(result);
   }
 
