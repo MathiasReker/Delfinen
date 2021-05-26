@@ -45,18 +45,23 @@ public class AppTest {
   }
 
   @Test
-  public void testExitMenuAction() {
+  public void TestExitMenuAction() {
     // Avoid the menu to be shown on the screen
+    PrintStream stdout = System.out;
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     PrintStream ps = new PrintStream(outContent);
     System.setOut(ps);
 
     // Input "5" for exit
+    InputStream stdin = System.in;
     String input = "5\n";
     InputStream in = new ByteArrayInputStream(input.getBytes());
     System.setIn(in);
 
     new App().menu();
+
+    System.setIn(stdin);
+    System.setOut(stdout);
 
     String content = outContent.toString(StandardCharsets.UTF_8);
     String[] contents = content.split("\n");
