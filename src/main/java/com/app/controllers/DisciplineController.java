@@ -147,8 +147,7 @@ public class DisciplineController {
    * @return String[]
    * @auther Andreas
    */
-  String[] getDisciplineDescriptions(
-      ArrayList<DisciplineModel> disciplines) {
+  String[] getDisciplineDescriptions(ArrayList<DisciplineModel> disciplines) {
     String[] result = new String[disciplines.size()];
     for (int i = 0; i < disciplines.size(); i++) {
       result[i] = disciplines.get(i).getDisciplineName();

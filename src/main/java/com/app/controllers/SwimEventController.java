@@ -136,7 +136,7 @@ public class SwimEventController {
 
             VIEW.printInline("Add results for another member, on this competition [Y/n]: ");
           } while (InputController.promptYesNo());
-        }else{
+        } else {
           VIEW.printWarning("No members available.");
         }
       } else {
