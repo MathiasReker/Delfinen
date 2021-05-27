@@ -172,7 +172,7 @@ public class PaymentController {
    * @return String
    * @auther Andreas
    */
-  String calcPeriod(LocalDate date1, LocalDate date2) { // TODO: move to PeriodModel?
+  String calcPeriod(LocalDate date1, LocalDate date2) {
     long test = ChronoUnit.DAYS.between(date1, date2);
 
     return String.valueOf(test);

@@ -147,16 +147,11 @@ public class DisciplineController {
    * @return String[]
    * @auther Andreas
    */
-  String[] getDisciplineDescriptions(
-      ArrayList<DisciplineModel> disciplines) { // TODO: move to model
+  String[] getDisciplineDescriptions(ArrayList<DisciplineModel> disciplines) {
     String[] result = new String[disciplines.size()];
     for (int i = 0; i < disciplines.size(); i++) {
-      result[i] =
-          disciplines.get(i).getDistance().getMeters()
-              + "m "
-              + disciplines.get(i).getStyle().name();
+      result[i] = disciplines.get(i).getDisciplineName();
     }
-
     return result;
   }
 }

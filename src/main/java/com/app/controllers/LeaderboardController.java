@@ -1,6 +1,5 @@
 package com.app.controllers;
 
-import com.app.models.MemberModel;
 import com.app.models.ResultModel;
 import com.app.models.SwimEventModel;
 import com.app.models.types.AgeGroupType;
@@ -18,6 +17,7 @@ public class LeaderboardController {
   private final DisciplineController DISC_CONTROLLER = new DisciplineController();
   private final ArrayList<SwimEventModel> ALL_COMPETITIONS =
       COMPETITION_CONTROLLER.getSwimEventModels();
+  private final ResultController RESULT_CONTROLLER = new ResultController();
 
   /**
    * Returns top n results, where n is amount.
@@ -49,7 +49,7 @@ public class LeaderboardController {
     }
 
     for (int i = 0; i < amount; i++) {
-      if (!memberExist(result, allResults.get(i).getMember())
+      if (!RESULT_CONTROLLER.memberInResult(result, allResults.get(i).getMember())
           && allResults.get(i).getMember().getGender() == genderType
           && allResults.get(i).getMember().getAgeGroup() == ageGroupType
           && allResults.get(i).getMember().isCompetitive()) {
@@ -62,28 +62,6 @@ public class LeaderboardController {
     }
 
     return result;
-  }
-
-  /**
-   * Returns true if member exists, false if member does not exists.
-   *
-   * @param finals ArrayList<ResultModel>
-   * @param member MemberModel
-   * @return boolean
-   * @auther Jackie
-   */
-  private boolean memberExist(
-      ArrayList<ResultModel> finals, MemberModel member) { // TODO: move to ResultController
-    if (finals.isEmpty()) {
-      return false;
-    }
-    for (ResultModel aFinal : finals) {
-      if (aFinal.getMember().getId().equals(member.getId())) {
-        return true;
-      }
-    }
-
-    return false;
   }
 
   /**

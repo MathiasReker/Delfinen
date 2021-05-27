@@ -60,8 +60,8 @@ public class InputController {
     int result = validateInteger();
     while (!InputModel.isValidRange(result, 1, max)) {
       VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-      result = IN.nextInt();
       IN.nextLine();
+      result = validateInteger();
     }
 
     IN.nextLine();
@@ -197,21 +197,6 @@ public class InputController {
       VIEW.printInlineWarning("Not a valid ID. Please try again: ");
     }
   }
-
-  static String validateAgeGroup() { // TODO: refactor -> use arrayOption
-    String result = IN.nextLine();
-    while (true) {
-      if (result.equalsIgnoreCase("j")) {
-        return result;
-      }
-      if (result.equalsIgnoreCase("s")) {
-        return result;
-      }
-      VIEW.printInlineWarning("Not a valid choice. Please try again: ");
-      result = IN.nextLine();
-    }
-  }
-
   /**
    * Returns a validate result time.
    *
