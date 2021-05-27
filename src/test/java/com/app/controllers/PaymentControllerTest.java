@@ -16,6 +16,7 @@ public class PaymentControllerTest {
     ArrayList<MemberModel> memberModels = new ArrayList<>();
     MemberModel testMember = new MemberModel();
     MembershipModel testMembership = new MembershipModel("test");
+    testMembership.setStartingDate(LocalDate.now());
 
     memberModels.add(testMember);
     testMember.addMembership(testMembership);
