@@ -1,8 +1,8 @@
 package com.app.controllers;
 
-import com.app.models.SwimEventModel;
 import com.app.models.MemberModel;
 import com.app.models.ResultModel;
+import com.app.models.SwimEventModel;
 import com.app.models.types.AgeGroupType;
 import com.app.models.types.DistanceType;
 import com.app.models.types.GenderType;

@@ -10,6 +10,13 @@ public class ConfigService {
     this.KEY = key;
   }
 
+  /**
+   * Returns key by value in the configuration file.
+   *
+   * @return String
+   * @throws IOException
+   * @auther Mathias
+   */
   public String getPath() throws IOException {
     FileService file = new FileService("data/config/config.txt");
     ArrayList<String> fileInfo = file.readTextFile();

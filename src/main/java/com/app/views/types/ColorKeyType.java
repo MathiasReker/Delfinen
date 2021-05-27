@@ -1,5 +1,6 @@
 package com.app.views.types;
 
+/** @auther Mathias */
 public enum ColorKeyType {
   RESET("\033[0m"),
 
@@ -45,6 +46,7 @@ public enum ColorKeyType {
    * Set the code attribute.
    *
    * @param code String.
+   * @auther Mathias
    */
   ColorKeyType(String code) {
     this.code = code;

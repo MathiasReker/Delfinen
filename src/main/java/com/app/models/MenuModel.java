@@ -13,6 +13,7 @@ public class MenuModel {
    * @param menuHeader String that describes the header of the menu.
    * @param menuActions Array that includes all the menu items.
    * @param leadText String that tells the user what to do.
+   * @auther Mathias
    */
   public MenuModel(String menuHeader, MenuAction[] menuActions, String leadText) {
     this.MENU_ACTIONS = menuActions;
@@ -25,6 +26,7 @@ public class MenuModel {
    *
    * @param index int that tells the index position of the menu item.
    * @return menu item.
+   * @auther Mathias
    */
   public MenuAction getMenuItem(int index) {
     return MENU_ACTIONS[index];
@@ -34,6 +36,7 @@ public class MenuModel {
    * Returns the lead text that tells the user what to do.
    *
    * @return String.
+   * @auther Mathias
    */
   public String getLeadText() {
     return LOAD_TEXT;
@@ -43,6 +46,7 @@ public class MenuModel {
    * Returns the header of the menu.
    *
    * @return String.
+   * @auther Mathias
    */
   public String getMenuHeader() {
     return MENU_HEADER;
@@ -52,6 +56,7 @@ public class MenuModel {
    * Returns a String[] of menu items.
    *
    * @return String.
+   * @auther Mathias
    */
   public String[] getMenuActionMenuItems() {
     String[] result = new String[MENU_ACTIONS.length];

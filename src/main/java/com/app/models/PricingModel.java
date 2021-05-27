@@ -12,6 +12,7 @@ public class PricingModel {
    *
    * @param member member to get price of.
    * @return price
+   * @auther Andreas, Mathias
    */
   public static int getMemberPrice(MemberModel member) {
     if (!member.getLatestMembership().isActive()) {
@@ -30,10 +31,25 @@ public class PricingModel {
     }
   }
 
+  /**
+   * Returns price with discount.
+   *
+   * @param price int
+   * @param discountPercent int
+   * @return int
+   * @auther Mathias
+   */
   private static int getPriceWithDiscount(int price, int discountPercent) {
     return (int) (price * (100 - discountPercent) / 100.0);
   }
 
+  /**
+   * Returns price in ore.
+   *
+   * @param price int
+   * @return int
+   * @auther Mathias
+   */
   private static int getPriceInOre(int price) {
     return price * 100;
   }

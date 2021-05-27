@@ -154,7 +154,7 @@ class MemberController{
     -gendersToArray() String[]
     -renewExpiringMembers()
     +requestPaymentForUnpaidMembers()
-    +removeMemberFromList(members) ArrayList<MemberModel>
+    ~removeMemberFromList(members) ArrayList<MemberModel>
     +getMemberByID(id, members) MenuModel
     +getMemberByID(id) MenuModel
     +saveMembers()

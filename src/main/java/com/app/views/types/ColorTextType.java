@@ -1,5 +1,6 @@
 package com.app.views.types;
 
+/** @auther Mathias */
 public class ColorTextType {
   private final String TEXT;
   private final ColorKeyType COLOR;
@@ -9,6 +10,7 @@ public class ColorTextType {
    *
    * @param text String.
    * @param color ColorKey.
+   * @auther Mathias
    */
   public ColorTextType(String text, ColorKeyType color) {
     this.TEXT = text;
@@ -20,6 +22,7 @@ public class ColorTextType {
    *
    * @param number int.
    * @param color ColorKey.
+   * @auther Mathias
    */
   public ColorTextType(int number, ColorKeyType color) {
     this.TEXT = String.valueOf(number);
@@ -30,6 +33,7 @@ public class ColorTextType {
    * Returns a colored string.
    *
    * @return String.
+   * @auther Mathias
    */
   @Override
   public String toString() {

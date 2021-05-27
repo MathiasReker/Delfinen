@@ -1,5 +1,6 @@
 package com.app.models.types;
 
+/** @auther Mathias */
 public enum AgeGroupType {
   JUNIOR(18),
   SENIOR(60);

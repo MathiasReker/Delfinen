@@ -4,7 +4,11 @@ import com.app.controllers.MenuController;
 import com.app.controllers.menuactions.*;
 
 public class App {
-  /** Build the menu. */
+  /**
+   * Build the menu.
+   *
+   * @auther Mathias
+   */
   void menu() {
     new MenuController("Main Menu", "Please choose an option: ", menuActions()).run();
   }

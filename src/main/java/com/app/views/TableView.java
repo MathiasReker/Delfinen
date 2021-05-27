@@ -5,6 +5,7 @@ import com.app.views.types.ColorTextType;
 
 import java.util.ArrayList;
 
+/** @auther Mathias */
 public class TableView {
   private final String[] HEADERS;
   private final ArrayList<ArrayList<String>> BODY;
@@ -22,6 +23,7 @@ public class TableView {
     calcMaxLengthAll();
   }
 
+  /** @auther Mathias */
   public void printTable() {
     System.out.println();
 
@@ -80,7 +82,11 @@ public class TableView {
     System.out.print(sb);
   }
 
-  // Update maxLength to make the column width dynamic
+  /**
+   * Update maxLength to make the column width dynamic.
+   *
+   * @auther Mathias
+   */
   private void calcMaxLengthAll() {
     for (ArrayList<String> temp : BODY) {
       for (int j = 0; j < temp.size(); j++) {

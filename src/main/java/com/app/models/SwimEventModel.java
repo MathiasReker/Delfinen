@@ -8,13 +8,13 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class SwimEventModel implements Serializable {
+  private final LocalDate START_DATE;
+  private final LocalTime START_TIME;
+  private final ArrayList<ResultModel> RESULTS = new ArrayList<>();
+  private final AgeGroupType AGE_GROUP;
   private String id;
-  private LocalDate startDate;
   private String name;
-  private LocalTime startTime;
-  private ArrayList<ResultModel> result = new ArrayList<>();
   private boolean practice;
-  private AgeGroupType ageGroup;
 
   public SwimEventModel(
       String id,
@@ -24,11 +24,11 @@ public class SwimEventModel implements Serializable {
       boolean practice,
       AgeGroupType ageGroup) {
     setId(id);
-    this.startDate = startDate;
+    this.START_DATE = startDate;
     this.name = name;
-    this.startTime = startTime;
+    this.START_TIME = startTime;
     this.practice = practice;
-    this.ageGroup = ageGroup;
+    this.AGE_GROUP = ageGroup;
   }
 
   public boolean isPractice() {
@@ -48,7 +48,7 @@ public class SwimEventModel implements Serializable {
   }
 
   public LocalDate getStartDate() { // TODO: Method 'getStartDate()' is never used
-    return startDate;
+    return START_DATE;
   }
 
   public String getName() {
@@ -60,14 +60,14 @@ public class SwimEventModel implements Serializable {
   }
 
   public LocalTime getStartTime() { // TODO: Method 'getStartTime()' is never used
-    return startTime;
+    return START_TIME;
   }
 
   public ArrayList<ResultModel> getResult() {
-    return result;
+    return RESULTS;
   }
 
   public void addResult(ResultModel result) {
-    this.result.add(result);
+    this.RESULTS.add(result);
   }
 }
