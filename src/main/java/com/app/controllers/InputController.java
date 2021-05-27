@@ -157,7 +157,7 @@ public class InputController {
    *
    * @return returns a time as a LocalTime type
    */
-  public static String validateCompetitionResultTime() { //TODO : name change
+  public static String validateCompetitionResultTime() { // TODO : name change
     String result = IN.nextLine();
     while (!InputModel.isValidCompetitionResultTime("00:" + result)) {
       VIEW.printInlineWarning("Not a valid time. Please try again: ");
@@ -167,7 +167,7 @@ public class InputController {
     return result;
   }
 
-  public static String validateCompetitionTime() {//TODO : name change
+  public static String validateCompetitionTime() { // TODO : name change
     String result = IN.nextLine();
     while (!InputModel.isValidCompetitionTime(result)) {
       VIEW.printInlineWarning("Not a valid time. Please try again: ");

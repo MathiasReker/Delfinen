@@ -20,7 +20,6 @@ public class ResultController {
    * @param member Member that we want to add a result to
    * @param competition The competition that we want to add a result to
    */
-
   public ResultModel addResultTime(MemberModel member, SwimEventModel competition) {
     DisciplineModel disciplineModel =
         DISC_CONTROLLER.getDisciplineModelStyleAndDistance(member.getGender());

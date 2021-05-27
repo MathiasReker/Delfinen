@@ -36,9 +36,7 @@ public class SwimEventController {
     return swimEventModels;
   }
 
-  /**
-   * Create a new competition, uses input controller to get input from user
-   */
+  /** Create a new competition, uses input controller to get input from user */
   public void createNewCompetition() {
     VIEW.printInline("Name of competition: ");
     String competitionName = InputController.anyString();
@@ -56,7 +54,8 @@ public class SwimEventController {
     VIEW.printInline("Junior or senior [j/s]: "); // TODO change to display with array.
     AgeGroupType ageGroup = findAgeGroup(InputController.validateAgeGroup());
 
-    swimEventModels.add(new SwimEventModel(generateId(), competitionName, date, startTime, false, ageGroup));
+    swimEventModels.add(
+        new SwimEventModel(generateId(), competitionName, date, startTime, false, ageGroup));
 
     VIEW.printSuccess("Competition successfully created.");
 
@@ -144,13 +143,12 @@ public class SwimEventController {
         } while (InputController.promptYesNo());
         VIEW.printInline(
             "Do you wish to add results for another member, on this practice [Y/n]: ");
+
       } while (InputController.promptYesNo());
     }
   }
 
-  /**
-   * View competition results based on a swim event id
-   */
+  /** View competition results based on a swim event id */
   public void viewCompetitionResults() {
     if (swimEventModels.isEmpty()) {
       VIEW.print("No swim events available.");
@@ -165,9 +163,7 @@ public class SwimEventController {
     }
   }
 
-  /**
-   * View practice results based on a swim event id
-   */
+  /** View practice results based on a swim event id */
   public void viewPracticeResults() {
     if (swimEventModels.isEmpty()) {
       VIEW.print("No swim events available.");
@@ -199,7 +195,7 @@ public class SwimEventController {
       String distance = Integer.toString(resultModel.getDiscipline().getDistance().getMeters());
       String completionTime = resultModel.getResultTime().toString();
 
-      result[i] = new String[]{name, style, distance, completionTime}; //TODO add if practice
+      result[i] = new String[] {name, style, distance, completionTime}; // TODO add if practice
     }
 
     return result;
@@ -225,16 +221,14 @@ public class SwimEventController {
    * Add the result to a given swim events.
    *
    * @param swimEventModel the swim event you wish to add the result to
-   * @param resultModel    the result you wish to add
+   * @param resultModel the result you wish to add
    */
   public void addResultToCompetition(SwimEventModel swimEventModel, ResultModel resultModel) {
     swimEventModel.addResult(resultModel);
     saveSwimEvents();
   }
 
-  /**
-   * Saves the swim events to a file
-   */
+  /** Saves the swim events to a file */
   public void saveSwimEvents() {
     try {
       swimEventService.save(swimEventModels.toArray(new SwimEventModel[0]));
@@ -271,16 +265,12 @@ public class SwimEventController {
     return String.valueOf(newId);
   }
 
-  /**
-   * @return a Stringarray of the swim event header
-   */
+  /** @return a Stringarray of the swim event header */
   private String[] getSwimEventHeader() {
-    return new String[]{"ID", "Name", "Date", "Start time"};
+    return new String[] {"ID", "Name", "Date", "Start time"};
   }
 
-  /**
-   * @return a int array with the columwidth
-   */
+  /** @return a int array with the columwidth */
   public int[] getColumnWidth() {
     int[] result = new int[getSwimEventHeader().length];
 
@@ -308,17 +298,15 @@ public class SwimEventController {
    * @return the the swim event as a String array
    */
   private String[] getSwimEventLine(SwimEventModel swimEventModel) {
-    return new String[]{
-        swimEventModel.getId(),
-        swimEventModel.getName(),
-        String.valueOf(swimEventModel.getStartDate()),
-        String.valueOf(swimEventModel.getStartTime())
+    return new String[] {
+      swimEventModel.getId(),
+      swimEventModel.getName(),
+      String.valueOf(swimEventModel.getStartDate()),
+      String.valueOf(swimEventModel.getStartTime())
     };
   }
 
-  /**
-   * creates a view for the user of the competitions available
-   */
+  /** creates a view for the user of the competitions available */
   public void viewTableCompetitions() {
     if (swimEventModels.isEmpty()) {
       VIEW.printWarning("No swim events.");
@@ -335,9 +323,7 @@ public class SwimEventController {
     }
   }
 
-  /**
-   * creates a view for the user of the practice available
-   */
+  /** creates a view for the user of the practice available */
   public void viewTablePractice() {
     if (swimEventModels.isEmpty()) {
       VIEW.printWarning("No swim events.");
@@ -353,5 +339,4 @@ public class SwimEventController {
       }
     }
   }
-
 }
