@@ -254,7 +254,7 @@ public class SwimEventController {
         }
       }
     }else{
-      VIEW.printWarning("No practices exists. ");
+      VIEW.printWarning("No practices exists.");
     }
   }
 
