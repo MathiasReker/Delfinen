@@ -32,7 +32,6 @@ public class SwimEventController {
       swimEventService = new SwimEventService(new ConfigService("swimEventBin").getPath());
       swimEventModels = toArraylist(swimEventService.load());
     } catch (IOException | ClassNotFoundException e) {
-      VIEW.printWarning("Could not load any swim events.");
       swimEventModels = new ArrayList<>();
     }
   }
@@ -202,7 +201,7 @@ public class SwimEventController {
    */
   public void viewCompetitionResults() {
     if (swimEventModels.isEmpty()) {
-      VIEW.print("No swim events available.");
+      VIEW.printWarning("No swim events available.");
     } else {
       viewTableCompetitions();
       VIEW.printInline("Competition ID: ");
@@ -227,7 +226,7 @@ public class SwimEventController {
    */
   public void viewPracticeResults() {
     if (swimEventModels.isEmpty()) {
-      VIEW.print("No swim events available.");
+      VIEW.printWarning("No swim events available.");
     } else {
       viewTablePractice();
       VIEW.printInline("Practice ID: ");
@@ -368,7 +367,7 @@ public class SwimEventController {
       String.valueOf(swimEventModel.getStartTime())
     };
   }
- 
+
   /**
    * Creates a view for the user of the competitions available.
    *
