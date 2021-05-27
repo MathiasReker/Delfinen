@@ -131,14 +131,21 @@ public class MemberController {
    * @auther Andreas
    */
   public void renewExpiringMembers(int days) {
-    ArrayList<MemberModel> expiringMembers =
-        getExpiringMembers(members.toArray(new MemberModel[0]), days);
+    if (!members.isEmpty()) {
+      ArrayList<MemberModel> expiringMembers =
+          getExpiringMembers(members.toArray(new MemberModel[0]), days);
 
-    if (expiringMembers.size() > 0) {
-      expiringMembers = removeMemberFromList(expiringMembers);
-    }
-    for (MemberModel member : expiringMembers) {
-      MEMBERSHIP_CONTROLLER.renewMembership(member, 1);
+      if (expiringMembers.size() > 0) {
+        expiringMembers = removeMemberFromList(expiringMembers);
+
+        for (MemberModel member : expiringMembers) {
+          MEMBERSHIP_CONTROLLER.renewMembership(member, 1);
+        }
+      } else {
+        VIEW.printWarning("No members to renew");
+      }
+    } else {
+      VIEW.printWarning("No members exists");
     }
   }
 

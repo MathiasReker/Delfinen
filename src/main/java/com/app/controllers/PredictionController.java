@@ -16,13 +16,17 @@ public class PredictionController {
    * @auther Andreas
    */
   public void predictIncome() {
-    VIEW.print("The prediction is calculated based on how many members will expire.");
-    VIEW.printInline("Input the amount of days to predict ahead: ");
-    int days = InputController.validateInteger();
+    if (!MEMBER_CONTROLLER.getMembers().isEmpty()) {
+      VIEW.print("The prediction is calculated based on how many members will expire.");
+      VIEW.printInline("Input the amount of days to predict ahead: ");
+      int days = InputController.validateInteger();
 
-    int prediction = predictIncomeInAmountOfDays(days);
+      int prediction = predictIncomeInAmountOfDays(days);
 
-    VIEW.printExpectedIncome(prediction, days);
+      VIEW.printExpectedIncome(prediction, days);
+    } else {
+      VIEW.printWarning("No members exists");
+    }
   }
 
   /**
@@ -32,9 +36,14 @@ public class PredictionController {
    * @auther Andreas
    */
   public void predictIncome(int days) {
-    int prediction = predictIncomeInAmountOfDays(days);
+    if (!MEMBER_CONTROLLER.getMembers().isEmpty()) {
+      VIEW.print("The prediction is calculated based on how many members will expire.");
+      int prediction = predictIncomeInAmountOfDays(days);
 
-    VIEW.printExpectedIncome(prediction, days);
+      VIEW.printExpectedIncome(prediction, days);
+    } else {
+      VIEW.printWarning("No members exists");
+    }
   }
 
   /**
