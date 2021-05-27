@@ -61,7 +61,8 @@ public class PaymentController {
    */
   public void handlePayments() {
     try {
-      paymentService = new PaymentService(new ConfigService("paymentRequestsPath").getPath() + "out.txt");
+      paymentService =
+          new PaymentService(new ConfigService("paymentRequestsPath").getPath() + "out.txt");
       approvedPaymentsIds = paymentService.getApprovedPayments();
       reviewPaymentFile();
       VIEW.printInline("Update memberships of valid members [Y/n]: ");
