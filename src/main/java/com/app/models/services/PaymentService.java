@@ -10,7 +10,7 @@ public class PaymentService {
   private final String PATH;
 
   public PaymentService(String path) throws IOException {
-    FILE_SERVICE = new FileService(path);
+    FILE_SERVICE = new FileService(path + "out.txt");
     this.PATH = path;
   }
 

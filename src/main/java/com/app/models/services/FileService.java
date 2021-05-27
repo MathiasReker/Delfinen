@@ -100,23 +100,4 @@ public class FileService {
 
     return result.toArray(new String[0]);
   }
-
-  /**
-   * Read txt file.
-   *
-   * @return
-   * @throws FileNotFoundException
-   * @auther Mohamad, Andreas
-   */
-  public ArrayList<String> readTextFile() throws FileNotFoundException {
-    ArrayList<String> result = new ArrayList<>();
-    Scanner reader = new Scanner(FILE);
-
-    while (reader.hasNextLine()) {
-      result.add(reader.nextLine());
-    }
-    reader.close();
-
-    return result;
-  }
 }

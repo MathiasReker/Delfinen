@@ -32,7 +32,6 @@ public class SwimEventController {
       swimEventService = new SwimEventService(new ConfigService("swimEventBin").getPath());
       swimEventModels = toArraylist(swimEventService.load());
     } catch (IOException | ClassNotFoundException e) {
-      VIEW.printWarning("Could not load any swim events.");
       swimEventModels = new ArrayList<>();
     }
   }
@@ -196,24 +195,23 @@ public class SwimEventController {
    */
   public void viewCompetitionResults() {
     if (swimEventModels.isEmpty()) {
-      VIEW.print("No swim events available.");
+      VIEW.printWarning("No swim events available.");
     } else {
       viewTableCompetitions();
       VIEW.printInline("Competition ID: ");
-      SwimEventModel competition =
-          InputController.validateSwimEvent(
-              swimEventModels); // TODO: refactor to have validation of competition closer
+      SwimEventModel competition = InputController.validateSwimEvent(swimEventModels);
 
       if (competition != null && !competition.isPractice()) {
-        ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
-
-        VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
+        VIEW.printTable(getResultsHeader(), getCompetitionResultsContent(competition.getResult()));
       } else {
         VIEW.printWarning("Not a valid choice.");
       }
     }
   }
 
+  private String[] getResultsHeader() {
+    return new String[] {"Name", "Style", "Distance", "Completion time"};
+  }
   /**
    * View practice results based on an ID of a swim event.
    *
@@ -221,42 +219,37 @@ public class SwimEventController {
    */
   public void viewPracticeResults() {
     if (swimEventModels.isEmpty()) {
-      VIEW.print("No swim events available.");
+      VIEW.printWarning("No swim events available.");
     } else {
       viewTablePractice();
       VIEW.printInline("Practice ID: ");
-      SwimEventModel practice =
-          InputController.validateSwimEvent(
-              swimEventModels); // TODO: refactor to have validation of competition closer
-      if (practice != null && !practice.isPractice()) {
-        ArrayList<ResultModel> resultsOfCompetition = practice.getResult();
-
-        VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
+      SwimEventModel practice = InputController.validateSwimEvent(swimEventModels);
+      if (practice != null && practice.isPractice()) {
+        VIEW.printTable(getResultsHeader(), getCompetitionResultsContent(practice.getResult()));
       } else {
         VIEW.printWarning("Not a valid choice.");
       }
     }
   }
 
-  /**
-   * Returns a 2D array of results to be displayed.
-   *
-   * @param resultTimes Arraylist of result times, that needs to be converted to a string
-   * @return A 2d String array
-   */
-  private String[][] arrayWithResultToDisplay(ArrayList<ResultModel> resultTimes) {
-    String[][] result = new String[resultTimes.size()][4]; // TODO: refactor to new table display
+  private ArrayList<ArrayList<String>> getCompetitionResultsContent(
+      ArrayList<ResultModel> results) {
+    ArrayList<ArrayList<String>> output = new ArrayList<>();
 
-    for (int i = 0; i < resultTimes.size(); i++) {
-      ResultModel resultModel = resultTimes.get(i);
-
-      String name = resultModel.getMember().getName();
-      String style = resultModel.getDiscipline().getStyle().name();
-      String distance = Integer.toString(resultModel.getDiscipline().getDistance().getMeters());
-      String completionTime = resultModel.getResultTime().toString();
-
-      result[i] = new String[] {name, style, distance, completionTime}; // TODO add if practice
+    for (ResultModel result : results) {
+      output.add(getCompetitionsResultsRow(result));
     }
+
+    return output;
+  }
+
+  private ArrayList<String> getCompetitionsResultsRow(ResultModel resultModel) {
+    ArrayList<String> result = new ArrayList<>();
+
+    result.add(resultModel.getMember().getName());
+    result.add(resultModel.getDiscipline().getStyle().name());
+    result.add(Integer.toString(resultModel.getDiscipline().getDistance().getMeters()));
+    result.add(resultModel.getResultTime().toString());
 
     return result;
   }
@@ -324,43 +317,6 @@ public class SwimEventController {
    */
   private String[] getSwimEventHeader() {
     return new String[] {"ID", "Name", "Date", "Start time"};
-  } // TODO: Refactor to new table display
-
-  /** @return a int array with the columwidth */
-  public int[] getColumnWidth() { // TODO: Refactor to new table display
-    int[] result = new int[getSwimEventHeader().length];
-
-    for (SwimEventModel swimEventModel : swimEventModels) {
-      String[] body = getSwimEventLine(swimEventModel);
-
-      for (int i = 0; i < body.length; i++) {
-        if (body[i] == null) {
-          body[i] = "--";
-        }
-
-        if (body[i].length() > result[i]) {
-          result[i] = body[i].length();
-        }
-      }
-    }
-
-    return result;
-  }
-
-  /**
-   * Converts a swim event into a String array.
-   *
-   * @param swimEventModel that needs to be converted to a String Array
-   * @return the the swim event as a String array
-   */
-  private String[] getSwimEventLine(
-      SwimEventModel swimEventModel) { // TODO: Refactor to new table display
-    return new String[] {
-      swimEventModel.getId(),
-      swimEventModel.getName(),
-      String.valueOf(swimEventModel.getStartDate()),
-      String.valueOf(swimEventModel.getStartTime())
-    };
   }
 
   /**
@@ -372,16 +328,32 @@ public class SwimEventController {
     if (swimEventModels.isEmpty()) {
       VIEW.printWarning("No swim events.");
     } else {
-      String[] header = getSwimEventHeader();
-      VIEW.displayCompetition(header, getColumnWidth());
+      VIEW.printTable(getSwimEventHeader(), getSwimEventContent(swimEventModels, true));
+    }
+  }
 
-      for (SwimEventModel competition : swimEventModels) {
-        if (!competition.isPractice()) {
-          String[] body = getSwimEventLine(competition);
-          VIEW.displayCompetition(body, getColumnWidth());
-        }
+  private ArrayList<String> getSwimEventRows(SwimEventModel swimEvent) {
+    ArrayList<String> result = new ArrayList<>();
+
+    result.add(swimEvent.getId());
+    result.add(swimEvent.getName());
+    result.add(String.valueOf(swimEvent.getStartDate()));
+    result.add(String.valueOf(swimEvent.getStartTime()));
+
+    return result;
+  }
+
+  private ArrayList<ArrayList<String>> getSwimEventContent(
+      ArrayList<SwimEventModel> swimEvents, boolean isPractice) {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
+
+    for (SwimEventModel swimEvent : swimEvents) {
+      if (isPractice != swimEvent.isPractice()) {
+        result.add(getSwimEventRows(swimEvent));
       }
     }
+
+    return result;
   }
 
   /**
@@ -393,15 +365,7 @@ public class SwimEventController {
     if (swimEventModels.isEmpty()) {
       VIEW.printWarning("No swim events.");
     } else {
-      String[] header = getSwimEventHeader();
-      VIEW.displayCompetition(header, getColumnWidth());
-
-      for (SwimEventModel practice : swimEventModels) {
-        if (practice.isPractice()) {
-          String[] body = getSwimEventLine(practice);
-          VIEW.displayCompetition(body, getColumnWidth());
-        }
-      }
+      VIEW.printTable(getSwimEventHeader(), getSwimEventContent(swimEventModels, false));
     }
   }
 

@@ -39,19 +39,37 @@ public class PaymentController {
    * @auther Mohamad
    */
   private void reviewPaymentFile() {
-    String[][] resultsToString = new String[approvedPaymentsIds.size()][3];
-    for (int i = 0; i < approvedPaymentsIds.size(); i++) {
-      try {
-        MemberModel member = MEMBER_CONTROLLER.getMemberById(approvedPaymentsIds.get(i));
-        String id = member.getId();
-        String name = member.getName();
-        resultsToString[i] = new String[] {id, name};
-      } catch (MemberNotFoundException e) {
-        String id = approvedPaymentsIds.get(i);
-        resultsToString[i] = new String[] {id, null};
-      }
+    VIEW.printTable(getPaymentHeader(), getPaymentContent());
+  }
+
+  private ArrayList<String> getRows(String approvedPaymentsId) {
+    ArrayList<String> result = new ArrayList<>();
+
+    try {
+      MemberModel member = MEMBER_CONTROLLER.getMemberById(approvedPaymentsId);
+
+      result.add(member.getId());
+      result.add(member.getName());
+    } catch (MemberNotFoundException e) {
+      result.add(approvedPaymentsId);
+      result.add(null);
     }
-    VIEW.displayPayments(resultsToString);
+
+    return result;
+  }
+
+  private ArrayList<ArrayList<String>> getPaymentContent() {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
+
+    for (String approvedPaymentsId : approvedPaymentsIds) {
+      result.add(getRows(approvedPaymentsId));
+    }
+
+    return result;
+  }
+
+  private String[] getPaymentHeader() {
+    return new String[] {"ID", "Name"};
   }
 
   /**
@@ -61,8 +79,7 @@ public class PaymentController {
    */
   public void handlePayments() {
     try {
-      paymentService =
-          new PaymentService(new ConfigService("paymentRequestsPath").getPath() + "out.txt");
+      paymentService = new PaymentService(new ConfigService("paymentRequestsPath").getPath());
       approvedPaymentsIds = paymentService.getApprovedPayments();
       reviewPaymentFile();
       VIEW.printInline("Update memberships of valid members [Y/n]: ");
@@ -123,19 +140,37 @@ public class PaymentController {
    * @auther Andreas, Mohamad
    */
   public void displayMembersInArrears() {
+    VIEW.printTable(getArrearsHeader(), getArrearsContent());
+  }
+
+  private String[] getArrearsHeader() {
+    return new String[] {"ID", "Name", "Days"};
+  }
+
+  /** @auther Mathias, Mohamad */
+  private ArrayList<String> getArrearsRows(MemberModel arrears) {
+    ArrayList<String> result = new ArrayList<>();
+
+    result.add(arrears.getId());
+    result.add(arrears.getName());
+    result.add(calcPeriod(LocalDate.now(), arrears.getLatestMembership().getStartingDate()));
+
+    return result;
+  }
+
+  /** @auther Mathias, Mohamad */
+  private ArrayList<ArrayList<String>> getArrearsContent() {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
+
     ArrayList<MemberModel> unpaidMembers =
         MEMBER_CONTROLLER.getUnpaidMembers(MEMBER_CONTROLLER.getMembers());
     ArrayList<MemberModel> arrears = getMembersInArrears(unpaidMembers);
 
-    int size = arrears.size();
-    String[][] arrearsData = new String[size][3];
-    for (int i = 0; i < size; i++) {
-      String days =
-          calcPeriod(LocalDate.now(), arrears.get(i).getLatestMembership().getStartingDate());
-      arrearsData[i] = new String[] {arrears.get(i).getId(), arrears.get(i).getName(), days};
+    for (MemberModel arrear : arrears) {
+      result.add(getArrearsRows(arrear));
     }
 
-    VIEW.displayArrears(arrearsData);
+    return result;
   }
 
   /**
