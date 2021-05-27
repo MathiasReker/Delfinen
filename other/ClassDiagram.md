@@ -2,7 +2,7 @@
 classDiagram
 Main --> App
 App --> MenuController
-AddResultMenuAction --> CompetionController
+AddResultMenuAction --> SwimEventController
 AnonymizeMenuAction --> MemberController
 CompetitionSubMenuMenuAction --> MenuController
 CreateCompetitionSubMenuMenuAction --> CompetitionController
@@ -91,129 +91,149 @@ View --> ColorTextType
 View --> ColorKeyType
 
 
-class CompetitionController{
-    -CompetitionView
+class SwimEventController{
+    -SwimEventView
     -MemberController
     -Arraylist<CompetitionModel>
     -CompetitionService
     +createNewCompetition()
+    +createNewPractice()
+    -getAgeGroup(ageGroup) AgeGroupType
     +addResultToCompetition()
-    -addResultTime(member, competition)
+    +addResultToPractice()
     +viewCompetitionResults()
+    +viewPracticeResults()
     -arrayWithResultToDisplay(result) String [][]
-    +getMember(id) MemberModel
-    +addResultToCompetition(competition, resultModel)
-    +styleToArray() String []
-    +distanceToArray(style, gender) String []
-    +saveCompetitions()
+    -addResultToSwimEvent(swimEventModel, resultModel)
+    -saveSwimEvents()
     -toArraylist(competitions []) Arraylist<Competionsmodel>
-    -generateId() String
-    -getCompetitionHeader() String[]
+    -generateSwimEventId() String
+    -getSwimEventHeader() String[]
     +getColumnWidth() int[]
-    -getCompetitionLine(competition) String[]
-    +viewTableCompetitions()
+    -getSwimEventLineLine(competition) String[]
+    -viewTableCompetitions()
+    -viewTablePractice()
 }
 
 class DisciplineController {
     -ArrayList<DisciplineModel>
-    +chosenDiscipline(gender, style) ArrayList<DisciplineModel>
+    ~chosenDiscipline(gender, style) ArrayList<DisciplineModel>
+    ~styleToArray() String[]
+    ~distanceToArray() Stirng[]
+    ~lookupDiscipline(disciplines,discipline) booleam
+    ~getDisciplineModelStyleAndDistance(gender) DisciplineModel
+    ~getDisciplineDesciptions(disciplines) String[]
+    
 }
 class InputController{
     -Scanner
     -InputView
-    +promptYesNo() boolean
-    +validateInteger() int
-    +validateOptionRange(max) int
-    +validateName() String
-    +validateMail() String
-    +validateDate() String
-    +validatePhoneNumber() String
-    +validateMemberId(members) String
-    +validateCompetitionsId(competitions) CompetitionModel
-    +validateCompetitionResultTime() String
-    +validateCompetitionTime() String
-    +validatePlacement() String
-    +anyString() String
+    ~promptYesNo() boolean
+    ~validateInteger() int
+    ~validateOptionRange(max) int
+    ~validateName() String
+    ~validateMail() String
+    ~validateDate() String
+    ~validatePhoneNumber() String
+    ~validateMemberId(members) String
+    ~validateSwimEvent(SwimEvents) SwimEvent
+    ~validateResultTime() String
+    ~validateSwimEventTime() String
+    ~validatePlacement() String
+    ~anyString() String
 }
 class LeaderboardController{
     -CompetitionView
     -CompetitionController
     -ArrayList<CompetitionModel>
-    -findTop(style, distance, amount) ResultModel[]
+    -findTop(style, distance, amount, genderType, ageGroupType) Arralist<ResultModel>
+    -memberExist(finals, member) boolean
     -findDiscipline(style, distance) ArrayList<ResultModel>
-    -arrayWithResultToDisplay(resultTimes) String[][]
-    +displayTop5Results()
-
+    +displayTopResults(amount)
+    -displayTop(style,distance,amount,genderType,ageGroupType)
+    -getLeaderboardContent(resultModels) ArrayList<ArrayList<String>>
+    -getLeaderboardHeader() String[]
+    ~ageGroupToArray() String[]
 }
 class MemberController{
     -MemberView
     -MembershipController
     -ArrayList<MemberModel>
     +createMember()
-    +addMember(id, name, mail, gender, birthday, phone, competitive, active)
+    -addMember(id, name, mail, gender, birthday, phone, competitive, active)
     -gendersToArray() String[]
-    -renewExpiringMembers()
-    +requestPaymentForUnpaidMembers()
+    +renewExpiringMembers()
     ~removeMemberFromList(members) ArrayList<MemberModel>
-    +getMemberByID(id, members) MenuModel
-    +getMemberByID(id) MenuModel
-    +saveMembers()
-    +loadMembers() MemberModel[]
-    +membersToStringArray(members) ArrayList<MemberModel>
-    -getMemberLine(member) String[]
-    -getMemberHeader() String[]
-    +viewTableMembers(member)
-    +viewTableMembers(members)
+    ~getMemberById(id, members) MenuModel
+    ~getMemberById(id) MenuModel
+    ~saveMembers()
+    -loadMembers() MemberModel[]
+    -membersToArraysList(members) ArrayList<MemberModel>
+    -getMemberHeader(expanded) String[]
+    -viewTableMembers(member, expanded)
+    -viewTableMembers(members.expanded)
     +viewTableMembers()
-    +getColumnWidth() int[]
+    -getMemberContent(members, expanded)
+    -getMemberContent(member, expanded)
+    -getRows(member,expanded)
     +searchMember()
-    +viewMemberById()
-    +getMemberById(id) MemberModel
-    +viewMembersByName()
-    +getMembersByName(name) ArrayList<MemberModel>
-    +viewMembersByMail()
-    +getMembersByMail(mail) ArrayList<MemberModel>
-    +viewMemberByPhoneNumber()
-    +getMemberByPhoneNumber(phoneNumber) ArrayList<MemberModel>
+    -viewMemberById()
+    -viewMembersByName()
+    -getMembersByName(name) ArrayList<MemberModel>
+    -viewMembersByMail()
+    -getMembersByMail(mail) ArrayList<MemberModel>
+    -viewMemberByPhoneNumber()
+    -getMemberByPhoneNumber(phoneNumber) ArrayList<MemberModel>
     +anonymizeMember()
     +editMember()
-    +generateMemberId() String
-    +getExpiringMembers(memberModels,days) ArrayList<MemberModel>
-    +getUnpaidMembers(ArrayList<MemberModel> memberModels) ArrayList<MemberModel>
+    -generateMemberId() String
+    ~getExpiringMembers(memberModels,days) ArrayList<MemberModel>
+    ~getUnpaidMembers(ArrayList<MemberModel> memberModels) ArrayList<MemberModel>
+    -addDiscipline(member,discpline)
+    -addDisciplineToMember(member)
 }
 class MembershipController{
-  +addActiveMembership(member)
-  +addPassiveMembership(member)
+  ~addActiveMembership(member)
+  ~addPassiveMembership(member)
   -generateMembershipId(member) String
-  +renewMembership(member, durationYears)
+  ~renewMembership(member, durationYears)
   -createNewMembership() MembershipModel
+  ~membershipExpiresInDays(member, days) boolean;
+  ~membershipUnpaid(member) boolean
+  
 }
 class MenuController{
     -MenuView
     -MenuModel
     +Run()
+    -displayMenu()
 }
 class PaymentController{
     -MemberController
     -PaymentView
     -ArrayList<String>
     -PaymentService
-    +updateMemberShip(members)
+    -updatePaymentStatus(members)
     -reviewPaymentFile()
     +handlePayments()
     -getValidPayments() ArrayList<MemberModel>
     -createBackupFile(failedPayments)
     +displayMembersInArrear()
-    +findMembersInArrear(members) ArrayList<MemberModel>
-    +calcPeriod(date1, date2) String
+    ~getMembersInArrear(members) ArrayList<MemberModel>
+    ~calcPeriod(date1, date2) String
+    +requestPaymentforUnpaidMembers()
 }
 class PredictionController{
     -PredictionView
     -MemberController
     +predictIncome()
     +predictIncome(days)
-    +predictIncomeInXDays(days) int
+    -predictIncomeInXDays(days) int
 }
+class ResultController{
+    ~addResultTime(member, swimevent)
+}
+
 class CompetitionModel{
     -id:String
     -startDate:LocalDate
@@ -359,7 +379,7 @@ class ViewResultsMenuAction
 ```
 ```mermaid
 classDiagram
-AddResultMenuAction --> CompetionController
+AddResultMenuAction --> SwimEventController
 AnonymizeMenuAction --> MemberController
 CompetitionSubMenuMenuAction --> MenuController
 CreateCompetitionSubMenuMenuAction --> CompetitionController
