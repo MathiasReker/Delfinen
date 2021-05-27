@@ -78,21 +78,25 @@ public class PaymentController {
    * @auther Mohamad
    */
   public void handlePayments() {
-    try {
-      paymentService = new PaymentService(new ConfigService("paymentRequestsPath").getPath());
-      approvedPaymentsIds = paymentService.getApprovedPayments();
-      reviewPaymentFile();
-      VIEW.printInline("Update memberships of valid members [Y/n]: ");
+    if (!MEMBER_CONTROLLER.getMembers().isEmpty()) {
+      try {
+        paymentService = new PaymentService(new ConfigService("paymentRequestsPath").getPath());
+        approvedPaymentsIds = paymentService.getApprovedPayments();
+        reviewPaymentFile();
+        VIEW.printInline("Update memberships of valid members [Y/n]: ");
 
-      if (InputController.promptYesNo()) {
-        updatePaymentStatus(getValidPayments());
-        VIEW.printSuccess("Memberships successfully updated.");
-        MEMBER_CONTROLLER.saveMembers();
-      } else {
-        VIEW.printWarning("Canceled.");
+        if (InputController.promptYesNo()) {
+          updatePaymentStatus(getValidPayments());
+          VIEW.printSuccess("Memberships successfully updated.");
+          MEMBER_CONTROLLER.saveMembers();
+        } else {
+          VIEW.printWarning("Canceled.");
+        }
+      } catch (IOException e) {
+        VIEW.printWarning("The payment file could not be loaded.");
       }
-    } catch (IOException e) {
-      VIEW.printWarning("The payment file could not be loaded.");
+    } else {
+      VIEW.printWarning("No members exist.");
     }
   }
 
@@ -140,7 +144,11 @@ public class PaymentController {
    * @auther Andreas, Mohamad
    */
   public void displayMembersInArrears() {
-    VIEW.printTable(getArrearsHeader(), getArrearsContent());
+    if (!MEMBER_CONTROLLER.getMembers().isEmpty()) {
+      VIEW.printTable(getArrearsHeader(), getArrearsContent());
+    } else {
+      VIEW.printWarning("No members exists.");
+    }
   }
 
   private String[] getArrearsHeader() {
@@ -220,21 +228,26 @@ public class PaymentController {
    * @auther Andreas
    */
   public void requestPaymentForUnpaidMembers() {
-    try {
-      ArrayList<MemberModel> unpaidMembers =
-          MEMBER_CONTROLLER.getUnpaidMembers(MEMBER_CONTROLLER.getMembers());
-      PaymentRequestService paymentRequester =
-          new PaymentRequestService(new ConfigService("paymentRequestsPath").getPath() + "out.txt");
-      unpaidMembers = MEMBER_CONTROLLER.removeMemberFromList(unpaidMembers);
-      if (!unpaidMembers.isEmpty()) {
-        VIEW.printInline("Send the payment requests [Y/n]: ");
-        if (InputController.promptYesNo()) {
-          paymentRequester.createPaymentRequest(unpaidMembers.toArray(new MemberModel[0]));
+    if (!MEMBER_CONTROLLER.getMembers().isEmpty()) {
+      try {
+        ArrayList<MemberModel> unpaidMembers =
+            MEMBER_CONTROLLER.getUnpaidMembers(MEMBER_CONTROLLER.getMembers());
+        PaymentRequestService paymentRequester =
+            new PaymentRequestService(
+                new ConfigService("paymentRequestsPath").getPath() + "out.txt");
+        unpaidMembers = MEMBER_CONTROLLER.removeMemberFromList(unpaidMembers);
+        if (!unpaidMembers.isEmpty()) {
+          VIEW.printInline("Send the payment requests [Y/n]: ");
+          if (InputController.promptYesNo()) {
+            paymentRequester.createPaymentRequest(unpaidMembers.toArray(new MemberModel[0]));
+          }
         }
-      }
 
-    } catch (IOException e) {
-      VIEW.printWarning(e.getMessage());
+      } catch (IOException e) {
+        VIEW.printWarning(e.getMessage());
+      }
+    } else {
+      VIEW.printWarning("No members exists.");
     }
   }
 }

@@ -131,14 +131,21 @@ public class MemberController {
    * @auther Andreas
    */
   public void renewExpiringMembers(int days) {
-    ArrayList<MemberModel> expiringMembers =
-        getExpiringMembers(members.toArray(new MemberModel[0]), days);
+    if (!members.isEmpty()) {
+      ArrayList<MemberModel> expiringMembers =
+          getExpiringMembers(members.toArray(new MemberModel[0]), days);
 
-    if (expiringMembers.size() > 0) {
-      expiringMembers = removeMemberFromList(expiringMembers);
-    }
-    for (MemberModel member : expiringMembers) {
-      MEMBERSHIP_CONTROLLER.renewMembership(member, 1);
+      if (expiringMembers.size() > 0) {
+        expiringMembers = removeMemberFromList(expiringMembers);
+
+        for (MemberModel member : expiringMembers) {
+          MEMBERSHIP_CONTROLLER.renewMembership(member, 1);
+        }
+      } else {
+        VIEW.printWarning("No members to renew.");
+      }
+    } else {
+      VIEW.printWarning("No members exists.");
     }
   }
 
@@ -307,7 +314,7 @@ public class MemberController {
    */
   public void viewTableMembers(boolean expanded) {
     if (members.isEmpty()) {
-      VIEW.printWarning("No members.");
+      VIEW.printWarning("No members exists.");
     } else {
       VIEW.printTable(getMemberHeader(expanded), getMemberContent(members, expanded));
     }
@@ -398,6 +405,8 @@ public class MemberController {
       } else if (3 == index) {
         viewMemberByPhoneNumber();
       }
+    } else {
+      VIEW.printWarning("No members exists.");
     }
   }
 
@@ -533,9 +542,8 @@ public class MemberController {
    * @auther Mathias
    */
   public void anonymizeMember() {
-    viewTableMembers(false);
-
     if (!members.isEmpty()) {
+      viewTableMembers(false);
       VIEW.printInline("Input ID [press \"q\" to quit]: ");
       String id = InputController.validateMemberId(members);
 
@@ -554,6 +562,8 @@ public class MemberController {
       } else {
         VIEW.printSuccess("Action cancelled.");
       }
+    } else {
+      VIEW.printWarning("No members exists.");
     }
   }
 
@@ -607,6 +617,8 @@ public class MemberController {
       } else {
         VIEW.printSuccess("Action cancelled.");
       }
+    } else {
+      VIEW.printWarning("No members exists.");
     }
   }
 
