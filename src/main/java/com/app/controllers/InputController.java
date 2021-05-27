@@ -136,10 +136,6 @@ public class InputController {
         return null;
       }
 
-      /*if (InputModel.isValidCompetitionId(result, competitions)) {
-        return result;
-      }*/
-
       for (SwimEventModel c : competitions) {
         if (c.getId().equals(result)) {
           return c;

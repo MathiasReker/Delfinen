@@ -106,18 +106,22 @@ public class SwimEventController {
       VIEW.printInline("Competition ID: ");
       SwimEventModel competition = InputController.validateSwimEventId(swimEventModels);
 
-      do {
-        MEMBER_CONTROLLER.viewTableMembers();
-        VIEW.printInline("Member ID: ");
-        MemberModel member =
-            getMember(InputController.validateMemberId(new MemberController().getMembers()));
+      if (competition != null && !competition.isPractice()) {
         do {
-          addResultToCompetition(competition, resultController.addResultTime(member, competition));
-          VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
+          MEMBER_CONTROLLER.viewTableMembers();
+          VIEW.printInline("Member ID: ");
+          MemberModel member =
+              getMember(InputController.validateMemberId(new MemberController().getMembers()));
+          do {
+            addResultToCompetition(competition, resultController.addResultTime(member, competition));
+            VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
+          } while (InputController.promptYesNo());
+          VIEW.printInline(
+              "Do you wish to add results for another member, on this competition [Y/n]: ");
         } while (InputController.promptYesNo());
-        VIEW.printInline(
-            "Do you wish to add results for another member, on this competition [Y/n]: ");
-      } while (InputController.promptYesNo());
+      } else {
+        VIEW.printWarning("Not a valid choice");
+      }
     }
   }
 
@@ -131,18 +135,22 @@ public class SwimEventController {
       VIEW.printInline("Practice ID: ");
       SwimEventModel practice = InputController.validateSwimEventId(swimEventModels);
 
-      do {
-        MEMBER_CONTROLLER.viewTableMembers();
-        VIEW.printInline("Member ID: ");
-        MemberModel member =
-            getMember(InputController.validateMemberId(new MemberController().getMembers()));
+      if (practice != null && practice.isPractice()) {
         do {
-          addResultToCompetition(practice, resultController.addResultTime(member, practice));
-          VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
-        } while (InputController.promptYesNo());
-        VIEW.printInline("Do you wish to add results for another member, on this practice [Y/n]: ");
+          MEMBER_CONTROLLER.viewTableMembers();
+          VIEW.printInline("Member ID: ");
+          MemberModel member =
+              getMember(InputController.validateMemberId(new MemberController().getMembers()));
+          do {
+            addResultToCompetition(practice, resultController.addResultTime(member, practice));
+            VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
+          } while (InputController.promptYesNo());
+          VIEW.printInline("Do you wish to add results for another member, on this practice [Y/n]: ");
 
-      } while (InputController.promptYesNo());
+        } while (InputController.promptYesNo());
+      }else {
+        VIEW.printWarning("Not a valid choice");
+      }
     }
   }
 
@@ -151,13 +159,18 @@ public class SwimEventController {
     if (swimEventModels.isEmpty()) {
       VIEW.print("No swim events available.");
     } else {
+      viewTableCompetitions();
       VIEW.printInline("Competition ID: ");
       SwimEventModel competition = InputController.validateSwimEventId(swimEventModels);
       // Todo refactor to have validation of competion closer
 
-      ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
+      if (competition != null && !competition.isPractice()) {
+        ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
 
-      VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
+        VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
+      }else {
+        VIEW.printWarning("Not a valid choice");
+      }
     }
   }
 
@@ -166,13 +179,17 @@ public class SwimEventController {
     if (swimEventModels.isEmpty()) {
       VIEW.print("No swim events available.");
     } else {
+      viewTablePractice();
       VIEW.printInline("Practice ID: ");
       SwimEventModel practice = InputController.validateSwimEventId(swimEventModels);
       // Todo refactor to have validation of competion closer
+      if (practice != null && !practice.isPractice()) {
+        ArrayList<ResultModel> resultsOfCompetition = practice.getResult();
 
-      ArrayList<ResultModel> resultsOfCompetition = practice.getResult();
-
-      VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
+        VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
+      }else {
+        VIEW.printWarning("Not a valid choice");
+      }
     }
   }
 
