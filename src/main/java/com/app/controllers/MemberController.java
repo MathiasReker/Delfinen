@@ -563,7 +563,7 @@ public class MemberController {
         VIEW.printSuccess("Action cancelled.");
       }
     } else {
-      VIEW.printWarning("No members exists");
+      VIEW.printWarning("No members exists.");
     }
   }
 
