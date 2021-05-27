@@ -41,7 +41,7 @@ public class MemberModel implements Serializable {
    * @param creationDate
    * @param memberships
    */
-  MemberModel(
+  MemberModel( // TODO: Remove and refactor test
       String ID,
       String name,
       LocalDate birthdate,
@@ -80,8 +80,8 @@ public class MemberModel implements Serializable {
     this.name = name;
   }
 
-  public boolean isDeleted() { // TODO: Method 'isDeleted()' is never used
-    return deleted;
+  public boolean isDeleted() {
+    return deleted; // TODO
   }
 
   public void setDeleted(boolean deleted) {
@@ -168,7 +168,9 @@ public class MemberModel implements Serializable {
   /**
    * Package private methods for setting Memberships when reading members from file.
    *
-   * @param memberships
+   * @param memberships ArrayList<MembershipModel>
+   * @return null|MembershipModel
+   * @auther Andreas
    */
   void setMemberships(ArrayList<MembershipModel> memberships) {
     this.memberships = memberships;

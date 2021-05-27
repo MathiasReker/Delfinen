@@ -4,11 +4,11 @@ import java.io.Serializable;
 import java.time.LocalTime;
 
 public class ResultModel implements Serializable, Comparable<ResultModel> {
+  private final LocalTime RESULT_TIME;
+  private final DisciplineModel DISCIPLINE;
+  private final SwimEventModel COMPETITION;
+  private final String PLACEMENT;
   private MemberModel member;
-  private LocalTime resultTime;
-  private DisciplineModel discipline;
-  private SwimEventModel competition;
-  private String placement;
 
   public ResultModel(
       MemberModel member,
@@ -17,26 +17,18 @@ public class ResultModel implements Serializable, Comparable<ResultModel> {
       SwimEventModel competition,
       String placement) {
     this.member = member;
-    this.resultTime = resultTime;
-    this.discipline = discipline;
-    this.competition = competition;
-    this.placement = placement;
+    this.RESULT_TIME = resultTime;
+    this.DISCIPLINE = discipline;
+    this.COMPETITION = competition;
+    this.PLACEMENT = placement;
   }
 
   public SwimEventModel getCompetition() {
-    return competition;
-  }
-
-  public void setCompetition(SwimEventModel competition) {
-    this.competition = competition;
+    return COMPETITION;
   }
 
   public String getPlacement() {
-    return placement;
-  }
-
-  public void setPlacement(String placement) {
-    this.placement = placement;
+    return PLACEMENT;
   }
 
   public MemberModel getMember() {
@@ -48,23 +40,11 @@ public class ResultModel implements Serializable, Comparable<ResultModel> {
   }
 
   public LocalTime getResultTime() {
-    return resultTime;
-  }
-
-  public void setResultTime(
-      LocalTime resultTime) { // TODO: Method 'setResultTime(java.time.LocalTime)' is never used
-    this.resultTime = resultTime;
+    return RESULT_TIME;
   }
 
   public DisciplineModel getDiscipline() {
-    return discipline;
-  }
-
-  public void setDiscipline(
-      DisciplineModel
-          discipline) { // TODO: Method 'setDiscipline(com.app.models.DisciplineModel)' is never
-    // used
-    this.discipline = discipline;
+    return DISCIPLINE;
   }
 
   @Override

@@ -14,6 +14,13 @@ public class PaymentService {
     this.PATH = path;
   }
 
+  /**
+   * Return list of approved payments.
+   *
+   * @return ArrayList<String>
+   * @throws FileNotFoundException
+   * @auther Andreas, Mohamad
+   */
   public ArrayList<String> getApprovedPayments() throws FileNotFoundException {
     String[] competitionString = FILE_SERVICE.readFromFile();
     ArrayList<String> result = new ArrayList<>();
@@ -24,6 +31,13 @@ public class PaymentService {
     return result;
   }
 
+  /**
+   * Backup to file.
+   *
+   * @param strings String
+   * @throws IOException
+   * @auther Mohamad
+   */
   public void backupToFile(ArrayList<String> strings) throws IOException {
     FileService fileService = new FileService(getFullBackupFilePath());
     String[] result = new String[strings.size()];

@@ -14,15 +14,11 @@ public class DisciplineController {
 
   private ArrayList<DisciplineModel> disciplines = new ArrayList<>();
 
-  public DisciplineController() {
+  DisciplineController() {
     setDisciplines(disciplines);
   }
 
-  public ArrayList<DisciplineModel> getDisciplines() {
-    return disciplines; // TODO: never used
-  }
-
-  public void setDisciplines(ArrayList<DisciplineModel> disciplines) {
+  private void setDisciplines(ArrayList<DisciplineModel> disciplines) {
     this.disciplines = disciplines;
   }
 
@@ -32,8 +28,9 @@ public class DisciplineController {
    * @param gender gets the gender, 1 is boy, 2 is girl, 3 is other
    * @param style that define the distance.
    * @return a list og disciplines.
+   * @auther Jackie
    */
-  public ArrayList<DisciplineModel> chosenDiscipline(GenderType gender, StyleType style) {
+  ArrayList<DisciplineModel> chosenDiscipline(GenderType gender, StyleType style) {
     ArrayList<DistanceType> distances = new ArrayList<>();
 
     distances.add(DistanceType.FIFTY);
@@ -65,8 +62,11 @@ public class DisciplineController {
     return result;
   }
 
-  /** @return a String Array of converted styles */
-  public String[] styleToArray() {
+  /**
+   * @return a String Array of converted styles
+   * @auther Mohammad, Mathias
+   */
+  String[] styleToArray() {
     String[] result = new String[StyleType.values().length];
 
     for (int i = 0; i < result.length; i++) {
@@ -82,8 +82,9 @@ public class DisciplineController {
    * @param style the style we wish to filter on
    * @param gender the gender we wish to filter on
    * @return a String array with filtered distances
+   * @auther
    */
-  public String[] distanceToArray(StyleType style, GenderType gender) {
+  String[] distanceToArray(StyleType style, GenderType gender) {
     ArrayList<DisciplineModel> disciplineModels = chosenDiscipline(gender, style);
     String[] result = new String[disciplineModels.size()];
 
@@ -94,31 +95,31 @@ public class DisciplineController {
     return result;
   }
 
-  // Author: Andreas
-  public boolean lookupDiscipline(
-      ArrayList<DisciplineModel> disciplines, DisciplineModel discipline) {
+  /**
+   * Lookup discipline.
+   *
+   * @param disciplines ArrayList<DisciplineModel>
+   * @param discipline DisciplineModel
+   * @return boolean
+   * @auther Andreas
+   */
+  boolean lookupDiscipline(ArrayList<DisciplineModel> disciplines, DisciplineModel discipline) {
     for (DisciplineModel disciplineModel : disciplines) {
       return disciplineModel.getDistance().equals(discipline.getDistance())
           && disciplineModel.getStyle().equals(discipline.getStyle());
     }
+
     return false;
   }
 
-  // Author: Andreas
-  public DisciplineModel getDiscipline(
-      ArrayList<DisciplineModel> disciplines, DisciplineModel discipline) {
-    for (DisciplineModel disciplineModel : disciplines) {
-      if (disciplineModel.getDistance().equals(discipline.getDistance())
-          && disciplineModel.getStyle().equals(discipline.getStyle())) {
-        return disciplineModel;
-      }
-    }
-    return null;
-  }
-
-  // Author: Mohammed, Andreas
-  public DisciplineModel getDisciplineModelStyleAndDistance(GenderType gender) {
-
+  /**
+   * Returns discipline.
+   *
+   * @param gender GenderType
+   * @return DisciplineModel|null
+   * @auther Mohamad, Andreas
+   */
+  DisciplineModel getDisciplineModelStyleAndDistance(GenderType gender) {
     VIEW.displayOptions(styleToArray());
     int styleChoice = InputController.validateOptionRange(styleToArray().length);
 
@@ -135,11 +136,19 @@ public class DisciplineController {
         return discipline;
       }
     }
+
     return null;
   }
 
-  // Author: Andreas
-  public String[] getDisciplineDescriptions(ArrayList<DisciplineModel> disciplines) {
+  /**
+   * Returns discipline description.
+   *
+   * @param disciplines ArrayList<DisciplineModel>
+   * @return String[]
+   * @auther Andreas
+   */
+  String[] getDisciplineDescriptions(
+      ArrayList<DisciplineModel> disciplines) { // TODO: move to model
     String[] result = new String[disciplines.size()];
     for (int i = 0; i < disciplines.size(); i++) {
       result[i] =
@@ -147,6 +156,7 @@ public class DisciplineController {
               + "m "
               + disciplines.get(i).getStyle().name();
     }
+
     return result;
   }
 }

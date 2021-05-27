@@ -7,15 +7,32 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class MembershipController {
-
-  public void addActiveMembership(MemberModel member) {
+  /**
+   * Add active membership to member.
+   *
+   * @param member MemberModel
+   * @auther Andreas
+   */
+  void addActiveMembership(MemberModel member) {
     member.addMembership(createNewMembership(member, LocalDate.now(), 1, true));
   }
 
-  public void addPassiveMembership(MemberModel member) {
+  /**
+   * Add passive membership to member.
+   *
+   * @param member MemberModel
+   * @auther Andreas
+   */
+  void addPassiveMembership(MemberModel member) {
     member.addMembership((createNewMembership(member, LocalDate.now(), 1, false)));
   }
 
+  /**
+   * Generate new membership ID.
+   *
+   * @param member MemberModel
+   * @auther Andreas
+   */
   private String generateMembershipId(MemberModel member) {
     ArrayList<MembershipModel> memberships = member.getMemberships();
     int oldId = 0;
@@ -28,12 +45,13 @@ public class MembershipController {
   }
 
   /**
-   * Method for renewing memberships.
+   * Renewing new memberships for the member with duration.
    *
    * @param member Member to renew
    * @param durationYears years to add to membership
+   * @auther Andreas
    */
-  public void renewMembership(MemberModel member, int durationYears) {
+  void renewMembership(MemberModel member, int durationYears) {
     ArrayList<MembershipModel> memberships = member.getMemberships();
     MembershipModel lastMembership = memberships.get(memberships.size() - 1);
 
@@ -59,6 +77,16 @@ public class MembershipController {
     }
   }
 
+  /**
+   * Returns a new membership.
+   *
+   * @param member MemberModel
+   * @param date LocalDate
+   * @param durationYears int
+   * @param active boolean
+   * @return MembershipModel
+   * @auther Andreas
+   */
   private MembershipModel createNewMembership(
       MemberModel member, LocalDate date, int durationYears, boolean active) {
     MembershipModel result = new MembershipModel(generateMembershipId(member));
@@ -70,12 +98,27 @@ public class MembershipController {
     return result;
   }
 
-  public boolean membershipExpiresInDays(MemberModel member, int days) {
+  /**
+   * Returns true if membership expires in n days. Else returns false.
+   *
+   * @param member MemberModel
+   * @param days int
+   * @return boolean
+   * @auther Andreas
+   */
+  boolean membershipExpiresInDays(MemberModel member, int days) {
     return member.getLatestMembership().getExpiringDate().minusDays(days).compareTo(LocalDate.now())
         <= 0;
   }
 
-  public boolean membershipUnpaid(MemberModel member) {
+  /**
+   * Returns true if membership is unpaid. Else returns false.
+   *
+   * @param member MemberModel
+   * @return boolean
+   * @auther Andreas
+   */
+  boolean membershipUnpaid(MemberModel member) {
     return member.getLatestMembership().isPaid();
   }
 }

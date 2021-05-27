@@ -15,29 +15,31 @@ public class ResultController {
   private final DisciplineController DISC_CONTROLLER = new DisciplineController();
 
   /**
-   * Adds a result time to a competition
+   * Create/returns a new ResultModel.
    *
-   * @param member Member that we want to add a result to
-   * @param competition The competition that we want to add a result to
+   * @param member MemberModel
+   * @param swimEvent SwimEventModel
+   * @return ResultModel
+   * @auther Mohamad, Jackie
    */
-  public ResultModel addResultTime(MemberModel member, SwimEventModel competition) {
+  ResultModel addResultTime(MemberModel member, SwimEventModel swimEvent) {
     DisciplineModel disciplineModel =
         DISC_CONTROLLER.getDisciplineModelStyleAndDistance(member.getGender());
 
     VIEW.printInline("Result time [mm:ss:SS]: ");
     LocalTime time =
         LocalTime.parse(
-            "00:" + InputController.validateCompetitionResultTime(),
+            "00:" + InputController.validateResultTime(),
             DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
     String placement;
-    if (!competition.isPractice()) {
+    if (!swimEvent.isPractice()) {
       VIEW.printInline("Placement: ");
       placement = InputController.validatePlacement();
     } else {
       placement = "Practice";
     }
 
-    return new ResultModel(member, time, disciplineModel, competition, placement);
+    return new ResultModel(member, time, disciplineModel, swimEvent, placement);
   }
 }

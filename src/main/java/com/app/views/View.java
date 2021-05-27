@@ -55,7 +55,7 @@ abstract class View {
   }
 
   /**
-   * @param text
+   * @param text String[]
    * @auther Mathias
    */
   public void displayOptions(String[] text) {
@@ -69,8 +69,8 @@ abstract class View {
   }
 
   /**
-   * @param headerIn
-   * @param bodyIn
+   * @param headerIn String[]
+   * @param bodyIn ArrayList<ArrayList<String>>
    * @auther Mathias
    */
   public void printTable(String[] headerIn, ArrayList<ArrayList<String>> bodyIn) {

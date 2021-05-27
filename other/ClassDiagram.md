@@ -357,6 +357,7 @@ class ViewResultsMenuAction
 
 
 ```
+
 ```mermaid
 classDiagram
 AddResultMenuAction --> CompetionController

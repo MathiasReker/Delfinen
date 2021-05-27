@@ -14,21 +14,21 @@ public class SwimEventService {
   /**
    * Save SwimEventModel[] object.
    *
-   * @param members
+   * @param swimEvents SwimEventModel[]
    * @throws IOException
-   * @auther Mathias
+   * @auther Andreas, Mathias
    */
-  public void save(SwimEventModel[] members) throws IOException {
-    new ObjectService(PATH).save(members);
+  public void save(SwimEventModel[] swimEvents) throws IOException {
+    new ObjectService(PATH).save(swimEvents);
   }
 
   /**
    * Load SwimEventModel[] object.
    *
-   * @return
+   * @return SwimEventModel[]
    * @throws IOException
    * @throws ClassNotFoundException
-   * @auther Mathias
+   * @auther Andreas, Mathias
    */
   public SwimEventModel[] load() throws IOException, ClassNotFoundException {
     return (SwimEventModel[]) new ObjectService(PATH).load();

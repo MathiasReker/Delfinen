@@ -13,6 +13,13 @@ public class PaymentRequestService {
     FILE_SERVICE = new FileService(path);
   }
 
+  /**
+   * Create payment request.
+   *
+   * @param memberModels MemberModel[]
+   * @throws FileNotFoundException
+   * @auther Andreas
+   */
   public void createPaymentRequest(MemberModel[] memberModels) throws FileNotFoundException {
     String[] paymentRequests = new String[memberModels.length];
     for (int i = 0; i < paymentRequests.length; i++) {

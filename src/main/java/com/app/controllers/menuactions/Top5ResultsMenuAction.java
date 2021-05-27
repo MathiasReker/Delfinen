@@ -2,14 +2,14 @@ package com.app.controllers.menuactions;
 
 import com.app.controllers.LeaderboardController;
 
-public class TopResultsMenuAction extends MenuAction {
+public class Top5ResultsMenuAction extends MenuAction {
 
-  public TopResultsMenuAction(String itemName) {
+  public Top5ResultsMenuAction(String itemName) {
     super(itemName);
   }
 
   @Override
   public void run() {
-    new LeaderboardController().displayTop5Results();
+    new LeaderboardController().displayTopResults(5);
   }
 }

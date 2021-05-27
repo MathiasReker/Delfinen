@@ -60,7 +60,7 @@ public class InputModel {
    * @return boolean
    * @auther Mathias
    */
-  public static boolean isValidCompetitionTime(String time) {
+  public static boolean isValidSwimEventTime(String time) {
     try {
       LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
       return true;

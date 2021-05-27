@@ -12,7 +12,7 @@ public class ObjectService {
   /**
    * Save objects to bin.
    *
-   * @param objects
+   * @param objects Object[]
    * @throws IOException
    * @auther Andreas, Mathias
    */
