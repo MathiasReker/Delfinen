@@ -21,7 +21,7 @@ public class InputModel {
   public static boolean isValidDate(String date) {
     try {
       LocalDate dateCheck = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-      return dateCheck.isAfter(LocalDate.now());
+      return dateCheck.isAfter(LocalDate.now().minusDays(1));
     } catch (DateTimeParseException e) {
       return false;
     }
