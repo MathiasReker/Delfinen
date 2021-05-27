@@ -159,11 +159,7 @@ public class SwimEventController {
       VIEW.printInline("Practice ID: ");
       SwimEventModel practice = InputController.validateSwimEvent(swimEventModels);
 
-<<<<<<< HEAD
       if (practice != null && practice.isPractice()) {
-=======
-      if (practice != null && practice.isPractice()) { // TODO: rm  && practice.isPractice()?
->>>>>>> 7c0446584a734d82e941250764d3bb3107e0dd2f
         if (!MEMBER_CONTROLLER.getMembers().isEmpty()) {
           do {
             MEMBER_CONTROLLER.viewTableMembers();
