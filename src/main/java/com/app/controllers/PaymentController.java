@@ -96,7 +96,7 @@ public class PaymentController {
         VIEW.printWarning("The payment file could not be loaded.");
       }
     } else {
-      VIEW.printWarning("No members exist");
+      VIEW.printWarning("No members exist.");
     }
   }
 
