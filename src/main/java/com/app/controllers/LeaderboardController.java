@@ -112,6 +112,8 @@ public class LeaderboardController {
       displayTop(style, distance, amount, GenderType.MALE, ageGroupType);
       displayTop(style, distance, amount, GenderType.FEMALE, ageGroupType);
       displayTop(style, distance, amount, GenderType.OTHER, ageGroupType);
+    } else {
+      VIEW.printWarning("No swim events and results exists.");
     }
   }
 
