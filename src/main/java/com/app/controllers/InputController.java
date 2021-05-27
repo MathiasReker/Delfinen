@@ -12,7 +12,13 @@ public class InputController {
   private static final Scanner IN = new Scanner(System.in);
   private static final InputView VIEW = new InputView();
 
-  public static boolean promptYesNo() {
+  /**
+   * Returns true if yes, and false if no.
+   *
+   * @return boolean
+   * @auther Mathias
+   */
+  static boolean promptYesNo() {
     String input = IN.nextLine();
     while (true) {
       if (input.equalsIgnoreCase("y")) {
@@ -31,8 +37,9 @@ public class InputController {
    * integer is given.
    *
    * @return a valid integer.
+   * @auther Mathias
    */
-  public static int validateInteger() {
+  static int validateInteger() {
     while (!IN.hasNextInt()) {
       VIEW.printInlineWarning("Not a valid choice. Please try again: ");
       IN.nextLine();
@@ -47,8 +54,9 @@ public class InputController {
    *
    * @param max int that defines the maximum of the range.
    * @return a valid int from the range.
+   * @auther Mathias
    */
-  public static int validateOptionRange(int max) {
+  static int validateOptionRange(int max) {
     int result = validateInteger();
     while (!InputModel.isValidRange(result, 1, max)) {
       VIEW.printInlineWarning("Not a valid choice. Please try again: ");
@@ -60,7 +68,13 @@ public class InputController {
     return result;
   }
 
-  public static String validateName() {
+  /**
+   * Returns a valid name.
+   *
+   * @return String
+   * @auther Mathias
+   */
+  static String validateName() {
     String result = IN.nextLine();
     while (!InputModel.isValidName(result)) {
       VIEW.printInlineWarning("Not a valid name. Please try again: ");
@@ -70,7 +84,13 @@ public class InputController {
     return result;
   }
 
-  public static String validateMail() {
+  /**
+   * Returns a valid mail.
+   *
+   * @return String
+   * @auther Mathias
+   */
+  static String validateMail() {
     String result = IN.nextLine();
     while (!InputModel.isValidMail(result)) {
       VIEW.printInlineWarning("Not a valid mail. Please try again: ");
@@ -80,7 +100,13 @@ public class InputController {
     return result;
   }
 
-  public static String validateBirthDate() {
+  /**
+   * Returns a valid birthdate.
+   *
+   * @return String
+   * @auther Mathias
+   */
+  static String validateBirthDate() {
     String result = IN.nextLine().replace("-", "/"); // "-" and "/"
 
     while (!InputModel.isValidBirthDate(result)) {
@@ -91,7 +117,13 @@ public class InputController {
     return result;
   }
 
-  public static String validateDate() {
+  /**
+   * Returns a valid date.
+   *
+   * @return String
+   * @auther Mathias
+   */
+  static String validateDate() {
     String result = IN.nextLine().replace("-", "/"); // "-" and "/"
 
     while (!InputModel.isValidDate(result)) {
@@ -103,7 +135,13 @@ public class InputController {
     return result;
   }
 
-  public static String validatePhoneNumber() {
+  /**
+   * Returns a valid phone number.
+   *
+   * @return String
+   * @auther Mathias
+   */
+  static String validatePhoneNumber() {
     while (true) {
       String result = IN.nextLine().trim();
       if (InputModel.isValidPhoneNumber(result)) {
@@ -113,7 +151,14 @@ public class InputController {
     }
   }
 
-  public static String validateMemberId(ArrayList<MemberModel> members) {
+  /**
+   * Returns a valid member ID.
+   *
+   * @param members ArrayList<MemberModel>
+   * @return String
+   * @auther Mathias, Mohamad
+   */
+  static String validateMemberId(ArrayList<MemberModel> members) {
     while (true) {
       String result = IN.nextLine();
 
@@ -129,16 +174,23 @@ public class InputController {
     }
   }
 
-  public static SwimEventModel validateSwimEventId(ArrayList<SwimEventModel> competitions) {
+  /**
+   * Returns valid swim event.
+   *
+   * @param swimEvents ArrayList<SwimEventModel>
+   * @return SwimEventModel|null
+   * @auther Mathias, Mohamad, Jackie
+   */
+  static SwimEventModel validateSwimEvent(ArrayList<SwimEventModel> swimEvents) {
     while (true) {
-      String result = IN.nextLine(); // TODO: refactor return String
+      String result = IN.nextLine();
       if (result.equals("q")) {
         return null;
       }
 
-      for (SwimEventModel c : competitions) {
-        if (c.getId().equals(result)) {
-          return c;
+      for (SwimEventModel swimEvent : swimEvents) {
+        if (swimEvent.getId().equals(result)) {
+          return swimEvent;
         }
       }
 
@@ -146,7 +198,7 @@ public class InputController {
     }
   }
 
-  public static String validateAgeGroup() {
+  static String validateAgeGroup() { // TODO: refactor -> use arrayOption
     String result = IN.nextLine();
     while (true) {
       if (result.equalsIgnoreCase("j")) {
@@ -161,11 +213,12 @@ public class InputController {
   }
 
   /**
-   * A method to validate that the time input we receive is a valid format
+   * Returns a validate result time.
    *
-   * @return returns a time as a LocalTime type
+   * @return String
+   * @auther Mohamad
    */
-  public static String validateCompetitionResultTime() { // TODO : name change
+  static String validateResultTime() {
     String result = IN.nextLine();
     while (!InputModel.isValidCompetitionResultTime("00:" + result)) {
       VIEW.printInlineWarning("Not a valid time. Please try again: ");
@@ -175,9 +228,15 @@ public class InputController {
     return result;
   }
 
-  public static String validateCompetitionTime() { // TODO : name change
+  /**
+   * Returns a valid swim event time.
+   *
+   * @return String
+   * @auther Mohamad
+   */
+  static String validateSwimEventTime() {
     String result = IN.nextLine();
-    while (!InputModel.isValidCompetitionTime(result)) {
+    while (!InputModel.isValidSwimEventTime(result)) {
       VIEW.printInlineWarning("Not a valid time. Please try again: ");
       result = IN.nextLine();
     }
@@ -185,13 +244,25 @@ public class InputController {
     return result;
   }
 
-  public static String validatePlacement() {
+  /**
+   * Returns a valid placement.
+   *
+   * @return String
+   * @auther Jackie
+   */
+  static String validatePlacement() {
     int placement = validateInteger();
     IN.nextLine();
 
     return String.valueOf(placement);
   }
 
+  /**
+   * Return any string.
+   *
+   * @return String
+   * @auther Mathias
+   */
   public static String anyString() {
     return IN.nextLine();
   }

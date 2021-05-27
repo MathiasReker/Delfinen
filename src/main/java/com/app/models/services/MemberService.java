@@ -12,7 +12,7 @@ public class MemberService {
    *
    * @param path
    * @throws IOException
-   * @auther Mathias
+   * @auther Andreas, Mathias
    */
   public MemberService(String path) throws IOException {
     PATH = path;
@@ -23,7 +23,7 @@ public class MemberService {
    *
    * @param members
    * @throws IOException
-   * @auther Mathias
+   * @auther Andreas, Mathias
    */
   public void save(MemberModel[] members) throws IOException {
     new ObjectService(PATH).save(members);
@@ -35,7 +35,7 @@ public class MemberService {
    * @return MemberModel[]
    * @throws IOException
    * @throws ClassNotFoundException
-   * @auther Mathias
+   * @auther Andreas, Mathias
    */
   public MemberModel[] load() throws IOException, ClassNotFoundException {
     return (MemberModel[]) new ObjectService(PATH).load();

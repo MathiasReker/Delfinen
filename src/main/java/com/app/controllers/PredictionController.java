@@ -10,25 +10,41 @@ public class PredictionController {
   private final PredictionView VIEW = new PredictionView();
   private final MemberController MEMBER_CONTROLLER = new MemberController();
 
-  public PredictionController() {}
-
+  /**
+   * Starts prediction flow with user input.
+   *
+   * @auther Andreas
+   */
   public void predictIncome() {
     VIEW.print("The prediction is calculated based on how many members will expire.");
     VIEW.printInline("Input the amount of days to predict ahead: ");
     int days = InputController.validateInteger();
 
-    int prediction = predictIncomeInXDays(days);
+    int prediction = predictIncomeInAmountOfDays(days);
 
     VIEW.printExpectedIncome(prediction, days);
   }
 
+  /**
+   * Display predicted income by n days.
+   *
+   * @param days int
+   * @auther Andreas
+   */
   public void predictIncome(int days) {
-    int prediction = predictIncomeInXDays(days);
+    int prediction = predictIncomeInAmountOfDays(days);
 
     VIEW.printExpectedIncome(prediction, days);
   }
 
-  public int predictIncomeInXDays(int days) {
+  /**
+   * Returns predicted income in n days.
+   *
+   * @param days int
+   * @return int
+   * @auther Andreas
+   */
+  private int predictIncomeInAmountOfDays(int days) {
     ArrayList<MemberModel> expiringMembers =
         MEMBER_CONTROLLER.getExpiringMembers(
             MEMBER_CONTROLLER.getMembers().toArray(new MemberModel[0]), days);

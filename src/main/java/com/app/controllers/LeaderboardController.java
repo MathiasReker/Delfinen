@@ -20,11 +20,15 @@ public class LeaderboardController {
       COMPETITION_CONTROLLER.getSwimEventModels();
 
   /**
-   * find top swimmers in all competitions.
+   * Returns top n results, where n is amount.
    *
-   * @param style to check.
-   * @param distance of the style.
-   * @return an array of the amount the fastest swimmers in a given discipline.
+   * @param style StyleType.
+   * @param distance DistanceType
+   * @param amount int
+   * @param genderType GenderType
+   * @param ageGroupType AgeGroupType
+   * @return ArrayList<ResultModel>
+   * @auther Jackie
    */
   private ArrayList<ResultModel> findTop(
       StyleType style,
@@ -33,8 +37,9 @@ public class LeaderboardController {
       GenderType genderType,
       AgeGroupType ageGroupType) {
     ArrayList<ResultModel> allResults = findDiscipline(style, distance);
+
     if (allResults.isEmpty()) {
-      return allResults; // Changed from null
+      return allResults;
     }
 
     ArrayList<ResultModel> result = new ArrayList<>();
@@ -43,9 +48,7 @@ public class LeaderboardController {
       amount = allResults.size();
     }
 
-    // TODO this crashes when there is only one result (less than "amount")
     for (int i = 0; i < amount; i++) {
-
       if (!memberExist(result, allResults.get(i).getMember())
           && allResults.get(i).getMember().getGender() == genderType
           && allResults.get(i).getMember().getAgeGroup() == ageGroupType
@@ -61,8 +64,16 @@ public class LeaderboardController {
     return result;
   }
 
-  private boolean memberExist(ArrayList<ResultModel> finals, MemberModel member) {
-
+  /**
+   * Returns true if member exists, false if member does not exists.
+   *
+   * @param finals ArrayList<ResultModel>
+   * @param member MemberModel
+   * @return boolean
+   * @auther Jackie
+   */
+  private boolean memberExist(
+      ArrayList<ResultModel> finals, MemberModel member) { // TODO: move to ResultController
     if (finals.isEmpty()) {
       return false;
     }
@@ -75,11 +86,18 @@ public class LeaderboardController {
     return false;
   }
 
+  /**
+   * Returns discipline.
+   *
+   * @param style StyleType
+   * @param distance DistanceType
+   * @return ArrayList<ResultModel>
+   * @auther Jackie
+   */
   private ArrayList<ResultModel> findDiscipline(StyleType style, DistanceType distance) {
     ArrayList<ResultModel> result = new ArrayList<>();
 
     for (SwimEventModel cm : ALL_COMPETITIONS) {
-
       for (int j = 0; j < cm.getResult().size(); j++) {
         if (cm.getResult().get(j).getDiscipline().getStyle().equals(style)
             && cm.getResult().get(j).getDiscipline().getDistance().equals(distance)) {
@@ -91,27 +109,14 @@ public class LeaderboardController {
     return result;
   }
 
-  private String[][] arrayWithResultToDisplay(
-      ArrayList<ResultModel> resultTimes) { // TODO DO we use this
-    String[][] result = new String[resultTimes.size()][4];
-
-    for (int i = 0; i < resultTimes.size(); i++) {
-      ResultModel resultModel = resultTimes.get(i);
-
-      String competitionName = resultModel.getCompetition().getName();
-      String placement = resultModel.getPlacement();
-      String name = resultModel.getMember().getName();
-      String completionTime = resultModel.getResultTime().toString();
-
-      result[i] = new String[] {competitionName, placement, name, completionTime};
-    }
-
-    return result;
-  }
-
-  public void displayTop5Results() {
+  /**
+   * Display top n results.
+   *
+   * @param amount int
+   * @auther Jackie, Mohamad
+   */
+  public void displayTopResults(int amount) {
     if (!ALL_COMPETITIONS.isEmpty()) {
-
       VIEW.displayOptions(DISC_CONTROLLER.styleToArray());
       int styleInput = InputController.validateOptionRange(DISC_CONTROLLER.styleToArray().length);
       StyleType style = StyleType.values()[styleInput - 1];
@@ -126,13 +131,23 @@ public class LeaderboardController {
       int ageGroupInput = InputController.validateOptionRange(ageGroupToArray().length);
       AgeGroupType ageGroupType = AgeGroupType.values()[ageGroupInput - 1];
 
-      displayTop5(style, distance, 5, GenderType.MALE, ageGroupType);
-      displayTop5(style, distance, 5, GenderType.FEMALE, ageGroupType);
-      displayTop5(style, distance, 5, GenderType.OTHER, ageGroupType);
+      displayTop(style, distance, amount, GenderType.MALE, ageGroupType);
+      displayTop(style, distance, amount, GenderType.FEMALE, ageGroupType);
+      displayTop(style, distance, amount, GenderType.OTHER, ageGroupType);
     }
   }
 
-  public void displayTop5(
+  /**
+   * Display top.
+   *
+   * @param style StyleType
+   * @param distance DistanceType
+   * @param amount int
+   * @param genderType GenderType
+   * @param ageGroupType AgeGroupType
+   * @auther Mohamad, Jackie
+   */
+  private void displayTop(
       StyleType style,
       DistanceType distance,
       int amount,
@@ -150,12 +165,18 @@ public class LeaderboardController {
               + ", in age group "
               + ageGroupType.name());
     } else {
-      // VIEW.displayTopResults(arrayWithResultToDisplay(top5));
       VIEW.printTable(
           getLeaderboardHeader(genderType.name().toLowerCase()), getLeaderboardContent(top5));
     }
   }
 
+  /**
+   * Return content used to display a table.
+   *
+   * @param resultModels ArrayList<ResultModel>
+   * @return ArrayList<ArrayList<String>>
+   * @auther Jackie, Mathias
+   */
   private ArrayList<ArrayList<String>> getLeaderboardContent(ArrayList<ResultModel> resultModels) {
     ArrayList<ArrayList<String>> result = new ArrayList<>();
 
@@ -169,19 +190,34 @@ public class LeaderboardController {
 
       result.add(row);
     }
+
     return result;
   }
 
+  /**
+   * Returns a header used to display leaderboard table.
+   *
+   * @param gender String
+   * @return String[]
+   * @auther Jackie
+   */
   private String[] getLeaderboardHeader(String gender) {
     return new String[] {"Swim event " + gender, "Name", "Placement", "time"};
   }
 
+  /**
+   * Returns a String[] from enum.
+   *
+   * @return String[]
+   * @auther Mohamad, Mathias
+   */
   public String[] ageGroupToArray() {
     String[] result = new String[AgeGroupType.values().length];
 
     for (int i = 0; i < result.length; i++) {
       result[i] = AgeGroupType.values()[i].name();
     }
+
     return result;
   }
 }

@@ -9,7 +9,6 @@ public class CreateCompetitionSubMenuMenuAction extends MenuAction {
 
   @Override
   public void run() {
-    SwimEventController swimEventController = new SwimEventController();
-    swimEventController.createNewCompetition();
+    new SwimEventController().createNewCompetition();
   }
 }

@@ -377,6 +377,7 @@ class ViewResultsMenuAction
 
 
 ```
+
 ```mermaid
 classDiagram
 AddResultMenuAction --> SwimEventController

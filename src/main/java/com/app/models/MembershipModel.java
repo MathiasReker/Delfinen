@@ -17,9 +17,7 @@ public class MembershipModel implements Serializable {
   }
 
   /**
-   * Constructor to instantiate new objects in model.
-   *
-   * <p>For example when reading from DB
+   * Constructor to instantiate new objects in model. For example when reading from DB
    *
    * @param id Unique ID value
    * @param startingDate
@@ -27,7 +25,7 @@ public class MembershipModel implements Serializable {
    * @param payed PaymentStatus
    * @param active
    */
-  public MembershipModel(
+  public MembershipModel( // TODO: Remove and refactor test
       String id, LocalDate startingDate, LocalDate expiringDate, boolean payed, boolean active) {
     this.ID = id;
     CREATION_DATE = LocalDate.now();

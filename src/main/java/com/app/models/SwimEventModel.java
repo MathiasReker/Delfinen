@@ -12,9 +12,9 @@ public class SwimEventModel implements Serializable {
   private final LocalTime START_TIME;
   private final ArrayList<ResultModel> RESULTS = new ArrayList<>();
   private final AgeGroupType AGE_GROUP;
+  private final boolean PRACTICE;
   private String id;
   private String name;
-  private boolean practice;
 
   public SwimEventModel(
       String id,
@@ -27,16 +27,12 @@ public class SwimEventModel implements Serializable {
     this.START_DATE = startDate;
     this.name = name;
     this.START_TIME = startTime;
-    this.practice = practice;
+    this.PRACTICE = practice;
     this.AGE_GROUP = ageGroup;
   }
 
   public boolean isPractice() {
-    return practice;
-  }
-
-  public void setPractice(boolean practice) {
-    this.practice = practice;
+    return PRACTICE;
   }
 
   public String getId() {

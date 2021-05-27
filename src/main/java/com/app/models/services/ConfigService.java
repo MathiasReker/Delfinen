@@ -19,7 +19,7 @@ public class ConfigService {
    */
   public String getPath() throws IOException {
     FileService file = new FileService("data/config/config.txt");
-    ArrayList<String> fileInfo = file.readTextFile();
+    ArrayList<String> fileInfo = file.readTextFile(); // TODO: refactor
 
     for (String s : fileInfo) {
       String[] line = s.split(";");

@@ -1,5 +1,6 @@
 package com.app.models.types;
 
+/** @auther Jackie */
 public enum DistanceType {
   FIFTY(50),
   HUNDRED(100),

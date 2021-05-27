@@ -16,7 +16,7 @@ public class MenuController {
    * @param menuHeader String that describes the header of the menu.
    * @param leadText String that tells the user what to do.
    * @param menuActions String.
-   * @auther Mathias
+   * @auther Mathias, Andreas
    */
   public MenuController(String menuHeader, String leadText, MenuAction[] menuActions) {
     MENU = new MenuModel(menuHeader, menuActions, leadText);
@@ -26,12 +26,11 @@ public class MenuController {
   /**
    * Run the menu as long as running is true.
    *
-   * @auther Mathias
+   * @auther Mathias, Andreas
    */
   public void run() {
     boolean running = true;
     while (running) {
-
       displayMenu();
 
       VIEW.printInline(MENU.getLeadText());

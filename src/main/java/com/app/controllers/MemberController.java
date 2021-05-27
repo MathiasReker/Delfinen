@@ -29,7 +29,7 @@ public class MemberController {
   public MemberController() {
     VIEW = new MemberView();
     try {
-      members = membersToStringArray(loadMembers());
+      members = membersToArrayList(loadMembers());
     } catch (CouldNotLoadMemberException e) {
       VIEW.printWarning("Could not load any members.");
       members = new ArrayList<>();
@@ -39,7 +39,7 @@ public class MemberController {
   /**
    * Create member. The user will input values that will be saved.
    *
-   * @auther Mathias
+   * @auther Mathias, Andreas
    */
   public void createMember() {
     VIEW.printInline("Name: ");
@@ -81,7 +81,7 @@ public class MemberController {
    * @param phone
    * @param competitive
    * @param active
-   * @auther Mathias
+   * @auther Mathias, Andreas
    */
   private void addMember(
       String id,
@@ -124,6 +124,12 @@ public class MemberController {
     return result;
   }
 
+  /**
+   * Renew members that expires in n days.
+   *
+   * @param days int
+   * @auther Andreas
+   */
   public void renewExpiringMembers(int days) {
     ArrayList<MemberModel> expiringMembers =
         getExpiringMembers(members.toArray(new MemberModel[0]), days);
@@ -136,24 +142,30 @@ public class MemberController {
     }
   }
 
+  /**
+   * Remove members from a list of members.
+   *
+   * @param members ArrayList<MemberModel>
+   * @return ArrayList<MemberModel>
+   * @auther Andreas
+   */
   ArrayList<MemberModel> removeMemberFromList(ArrayList<MemberModel> members) {
     ArrayList<MemberModel> result = new ArrayList<>(members);
-    boolean stop = false;
-    while (!stop) { // Allow removal of members
-      VIEW.print("Members:"); // TODO: formatting
+    boolean running = true;
+    while (running) { // Allow removal of members
       viewTableMembers(members, false);
-      VIEW.printInline("Do you want to remove a member from the list? [Y/n]: ");
+      VIEW.printInline("Remove a member from the list [Y/n]: ");
       if (InputController.promptYesNo()) {
-        VIEW.print("Type member ID to remove: ");
+        VIEW.print("Member ID to remove: ");
         String input = InputController.validateMemberId(members);
         try {
-          MemberModel member = getMemberByID(input, members);
+          MemberModel member = getMemberById(input, members);
           result.remove(member);
         } catch (MemberNotFoundException e) {
-          VIEW.printWarning("Member was not found.");
+          VIEW.printWarning(e.getMessage());
         }
       } else {
-        stop = true;
+        running = false;
       }
     }
 
@@ -165,17 +177,18 @@ public class MemberController {
    *
    * @param id String
    * @param members ArrayList<MemberModel>
-   * @return MemberModel
-   * @auther Mathias
+   * @return MemberModel|null
+   * @auther Andreas
    */
-  MemberModel getMemberByID(String id, ArrayList<MemberModel> members)
+  MemberModel getMemberById(String id, ArrayList<MemberModel> members)
       throws MemberNotFoundException {
     for (MemberModel result : members) {
       if (result.getId().equals(id)) {
         return result;
       }
     }
-    return null;
+
+    throw new MemberNotFoundException("Member not found.");
   }
 
   /**
@@ -183,15 +196,16 @@ public class MemberController {
    *
    * @param id String
    * @return MemberModel
-   * @auther Mathias
+   * @auther Andreas, Mathias
    */
-  MemberModel getMemberByID(String id) throws MemberNotFoundException {
+  MemberModel getMemberById(String id) throws MemberNotFoundException {
     for (MemberModel result : members) {
       if (result.getId().equals(id)) {
         return result;
       }
     }
-    return null;
+
+    throw new MemberNotFoundException("Member not found.");
   }
 
   /**
@@ -207,9 +221,9 @@ public class MemberController {
   /**
    * Save members.
    *
-   * @auther Mathias
+   * @auther Andreas, Mathias
    */
-  public void saveMembers() {
+  void saveMembers() {
     try {
       new MemberService(new ConfigService("membersBin").getPath())
           .save(members.toArray(new MemberModel[0]));
@@ -222,11 +236,11 @@ public class MemberController {
   /**
    * Load members.
    *
-   * @return
    * @throws CouldNotLoadMemberException
+   * @return MemberModel[]
    * @auther Andreas, Mathias
    */
-  public MemberModel[] loadMembers() throws CouldNotLoadMemberException {
+  private MemberModel[] loadMembers() throws CouldNotLoadMemberException {
     try {
       return new MemberService(new ConfigService("membersBin").getPath()).load();
     } catch (IOException | ClassNotFoundException e) {
@@ -235,13 +249,13 @@ public class MemberController {
   }
 
   /**
-   * Converts members to string array.
+   * Converts member array to arraylist.
    *
    * @param members MemberModel[]
    * @return ArrayList<MemberModel>
-   * @auther Mathias
+   * @auther Mathias, Andreas
    */
-  private ArrayList<MemberModel> membersToStringArray(MemberModel[] members) {
+  private ArrayList<MemberModel> membersToArrayList(MemberModel[] members) {
     return new ArrayList<>(Arrays.asList(members));
   }
 
@@ -250,7 +264,7 @@ public class MemberController {
    *
    * @param expanded boolean. Decides weather to show extended information.
    * @return String[]
-   * @auther Mathias
+   * @auther Mathias, Andreas
    */
   private String[] getMemberHeader(boolean expanded) {
     if (expanded) {
@@ -265,7 +279,7 @@ public class MemberController {
    * View members in a table.
    *
    * @param members ArrayList<MemberModel>
-   * @auther Mathias
+   * @auther Mathias, Andreas
    */
   private void viewTableMembers(ArrayList<MemberModel> members, boolean expanded) {
     if (members.isEmpty()) {
@@ -280,16 +294,16 @@ public class MemberController {
    *
    * @param member MemberModel
    * @param expanded boolean. Decides weather to show extended information.
-   * @auther Mathias
+   * @auther Mathias, Andreas
    */
-  public void viewTableMembers(MemberModel member, boolean expanded) {
+  private void viewTableMembers(MemberModel member, boolean expanded) {
     VIEW.printTable(getMemberHeader(expanded), getMemberContent(member, expanded));
   }
 
   /**
    * View members in a table.
    *
-   * @auther Mathias
+   * @auther Mathias, Andreas
    */
   public void viewTableMembers() {
     if (members.isEmpty()) {
@@ -319,6 +333,22 @@ public class MemberController {
   }
 
   /**
+   * Returns row to be used in table view.
+   *
+   * @param member MemberModel
+   * @param expanded boolean. Decides weather to show extended information.
+   * @return ArrayList<String>
+   * @auther Mathias
+   */
+  private ArrayList<ArrayList<String>> getMemberContent(MemberModel member, boolean expanded) {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
+
+    result.add(getRows(member, expanded));
+
+    return result;
+  }
+
+  /**
    * Returns rows to be used in table view.
    *
    * @param member MemberModel
@@ -341,22 +371,6 @@ public class MemberController {
       result.add(
           String.join(", ", DISC_CONTROLLER.getDisciplineDescriptions(member.getDisciplines())));
     }
-
-    return result;
-  }
-
-  /**
-   * Returns rows to be used in table view.
-   *
-   * @param member MemberModel
-   * @param expanded boolean. Decides weather to show extended information.
-   * @return ArrayList<String>
-   * @auther Mathias
-   */
-  private ArrayList<ArrayList<String>> getMemberContent(MemberModel member, boolean expanded) {
-    ArrayList<ArrayList<String>> result = new ArrayList<>();
-
-    result.add(getRows(member, expanded));
 
     return result;
   }
@@ -392,40 +406,22 @@ public class MemberController {
    *
    * @auther Mathias
    */
-  public void viewMemberById() {
+  private void viewMemberById() {
     String id = InputController.validateMemberId(members);
 
-    if (null != getMemberById(id)) {
+    try {
       viewTableMembers(getMemberById(id), true);
-    } else {
+    } catch (MemberNotFoundException e) {
       VIEW.printWarning("No members with the ID: " + id);
     }
   }
 
   /**
-   * Returns member by ID.
-   *
-   * @param id String
-   * @return MemberModel|null
-   */
-  public MemberModel getMemberById(String id) {
-    for (MemberModel result : members) {
-      if (null != result.getId()) {
-        if (result.getId().equals(id)) {
-          return result;
-        }
-      }
-    }
-
-    return null;
-  }
-
-  /**
    * View members by name.
    *
-   * @auther
+   * @auther Mathias
    */
-  public void viewMembersByName() {
+  private void viewMembersByName() {
     String name = InputController.validateName();
     ArrayList<MemberModel> sortedList = getMembersByName(name);
 
@@ -443,7 +439,7 @@ public class MemberController {
    * @return ArrayList<MemberModel>
    * @auther Mathias
    */
-  public ArrayList<MemberModel> getMembersByName(String name) {
+  private ArrayList<MemberModel> getMembersByName(String name) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
@@ -462,7 +458,7 @@ public class MemberController {
    *
    * @auther Mathias
    */
-  public void viewMembersByMail() {
+  private void viewMembersByMail() {
     String mail = InputController.validateMail();
     ArrayList<MemberModel> sortedList = getMembersByMail(mail);
 
@@ -480,7 +476,7 @@ public class MemberController {
    * @return ArrayList<MemberModel>
    * @auther Mathias
    */
-  public ArrayList<MemberModel> getMembersByMail(String mail) {
+  private ArrayList<MemberModel> getMembersByMail(String mail) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
@@ -499,7 +495,7 @@ public class MemberController {
    *
    * @auther Mathias
    */
-  public void viewMemberByPhoneNumber() {
+  private void viewMemberByPhoneNumber() {
     String phoneNumber = InputController.validatePhoneNumber();
     ArrayList<MemberModel> sortedList = getMembersByPhoneNumber(phoneNumber);
 
@@ -517,7 +513,7 @@ public class MemberController {
    * @return ArrayList<MemberModel>
    * @auther Mathias
    */
-  public ArrayList<MemberModel> getMembersByPhoneNumber(String phoneNumber) {
+  private ArrayList<MemberModel> getMembersByPhoneNumber(String phoneNumber) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
@@ -537,13 +533,15 @@ public class MemberController {
    * @auther Mathias
    */
   public void anonymizeMember() {
+    viewTableMembers();
+
     if (!members.isEmpty()) {
       VIEW.printInline("Input ID [press \"q\" to quit]: ");
       String id = InputController.validateMemberId(members);
 
       if (null != id) {
         try {
-          MemberModel member = getMemberByID(id);
+          MemberModel member = getMemberById(id);
           member.setName(null);
           member.setPhoneNumber(null);
           member.setMail(null);
@@ -562,7 +560,7 @@ public class MemberController {
   /**
    * Edit member.
    *
-   * @auther Mathias
+   * @auther Mathias, Andreas
    */
   public void editMember() {
     if (!members.isEmpty()) {
@@ -574,7 +572,7 @@ public class MemberController {
 
       if (null != id) {
         try {
-          MemberModel member = getMemberByID(id);
+          MemberModel member = getMemberById(id);
 
           String[] options =
               new String[] {
@@ -634,8 +632,9 @@ public class MemberController {
    * @param days Amount of days to look ahead of current day.
    * @param memberModels Array of members to look through
    * @return ArrayList of expiring members
+   * @auther Andreas, Mohamad
    */
-  public ArrayList<MemberModel> getExpiringMembers(MemberModel[] memberModels, int days) {
+  ArrayList<MemberModel> getExpiringMembers(MemberModel[] memberModels, int days) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {
@@ -647,7 +646,14 @@ public class MemberController {
     return result;
   }
 
-  public ArrayList<MemberModel> getUnpaidMembers(ArrayList<MemberModel> memberModels) {
+  /**
+   * Returns a list of unpaid members.
+   *
+   * @param memberModels ArrayList<MemberModel>
+   * @return ArrayList<MemberModel>
+   * @auther Andreas, Mohamad
+   */
+  ArrayList<MemberModel> getUnpaidMembers(ArrayList<MemberModel> memberModels) {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel member : memberModels) {
@@ -659,6 +665,13 @@ public class MemberController {
     return result;
   }
 
+  /**
+   * Add discipline to member.
+   *
+   * @param member MemberModel
+   * @param discipline DisciplineModel
+   * @auther Andreas
+   */
   private void addDiscipline(MemberModel member, DisciplineModel discipline) {
     if (member.getDisciplines().isEmpty()) {
       member.addDiscipline(discipline);
@@ -667,7 +680,13 @@ public class MemberController {
     }
   }
 
-  public void addDisciplineToMember(MemberModel member) {
+  /**
+   * Get discipline from user and add to member.
+   *
+   * @param member MemberModel
+   * @auther Andreas
+   */
+  private void addDisciplineToMember(MemberModel member) {
     VIEW.printInline("Discipline to add: ");
     DisciplineModel discipline =
         DISC_CONTROLLER.getDisciplineModelStyleAndDistance(member.getGender());
