@@ -177,9 +177,11 @@ public class MemberController {
 
   private String[] getMemberHeader(boolean expanded) {
     if (expanded) {
-      return new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender", "Favourite Disciplines"};
+      return new String[] {
+        "ID", "Name", "Mail", "Phone", "Age", "Gender", "Seniority", "Favourite Disciplines"
+      };
     }
-    return new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender"};
+    return new String[] {"ID", "Name", "Mail", "Phone", "Age", "Gender", "Seniority"};
   }
 
   public void viewTableMembers(ArrayList<MemberModel> members) {
@@ -223,6 +225,8 @@ public class MemberController {
       row.add(member.getPhoneNumber());
       row.add(String.valueOf(member.getAge()));
       row.add(String.valueOf(member.getGender()));
+      row.add(String.valueOf(member.getSeniority()));
+
       if (expanded) {
         row.add(
             String.join(", ", DISC_CONTROLLER.getDisciplineDescriptions(member.getDisciplines())));
@@ -245,6 +249,8 @@ public class MemberController {
     row.add(member.getPhoneNumber());
     row.add(String.valueOf(member.getAge()));
     row.add(String.valueOf(member.getGender()));
+    row.add(String.valueOf(member.getSeniority()));
+
     if (expanded) {
       row.add(
           String.join(", ", DISC_CONTROLLER.getDisciplineDescriptions(member.getDisciplines())));
