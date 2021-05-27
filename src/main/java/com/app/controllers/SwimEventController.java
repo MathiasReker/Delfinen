@@ -368,7 +368,7 @@ public class SwimEventController {
       String.valueOf(swimEventModel.getStartTime())
     };
   }
-
+ 
   /**
    * Creates a view for the user of the competitions available.
    *

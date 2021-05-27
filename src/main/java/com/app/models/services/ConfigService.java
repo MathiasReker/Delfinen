@@ -1,7 +1,6 @@
 package com.app.models.services;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class ConfigService {
   private final String KEY;
@@ -19,7 +18,7 @@ public class ConfigService {
    */
   public String getPath() throws IOException {
     FileService file = new FileService("data/config/config.txt");
-    ArrayList<String> fileInfo = file.readTextFile(); // TODO: refactor
+    String[] fileInfo = file.readFromFile();
 
     for (String s : fileInfo) {
       String[] line = s.split(";");
