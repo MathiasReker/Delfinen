@@ -43,7 +43,7 @@ public class MemberModel implements Serializable {
   }
 
   public boolean isDeleted() {
-    return deleted; // TODO
+    return deleted;
   }
 
   public void setDeleted(boolean deleted) {
