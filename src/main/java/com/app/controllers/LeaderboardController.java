@@ -164,7 +164,7 @@ public class LeaderboardController {
       row.add(rm.getCompetition().getName());
       row.add(rm.getMember().getName());
       row.add(rm.getPlacement());
-      row.add(String.valueOf(rm.getResultTime()));
+      row.add(String.valueOf(rm.getResultTime()).substring(3));
 
       result.add(row);
     }

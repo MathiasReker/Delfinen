@@ -228,7 +228,7 @@ public class SwimEventController {
       SwimEventModel practice =
           InputController.validateSwimEvent(
               swimEventModels); // TODO: refactor to have validation of competition closer
-      if (practice != null && !practice.isPractice()) {
+      if (practice != null && practice.isPractice()) {
         ArrayList<ResultModel> resultsOfCompetition = practice.getResult();
 
         VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
