@@ -79,8 +79,7 @@ public class PaymentController {
    */
   public void handlePayments() {
     try {
-      paymentService =
-          new PaymentService(new ConfigService("paymentRequestsPath").getPath());
+      paymentService = new PaymentService(new ConfigService("paymentRequestsPath").getPath());
       approvedPaymentsIds = paymentService.getApprovedPayments();
       reviewPaymentFile();
       VIEW.printInline("Update memberships of valid members [Y/n]: ");
@@ -141,19 +140,37 @@ public class PaymentController {
    * @auther Andreas, Mohamad
    */
   public void displayMembersInArrears() {
+    VIEW.printTable(getArrearsHeader(), getArrearsContent());
+  }
+
+  private String[] getArrearsHeader() {
+    return new String[] {"ID", "Name", "Days"};
+  }
+
+  /** @auther Mathias, Mohamad */
+  private ArrayList<String> getRows2(MemberModel arrears) {
+    ArrayList<String> result = new ArrayList<>();
+
+    result.add(arrears.getId());
+    result.add(arrears.getName());
+    result.add(calcPeriod(LocalDate.now(), arrears.getLatestMembership().getStartingDate()));
+
+    return result;
+  }
+
+  /** @auther Mathias, Mohamad */
+  private ArrayList<ArrayList<String>> getArrearsContent() {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
+
     ArrayList<MemberModel> unpaidMembers =
         MEMBER_CONTROLLER.getUnpaidMembers(MEMBER_CONTROLLER.getMembers());
     ArrayList<MemberModel> arrears = getMembersInArrears(unpaidMembers);
 
-    int size = arrears.size();
-    String[][] arrearsData = new String[size][3];
-    for (int i = 0; i < size; i++) {
-      String days =
-          calcPeriod(LocalDate.now(), arrears.get(i).getLatestMembership().getStartingDate());
-      arrearsData[i] = new String[] {arrears.get(i).getId(), arrears.get(i).getName(), days};
+    for (MemberModel arrear : arrears) {
+      result.add(getRows2(arrear));
     }
 
-    VIEW.displayArrears(arrearsData);
+    return result;
   }
 
   /**
