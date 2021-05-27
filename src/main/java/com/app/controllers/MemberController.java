@@ -312,11 +312,11 @@ public class MemberController {
    *
    * @auther Mathias, Andreas
    */
-  public void viewTableMembers() {
+  public void viewTableMembers(boolean expanded) {
     if (members.isEmpty()) {
       VIEW.printWarning("No members exists.");
     } else {
-      VIEW.printTable(getMemberHeader(false), getMemberContent(members, false));
+      VIEW.printTable(getMemberHeader(expanded), getMemberContent(members, expanded));
     }
   }
 
@@ -543,7 +543,7 @@ public class MemberController {
    */
   public void anonymizeMember() {
     if (!members.isEmpty()) {
-      viewTableMembers();
+      viewTableMembers(false);
       VIEW.printInline("Input ID [press \"q\" to quit]: ");
       String id = InputController.validateMemberId(members);
 
@@ -574,7 +574,7 @@ public class MemberController {
    */
   public void editMember() {
     if (!members.isEmpty()) {
-      viewTableMembers();
+      viewTableMembers(true);
 
       VIEW.printInline("Input ID [press \"q\" to quit]: ");
 
