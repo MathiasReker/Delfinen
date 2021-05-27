@@ -350,6 +350,11 @@ public class SwimEventController {
     }
   }
 
+  /**
+   * @param swimEvent SwimEventModel
+   * @return ArrayList<String>
+   * @auther Mathias
+   */
   private ArrayList<String> getSwimEventRows(SwimEventModel swimEvent) {
     ArrayList<String> result = new ArrayList<>();
 
@@ -361,6 +366,12 @@ public class SwimEventController {
     return result;
   }
 
+  /**
+   * @param swimEvents ArrayList<SwimEventModel>
+   * @param isPractice boolean
+   * @return ArrayList<ArrayList<String>>
+   * @auther Mathias
+   */
   private ArrayList<ArrayList<String>> getSwimEventContent(
       ArrayList<SwimEventModel> swimEvents, boolean isPractice) {
     ArrayList<ArrayList<String>> result = new ArrayList<>();
@@ -387,6 +398,12 @@ public class SwimEventController {
     }
   }
 
+  /**
+   * Convert AgeGroupType enum to String array.
+   *
+   * @return String[]
+   * @auther Mathias
+   */
   private String[] ageGroupToArray() {
     String[] result = new String[AgeGroupType.values().length];
 
