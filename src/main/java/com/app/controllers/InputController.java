@@ -197,7 +197,7 @@ public class InputController {
       VIEW.printInlineWarning("Not a valid ID. Please try again: ");
     }
   }
-    /**
+  /**
    * Returns a validate result time.
    *
    * @return String
