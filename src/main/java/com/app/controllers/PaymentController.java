@@ -148,7 +148,7 @@ public class PaymentController {
   }
 
   /** @auther Mathias, Mohamad */
-  private ArrayList<String> getRows2(MemberModel arrears) {
+  private ArrayList<String> getArrearsRows(MemberModel arrears) {
     ArrayList<String> result = new ArrayList<>();
 
     result.add(arrears.getId());
@@ -167,7 +167,7 @@ public class PaymentController {
     ArrayList<MemberModel> arrears = getMembersInArrears(unpaidMembers);
 
     for (MemberModel arrear : arrears) {
-      result.add(getRows2(arrear));
+      result.add(getArrearsRows(arrear));
     }
 
     return result;

@@ -202,7 +202,7 @@ public class SwimEventController {
       SwimEventModel competition = InputController.validateSwimEvent(swimEventModels);
 
       if (competition != null && !competition.isPractice()) {
-        VIEW.printTable(getResultsHeader(), getResultsContent2(competition.getResult()));
+        VIEW.printTable(getResultsHeader(), getCompetitionResultsContent(competition.getResult()));
       } else {
         VIEW.printWarning("Not a valid choice.");
       }
@@ -225,24 +225,25 @@ public class SwimEventController {
       VIEW.printInline("Practice ID: ");
       SwimEventModel practice = InputController.validateSwimEvent(swimEventModels);
       if (practice != null && practice.isPractice()) {
-        VIEW.printTable(getResultsHeader(), getResultsContent2(practice.getResult()));
+        VIEW.printTable(getResultsHeader(), getCompetitionResultsContent(practice.getResult()));
       } else {
         VIEW.printWarning("Not a valid choice.");
       }
     }
   }
 
-  private ArrayList<ArrayList<String>> getResultsContent2(ArrayList<ResultModel> results) {
+  private ArrayList<ArrayList<String>> getCompetitionResultsContent(
+      ArrayList<ResultModel> results) {
     ArrayList<ArrayList<String>> output = new ArrayList<>();
 
     for (ResultModel result : results) {
-      output.add(getRows2(result));
+      output.add(getCompetitionsResultsRow(result));
     }
 
     return output;
   }
 
-  private ArrayList<String> getRows2(ResultModel resultModel) {
+  private ArrayList<String> getCompetitionsResultsRow(ResultModel resultModel) {
     ArrayList<String> result = new ArrayList<>();
 
     result.add(resultModel.getMember().getName());
@@ -331,7 +332,7 @@ public class SwimEventController {
     }
   }
 
-  private ArrayList<String> getRows(SwimEventModel swimEvent) {
+  private ArrayList<String> getSwimEventRows(SwimEventModel swimEvent) {
     ArrayList<String> result = new ArrayList<>();
 
     result.add(swimEvent.getId());
@@ -348,7 +349,7 @@ public class SwimEventController {
 
     for (SwimEventModel swimEvent : swimEvents) {
       if (isPractice != swimEvent.isPractice()) {
-        result.add(getRows(swimEvent));
+        result.add(getSwimEventRows(swimEvent));
       }
     }
 
