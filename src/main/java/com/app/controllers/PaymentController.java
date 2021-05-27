@@ -247,7 +247,7 @@ public class PaymentController {
         VIEW.printWarning(e.getMessage());
       }
     } else {
-      VIEW.printWarning("No members exists");
+      VIEW.printWarning("No members exists.");
     }
   }
 }
