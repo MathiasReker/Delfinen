@@ -25,7 +25,7 @@ public class PredictionController {
 
       VIEW.printExpectedIncome(prediction, days);
     } else {
-      VIEW.printWarning("No members exists");
+      VIEW.printWarning("No members exists.");
     }
   }
 
