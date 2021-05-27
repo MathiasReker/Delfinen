@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class MemberController {
   private final MemberView VIEW;
   private final MembershipController MEMBERSHIP_CONTROLLER = new MembershipController();
-  private final DisciplinesController DISC_CONTROLLER = new DisciplinesController();
+  private final DisciplineController DISC_CONTROLLER = new DisciplineController();
   private ArrayList<MemberModel> members;
 
   public MemberController() {

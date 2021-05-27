@@ -1,6 +1,6 @@
 package com.app.controllers;
 
-import com.app.models.CompetitionModel;
+import com.app.models.SwimEventModel;
 import com.app.models.DisciplineModel;
 import com.app.models.MemberModel;
 import com.app.models.ResultModel;
@@ -12,7 +12,7 @@ import java.time.format.DateTimeFormatter;
 public class ResultController {
 
   private final ResultView VIEW = new ResultView();
-  private final DisciplinesController DISC_CONTROLLER = new DisciplinesController();
+  private final DisciplineController DISC_CONTROLLER = new DisciplineController();
 
   /**
    * Adds a result time to a competition
@@ -20,7 +20,7 @@ public class ResultController {
    * @param member Member that we want to add a result to
    * @param competition The competition that we want to add a result to
    */
-  public ResultModel addResultTime(MemberModel member, CompetitionModel competition) {
+  public ResultModel addResultTime(MemberModel member, SwimEventModel competition) {
     DisciplineModel disciplineModel =
         DISC_CONTROLLER.getDisciplineModelStyleAndDistance(member.getGender());
 
@@ -30,8 +30,13 @@ public class ResultController {
             "00:" + InputController.validateCompetitionResultTime(),
             DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
-    VIEW.printInline("Placement: ");
-    String placement = InputController.validatePlacement();
+    String placement;
+    if (!competition.isPractice()) {
+      VIEW.printInline("Placement: ");
+      placement = InputController.validatePlacement();
+    } else {
+      placement = "Practice";
+    }
 
     return new ResultModel(member, time, disciplineModel, competition, placement);
   }

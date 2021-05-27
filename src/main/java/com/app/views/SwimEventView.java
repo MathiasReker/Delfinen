@@ -1,6 +1,6 @@
 package com.app.views;
 
-public class CompetitionView extends View {
+public class SwimEventView extends View {
   public void displayCompetitionResults(String[][] competitionResults) {
     System.out.println(
         "-----------------------------------------------------------------------------");
@@ -33,6 +33,20 @@ public class CompetitionView extends View {
   }
 
   public void displayCompetition(String[] competition, int[] columnWidth) {
+    for (int i = 0; i < competition.length; i++) {
+      String s = competition[i];
+
+      if (s == null) {
+        s = "--";
+      }
+
+      System.out.printf("%-" + (columnWidth[i] + 4) + "s", s);
+    }
+
+    System.out.println();
+  }
+
+  public void displayPatrice(String[] competition, int[] columnWidth) {
     for (int i = 0; i < competition.length; i++) {
       String s = competition[i];
 

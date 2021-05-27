@@ -8,12 +8,13 @@ import com.app.views.InputView;
 
 import java.util.ArrayList;
 
-public class DisciplinesController {
+public class DisciplineController {
+
   private final InputView VIEW = new InputView();
 
   private ArrayList<DisciplineModel> disciplines = new ArrayList<>();
 
-  public DisciplinesController() {
+  public DisciplineController() {
     setDisciplines(disciplines);
   }
 

@@ -1,6 +1,6 @@
 package com.app.controllers.menuactions;
 
-import com.app.controllers.TrainingController;
+import com.app.controllers.SwimEventController;
 
 public class ViewTrainingResultsMenuAction extends MenuAction {
   public ViewTrainingResultsMenuAction(String itemName) {
@@ -9,6 +9,6 @@ public class ViewTrainingResultsMenuAction extends MenuAction {
 
   @Override
   public void run() {
-    new TrainingController().viewTrainingResults();
+    new SwimEventController().viewPracticeResults();
   }
 }
