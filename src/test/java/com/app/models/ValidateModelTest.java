@@ -7,19 +7,19 @@ public class ValidateModelTest {
 
   @Test
   public void testIsValidDate() {
-    boolean result = InputModel.isValidDate("01/01/1992");
+    boolean result = InputModel.isValidBirthDate("01/01/1992");
     Assertions.assertTrue(result);
   }
 
   @Test
   public void testIsValidDate2() {
-    boolean result = InputModel.isValidDate("1/1/2020");
+    boolean result = InputModel.isValidBirthDate("1/1/2020");
     Assertions.assertFalse(result);
   }
 
   @Test
   public void testIsValidDate3() {
-    boolean result = InputModel.isValidDate("");
+    boolean result = InputModel.isValidBirthDate("");
     Assertions.assertFalse(result);
   }
 

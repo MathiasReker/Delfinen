@@ -43,7 +43,7 @@ public class MemberController {
     GenderType gender = GenderType.values()[genderIndex];
 
     VIEW.printInline("Birthday [dd/MM/yyyy]: ");
-    String birthday = InputController.validateDate();
+    String birthday = InputController.validateBirthDate();
 
     VIEW.printInline("Phone: ");
     String phone = InputController.validatePhoneNumber();
@@ -433,7 +433,7 @@ public class MemberController {
             String mail = InputController.validatePhoneNumber();
             member.setPhoneNumber(mail);
           } else if (3 == index) {
-            String birthday = InputController.validateDate();
+            String birthday = InputController.validateBirthDate();
             member.setBirthdate(
                 LocalDate.parse(birthday, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
           } else if (4 == index) {
