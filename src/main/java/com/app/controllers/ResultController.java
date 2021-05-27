@@ -8,6 +8,7 @@ import com.app.views.ResultView;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class ResultController {
 
@@ -41,5 +42,25 @@ public class ResultController {
     }
 
     return new ResultModel(member, time, disciplineModel, swimEvent, placement);
+  }
+  /**
+   * Returns true if member exists, false if member does not exists.
+   *
+   * @param results ArrayList<ResultModel>
+   * @param member MemberModel
+   * @return boolean
+   * @auther Jackie
+   */
+  public boolean memberInResult(ArrayList<ResultModel> results, MemberModel member) {
+    if (results.isEmpty()) {
+      return false;
+    }
+    for (ResultModel result : results) {
+      if (result.getMember().getId().equals(member.getId())) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

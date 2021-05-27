@@ -61,7 +61,8 @@ public class PaymentController {
    */
   public void handlePayments() {
     try {
-      paymentService = new PaymentService(new ConfigService("paymentRequestsPath").getPath());
+      paymentService =
+          new PaymentService(new ConfigService("paymentRequestsPath").getPath() + "out.txt");
       approvedPaymentsIds = paymentService.getApprovedPayments();
       reviewPaymentFile();
       VIEW.printInline("Update memberships of valid members [Y/n]: ");
@@ -172,7 +173,7 @@ public class PaymentController {
    * @return String
    * @auther Andreas
    */
-  String calcPeriod(LocalDate date1, LocalDate date2) { // TODO: move to PeriodModel?
+  String calcPeriod(LocalDate date1, LocalDate date2) {
     long test = ChronoUnit.DAYS.between(date1, date2);
 
     return String.valueOf(test);

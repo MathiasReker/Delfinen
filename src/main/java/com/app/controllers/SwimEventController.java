@@ -58,8 +58,9 @@ public class SwimEventController {
         LocalTime.parse(
             InputController.validateSwimEventTime(), DateTimeFormatter.ofPattern("HH:mm"));
 
-    VIEW.printInline("Junior or senior [j/s]: "); // TODO change to display with array.
-    AgeGroupType ageGroup = getAgeGroup(InputController.validateAgeGroup());
+    VIEW.displayOptions(ageGroupToArray());
+    int index = InputController.validateOptionRange(AgeGroupType.values().length) - 1;
+    AgeGroupType ageGroup = AgeGroupType.values()[index];
 
     swimEventModels.add(
         new SwimEventModel(
@@ -85,8 +86,9 @@ public class SwimEventController {
         LocalTime.parse(
             InputController.validateSwimEventTime(), DateTimeFormatter.ofPattern("HH:mm"));
 
-    VIEW.printInline("Junior or senior [j/s]: "); // TODO change to display with array.
-    AgeGroupType ageGroup = getAgeGroup(InputController.validateAgeGroup());
+    VIEW.displayOptions(ageGroupToArray());
+    int index = InputController.validateOptionRange(AgeGroupType.values().length) - 1;
+    AgeGroupType ageGroup = AgeGroupType.values()[index];
 
     String name = ageGroup.name() + " practice " + date + " " + startTime;
 
@@ -97,22 +99,6 @@ public class SwimEventController {
 
     saveSwimEvents();
   }
-
-  /**
-   * Get age group.
-   *
-   * @param ageGroup String
-   * @return AgeGroupType
-   * @auther Jackie
-   */
-  private AgeGroupType getAgeGroup(String ageGroup) {
-    if (ageGroup.equalsIgnoreCase("j")) {
-      return AgeGroupType.JUNIOR; // TODO: refactor -> j ..
-    } else {
-      return AgeGroupType.SENIOR;
-    }
-  }
-
   /**
    * Adds result(s) to a competition if the competition exists based on user input.
    *
@@ -129,25 +115,29 @@ public class SwimEventController {
       SwimEventModel competition = InputController.validateSwimEvent(swimEventModels);
 
       if (competition != null && !competition.isPractice()) {
-        do {
-          MEMBER_CONTROLLER.viewTableMembers();
-          VIEW.printInline("Member ID: ");
+        if (!MEMBER_CONTROLLER.getMembers().isEmpty()) {
+          do {
+            MEMBER_CONTROLLER.viewTableMembers();
+            VIEW.printInline("Member ID: ");
 
-          try {
-            MemberModel member =
-                MEMBER_CONTROLLER.getMemberById(
-                    InputController.validateMemberId(MEMBER_CONTROLLER.getMembers()));
-            do {
-              addResultToSwimEvent(
-                  competition, resultController.addResultTime(member, competition));
-              VIEW.printInline("Add another result to this member [Y/n]: ");
-            } while (InputController.promptYesNo());
-          } catch (MemberNotFoundException e) {
-            VIEW.printWarning(e.getMessage());
-          }
+            try {
+              MemberModel member =
+                  MEMBER_CONTROLLER.getMemberById(
+                      InputController.validateMemberId(MEMBER_CONTROLLER.getMembers()));
+              do {
+                addResultToSwimEvent(
+                    competition, resultController.addResultTime(member, competition));
+                VIEW.printInline("Add another result to this member [Y/n]: ");
+              } while (InputController.promptYesNo());
+            } catch (MemberNotFoundException e) {
+              VIEW.printWarning(e.getMessage());
+            }
 
-          VIEW.printInline("Add results for another member, on this competition [Y/n]: ");
-        } while (InputController.promptYesNo());
+            VIEW.printInline("Add results for another member, on this competition [Y/n]: ");
+          } while (InputController.promptYesNo());
+        } else {
+          VIEW.printWarning("No members available.");
+        }
       } else {
         VIEW.printWarning("Not a valid choice.");
       }
@@ -170,24 +160,28 @@ public class SwimEventController {
       SwimEventModel practice = InputController.validateSwimEvent(swimEventModels);
 
       if (practice != null && practice.isPractice()) {
-        do {
-          MEMBER_CONTROLLER.viewTableMembers();
-          VIEW.printInline("Member ID: ");
+        if (!MEMBER_CONTROLLER.getMembers().isEmpty()) {
+          do {
+            MEMBER_CONTROLLER.viewTableMembers();
+            VIEW.printInline("Member ID: ");
 
-          try {
-            MemberModel member =
-                MEMBER_CONTROLLER.getMemberById(
-                    InputController.validateMemberId(MEMBER_CONTROLLER.getMembers()));
-            do {
-              addResultToSwimEvent(practice, resultController.addResultTime(member, practice));
-              VIEW.printInline("Add another result to this member [Y/n]: ");
-            } while (InputController.promptYesNo());
-            VIEW.printInline("Add results for another member, on this practice [Y/n]: ");
-          } catch (MemberNotFoundException e) {
-            VIEW.printWarning(e.getMessage());
-          }
+            try {
+              MemberModel member =
+                  MEMBER_CONTROLLER.getMemberById(
+                      InputController.validateMemberId(MEMBER_CONTROLLER.getMembers()));
+              do {
+                addResultToSwimEvent(practice, resultController.addResultTime(member, practice));
+                VIEW.printInline("Add another result to this member [Y/n]: ");
+              } while (InputController.promptYesNo());
+              VIEW.printInline("Add results for another member, on this practice [Y/n]: ");
+            } catch (MemberNotFoundException e) {
+              VIEW.printWarning(e.getMessage());
+            }
 
-        } while (InputController.promptYesNo());
+          } while (InputController.promptYesNo());
+        } else {
+          VIEW.printWarning("No members available.");
+        }
       } else {
         VIEW.printWarning("Not a valid choice.");
       }
@@ -420,13 +414,13 @@ public class SwimEventController {
     }
   }
 
-  private ArrayList<SwimEventModel> getPractices(ArrayList<SwimEventModel> practices) {
-    ArrayList<SwimEventModel> result = null;
-    for (SwimEventModel practice : practices) {
-      if (practice.isPractice()) {
-        result.add(practice);
-      }
+  private String[] ageGroupToArray() {
+    String[] result = new String[AgeGroupType.values().length];
+
+    for (int i = 0; i < result.length; i++) {
+      result[i] = AgeGroupType.values()[i].name();
     }
+
     return result;
   }
 }
