@@ -329,9 +329,8 @@ public class SwimEventController {
    */
   private String[] getSwimEventHeader() {
     return new String[] {"ID", "Name", "Date", "Start time"};
-  } // TODO: Refactor to new table display
+  }
 
-  /** @return a int array with the columwidth */
   public int[] getColumnWidth() { // TODO: Refactor to new table display
     int[] result = new int[getSwimEventHeader().length];
 
@@ -377,16 +376,29 @@ public class SwimEventController {
     if (swimEventModels.isEmpty()) {
       VIEW.printWarning("No swim events.");
     } else {
-      String[] header = getSwimEventHeader();
-      VIEW.displayCompetition(header, getColumnWidth());
-
-      for (SwimEventModel competition : swimEventModels) {
-        if (!competition.isPractice()) {
-          String[] body = getSwimEventLine(competition);
-          VIEW.displayCompetition(body, getColumnWidth());
-        }
-      }
+      VIEW.printTable(getSwimEventHeader(), getSwimEventContent(swimEventModels));
     }
+  }
+
+  private ArrayList<String> getRows(SwimEventModel swimEvent) {
+    ArrayList<String> result = new ArrayList<>();
+
+    result.add(swimEvent.getId());
+    result.add(swimEvent.getName());
+    result.add(String.valueOf(swimEvent.getStartDate()));
+    result.add(String.valueOf(swimEvent.getStartTime()));
+
+    return result;
+  }
+
+  private ArrayList<ArrayList<String>> getSwimEventContent(ArrayList<SwimEventModel> swimEvents) {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
+
+    for (SwimEventModel swimEvent : swimEvents) {
+      result.add(getRows(swimEvent));
+    }
+
+    return result;
   }
 
   /**
@@ -398,9 +410,7 @@ public class SwimEventController {
     if (swimEventModels.isEmpty()) {
       VIEW.printWarning("No swim events.");
     } else {
-      String[] header = getSwimEventHeader();
-      VIEW.displayCompetition(header, getColumnWidth());
-
+      VIEW.printTable(getSwimEventHeader(), getSwimEventContent(swimEventModels));
       for (SwimEventModel practice : swimEventModels) {
         if (practice.isPractice()) {
           String[] body = getSwimEventLine(practice);
@@ -408,5 +418,15 @@ public class SwimEventController {
         }
       }
     }
+  }
+
+  private ArrayList<SwimEventModel> getPractices(ArrayList<SwimEventModel> practices) {
+    ArrayList<SwimEventModel> result = null;
+    for (SwimEventModel practice : practices) {
+      if (practice.isPractice()) {
+        result.add(practice);
+      }
+    }
+    return result;
   }
 }
