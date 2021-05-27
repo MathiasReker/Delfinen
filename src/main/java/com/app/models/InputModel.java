@@ -8,7 +8,7 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class InputModel {
-  public static boolean isValidDate(String date) {
+  public static boolean isValidBirthDate(String date) {
     try {
       int age = getAge(LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy")));
 
@@ -17,6 +17,15 @@ public class InputModel {
       return false;
     }
   }
+  public static boolean isValidDate(String date) {
+    try {
+      LocalDate dateCheck = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+      return dateCheck.isAfter(LocalDate.now());
+    } catch (DateTimeParseException e) {
+      return false;
+    }
+  }
+
 
   private static int getAge(LocalDate birthdate) {
     LocalDate currentDate = LocalDate.now();

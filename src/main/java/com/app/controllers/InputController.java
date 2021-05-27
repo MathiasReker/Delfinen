@@ -81,6 +81,17 @@ public class InputController {
     return result;
   }
 
+  public static String validateBirthDate() {
+    String result = IN.nextLine().replace("-", "/"); // "-" and "/"
+
+    while (!InputModel.isValidBirthDate(result)) {
+      VIEW.printInlineWarning("Not a valid date. Please try again: ");
+      result = IN.nextLine();
+    }
+
+    return result;
+  }
+
   public static String validateDate() {
     String result = IN.nextLine().replace("-", "/"); // "-" and "/"
 
@@ -91,6 +102,7 @@ public class InputController {
 
     return result;
   }
+
 
   public static String validatePhoneNumber() {
     while (true) {
