@@ -405,7 +405,7 @@ public class MemberController {
       } else if (3 == index) {
         viewMemberByPhoneNumber();
       }
-    }else {
+    } else {
       VIEW.printWarning("No members exists.");
     }
   }
@@ -562,7 +562,7 @@ public class MemberController {
       } else {
         VIEW.printSuccess("Action cancelled.");
       }
-    }else{
+    } else {
       VIEW.printWarning("No members exists");
     }
   }
