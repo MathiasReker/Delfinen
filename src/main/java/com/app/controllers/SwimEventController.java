@@ -159,7 +159,7 @@ public class SwimEventController {
       VIEW.printInline("Practice ID: ");
       SwimEventModel practice = InputController.validateSwimEvent(swimEventModels);
 
-      if (practice != null && practice.isPractice()) {  // TODO: rm  && practice.isPractice()?
+      if (practice != null && practice.isPractice()) {
         if (!MEMBER_CONTROLLER.getMembers().isEmpty()) {
           do {
             MEMBER_CONTROLLER.viewTableMembers();
@@ -199,20 +199,19 @@ public class SwimEventController {
     } else {
       viewTableCompetitions();
       VIEW.printInline("Competition ID: ");
-      SwimEventModel competition =
-          InputController.validateSwimEvent(
-              swimEventModels);
+      SwimEventModel competition = InputController.validateSwimEvent(swimEventModels);
 
       if (competition != null && !competition.isPractice()) {
-        ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
-
-        VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
+        VIEW.printTable(getResultsHeader(), getResultsContent2(competition.getResult()));
       } else {
         VIEW.printWarning("Not a valid choice.");
       }
     }
   }
 
+  private String[] getResultsHeader() {
+    return new String[] {"Name", "Style", "Distance", "Completion time"};
+  }
   /**
    * View practice results based on an ID of a swim event.
    *
@@ -224,38 +223,32 @@ public class SwimEventController {
     } else {
       viewTablePractice();
       VIEW.printInline("Practice ID: ");
-      SwimEventModel practice =
-          InputController.validateSwimEvent(
-              swimEventModels);
+      SwimEventModel practice = InputController.validateSwimEvent(swimEventModels);
       if (practice != null && practice.isPractice()) {
-        ArrayList<ResultModel> resultsOfCompetition = practice.getResult();
-
-        VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
+        VIEW.printTable(getResultsHeader(), getResultsContent2(practice.getResult()));
       } else {
         VIEW.printWarning("Not a valid choice.");
       }
     }
   }
 
-  /**
-   * Returns a 2D array of results to be displayed.
-   *
-   * @param resultTimes Arraylist of result times, that needs to be converted to a string
-   * @return A 2d String array
-   */
-  private String[][] arrayWithResultToDisplay(ArrayList<ResultModel> resultTimes) {
-    String[][] result = new String[resultTimes.size()][4]; // TODO: refactor to new table display
+  private ArrayList<ArrayList<String>> getResultsContent2(ArrayList<ResultModel> results) {
+    ArrayList<ArrayList<String>> output = new ArrayList<>();
 
-    for (int i = 0; i < resultTimes.size(); i++) {
-      ResultModel resultModel = resultTimes.get(i);
-
-      String name = resultModel.getMember().getName();
-      String style = resultModel.getDiscipline().getStyle().name();
-      String distance = Integer.toString(resultModel.getDiscipline().getDistance().getMeters());
-      String completionTime = resultModel.getResultTime().toString();
-
-      result[i] = new String[] {name, style, distance, completionTime}; // TODO add if practice
+    for (ResultModel result : results) {
+      output.add(getRows2(result));
     }
+
+    return output;
+  }
+
+  private ArrayList<String> getRows2(ResultModel resultModel) {
+    ArrayList<String> result = new ArrayList<>();
+
+    result.add(resultModel.getMember().getName());
+    result.add(resultModel.getDiscipline().getStyle().name());
+    result.add(Integer.toString(resultModel.getDiscipline().getDistance().getMeters()));
+    result.add(resultModel.getResultTime().toString());
 
     return result;
   }

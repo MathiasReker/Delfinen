@@ -43,7 +43,7 @@ public class SwimEventModel implements Serializable {
     this.id = id;
   }
 
-  public LocalDate getStartDate() { // TODO: Method 'getStartDate()' is never used
+  public LocalDate getStartDate() {
     return START_DATE;
   }
 
@@ -55,7 +55,7 @@ public class SwimEventModel implements Serializable {
     this.name = name;
   }
 
-  public LocalTime getStartTime() { // TODO: Method 'getStartTime()' is never used
+  public LocalTime getStartTime() {
     return START_TIME;
   }
 

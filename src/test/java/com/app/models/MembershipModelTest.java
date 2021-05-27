@@ -13,14 +13,9 @@ public class MembershipModelTest {
   MembershipModel test;
 
   private void setup() {
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    test =
-        new MembershipModel(
-            "Test",
-            LocalDate.parse("01-01-2020", format),
-            LocalDate.parse("01-02-2020", format),
-            true,
-            false);
+    test = new MembershipModel("Test");
+    test.setStartingDate(LocalDate.parse("01-01-2020", DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+    test.setExpiringDate(LocalDate.parse("01-02-2020", DateTimeFormatter.ofPattern("dd-MM-yyyy")));
   }
 
   @Test

@@ -26,44 +26,6 @@ public class MemberModel implements Serializable {
     CREATE_DATE = LocalDateTime.now().toLocalDate();
   }
 
-  /**
-   * Package Private constructor for instantiating objects in the model. Can be used when reading
-   * stored data.
-   *
-   * @param ID
-   * @param name
-   * @param birthdate
-   * @param gender
-   * @param phoneNumber
-   * @param mail
-   * @param competitive
-   * @param disciplines
-   * @param creationDate
-   * @param memberships
-   */
-  MemberModel( // TODO: Remove and refactor test
-      String ID,
-      String name,
-      LocalDate birthdate,
-      GenderType gender,
-      String phoneNumber,
-      String mail,
-      boolean competitive,
-      ArrayList<DisciplineModel> disciplines,
-      LocalDate creationDate,
-      ArrayList<MembershipModel> memberships) {
-    setID(ID);
-    setName(name);
-    this.birthdate = birthdate;
-    setGender(gender);
-    setPhoneNumber(phoneNumber);
-    setMail(mail);
-    setCompetitive(competitive);
-    this.CREATE_DATE = creationDate;
-    setDisciplines(disciplines);
-    setMemberships(memberships);
-  }
-
   public void addMembership(MembershipModel membership) {
     memberships.add(membership);
   }

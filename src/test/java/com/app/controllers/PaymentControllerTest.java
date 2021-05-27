@@ -17,7 +17,7 @@ public class PaymentControllerTest {
     MemberModel testMember = new MemberModel();
     MembershipModel testMembership =
         new MembershipModel(
-            "test", LocalDate.now().minusDays(14), LocalDate.now().plusYears(1), false, true);
+            "test");
 
     memberModels.add(testMember);
     testMember.addMembership(testMembership);
