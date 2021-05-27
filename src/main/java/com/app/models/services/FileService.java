@@ -16,6 +16,7 @@ public class FileService {
    *
    * @param path Relative path to the file that you try to access
    * @throws IOException
+   * @auther Mathias
    */
   public FileService(String path) throws IOException {
     PATH = path;

@@ -9,6 +9,13 @@ public class ObjectService {
     FILE_SERVICE = new FileService(path);
   }
 
+  /**
+   * Save objects to bin.
+   *
+   * @param objects
+   * @throws IOException
+   * @auther Andreas, Mathias
+   */
   public void save(Object[] objects) throws IOException {
     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
     ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
@@ -19,6 +26,12 @@ public class ObjectService {
     FILE_SERVICE.writeToBin(competitionsInBytes);
   }
 
+  /**
+   * Load objects from bin.
+   *
+   * @throws IOException
+   * @auther Andreas, Mathias
+   */
   public Object[] load() throws IOException, ClassNotFoundException {
     byte[] competitionsInByte = FILE_SERVICE.loadFromBin();
     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(competitionsInByte);

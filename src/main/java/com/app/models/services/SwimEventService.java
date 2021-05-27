@@ -11,10 +11,25 @@ public class SwimEventService {
     PATH = path;
   }
 
+  /**
+   * Save SwimEventModel[] object.
+   *
+   * @param members
+   * @throws IOException
+   * @auther Mathias
+   */
   public void save(SwimEventModel[] members) throws IOException {
     new ObjectService(PATH).save(members);
   }
 
+  /**
+   * Load SwimEventModel[] object.
+   *
+   * @return
+   * @throws IOException
+   * @throws ClassNotFoundException
+   * @auther Mathias
+   */
   public SwimEventModel[] load() throws IOException, ClassNotFoundException {
     return (SwimEventModel[]) new ObjectService(PATH).load();
   }

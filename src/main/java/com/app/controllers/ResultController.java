@@ -1,9 +1,9 @@
 package com.app.controllers;
 
-import com.app.models.SwimEventModel;
 import com.app.models.DisciplineModel;
 import com.app.models.MemberModel;
 import com.app.models.ResultModel;
+import com.app.models.SwimEventModel;
 import com.app.views.ResultView;
 
 import java.time.LocalTime;

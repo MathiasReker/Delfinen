@@ -93,6 +93,7 @@ public class DisciplineController {
 
     return result;
   }
+
   // Author: Andreas
   public boolean lookupDiscipline(
       ArrayList<DisciplineModel> disciplines, DisciplineModel discipline) {
@@ -102,6 +103,7 @@ public class DisciplineController {
     }
     return false;
   }
+
   // Author: Andreas
   public DisciplineModel getDiscipline(
       ArrayList<DisciplineModel> disciplines, DisciplineModel discipline) {

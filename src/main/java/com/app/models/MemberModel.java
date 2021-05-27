@@ -183,12 +183,24 @@ public class MemberModel implements Serializable {
     return memberships.get(memberships.size() - 1);
   }
 
+  /**
+   * Returns age.
+   *
+   * @return int
+   * @auther Mathias
+   */
   public int getAge() {
     LocalDate currentDate = LocalDate.now();
 
     return Period.between(birthdate, currentDate).getYears();
   }
 
+  /**
+   * Returns seniority.
+   *
+   * @return int
+   * @auther Mathias
+   */
   public int getSeniority() {
     LocalDate currentDate = LocalDate.now();
 

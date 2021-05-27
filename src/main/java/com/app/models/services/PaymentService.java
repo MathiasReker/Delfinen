@@ -34,6 +34,12 @@ public class PaymentService {
     fileService.writeToFile(result);
   }
 
+  /**
+   * Returns backup file path.
+   *
+   * @return String
+   * @auther Mathias
+   */
   private String getFullBackupFilePath() {
     return PATH + LocalDate.now() + "-backup.txt";
   }

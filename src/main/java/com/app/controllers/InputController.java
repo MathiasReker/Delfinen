@@ -1,8 +1,8 @@
 package com.app.controllers;
 
-import com.app.models.SwimEventModel;
 import com.app.models.InputModel;
 import com.app.models.MemberModel;
+import com.app.models.SwimEventModel;
 import com.app.views.InputView;
 
 import java.util.ArrayList;

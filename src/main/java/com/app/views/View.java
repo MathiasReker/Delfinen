@@ -18,6 +18,7 @@ abstract class View {
    *
    * @param text String of the output.
    * @param color ColorKey of the color.
+   * @auther Mathias
    */
   public void print(String text, ColorKeyType color) {
     System.out.println(new ColorTextType(text, color));
@@ -27,6 +28,7 @@ abstract class View {
    * Print a text of the color green followed by a new line.
    *
    * @param text String of the output.
+   * @auther Mathias
    */
   public void printSuccess(String text) {
     System.out.println(new ColorTextType(text, ColorKeyType.GREEN_BRIGHT));
@@ -36,6 +38,7 @@ abstract class View {
    * Print a text of the color red followed by a new line.
    *
    * @param text String of the output.
+   * @auther Mathias
    */
   public void printWarning(String text) {
     System.out.println(new ColorTextType(text, ColorKeyType.RED));
@@ -45,11 +48,16 @@ abstract class View {
    * Print a text of the color red.
    *
    * @param text String of the output.
+   * @auther Mathias
    */
   public void printInlineWarning(String text) {
     System.out.print(new ColorTextType(text, ColorKeyType.RED));
   }
 
+  /**
+   * @param text
+   * @auther Mathias
+   */
   public void displayOptions(String[] text) {
     String[] result = new String[text.length];
 
@@ -60,6 +68,11 @@ abstract class View {
     printInline(String.join(", ", result) + ": ");
   }
 
+  /**
+   * @param headerIn
+   * @param bodyIn
+   * @auther Mathias
+   */
   public void printTable(String[] headerIn, ArrayList<ArrayList<String>> bodyIn) {
     new TableView(headerIn, bodyIn).printTable();
   }
