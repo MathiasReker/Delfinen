@@ -253,7 +253,7 @@ public class SwimEventController {
           VIEW.printWarning("Not a valid choice.");
         }
       }
-    }else{
+    } else {
       VIEW.printWarning("No practices exists.");
     }
   }
