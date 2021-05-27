@@ -159,7 +159,7 @@ public class SwimEventController {
       VIEW.printInline("Practice ID: ");
       SwimEventModel practice = InputController.validateSwimEvent(swimEventModels);
 
-      if (practice != null && practice.isPractice()) {
+      if (practice != null && practice.isPractice()) {  // TODO: rm  && practice.isPractice()?
         if (!MEMBER_CONTROLLER.getMembers().isEmpty()) {
           do {
             MEMBER_CONTROLLER.viewTableMembers();
@@ -201,7 +201,7 @@ public class SwimEventController {
       VIEW.printInline("Competition ID: ");
       SwimEventModel competition =
           InputController.validateSwimEvent(
-              swimEventModels); // TODO: refactor to have validation of competition closer
+              swimEventModels);
 
       if (competition != null && !competition.isPractice()) {
         ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
@@ -226,8 +226,8 @@ public class SwimEventController {
       VIEW.printInline("Practice ID: ");
       SwimEventModel practice =
           InputController.validateSwimEvent(
-              swimEventModels); // TODO: refactor to have validation of competition closer
-      if (practice != null && !practice.isPractice()) {
+              swimEventModels);
+      if (practice != null && practice.isPractice()) {
         ArrayList<ResultModel> resultsOfCompetition = practice.getResult();
 
         VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
