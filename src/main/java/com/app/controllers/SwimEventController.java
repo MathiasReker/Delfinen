@@ -203,23 +203,27 @@ public class SwimEventController {
    * @auther Jackie, Mohamad
    */
   public void viewCompetitionResults() {
-    if (isPractice()) {
-      VIEW.printWarning("No swim events available.");
-    } else {
-      viewTableCompetitions();
-      VIEW.printInline("Competition ID: ");
-      SwimEventModel competition = InputController.validateSwimEvent(swimEventModels);
-
-      if (competition != null && !competition.isPractice()) {
-        if (!competition.getResult().isEmpty()) {
-          VIEW.printTable(
-              getResultsHeader(), getCompetitionResultsContent(competition.getResult()));
-        } else {
-          VIEW.printWarning("No result for the chosen competition.");
-        }
+    if (!swimEventModels.isEmpty()) {
+      if (isPractice()) {
+        VIEW.printWarning("No swim events available.");
       } else {
-        VIEW.printWarning("Not a valid choice.");
+        viewTableCompetitions();
+        VIEW.printInline("Competition ID: ");
+        SwimEventModel competition = InputController.validateSwimEvent(swimEventModels);
+
+        if (competition != null && !competition.isPractice()) {
+          if (!competition.getResult().isEmpty()) {
+            VIEW.printTable(
+                getResultsHeader(), getCompetitionResultsContent(competition.getResult()));
+          } else {
+            VIEW.printWarning("No result for the chosen competition.");
+          }
+        } else {
+          VIEW.printWarning("Not a valid choice.");
+        }
       }
+    } else {
+      VIEW.printWarning("No competitions exists");
     }
   }
 
@@ -232,21 +236,25 @@ public class SwimEventController {
    * @auther Jackie, Mohamad
    */
   public void viewPracticeResults() {
-    if (!isPractice()) {
-      VIEW.printWarning("No swim events available.");
-    } else {
-      viewTablePractice();
-      VIEW.printInline("Practice ID: ");
-      SwimEventModel practice = InputController.validateSwimEvent(swimEventModels);
-      if (practice != null && practice.isPractice()) {
-        if (!practice.getResult().isEmpty()) {
-          VIEW.printTable(getResultsHeader(), getCompetitionResultsContent(practice.getResult()));
-        } else {
-          VIEW.printWarning("No results for the chosen practice.");
-        }
+    if (!swimEventModels.isEmpty()) {
+      if (!isPractice()) {
+        VIEW.printWarning("No swim events available.");
       } else {
-        VIEW.printWarning("Not a valid choice.");
+        viewTablePractice();
+        VIEW.printInline("Practice ID: ");
+        SwimEventModel practice = InputController.validateSwimEvent(swimEventModels);
+        if (practice != null && practice.isPractice()) {
+          if (!practice.getResult().isEmpty()) {
+            VIEW.printTable(getResultsHeader(), getCompetitionResultsContent(practice.getResult()));
+          } else {
+            VIEW.printWarning("No results for the chosen practice.");
+          }
+        } else {
+          VIEW.printWarning("Not a valid choice.");
+        }
       }
+    }else{
+      VIEW.printWarning("No practices exists");
     }
   }
 
