@@ -59,8 +59,8 @@ public class SwimEventController {
         LocalTime.parse(
             InputController.validateSwimEventTime(), DateTimeFormatter.ofPattern("HH:mm"));
 
-    VIEW.printInline("Junior or senior [j/s]: "); // TODO change to display with array.
-    AgeGroupType ageGroup = getAgeGroup(InputController.validateAgeGroup());
+    VIEW.displayOptions(ageGroupToArray());
+    AgeGroupType ageGroup = AgeGroupType.values()[(InputController.validateOptionRange(AgeGroupType.values().length))];
 
     swimEventModels.add(
         new SwimEventModel(
@@ -86,8 +86,8 @@ public class SwimEventController {
         LocalTime.parse(
             InputController.validateSwimEventTime(), DateTimeFormatter.ofPattern("HH:mm"));
 
-    VIEW.printInline("Junior or senior [j/s]: "); // TODO change to display with array.
-    AgeGroupType ageGroup = getAgeGroup(InputController.validateAgeGroup());
+    VIEW.displayOptions(ageGroupToArray());
+    AgeGroupType ageGroup = AgeGroupType.values()[(InputController.validateOptionRange(AgeGroupType.values().length))];
 
     String name = ageGroup.name() + " practice " + date + " " + startTime;
 
@@ -98,23 +98,7 @@ public class SwimEventController {
 
     saveSwimEvents();
   }
-
-  /**
-   * Get age group.
-   *
-   * @param ageGroup String
-   * @return AgeGroupType
-   * @auther Jackie
-   */
-  private AgeGroupType getAgeGroup(String ageGroup) {
-    if (ageGroup.equalsIgnoreCase("j")) {
-      return AgeGroupType.JUNIOR; // TODO: refactor -> j ..
-    } else {
-      return AgeGroupType.SENIOR;
-    }
-  }
-
-  /**
+    /**
    * Adds result(s) to a competition if the competition exists based on user input.
    *
    * @auther Jackie, Mohamad
@@ -409,5 +393,14 @@ public class SwimEventController {
         }
       }
     }
+  }
+  private String[] ageGroupToArray() {
+    String[] result = new String[AgeGroupType.values().length];
+
+    for (int i = 0; i < result.length; i++) {
+      result[i] = AgeGroupType.values()[i].name();
+    }
+
+    return result;
   }
 }
