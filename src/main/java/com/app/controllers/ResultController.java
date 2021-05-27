@@ -31,10 +31,12 @@ public class ResultController {
             "00:" + InputController.validateCompetitionResultTime(),
             DateTimeFormatter.ofPattern("HH:mm:ss:SS"));
 
-    String placement = "0";
+    String placement;
     if (!competition.isPractice()) {
       VIEW.printInline("Placement: ");
       placement = InputController.validatePlacement();
+    } else {
+      placement = "Practice";
     }
 
     return new ResultModel(member, time, disciplineModel, competition, placement);

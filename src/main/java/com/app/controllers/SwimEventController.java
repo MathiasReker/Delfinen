@@ -52,7 +52,8 @@ public class SwimEventController {
         LocalTime.parse(
             InputController.validateCompetitionTime(), DateTimeFormatter.ofPattern("HH:mm"));
 
-    VIEW.printInline("Junior or senior [j/s]: ");
+
+    VIEW.printInline("Junior or senior [j/s]: "); // TODO change to display with array.
     AgeGroupType ageGroup = findAgeGroup(InputController.validateAgeGroup());
 
     swimEventModels.add(new SwimEventModel(generateId(), competitionName, date, startTime, false, ageGroup));
@@ -114,10 +115,10 @@ public class SwimEventController {
             getMember(InputController.validateMemberId(new MemberController().getMembers()));
         do {
           addResultToCompetition(competition, resultController.addResultTime(member, competition));
-          VIEW.printInline("Do you wish to add another result to this member [Y/N]: ");
+          VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
         } while (InputController.promptYesNo());
         VIEW.printInline(
-            "Do you wish to add results for another member, on this competition [Y/N]: ");
+            "Do you wish to add results for another member, on this competition [Y/n]: ");
       } while (InputController.promptYesNo());
     }
   }
@@ -139,10 +140,10 @@ public class SwimEventController {
             getMember(InputController.validateMemberId(new MemberController().getMembers()));
         do {
           addResultToCompetition(practice, resultController.addResultTime(member, practice));
-          VIEW.printInline("Do you wish to add another result to this member [Y/N]: ");
+          VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
         } while (InputController.promptYesNo());
         VIEW.printInline(
-            "Do you wish to add results for another member, on this practice [Y/N]: ");
+            "Do you wish to add results for another member, on this practice [Y/n]: ");
       } while (InputController.promptYesNo());
     }
   }
@@ -188,7 +189,7 @@ public class SwimEventController {
    * @return A 2d String array
    */
   private String[][] arrayWithResultToDisplay(ArrayList<ResultModel> resultTimes) {
-    String[][] result = new String[resultTimes.size()][5];
+    String[][] result = new String[resultTimes.size()][4]; // TODO change to softcode
 
     for (int i = 0; i < resultTimes.size(); i++) {
       ResultModel resultModel = resultTimes.get(i);
@@ -206,7 +207,7 @@ public class SwimEventController {
 
   /**
    * @param id of the member that needs to be returned
-   * @return a memeber based on id, if it exists
+   * @return a member based on id, if it exists
    */
   public MemberModel getMember(String id) {
     MemberController memberController = new MemberController();
@@ -283,8 +284,8 @@ public class SwimEventController {
   public int[] getColumnWidth() {
     int[] result = new int[getSwimEventHeader().length];
 
-    for (SwimEventModel competiton : swimEventModels) {
-      String[] body = getSwimEventLine(competiton);
+    for (SwimEventModel swimEventModel : swimEventModels) {
+      String[] body = getSwimEventLine(swimEventModel);
 
       for (int i = 0; i < body.length; i++) {
         if (body[i] == null) {
