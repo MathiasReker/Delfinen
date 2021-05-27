@@ -39,6 +39,9 @@ public class LeaderboardController {
 
     ArrayList<ResultModel> result = new ArrayList<>();
     Collections.sort(allResults);
+    if (amount > allResults.size()) {
+      amount = allResults.size();
+    }
 
     // TODO this crashes when there is only one result (less than "amount")
     for (int i = 0; i < amount; i++) {
@@ -88,7 +91,8 @@ public class LeaderboardController {
     return result;
   }
 
-  private String[][] arrayWithResultToDisplay(ArrayList<ResultModel> resultTimes) {
+  private String[][] arrayWithResultToDisplay(
+      ArrayList<ResultModel> resultTimes) { // TODO DO we use this
     String[][] result = new String[resultTimes.size()][4];
 
     for (int i = 0; i < resultTimes.size(); i++) {
@@ -119,8 +123,8 @@ public class LeaderboardController {
       DistanceType distance = DistanceType.values()[distanceInput - 1];
 
       VIEW.displayOptions(ageGroupToArray());
-      int agegroupInput = InputController.validateOptionRange(ageGroupToArray().length);
-      AgeGroupType ageGroupType = AgeGroupType.values()[agegroupInput - 1];
+      int ageGroupInput = InputController.validateOptionRange(ageGroupToArray().length);
+      AgeGroupType ageGroupType = AgeGroupType.values()[ageGroupInput - 1];
 
       displayTop5(style, distance, 5, GenderType.MALE, ageGroupType);
       displayTop5(style, distance, 5, GenderType.FEMALE, ageGroupType);
@@ -136,7 +140,7 @@ public class LeaderboardController {
       AgeGroupType ageGroupType) {
     ArrayList<ResultModel> top5 = findTop(style, distance, amount, genderType, ageGroupType);
     if (top5.isEmpty()) {
-      VIEW.print(
+      VIEW.printWarning(
           "No results for "
               + distance.getMeters()
               + " m in "
@@ -146,8 +150,30 @@ public class LeaderboardController {
               + ", in age group "
               + ageGroupType.name());
     } else {
-      VIEW.displayTopResults(arrayWithResultToDisplay(top5));
+      // VIEW.displayTopResults(arrayWithResultToDisplay(top5));
+      VIEW.printTable(
+          getLeaderboardHeader(genderType.name().toLowerCase()), getLeaderboardContent(top5));
     }
+  }
+
+  private ArrayList<ArrayList<String>> getLeaderboardContent(ArrayList<ResultModel> resultModels) {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
+
+    for (ResultModel rm : resultModels) {
+      ArrayList<String> row = new ArrayList<>();
+
+      row.add(rm.getCompetition().getName());
+      row.add(rm.getMember().getName());
+      row.add(rm.getPlacement());
+      row.add(String.valueOf(rm.getResultTime()));
+
+      result.add(row);
+    }
+    return result;
+  }
+
+  private String[] getLeaderboardHeader(String gender) {
+    return new String[] {"Swim event " + gender, "Name", "Placement", "time"};
   }
 
   public String[] ageGroupToArray() {
