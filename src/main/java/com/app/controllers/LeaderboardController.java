@@ -91,7 +91,8 @@ public class LeaderboardController {
     return result;
   }
 
-  private String[][] arrayWithResultToDisplay(ArrayList<ResultModel> resultTimes) { //TODO DO we use this
+  private String[][] arrayWithResultToDisplay(
+      ArrayList<ResultModel> resultTimes) { // TODO DO we use this
     String[][] result = new String[resultTimes.size()][4];
 
     for (int i = 0; i < resultTimes.size(); i++) {
@@ -149,8 +150,9 @@ public class LeaderboardController {
               + ", in age group "
               + ageGroupType.name());
     } else {
-      //VIEW.displayTopResults(arrayWithResultToDisplay(top5));
-      VIEW.printTable(getLeaderboardHeader(genderType.name().toLowerCase()), getLeaderboardContent(top5));
+      // VIEW.displayTopResults(arrayWithResultToDisplay(top5));
+      VIEW.printTable(
+          getLeaderboardHeader(genderType.name().toLowerCase()), getLeaderboardContent(top5));
     }
   }
 
