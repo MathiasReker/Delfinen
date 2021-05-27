@@ -142,7 +142,7 @@ public class MemberController {
           MEMBERSHIP_CONTROLLER.renewMembership(member, 1);
         }
       } else {
-        VIEW.printWarning("No members to renew");
+        VIEW.printWarning("No members to renew.");
       }
     } else {
       VIEW.printWarning("No members exists");
