@@ -96,7 +96,7 @@ public class InputController {
     String result = IN.nextLine().replace("-", "/"); // "-" and "/"
 
     while (!InputModel.isValidDate(result)) {
-      VIEW.printInlineWarning("Not a valid date. Please try again: ");
+      VIEW.printInlineWarning("Not a valid date. Please try again, only dates in the future can be input: ");
       result = IN.nextLine();
     }
 
