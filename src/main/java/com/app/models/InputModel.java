@@ -150,22 +150,4 @@ public class InputModel {
 
     return false;
   }
-
-  /**
-   * Returns true if is valid competition ID.
-   *
-   * @param in String
-   * @param competitions ArrayList<SwimEventModel>
-   * @return boolean
-   * @auther Mathias
-   */
-  public static boolean isValidCompetitionId(String in, ArrayList<SwimEventModel> competitions) {
-    for (SwimEventModel c : competitions) {
-      if (c.getId().equals(in)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
 }

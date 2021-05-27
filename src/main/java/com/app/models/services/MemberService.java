@@ -10,7 +10,7 @@ public class MemberService {
   /**
    * Member Service constructor.
    *
-   * @param path
+   * @param path String
    * @throws IOException
    * @auther Andreas, Mathias
    */
@@ -21,7 +21,7 @@ public class MemberService {
   /**
    * Returns MemberModel[].
    *
-   * @param members
+   * @param members MemberModel[]
    * @throws IOException
    * @auther Andreas, Mathias
    */

@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class PaymentControllerTest {
 
   @Test
-  public void testArrearFind() {
+  public void testArrearsFind() {
     PaymentController paymentController = new PaymentController();
     ArrayList<MemberModel> memberModels = new ArrayList<>();
     MemberModel testMember = new MemberModel();
@@ -28,7 +28,7 @@ public class PaymentControllerTest {
   }
 
   @Test
-  public void testArrearCalcPeriod() {
+  public void testArrearsCalcPeriod() {
     PaymentController paymentController = new PaymentController();
 
     LocalDate test1 = LocalDate.now();
@@ -39,7 +39,7 @@ public class PaymentControllerTest {
   }
 
   @Test
-  public void testArrearCalcPeriodYear() {
+  public void testArrearsCalcPeriodYear() {
     PaymentController paymentController = new PaymentController();
 
     LocalDate test1 = LocalDate.now();

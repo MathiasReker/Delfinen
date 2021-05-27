@@ -90,6 +90,9 @@ public class TableView {
   private void calcMaxLengthAll() {
     for (ArrayList<String> temp : BODY) {
       for (int j = 0; j < temp.size(); j++) {
+        if (temp.get(j) == null) {
+          temp.set(j, "--");
+        }
         if (temp.get(j).length() > MAX_LENGTH.get(j)) {
           MAX_LENGTH.set(j, temp.get(j).length());
         }

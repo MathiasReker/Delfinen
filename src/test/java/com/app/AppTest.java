@@ -11,23 +11,6 @@ import java.util.NoSuchElementException;
 
 public class AppTest {
   @Test
-  public void testRun() {
-    // Avoid the menu to be shown on the screen
-    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(outContent));
-
-    // Input exit key
-    int lastMenuItem = new App().menuActions().length;
-    String input = String.valueOf(lastMenuItem);
-
-    InputStream in = new ByteArrayInputStream(input.getBytes());
-    System.setIn(in);
-
-    // Run the menu
-    // new App().menu(); // TODO: fix
-  }
-
-  @Test
   public void testRunException() {
     // Avoid the menu to be shown on the screen
     ByteArrayOutputStream outContent = new ByteArrayOutputStream();

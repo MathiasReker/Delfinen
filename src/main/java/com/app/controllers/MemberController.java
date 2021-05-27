@@ -73,14 +73,14 @@ public class MemberController {
   /**
    * Add member.
    *
-   * @param id
-   * @param name
-   * @param mail
-   * @param gender
-   * @param birthday
-   * @param phone
-   * @param competitive
-   * @param active
+   * @param id String
+   * @param name String
+   * @param mail String
+   * @param gender GenderType
+   * @param birthday String
+   * @param phone String
+   * @param competitive boolean
+   * @param active boolean
    * @auther Mathias, Andreas
    */
   private void addMember(
