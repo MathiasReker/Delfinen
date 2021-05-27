@@ -128,7 +128,7 @@ public class InputController {
 
     while (!InputModel.isValidDate(result)) {
       VIEW.printInlineWarning(
-          "Not a valid date. Please try again, only dates in the future can be input: ");
+          "Not a valid date. The date must be from the future. Please try again: ");
       result = IN.nextLine();
     }
 
