@@ -103,7 +103,6 @@ public class InputController {
     return result;
   }
 
-
   public static String validatePhoneNumber() {
     while (true) {
       String result = IN.nextLine().trim();

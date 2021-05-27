@@ -17,6 +17,7 @@ public class InputModel {
       return false;
     }
   }
+
   public static boolean isValidDate(String date) {
     try {
       LocalDate dateCheck = LocalDate.parse(date, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -25,7 +26,6 @@ public class InputModel {
       return false;
     }
   }
-
 
   private static int getAge(LocalDate birthdate) {
     LocalDate currentDate = LocalDate.now();
