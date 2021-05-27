@@ -50,7 +50,6 @@ public class SwimEventController {
         LocalTime.parse(
             InputController.validateCompetitionTime(), DateTimeFormatter.ofPattern("HH:mm"));
 
-
     VIEW.printInline("Junior or senior [j/s]: "); // TODO change to display with array.
     AgeGroupType ageGroup = findAgeGroup(InputController.validateAgeGroup());
 
@@ -141,8 +140,7 @@ public class SwimEventController {
           addResultToCompetition(practice, resultController.addResultTime(member, practice));
           VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
         } while (InputController.promptYesNo());
-        VIEW.printInline(
-            "Do you wish to add results for another member, on this practice [Y/n]: ");
+        VIEW.printInline("Do you wish to add results for another member, on this practice [Y/n]: ");
 
       } while (InputController.promptYesNo());
     }
