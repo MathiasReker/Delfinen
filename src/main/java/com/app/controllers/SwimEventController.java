@@ -113,7 +113,8 @@ public class SwimEventController {
           MemberModel member =
               getMember(InputController.validateMemberId(new MemberController().getMembers()));
           do {
-            addResultToCompetition(competition, resultController.addResultTime(member, competition));
+            addResultToCompetition(
+                competition, resultController.addResultTime(member, competition));
             VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
           } while (InputController.promptYesNo());
           VIEW.printInline(
@@ -145,10 +146,11 @@ public class SwimEventController {
             addResultToCompetition(practice, resultController.addResultTime(member, practice));
             VIEW.printInline("Do you wish to add another result to this member [Y/n]: ");
           } while (InputController.promptYesNo());
-          VIEW.printInline("Do you wish to add results for another member, on this practice [Y/n]: ");
+          VIEW.printInline(
+              "Do you wish to add results for another member, on this practice [Y/n]: ");
 
         } while (InputController.promptYesNo());
-      }else {
+      } else {
         VIEW.printWarning("Not a valid choice");
       }
     }
@@ -168,7 +170,7 @@ public class SwimEventController {
         ArrayList<ResultModel> resultsOfCompetition = competition.getResult();
 
         VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
-      }else {
+      } else {
         VIEW.printWarning("Not a valid choice");
       }
     }
@@ -187,7 +189,7 @@ public class SwimEventController {
         ArrayList<ResultModel> resultsOfCompetition = practice.getResult();
 
         VIEW.displayCompetitionResults(arrayWithResultToDisplay(resultsOfCompetition));
-      }else {
+      } else {
         VIEW.printWarning("Not a valid choice");
       }
     }
