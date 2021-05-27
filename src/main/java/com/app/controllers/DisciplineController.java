@@ -105,8 +105,12 @@ public class DisciplineController {
    */
   boolean lookupDiscipline(ArrayList<DisciplineModel> disciplines, DisciplineModel discipline) {
     for (DisciplineModel disciplineModel : disciplines) {
-      return disciplineModel.getDistance().equals(discipline.getDistance())
-          && disciplineModel.getStyle().equals(discipline.getStyle());
+      if (disciplineModel.getDistance().equals(discipline.getDistance())) {
+        return true;
+      }
+      if (disciplineModel.getStyle().equals(discipline.getStyle())) {
+        return true;
+      }
     }
 
     return false;
