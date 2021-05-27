@@ -325,42 +325,6 @@ public class SwimEventController {
     return new String[] {"ID", "Name", "Date", "Start time"};
   }
 
-  public int[] getColumnWidth() { // TODO: Refactor to new table display
-    int[] result = new int[getSwimEventHeader().length];
-
-    for (SwimEventModel swimEventModel : swimEventModels) {
-      String[] body = getSwimEventLine(swimEventModel);
-
-      for (int i = 0; i < body.length; i++) {
-        if (body[i] == null) {
-          body[i] = "--";
-        }
-
-        if (body[i].length() > result[i]) {
-          result[i] = body[i].length();
-        }
-      }
-    }
-
-    return result;
-  }
-
-  /**
-   * Converts a swim event into a String array.
-   *
-   * @param swimEventModel that needs to be converted to a String Array
-   * @return the the swim event as a String array
-   */
-  private String[] getSwimEventLine(
-      SwimEventModel swimEventModel) { // TODO: Refactor to new table display
-    return new String[] {
-      swimEventModel.getId(),
-      swimEventModel.getName(),
-      String.valueOf(swimEventModel.getStartDate()),
-      String.valueOf(swimEventModel.getStartTime())
-    };
-  }
-
   /**
    * Creates a view for the user of the competitions available.
    *
@@ -370,7 +334,7 @@ public class SwimEventController {
     if (swimEventModels.isEmpty()) {
       VIEW.printWarning("No swim events.");
     } else {
-      VIEW.printTable(getSwimEventHeader(), getSwimEventContent(swimEventModels));
+      VIEW.printTable(getSwimEventHeader(), getSwimEventContent(swimEventModels, true));
     }
   }
 
@@ -385,11 +349,14 @@ public class SwimEventController {
     return result;
   }
 
-  private ArrayList<ArrayList<String>> getSwimEventContent(ArrayList<SwimEventModel> swimEvents) {
+  private ArrayList<ArrayList<String>> getSwimEventContent(
+      ArrayList<SwimEventModel> swimEvents, boolean isPractice) {
     ArrayList<ArrayList<String>> result = new ArrayList<>();
 
     for (SwimEventModel swimEvent : swimEvents) {
-      result.add(getRows(swimEvent));
+      if (isPractice != swimEvent.isPractice()) {
+        result.add(getRows(swimEvent));
+      }
     }
 
     return result;
@@ -404,13 +371,7 @@ public class SwimEventController {
     if (swimEventModels.isEmpty()) {
       VIEW.printWarning("No swim events.");
     } else {
-      VIEW.printTable(getSwimEventHeader(), getSwimEventContent(swimEventModels));
-      for (SwimEventModel practice : swimEventModels) {
-        if (practice.isPractice()) {
-          String[] body = getSwimEventLine(practice);
-          VIEW.displayCompetition(body, getColumnWidth());
-        }
-      }
+      VIEW.printTable(getSwimEventHeader(), getSwimEventContent(swimEventModels, false));
     }
   }
 
