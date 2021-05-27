@@ -147,7 +147,7 @@ public class PaymentController {
     if (!MEMBER_CONTROLLER.getMembers().isEmpty()) {
       VIEW.printTable(getArrearsHeader(), getArrearsContent());
     } else {
-      VIEW.printWarning("No members exists");
+      VIEW.printWarning("No members exists.");
     }
   }
 
