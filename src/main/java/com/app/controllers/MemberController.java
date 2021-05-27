@@ -452,10 +452,8 @@ public class MemberController {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
-      if (null != m.getName()) {
-        if (m.getName().equals(name)) {
-          result.add(m);
-        }
+      if (null != m.getName() && m.getName().equals(name)) {
+        result.add(m);
       }
     }
 
@@ -489,10 +487,8 @@ public class MemberController {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
-      if (null != m.getMail()) {
-        if (m.getMail().equals(mail)) {
-          result.add(m);
-        }
+      if (null != m.getMail() && (m.getMail().equals(mail))) {
+        result.add(m);
       }
     }
 
@@ -526,10 +522,8 @@ public class MemberController {
     ArrayList<MemberModel> result = new ArrayList<>();
 
     for (MemberModel m : members) {
-      if (null != m.getPhoneNumber()) {
-        if (m.getPhoneNumber().equals(phoneNumber)) {
-          result.add(m);
-        }
+      if (null != m.getPhoneNumber() && (m.getPhoneNumber().equals(phoneNumber))) {
+        result.add(m);
       }
     }
 
