@@ -39,19 +39,37 @@ public class PaymentController {
    * @auther Mohamad
    */
   private void reviewPaymentFile() {
-    String[][] resultsToString = new String[approvedPaymentsIds.size()][3];
-    for (int i = 0; i < approvedPaymentsIds.size(); i++) {
-      try {
-        MemberModel member = MEMBER_CONTROLLER.getMemberById(approvedPaymentsIds.get(i));
-        String id = member.getId();
-        String name = member.getName();
-        resultsToString[i] = new String[] {id, name};
-      } catch (MemberNotFoundException e) {
-        String id = approvedPaymentsIds.get(i);
-        resultsToString[i] = new String[] {id, null};
-      }
+    VIEW.printTable(getPaymentHeader(), getPaymentContent());
+  }
+
+  private ArrayList<String> getRows(String approvedPaymentsId) {
+    ArrayList<String> result = new ArrayList<>();
+
+    try {
+      MemberModel member = MEMBER_CONTROLLER.getMemberById(approvedPaymentsId);
+
+      result.add(member.getId());
+      result.add(member.getName());
+    } catch (MemberNotFoundException e) {
+      result.add(approvedPaymentsId);
+      result.add(null);
     }
-    VIEW.displayPayments(resultsToString);
+
+    return result;
+  }
+
+  private ArrayList<ArrayList<String>> getPaymentContent() {
+    ArrayList<ArrayList<String>> result = new ArrayList<>();
+
+    for (String approvedPaymentsId : approvedPaymentsIds) {
+      result.add(getRows(approvedPaymentsId));
+    }
+
+    return result;
+  }
+
+  private String[] getPaymentHeader() {
+    return new String[] {"ID", "Name"};
   }
 
   /**
@@ -62,7 +80,7 @@ public class PaymentController {
   public void handlePayments() {
     try {
       paymentService =
-          new PaymentService(new ConfigService("paymentRequestsPath").getPath() + "out.txt");
+          new PaymentService(new ConfigService("paymentRequestsPath").getPath());
       approvedPaymentsIds = paymentService.getApprovedPayments();
       reviewPaymentFile();
       VIEW.printInline("Update memberships of valid members [Y/n]: ");
