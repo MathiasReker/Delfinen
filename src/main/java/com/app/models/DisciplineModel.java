@@ -37,4 +37,8 @@ public class DisciplineModel implements Serializable {
   public StyleType getStyle() {
     return STYLE;
   }
+
+  public String getDisciplineName() {
+    return getDistance().getMeters() + "m " + getStyle().name();
+  }
 }
